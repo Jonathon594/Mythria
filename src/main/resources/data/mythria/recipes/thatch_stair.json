@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S ",
+    "SS"
+  ],
+  "key": {
+    "S": [
+      {
+        "item": "mythria:thatch"
+      }
+    ]
+  },
+  "result": {
+    "item": "mythria:thatch_stair"
+  }
+}

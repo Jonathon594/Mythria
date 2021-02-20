@@ -1,0 +1,9 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "minecraft:block/coal_block",
+    "line": "minecraft:block/coal_block"
+  },
+  "elements": [
+  ]
+}

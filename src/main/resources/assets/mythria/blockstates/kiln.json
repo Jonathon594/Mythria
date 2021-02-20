@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "burning=false,facing=north": {
+      "model": "mythria:/block/kiln"
+    },
+    "burning=false,facing=south": {
+      "model": "mythria:/block/kiln",
+      "y": 180
+    },
+    "burning=false,facing=west": {
+      "model": "mythria:/block/kiln",
+      "y": 270
+    },
+    "burning=false,facing=east": {
+      "model": "mythria:/block/kiln",
+      "y": 90
+    },
+    "burning=true,facing=north": {
+      "model": "mythria:/block/lit_kiln"
+    },
+    "burning=true,facing=south": {
+      "model": "mythria:/block/lit_kiln",
+      "y": 180
+    },
+    "burning=true,facing=west": {
+      "model": "mythria:/block/lit_kiln",
+      "y": 270
+    },
+    "burning=true,facing=east": {
+      "model": "mythria:/block/lit_kiln",
+      "y": 90
+    }
+  }
+}

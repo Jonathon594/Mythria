@@ -1,0 +1,76 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "full": 0
+      },
+      "apply": {
+        "model": "mythria:/block/pit_furnace_thatch_1"
+      }
+    },
+    {
+      "when": {
+        "full": 1
+      },
+      "apply": {
+        "model": "mythria:/block/pit_furnace_thatch_2"
+      }
+    },
+    {
+      "when": {
+        "full": 2
+      },
+      "apply": {
+        "model": "mythria:/block/pit_furnace_thatch_3"
+      }
+    },
+    {
+      "when": {
+        "full": 3
+      },
+      "apply": {
+        "model": "mythria:/block/pit_furnace_thatch_4"
+      }
+    },
+    {
+      "when": {
+        "full": 4
+      },
+      "apply": {
+        "model": "mythria:/block/pit_furnace_logs_1"
+      }
+    },
+    {
+      "when": {
+        "full": 5
+      },
+      "apply": {
+        "model": "mythria:/block/pit_furnace_logs_2"
+      }
+    },
+    {
+      "when": {
+        "full": 6
+      },
+      "apply": {
+        "model": "mythria:/block/pit_furnace_logs_3"
+      }
+    },
+    {
+      "when": {
+        "full": 7
+      },
+      "apply": {
+        "model": "mythria:/block/pit_furnace_logs_4"
+      }
+    },
+    {
+      "when": {
+        "lit": true
+      },
+      "apply": {
+        "model": "mythria:/block/pit_furnace_burning"
+      }
+    }
+  ]
+}

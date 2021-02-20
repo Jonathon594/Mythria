@@ -1,0 +1,9 @@
+{
+  "type": "mythria:wood_carving",
+  "ingredient": {
+    "item": "mythria:warped_log"
+  },
+  "result": "mythria:warped_spear",
+  "count": 1,
+  "tier": 0
+}

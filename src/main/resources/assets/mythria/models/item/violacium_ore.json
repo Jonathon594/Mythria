@@ -1,0 +1,6 @@
+{
+  "parent": "mythria:block/violacium_ore",
+  "textures": {
+    "all": "mythria:blocks/ore/violacium_ore"
+  }
+}

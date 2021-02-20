@@ -1,0 +1,9 @@
+{
+  "type": "mythria:wood_carving",
+  "ingredient": {
+    "item": "minecraft:bone"
+  },
+  "result": "mythria:bone_shovel_head",
+  "count": 1,
+  "tier": 0
+}

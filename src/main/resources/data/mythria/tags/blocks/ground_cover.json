@@ -1,0 +1,28 @@
+{
+  "replace": false,
+  "values": [
+    "mythria:ground_flint",
+    "mythria:ground_copper",
+    "mythria:ground_tin",
+    "mythria:ground_iron",
+    "mythria:ground_silver",
+    "mythria:ground_gold",
+    "mythria:ground_titanium",
+    "mythria:ground_platinum",
+    "mythria:ground_tungsten",
+    "mythria:ground_mithril",
+    "mythria:ground_log_oak",
+    "mythria:ground_log_birch",
+    "mythria:ground_log_acacia",
+    "mythria:ground_log_spruce",
+    "mythria:ground_log_dark_oak",
+    "mythria:ground_log_jungle",
+    "mythria:oak_ground_stick",
+    "mythria:birch_ground_stick",
+    "mythria:spruce_ground_stick",
+    "mythria:jungle_ground_stick",
+    "mythria:dark_oak_ground_stick",
+    "mythria:acacia_ground_stick",
+    "mythria:ground_rock"
+  ]
+}

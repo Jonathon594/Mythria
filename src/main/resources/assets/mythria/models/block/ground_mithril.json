@@ -1,0 +1,9 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "mythria:blocks/ore/ground/mithril_ore",
+    "line": "mythria:blocks/ore/ground/mithril_ore"
+  },
+  "elements": [
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "type": "mythria:carpentry",
+  "ingredient": {
+    "item": "mythria:jungle_log"
+  },
+  "result": "mythria:jungle_plank",
+  "count": 2
+}

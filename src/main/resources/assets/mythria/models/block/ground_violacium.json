@@ -1,0 +1,9 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "mythria:blocks/ore/ground/violacium_ore",
+    "line": "mythria:blocks/ore/ground/violacium_ore"
+  },
+  "elements": [
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "type": "mythria:wood_carving",
+  "ingredient": {
+    "item": "mythria:oak_stick"
+  },
+  "result": "mythria:oak_arrow_shaft",
+  "count": 4,
+  "tier": 0
+}

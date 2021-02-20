@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "burning=false,facing=north": {
+      "model": "mythria:/block/nether_furnace"
+    },
+    "burning=false,facing=south": {
+      "model": "mythria:/block/nether_furnace",
+      "y": 180
+    },
+    "burning=false,facing=west": {
+      "model": "mythria:/block/nether_furnace",
+      "y": 270
+    },
+    "burning=false,facing=east": {
+      "model": "mythria:/block/nether_furnace",
+      "y": 90
+    },
+    "burning=true,facing=north": {
+      "model": "mythria:/block/lit_nether_furnace"
+    },
+    "burning=true,facing=south": {
+      "model": "mythria:/block/lit_nether_furnace",
+      "y": 180
+    },
+    "burning=true,facing=west": {
+      "model": "mythria:/block/lit_nether_furnace",
+      "y": 270
+    },
+    "burning=true,facing=east": {
+      "model": "mythria:/block/lit_nether_furnace",
+      "y": 90
+    }
+  }
+}

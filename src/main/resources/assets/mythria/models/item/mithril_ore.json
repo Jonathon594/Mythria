@@ -1,0 +1,6 @@
+{
+  "parent": "mythria:block/mithril_ore",
+  "textures": {
+    "all": "mythria:blocks/ore/mithril_ore"
+  }
+}

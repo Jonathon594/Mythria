@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "mythria:clay_mold_hammer",
+    "mythria:clay_mold_saw",
+    "mythria:clay_mold_chisel",
+    "mythria:clay_mold_sword",
+    "mythria:clay_mold_dagger",
+    "mythria:clay_mold_axe",
+    "mythria:clay_mold_pick",
+    "mythria:clay_mold_hoe",
+    "mythria:clay_mold_ingot",
+    "mythria:clay_brick",
+    "mythria:clay_crucible"
+  ]
+}

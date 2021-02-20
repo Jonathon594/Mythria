@@ -1,0 +1,27 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "mythria:blocks/nether_furnace_top",
+    "front": "mythria:blocks/nether_furnace_front_on",
+    "side": "mythria:blocks/nether_furnace_side"
+  },
+  "display": {
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        135,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.40,
+        0.40,
+        0.40
+      ]
+    }
+  }
+}

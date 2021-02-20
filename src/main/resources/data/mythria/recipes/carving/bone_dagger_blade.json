@@ -1,0 +1,9 @@
+{
+  "type": "mythria:wood_carving",
+  "ingredient": {
+    "item": "minecraft:bone"
+  },
+  "result": "mythria:bone_dagger_blade",
+  "count": 1,
+  "tier": 0
+}

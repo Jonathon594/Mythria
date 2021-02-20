@@ -1,0 +1,9 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "mythria:blocks/ore/ground/tungsten_ore",
+    "line": "mythria:blocks/ore/ground/tungsten_ore"
+  },
+  "elements": [
+  ]
+}

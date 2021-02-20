@@ -1,0 +1,9 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "mythria:blocks/ground_stick_pile",
+    "line": "mythria:blocks/ground_stick_pile"
+  },
+  "elements": [
+  ]
+}

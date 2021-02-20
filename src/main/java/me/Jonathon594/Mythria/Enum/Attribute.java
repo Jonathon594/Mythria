@@ -1,0 +1,5 @@
+package me.Jonathon594.Mythria.Enum;
+
+public enum Attribute {
+    DEXTERITY, STRENGTH, VIGOR, INTELLIGENCE, WILLPOWER, FAITH, AGILITY, VITALITY, ENDURANCE
+}

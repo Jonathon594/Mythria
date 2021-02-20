@@ -1,0 +1,10 @@
+{
+  "type": "mythria:wood_carving",
+  "ingredient": {
+    "tag": "mythria:logs"
+  },
+  "result": "mythria:tanning_rack",
+  "count": 1,
+  "cost": 4,
+  "tier": 0
+}

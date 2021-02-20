@@ -1,0 +1,9 @@
+{
+  "type": "mythria:simple_leather",
+  "ingredient": {
+    "item": "minecraft:leather"
+  },
+  "result": "mythria:primitive_belt",
+  "count": 1,
+  "tier": 0
+}

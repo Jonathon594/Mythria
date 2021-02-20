@@ -1,0 +1,8 @@
+{
+  "type": "mythria:carpentry",
+  "ingredient": {
+    "item": "mythria:dark_oak_log"
+  },
+  "result": "mythria:dark_oak_plank",
+  "count": 2
+}

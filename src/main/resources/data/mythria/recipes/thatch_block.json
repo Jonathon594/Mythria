@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TT",
+    "TT"
+  ],
+  "key": {
+    "T": [
+      {
+        "item": "mythria:thatch"
+      }
+    ]
+  },
+  "result": {
+    "item": "mythria:thatch_block"
+  }
+}

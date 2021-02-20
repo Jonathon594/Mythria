@@ -1,0 +1,31 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "burning": {
+      "true": {
+        "textures": {
+          "0": "mythria:blocks/smithing/forge_on"
+        }
+      },
+      "false": {
+        "textures": {
+          "0": "mythria:blocks/smithing/forge_off"
+        }
+      }
+    },
+    "full": {
+      "0": {
+        "model": "mythria:/block/forge_coal"
+      },
+      "1": {
+        "model": "mythria:/block/forge_coal_2"
+      },
+      "2": {
+        "model": "mythria:/block/forge_coal_3"
+      },
+      "3": {
+        "model": "mythria:/block/forge_coal_4"
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "mythria:blocks/charcoal_kiln_top_on",
+    "front": "mythria:blocks/charcoal_kiln_front_on",
+    "side": "mythria:blocks/charcoal_kiln_side",
+    "bottom": "mythria:blocks/charcoal_kiln_bottom"
+  }
+}

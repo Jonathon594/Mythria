@@ -1,0 +1,9 @@
+{
+  "type": "mythria:simple_pottery",
+  "ingredient": {
+    "item": "minecraft:clay_ball"
+  },
+  "result": "mythria:clay_mold_shovel",
+  "count": 1,
+  "tier": 0
+}

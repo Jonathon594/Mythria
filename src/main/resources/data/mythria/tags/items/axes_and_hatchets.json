@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "mythria:primitive_hatchet",
+    "minecraft:stone_axe",
+    "mythria:bronze_axe",
+    "minecraft:iron_axe",
+    "minecraft:golden_axe",
+    "mythria:steel_axe",
+    "mythria:titanium_axe",
+    "mythria:tungsten_axe",
+    "minecraft:diamond_axe"
+  ]
+}

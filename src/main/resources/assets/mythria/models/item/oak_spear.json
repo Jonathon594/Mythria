@@ -1,0 +1,26 @@
+{
+  "gui_light": "front",
+  "loader": "forge:separate-perspective",
+  "base": {
+    "parent": "mythria:item/spear_in_hand",
+    "textures": {
+      "particle": "mythria:items/weapons/oak_spear"
+    }
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "item/generated",
+      "textures": {
+        "layer0": "mythria:items/weapons/oak_spear"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "mythria:throwing": 1
+      },
+      "model": "mythria:item/oak_spear_throwing"
+    }
+  ]
+}

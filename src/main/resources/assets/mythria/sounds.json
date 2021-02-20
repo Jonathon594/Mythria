@@ -1,0 +1,9 @@
+{
+  "glass_blow": {
+    "category": "master",
+    "subtitle": "mythria.subtitle.glass_blow",
+    "sounds": [
+      "mythria:glass_blow"
+    ]
+  }
+}

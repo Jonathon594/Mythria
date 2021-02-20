@@ -1,0 +1,5 @@
+{
+  "type": "mythria:item_replacer",
+  "replace": "minecraft:stick",
+  "with": "mythria:oak_stick"
+}

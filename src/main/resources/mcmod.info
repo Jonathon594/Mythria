@@ -1,0 +1,9 @@
+[{
+  "modid": "mythria",
+  "name": "Mythria",
+  "description": "Complete overhaul for Minecraft to create a realistic and challenging fantasy environment.",
+  "version": "1.16.4-0.0.0.1",
+  "mcversion": "1.16.4",
+  "logoFile": "logo.png",
+  "authorList": ["Jonathon Owens"]
+}]

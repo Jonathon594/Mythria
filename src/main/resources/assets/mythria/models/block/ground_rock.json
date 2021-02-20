@@ -1,0 +1,9 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "mythria:blocks/rocks/andesite_rock",
+    "line": "mythria:blocks/rocks/andesite_rock"
+  },
+  "elements": [
+  ]
+}

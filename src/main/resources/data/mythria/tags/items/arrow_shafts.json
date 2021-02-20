@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mythria:oak_arrow_shaft",
+    "mythria:spruce_arrow_shaft",
+    "mythria:birch_arrow_shaft",
+    "mythria:jungle_arrow_shaft",
+    "mythria:acacia_arrow_shaft",
+    "mythria:dark_oak_arrow_shaft",
+    "mythria:crimson_arrow_shaft",
+    "mythria:warped_arrow_shaft"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:feather"
+    },
+    {
+      "item": "minecraft:feather"
+    },
+    {
+      "item": "minecraft:feather"
+    },
+    {
+      "item": "mythria:dark_oak_arrow_shaft"
+    }
+  ],
+  "result": {
+    "item": "mythria:dark_oak_arrow"
+  }
+}

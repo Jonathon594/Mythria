@@ -1,0 +1,14 @@
+{
+  "parent": "mythria:item/metal_shield",
+  "textures": {
+    "particle": "mythria:blocks/metal/tin"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "mythria:blocking": 1
+      },
+      "model": "mythria:item/metal_shield_blocking"
+    }
+  ]
+}

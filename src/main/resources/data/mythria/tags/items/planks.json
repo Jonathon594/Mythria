@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mythria:oak_plank",
+    "mythria:spruce_plank",
+    "mythria:birch_plank",
+    "mythria:jungle_plank",
+    "mythria:acacia_plank",
+    "mythria:dark_oak_plank",
+    "mythria:crimson_plank",
+    "mythria:warped_plank"
+  ]
+}

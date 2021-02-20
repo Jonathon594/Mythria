@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "me.Jonathon594.Mythria.Mixin",
+  "mixins": [
+    "LivingEntityMixin",
+    "PlayerEntityMixin"
+  ],
+  "client": [
+    "ClientPlayerEntityMixin"
+  ],
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "mythria.refmap.json",
+  "minVersion": "0.8"
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S"
+  ],
+  "key": {
+    "S": [
+      {
+        "item": "minecraft:sand"
+      }
+    ]
+  },
+  "result": {
+    "item": "mythria:sand",
+    "count": 9
+  }
+}

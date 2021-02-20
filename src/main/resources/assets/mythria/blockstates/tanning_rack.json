@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "mythria:/block/tanning_rack"
+    },
+    "facing=south": {
+      "model": "mythria:/block/tanning_rack",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "mythria:/block/tanning_rack",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "mythria:/block/tanning_rack",
+      "y": 90
+    }
+  }
+}

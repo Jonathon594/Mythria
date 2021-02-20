@@ -1,0 +1,56 @@
+{
+  "variants": {
+    "facing=down,open=false": {
+      "x": 180,
+      "model": "mythria:block/thatch_basket"
+    },
+    "facing=down,open=true": {
+      "x": 180,
+      "model": "mythria:block/thatch_basket_open"
+    },
+    "facing=east,open=false": {
+      "x": 90,
+      "y": 90,
+      "model": "mythria:block/thatch_basket"
+    },
+    "facing=east,open=true": {
+      "x": 90,
+      "y": 90,
+      "model": "mythria:block/thatch_basket_open"
+    },
+    "facing=north,open=false": {
+      "x": 90,
+      "model": "mythria:block/thatch_basket"
+    },
+    "facing=north,open=true": {
+      "x": 90,
+      "model": "mythria:block/thatch_basket_open"
+    },
+    "facing=south,open=false": {
+      "x": 90,
+      "y": 180,
+      "model": "mythria:block/thatch_basket"
+    },
+    "facing=south,open=true": {
+      "x": 90,
+      "y": 180,
+      "model": "mythria:block/thatch_basket_open"
+    },
+    "facing=up,open=false": {
+      "model": "mythria:block/thatch_basket"
+    },
+    "facing=up,open=true": {
+      "model": "mythria:block/thatch_basket_open"
+    },
+    "facing=west,open=false": {
+      "x": 90,
+      "y": 270,
+      "model": "mythria:block/thatch_basket"
+    },
+    "facing=west,open=true": {
+      "x": 90,
+      "y": 270,
+      "model": "mythria:block/thatch_basket_open"
+    }
+  }
+}

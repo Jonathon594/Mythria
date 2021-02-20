@@ -1,0 +1,16 @@
+{
+  "type": "mythria:wood_carving",
+  "ingredient": [
+    {
+      "item": "mythria:oak_log",
+      "item": "mythria:spruce_log",
+      "item": "mythria:birch_log",
+      "item": "mythria:acacia_log",
+      "item": "mythria:jungle_log",
+      "item": "mythria:dark_oak_log"
+    }
+  ],
+  "result": "mythria:saw_handle",
+  "count": 2,
+  "tier": 0
+}

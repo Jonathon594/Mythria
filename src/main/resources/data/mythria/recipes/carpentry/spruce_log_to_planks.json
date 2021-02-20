@@ -1,0 +1,8 @@
+{
+  "type": "mythria:carpentry",
+  "ingredient": {
+    "item": "minecraft:spruce_log"
+  },
+  "result": "mythria:spruce_plank",
+  "count": 16
+}

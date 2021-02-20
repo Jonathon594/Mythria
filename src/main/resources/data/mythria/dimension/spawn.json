@@ -1,0 +1,36 @@
+{
+  "type": "mythria:spawn",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "layers": [
+        {
+          "height": 3,
+          "block": "minecraft:bedrock"
+        },
+        {
+          "height": 50,
+          "block": "minecraft:stone"
+        },
+        {
+          "height": 10,
+          "block": "minecraft:dirt"
+        },
+        {
+          "height": 1,
+          "block": "minecraft:grass_block"
+        }
+      ],
+      "biome": "minecraft:plains",
+      "structures": {
+        "stronghold": {
+          "distance": 0,
+          "count": 0,
+          "spread": 0
+        },
+        "structures": {
+        }
+      }
+    }
+  }
+}

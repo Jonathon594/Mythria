@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mythria:oak_log",
+    "mythria:spruce_log",
+    "mythria:birch_log",
+    "mythria:jungle_log",
+    "mythria:acacia_log",
+    "mythria:dark_oak_log",
+    "mythria:crimson_log",
+    "mythria:warped_log"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "type": "mythria:wood_carving",
+  "ingredient": {
+    "item": "minecraft:stick"
+  },
+  "result": "mythria:blade_handle",
+  "count": 2,
+  "tier": 0
+}

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mythria:oak_tool_handle",
+    "mythria:spruce_tool_handle",
+    "mythria:birch_tool_handle",
+    "mythria:jungle_tool_handle",
+    "mythria:acacia_tool_handle",
+    "mythria:dark_oak_tool_handle",
+    "mythria:crimson_tool_handle",
+    "mythria:warped_tool_handle"
+  ]
+}

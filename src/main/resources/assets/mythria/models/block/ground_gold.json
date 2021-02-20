@@ -1,0 +1,9 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "mythria:blocks/ore/ground/gold_ore",
+    "line": "mythria:blocks/ore/ground/gold_ore"
+  },
+  "elements": [
+  ]
+}

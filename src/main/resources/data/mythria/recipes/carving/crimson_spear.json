@@ -1,0 +1,9 @@
+{
+  "type": "mythria:wood_carving",
+  "ingredient": {
+    "item": "mythria:crimson_log"
+  },
+  "result": "mythria:crimson_spear",
+  "count": 1,
+  "tier": 0
+}

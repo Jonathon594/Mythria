@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mythria:oak_spear",
+    "mythria:spruce_spear",
+    "mythria:birch_spear",
+    "mythria:jungle_spear",
+    "mythria:acacia_spear",
+    "mythria:dark_oak_spear",
+    "mythria:crimson_spear",
+    "mythria:warped_spear"
+  ]
+}

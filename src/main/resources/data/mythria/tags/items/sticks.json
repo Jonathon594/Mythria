@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mythria:oak_stick",
+    "mythria:spruce_stick",
+    "mythria:birch_stick",
+    "mythria:jungle_stick",
+    "mythria:acacia_stick",
+    "mythria:dark_oak_stick",
+    "mythria:crimson_stick",
+    "mythria:warped_stick"
+  ]
+}
