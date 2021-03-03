@@ -15,7 +15,6 @@ public class GuiButtonSkinPartSelector extends GuiButtonSelector {
     }
 
 
-
     @Override
     public void updateText() {
         if (index >= optionFactory.get().size()) return;

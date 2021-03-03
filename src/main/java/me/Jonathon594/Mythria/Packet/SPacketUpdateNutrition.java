@@ -24,9 +24,7 @@ public class SPacketUpdateNutrition {
 
 
     public static void handle(SPacketUpdateNutrition msg, Supplier<NetworkEvent.Context> contextSupplier) {
-        contextSupplier.get().enqueueWork(() -> {
-            ClientUtil.handleUpdateNutrition(msg);
-        });
+        contextSupplier.get().enqueueWork(() -> ClientUtil.handleUpdateNutrition(msg));
         contextSupplier.get().setPacketHandled(true);
     }
 

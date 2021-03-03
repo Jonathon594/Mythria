@@ -11,11 +11,11 @@ import net.minecraft.util.Hand;
 public abstract class ToolCrafterContainer extends CrafterContainer {
     public ToolCrafterContainer(ContainerType<?> type, int windowID, PlayerInventory playerInventory) {
         super(type, windowID, playerInventory);
-        if(needsTool()) findTool(playerInventory.player);
+        if (needsTool()) findTool(playerInventory.player);
     }
 
     private void findTool(PlayerEntity player) {
-        for(Hand hand : Hand.values()) {
+        for (Hand hand : Hand.values()) {
             ItemStack heldItem = player.getHeldItem(hand);
             if (isValidTool(heldItem)) tool = heldItem;
         }

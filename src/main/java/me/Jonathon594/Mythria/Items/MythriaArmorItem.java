@@ -1,7 +1,6 @@
 package me.Jonathon594.Mythria.Items;
 
 import me.Jonathon594.Mythria.Client.Interface.ISlotData;
-import me.Jonathon594.Mythria.Interface.IItemData;
 import me.Jonathon594.Mythria.Mythria;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
@@ -9,7 +8,7 @@ import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 
-public class MythriaArmorItem extends ArmorItem implements IItemData, ISlotData {
+public class MythriaArmorItem extends ArmorItem implements ISlotData {
     private final double weight;
     private final int backpackSlots;
     private final int hotbarSlots;
@@ -20,11 +19,6 @@ public class MythriaArmorItem extends ArmorItem implements IItemData, ISlotData 
         this.weight = weight;
         this.backpackSlots = backpackSlots;
         this.hotbarSlots = hotbarSlots;
-    }
-
-    @Override
-    public double getWeight() {
-        return weight;
     }
 
     @Override

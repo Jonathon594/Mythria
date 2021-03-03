@@ -33,8 +33,8 @@ import java.util.List;
 public class CrucibleItem extends HeatableItem {
     private static final TranslationTextComponent CONTAINER_NAME = new TranslationTextComponent("container.crucible");
 
-    public CrucibleItem(String name, double weight) {
-        super(name, weight, new Item.Properties().group(ItemGroup.TOOLS).maxStackSize(1));
+    public CrucibleItem(String name) {
+        super(name, new Item.Properties().group(ItemGroup.TOOLS).maxStackSize(1));
     }
 
     @Override

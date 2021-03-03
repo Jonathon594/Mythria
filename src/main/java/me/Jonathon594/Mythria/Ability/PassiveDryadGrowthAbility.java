@@ -45,10 +45,10 @@ public class PassiveDryadGrowthAbility extends PassiveTickAbility {
             double maxMana = profile.getStat(StatType.MAX_MANA);
             if (playerMana > maxMana) playerMana = maxMana;
 
-            if(!abilityInstance.isOnCooldown()) {
+            if (!abilityInstance.isOnCooldown()) {
                 int count = random.nextInt(10);
                 for (int i = 0; i < count; i++) {
-                    if(positions.isEmpty()) break;
+                    if (positions.isEmpty()) break;
                     Collections.shuffle(positions);
                     BlockPos growPos = positions.get(i);
                     BlockState growState = world.getBlockState(growPos);

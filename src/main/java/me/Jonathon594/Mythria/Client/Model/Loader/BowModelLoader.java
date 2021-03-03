@@ -86,8 +86,7 @@ public class BowModelLoader implements IModelGeometry<BowModelLoader> {
 
         @Override
         public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, Random rand) {
-            List<BakedQuad> quads = new ArrayList<>();
-            quads.addAll(ItemLayerModel.getQuadsForSprite(5, textures.get(pullState).getSprite(), TransformationMatrix.identity(), false));
+            List<BakedQuad> quads = new ArrayList<>(ItemLayerModel.getQuadsForSprite(5, textures.get(pullState).getSprite(), TransformationMatrix.identity(), false));
             if (bowstring != null) {
                 TransformationMatrix stringTransform = new TransformationMatrix(
                         new Vector3f(0, 0, 0.25f),
@@ -99,7 +98,7 @@ public class BowModelLoader implements IModelGeometry<BowModelLoader> {
                 TransformationMatrix arrowTransform = new TransformationMatrix(
                         new Vector3f(1 + ((float) (pullState - 3) / 16f), -((float) (pullState - 4) / 16f), 1f + (hand == Hand.MAIN_HAND ? 0.75f : -0.75f) / 16f),
                         new Quaternion(Vector3f.YP, 180, true),
-                        new Vector3f(1f,1f,1f), null);
+                        new Vector3f(1f, 1f, 1f), null);
                 quads.addAll(ItemLayerModel.getQuadsForSprite(0, arrow.getSprite(), arrowTransform, false));
             }
             return quads;
@@ -185,7 +184,7 @@ public class BowModelLoader implements IModelGeometry<BowModelLoader> {
         }
     }
 
-    public class BowOverrideHandler extends ItemOverrideList {
+    public static class BowOverrideHandler extends ItemOverrideList {
         private final ItemOverrideList nested;
 
         public BowOverrideHandler(ItemOverrideList nested) {
@@ -199,7 +198,7 @@ public class BowModelLoader implements IModelGeometry<BowModelLoader> {
             Bow bow = BowProvider.getBow(stack);
             bakedModel.setArrow(bow.getArrow().getItem().getRegistryName().getPath());
             boolean flag = livingEntity == null;
-            boolean pulling = flag ? false : livingEntity.getActiveItemStack() == stack;
+            boolean pulling = !flag && livingEntity.getActiveItemStack() == stack;
             float pull = flag ? 0F : pulling ? (float) (stack.getUseDuration() - livingEntity.getItemInUseCount()) / 20f : 0f;
             int pullState = pulling ? getPullState(pull) : 0;
             bakedModel.setPullState(pullState);

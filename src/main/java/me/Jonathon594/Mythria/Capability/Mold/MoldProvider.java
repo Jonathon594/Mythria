@@ -17,8 +17,7 @@ public class MoldProvider implements ICapabilitySerializable<INBT> {
     private final IMold instance = new Mold();
 
     public static Mold getMold(ItemStack itemStack) {
-        Mold tool = (Mold) itemStack.getCapability(MOLD_CAP, null).orElse(null);
-        return tool;
+        return (Mold) itemStack.getCapability(MOLD_CAP, null).orElse(null);
     }
 
     @Override

@@ -1,6 +1,6 @@
 {
-  "parent": "mythria:block/tungsten_ore",
+  "parent": "mythria:item/ore_base",
   "textures": {
-    "all": "mythria:blocks/ore/tungsten_ore"
+    "ore": "mythria:blocks/ore/tungsten_ore"
   }
 }

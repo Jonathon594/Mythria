@@ -35,7 +35,7 @@ public class TanningRackBlock extends MythriaBlockContainer implements IWaterLog
 
     public TanningRackBlock(String name, double weight) {
         super(name, weight, Properties.create(Material.WOOD, MaterialColor.OBSIDIAN).hardnessAndResistance(2.0F).sound(SoundType.WOOD).tickRandomly().notSolid());
-        this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.valueOf(false)).with(FACING, Direction.NORTH));
+        this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, Boolean.FALSE).with(FACING, Direction.NORTH));
 
 
         SHAPE[0] = Block.makeCuboidShape(1D, 0D, 1D, 15D, 16D, 7D);
@@ -78,7 +78,7 @@ public class TanningRackBlock extends MythriaBlockContainer implements IWaterLog
         IWorld iworld = context.getWorld();
         BlockPos blockpos = context.getPos();
         boolean flag = iworld.getFluidState(blockpos).getFluid() == Fluids.WATER;
-        return this.getDefaultState().with(WATERLOGGED, Boolean.valueOf(flag)).with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+        return this.getDefaultState().with(WATERLOGGED, flag).with(FACING, context.getPlacementHorizontalFacing().getOpposite());
     }
 
     /**
@@ -109,7 +109,7 @@ public class TanningRackBlock extends MythriaBlockContainer implements IWaterLog
             if (tileentity instanceof TanningRackTileEntity) {
                 ((TanningRackTileEntity) tileentity).dropAllItems();
             }
-            worldIn.setBlockState(pos, state.with(WATERLOGGED, Boolean.valueOf(true)), 3);
+            worldIn.setBlockState(pos, state.with(WATERLOGGED, Boolean.TRUE), 3);
             worldIn.getPendingFluidTicks().scheduleTick(pos, fluidStateIn.getFluid(), fluidStateIn.getFluid().getTickRate(worldIn));
             return true;
         } else {

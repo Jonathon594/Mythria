@@ -2,7 +2,6 @@ package me.Jonathon594.Mythria.Items;
 
 import me.Jonathon594.Mythria.Client.ClientUtil;
 import me.Jonathon594.Mythria.Client.Renderer.Items.MythriaShieldItemRenderer;
-import me.Jonathon594.Mythria.Interface.IItemData;
 import me.Jonathon594.Mythria.Mythria;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.entity.LivingEntity;
@@ -12,7 +11,7 @@ import net.minecraftforge.fml.DistExecutor;
 
 import javax.annotation.Nullable;
 
-public class MythriaShieldItem extends ShieldItem implements IItemData {
+public class MythriaShieldItem extends ShieldItem {
     private final double weight;
     private final IItemTier tier;
 
@@ -23,9 +22,7 @@ public class MythriaShieldItem extends ShieldItem implements IItemData {
         this.weight = weight;
         this.tier = tier;
 
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            ClientUtil.registerShieldProperty(this);
-        });
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientUtil.registerShieldProperty(this));
     }
 
     @Override
@@ -33,10 +30,6 @@ public class MythriaShieldItem extends ShieldItem implements IItemData {
         return true;
     }
 
-    @Override
-    public double getWeight() {
-        return weight;
-    }
 
     public String getMetalName() {
         return tier.toString().toLowerCase();

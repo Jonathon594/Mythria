@@ -18,12 +18,12 @@ import java.util.Collection;
 import java.util.List;
 
 public class HeatableItem extends MythriaItem implements IHeatableItem, ITickableItem {
-    public HeatableItem(String name, double weight, Properties properties) {
-        super(name, weight, properties);
+    public HeatableItem(String name, Properties properties) {
+        super(name, properties);
     }
 
-    public HeatableItem(String name, double weight, Properties properties, boolean override) {
-        super(name, weight, properties, override);
+    public HeatableItem(String name, Properties properties, boolean override) {
+        super(name, properties, override);
     }
 
     @Override

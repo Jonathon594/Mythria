@@ -8,14 +8,12 @@ import me.Jonathon594.Mythria.Items.CrucibleItem;
 import me.Jonathon594.Mythria.Items.HeatableItem;
 import me.Jonathon594.Mythria.Managers.FoodManager;
 import me.Jonathon594.Mythria.Managers.LimitedInventoryManager;
-import me.Jonathon594.Mythria.Mythria;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.Packet.CPacketOpenInventory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
-import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.FluidTags;
@@ -50,9 +48,9 @@ public class ClientListener {
 
     @SubscribeEvent
     public static void onFog(EntityViewRenderEvent.FogDensity event) {
-        if(event.getInfo().getFluidState().isTagged(FluidTags.LAVA)) {
-            if(ProfileProvider.getProfile(Minecraft.getInstance().player).getGenetic().isImmune(DamageSource.LAVA))
-            event.setDensity(0.05f);
+        if (event.getInfo().getFluidState().isTagged(FluidTags.LAVA)) {
+            if (ProfileProvider.getProfile(Minecraft.getInstance().player).getGenetic().isImmune(DamageSource.LAVA))
+                event.setDensity(0.05f);
             event.setCanceled(true);
         }
     }

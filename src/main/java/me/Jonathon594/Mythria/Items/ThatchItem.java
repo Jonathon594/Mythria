@@ -19,8 +19,8 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class ThatchItem extends MythriaItem {
-    public ThatchItem(String name, double weight) {
-        super(name, weight, new Properties().group(ItemGroup.MATERIALS).maxStackSize(16));
+    public ThatchItem(String name) {
+        super(name, new Properties().group(ItemGroup.MATERIALS).maxStackSize(16));
     }
 
     @Override

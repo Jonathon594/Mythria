@@ -12,8 +12,7 @@ public class ProfileStorage implements IStorage<IProfile> {
     @Nullable
     @Override
     public INBT writeNBT(Capability<IProfile> capability, IProfile instance, Direction side) {
-        final CompoundNBT comp = instance.toNBT();
-        return comp;
+        return instance.toNBT();
     }
 
     @Override

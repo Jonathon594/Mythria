@@ -4,7 +4,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class Tool implements ITool {
-    ItemStackHandler inventory = new ItemStackHandler(1);
+    final ItemStackHandler inventory = new ItemStackHandler(1);
 
     @Override
     public CompoundNBT toNBT() {

@@ -24,7 +24,7 @@ import java.util.List;
 
 public class FoodManager {
     public static final List<FoodRecipe> RECIPES = new ArrayList<>();
-    public static List<MythriaFoodData> FOOD_DATA = new ArrayList<>();
+    public static final List<MythriaFoodData> FOOD_DATA = new ArrayList<>();
 
 //    public static int Cook(final ItemStackHandler cookItems, final double cookspeed, CookType cookType) {
 ////        int cooked = 0;
@@ -60,7 +60,6 @@ public class FoodManager {
         double ageProp = food.getAgeProportion(is);
         if (ageProp > 1.25) {
             is.setCount(0);
-            return;
         }
     }
 
@@ -112,6 +111,11 @@ public class FoodManager {
         //FOOD_DATA.add(new MythriaFoodData(Items.POTIONITEM, 34, null, 6));
         FOOD_DATA.add(new MythriaFoodData(Items.EGG, 7, Consumable.Nutrition.MEAT, 0));
         //FOOD_DATA.add(new MythriaFoodData(MythriaItems.RAW_PUMPKIN_PIE, 7, Consumable.Nutrition.FRUIT, 0));
+
+        FOOD_DATA.add(new MythriaFoodData(MythriaItems.WARPED_FUNGUS, 4, Consumable.Nutrition.VEGETABLE, 6));
+        FOOD_DATA.add(new MythriaFoodData(MythriaItems.CRIMSON_FUNGUS, 4, Consumable.Nutrition.VEGETABLE, 4));
+        FOOD_DATA.add(new MythriaFoodData(MythriaItems.RED_MUSHROOM, 3, Consumable.Nutrition.VEGETABLE, 0));
+        FOOD_DATA.add(new MythriaFoodData(MythriaItems.BROWN_MUSHROOM, 3, Consumable.Nutrition.VEGETABLE, 0));
 
 //        RECIPES.add(new FoodRecipe(Items.COOKED_BEEF, Items.BEEF, CookType.ROAST, CookType.BAKE));
 //        RECIPES.add(new FoodRecipe(Items.COOKED_MUTTON, Items.MUTTON, CookType.ROAST, CookType.BAKE));

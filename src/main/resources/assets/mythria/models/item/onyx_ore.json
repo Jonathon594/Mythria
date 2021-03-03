@@ -1,3 +1,6 @@
 {
-  "parent": "mythria:block/onyx_ore"
+  "parent": "mythria:item/ore_base",
+  "textures": {
+    "ore": "mythria:blocks/ore/onyx_ore"
+  }
 }

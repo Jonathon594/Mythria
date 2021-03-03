@@ -1,0 +1,10 @@
+{
+  "type": "mythria:simple_crafting",
+  "ingredient": {
+    "item": "minecraft:clay_ball"
+  },
+  "cost": 16,
+  "result": "minecraft:clay",
+  "count": 1,
+  "tier": 0
+}

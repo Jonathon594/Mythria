@@ -6,8 +6,8 @@ import net.minecraft.item.ItemGroup;
 public class MythriaItemThrowable extends MythriaItem {
     private final float damage;
 
-    public MythriaItemThrowable(String name, int stackSize, double weight, ItemGroup group, float damage) {
-        super(name, weight, new Item.Properties().maxStackSize(stackSize).group(group));
+    public MythriaItemThrowable(String name, int stackSize, ItemGroup group, float damage) {
+        super(name, new Item.Properties().maxStackSize(stackSize).group(group));
         this.damage = damage;
     }
 

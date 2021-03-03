@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public class SkinPart extends ForgeRegistryEntry<SkinPart> {
     private final ArrayList<Genetic> allowedRaces = new ArrayList<>();
-    private Type type;
+    private final Type type;
     private String displayName = "";
     private boolean masculine = false;
     private boolean feminine = false;

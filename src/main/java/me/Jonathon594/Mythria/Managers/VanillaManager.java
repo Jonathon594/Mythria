@@ -1,6 +1,5 @@
 package me.Jonathon594.Mythria.Managers;
 
-import me.Jonathon594.Mythria.Interface.IItemData;
 import me.Jonathon594.Mythria.Mythria;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.block.Block;
@@ -12,16 +11,11 @@ import net.minecraft.item.Items;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.Iterator;
-
 public class VanillaManager {
 
     public static void init() {
-        Iterator<Item> itemIterator = ForgeRegistries.ITEMS.iterator();
-        while (itemIterator.hasNext()) {
-            Item item = itemIterator.next();
+        for (Item item : ForgeRegistries.ITEMS) {
             if (item.getRegistryName().getNamespace().equalsIgnoreCase(Mythria.MODID)) continue;
-            if (item instanceof IItemData) continue;
             setStackSize(item, 1);
         }
 

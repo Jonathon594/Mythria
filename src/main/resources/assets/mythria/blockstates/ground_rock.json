@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "mythria:/block/ground_rock"
+      "model": "mythria:block/ground_rock"
     }
   }
 }

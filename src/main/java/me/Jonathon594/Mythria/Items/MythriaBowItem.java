@@ -3,7 +3,6 @@ package me.Jonathon594.Mythria.Items;
 import me.Jonathon594.Mythria.Capability.Bow.Bow;
 import me.Jonathon594.Mythria.Capability.Bow.BowProvider;
 import me.Jonathon594.Mythria.Client.ClientUtil;
-import me.Jonathon594.Mythria.Interface.IItemData;
 import me.Jonathon594.Mythria.Mythria;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -27,10 +26,8 @@ import net.minecraftforge.fml.DistExecutor;
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
-public class MythriaBowItem extends BowItem implements IItemData {
-    public static final Predicate<ItemStack> MYTHRIA_ARROWS = (stack) -> {
-        return stack.getItem() instanceof MythriaArrowItem;
-    };
+public class MythriaBowItem extends BowItem {
+    public static final Predicate<ItemStack> MYTHRIA_ARROWS = (stack) -> stack.getItem() instanceof MythriaArrowItem;
     private final double weight;
 
     public MythriaBowItem(String name, IItemTier tier, double weight) {
@@ -38,9 +35,7 @@ public class MythriaBowItem extends BowItem implements IItemData {
         this.weight = weight;
         setRegistryName(Mythria.MODID, name);
 
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            ClientUtil.registerBowProperty(this);
-        });
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientUtil.registerBowProperty(this));
     }
 
     public static float getArrowVelocity(int charge) {
@@ -54,7 +49,7 @@ public class MythriaBowItem extends BowItem implements IItemData {
     }
 
     public boolean onReloadAmmo(ItemStack stack, ServerPlayerEntity player, Hand hand) {
-        if(player.getItemInUseCount() > 0) return false;
+        if (player.getItemInUseCount() > 0) return false;
         Bow bow = BowProvider.getBow(stack);
         if (!bow.getArrow().isEmpty()) return false;
         ItemStack ammo = player.findAmmo(stack);
@@ -91,9 +86,7 @@ public class MythriaBowItem extends BowItem implements IItemData {
             if (arrow.isEmpty()) {
                 worldIn.playSound(null, playerentity.getPosX(), playerentity.getPosY(), playerentity.getPosZ(),
                         SoundEvents.ITEM_CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + 0.5F);
-                stack.damageItem(3, playerentity, (p_220009_1_) -> {
-                    p_220009_1_.sendBreakAnimation(playerentity.getActiveHand());
-                });
+                stack.damageItem(3, playerentity, (p_220009_1_) -> p_220009_1_.sendBreakAnimation(playerentity.getActiveHand()));
                 return;
             }
 
@@ -132,9 +125,7 @@ public class MythriaBowItem extends BowItem implements IItemData {
                             abstractarrowentity.setFire(100);
                         }
 
-                        stack.damageItem(1, playerentity, (p_220009_1_) -> {
-                            p_220009_1_.sendBreakAnimation(playerentity.getActiveHand());
-                        });
+                        stack.damageItem(1, playerentity, (p_220009_1_) -> p_220009_1_.sendBreakAnimation(playerentity.getActiveHand()));
                         if (isInfinite || playerentity.abilities.isCreativeMode && (arrow.getItem() == Items.SPECTRAL_ARROW || arrow.getItem() == Items.TIPPED_ARROW)) {
                             abstractarrowentity.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
                         }
@@ -155,11 +146,6 @@ public class MythriaBowItem extends BowItem implements IItemData {
 
     public Predicate<ItemStack> getInventoryAmmoPredicate() {
         return MYTHRIA_ARROWS;
-    }
-
-    @Override
-    public double getWeight() {
-        return weight;
     }
 
     @Nullable

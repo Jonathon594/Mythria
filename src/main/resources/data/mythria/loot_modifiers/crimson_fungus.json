@@ -1,0 +1,5 @@
+{
+  "type": "mythria:item_replacer",
+  "replace": "minecraft:crimson_fungus",
+  "with": "mythria:crimson_fungus"
+}

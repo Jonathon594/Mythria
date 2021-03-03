@@ -3,8 +3,8 @@ package me.Jonathon594.Mythria.Ability;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class AbilityInstance {
-    private Ability ability;
-    private PlayerEntity owner;
+    private final Ability ability;
+    private final PlayerEntity owner;
     private int cooldown = 0;
 
     public AbilityInstance(Ability ability, PlayerEntity owner) {

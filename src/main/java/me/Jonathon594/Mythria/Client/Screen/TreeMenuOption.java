@@ -36,9 +36,7 @@ public class TreeMenuOption {
             ITextComponent itextcomponent = displayIn.getTitle();
             TextFormatting textformatting = displayIn.getFrame().getFormat();
             ITextComponent itextcomponent1 = TextComponentUtils.func_240648_a_(itextcomponent.deepCopy(), Style.EMPTY.setFormatting(textformatting)).appendString("\n").append(displayIn.getDescription());
-            ITextComponent itextcomponent2 = itextcomponent.deepCopy().modifyStyle((style) -> {
-                return style.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, itextcomponent1));
-            });
+            ITextComponent itextcomponent2 = itextcomponent.deepCopy().modifyStyle((style) -> style.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, itextcomponent1)));
             this.displayText = TextComponentUtils.wrapWithSquareBrackets(itextcomponent2).mergeStyle(textformatting);
         }
     }

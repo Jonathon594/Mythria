@@ -1,9 +1,0 @@
-{
-  "type": "mythria:simple_pottery",
-  "ingredient": {
-    "item": "minecraft:clay_ball"
-  },
-  "result": "mythria:clay_mold_sword",
-  "count": 1,
-  "tier": 0
-}

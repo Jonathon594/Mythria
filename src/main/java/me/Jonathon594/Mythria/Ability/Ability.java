@@ -6,7 +6,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import java.util.Random;
 
 public abstract class Ability extends ForgeRegistryEntry<Ability> {
-    protected Random random;
+    protected final Random random;
 
     public Ability(String name) {
         setRegistryName(new MythriaResourceLocation(name));

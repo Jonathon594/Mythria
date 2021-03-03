@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "mythria:/block/thatch_block"
+      "model": "mythria:block/thatch_block"
     }
   }
 }

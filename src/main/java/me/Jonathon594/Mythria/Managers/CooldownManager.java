@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import java.util.ArrayList;
 
 public class CooldownManager {
-    public static ArrayList<Cooldown> cooldowns = new ArrayList<>();
+    public static final ArrayList<Cooldown> cooldowns = new ArrayList<>();
 
     public static void checkCooldowns() {
         if (System.currentTimeMillis() % 1000L < 50) {

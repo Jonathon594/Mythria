@@ -17,8 +17,7 @@ public class HeatableProvider implements ICapabilitySerializable<INBT> {
     private final IHeatable instance = new HeatableItem();
 
     public static HeatableItem getHeatable(ItemStack itemStack) {
-        HeatableItem heatableItem = (HeatableItem) itemStack.getCapability(HEATABLE_CAP, null).orElse(null);
-        return heatableItem;
+        return (HeatableItem) itemStack.getCapability(HEATABLE_CAP, null).orElse(null);
     }
 
     @Override

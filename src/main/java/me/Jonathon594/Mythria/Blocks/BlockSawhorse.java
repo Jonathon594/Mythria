@@ -32,12 +32,10 @@ public class BlockSawhorse extends MythriaBlockHorizontal {
     }
 
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (worldIn.isRemote) {
-            return ActionResultType.SUCCESS;
-        } else {
+        if (!worldIn.isRemote) {
             player.openContainer(state.getContainer(worldIn, pos));
-            return ActionResultType.SUCCESS;
         }
+        return ActionResultType.SUCCESS;
     }
 
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {

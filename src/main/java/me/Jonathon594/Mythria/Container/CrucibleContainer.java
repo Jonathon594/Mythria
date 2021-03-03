@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class CrucibleContainer extends Container {
-    public ItemStackHandler containerInv;
+    public final ItemStackHandler containerInv;
 
     public CrucibleContainer(int windowID, PlayerInventory playerInventory) {
         super(MythriaContainerType.CRUCIBLE, windowID);

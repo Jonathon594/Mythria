@@ -5,8 +5,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 
 public class StickItem extends AbstractFireStarterItem {
-    public StickItem(String name, double weight) {
-        super(name, weight, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16));
+    public StickItem(String name) {
+        super(name, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16));
     }
 
     @Override

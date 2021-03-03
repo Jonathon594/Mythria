@@ -48,7 +48,7 @@ public class BlockGroundCover extends MythriaBlock implements IWaterLoggable {
             return blockstate;
         } else {
             FluidState FluidState = context.getWorld().getFluidState(context.getPos());
-            return super.getStateForPlacement(context).with(WATERLOGGED, Boolean.valueOf(FluidState.getFluid() == Fluids.WATER));
+            return super.getStateForPlacement(context).with(WATERLOGGED, FluidState.getFluid() == Fluids.WATER);
         }
     }
 

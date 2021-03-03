@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "mythria:/block/ground_log_jungle"
+      "model": "mythria:block/ground_log_jungle"
     }
   }
 }

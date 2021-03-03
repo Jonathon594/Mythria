@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "mythria:/block/ground_copper"
+      "model": "mythria:block/ground_copper"
     }
   }
 }

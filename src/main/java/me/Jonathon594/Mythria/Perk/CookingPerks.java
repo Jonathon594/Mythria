@@ -14,9 +14,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.List;
+
 @ObjectHolder(Mythria.MODID)
 public class CookingPerks implements IPerkRegistry {
     public static final Perk BASIC_COOKING = null;
+
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(

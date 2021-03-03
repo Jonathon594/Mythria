@@ -11,8 +11,8 @@ import java.util.function.Supplier;
 public class ToolHeadItem extends MythriaItem {
     private final Supplier<Item> result;
 
-    public ToolHeadItem(String name, double weight, Supplier<Item> result, Properties properties) {
-        super(name, weight, properties.group(ItemGroup.TOOLS));
+    public ToolHeadItem(String name, Supplier<Item> result, Properties properties) {
+        super(name, properties.group(ItemGroup.TOOLS));
         this.result = result;
     }
 

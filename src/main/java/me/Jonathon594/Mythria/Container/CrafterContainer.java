@@ -33,10 +33,10 @@ import java.util.Map;
 
 public abstract class CrafterContainer extends Container {
     protected final CraftResultInventory CraftResultInventory = new CraftResultInventory();
+    protected final World world;
+    protected final Slot input;
+    protected final Slot output;
     private final List<CrafterRecipe> recipes = Lists.newArrayList();
-    protected World world;
-    protected Slot input;
-    protected Slot output;
     protected ItemStack tool;
     private Runnable runnable = () -> {
     };
@@ -150,9 +150,7 @@ public abstract class CrafterContainer extends Container {
         ItemStack tool = getTool();
         IRecipe recipe = getRecipe();
         int count = recipe.getRecipeOutput().getCount();
-        tool.damageItem(count, player, (playerEntity) -> {
-            playerEntity.sendBreakAnimation(new ItemUseContext(player, Hand.MAIN_HAND, null).getHand());
-        });
+        tool.damageItem(count, player, (playerEntity) -> playerEntity.sendBreakAnimation(new ItemUseContext(player, Hand.MAIN_HAND, null).getHand()));
     }
 
     public int getRecipeCount() {

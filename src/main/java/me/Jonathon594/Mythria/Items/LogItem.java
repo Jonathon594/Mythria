@@ -16,8 +16,8 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class LogItem extends MythriaItem {
-    public LogItem(String name, double weight) {
-        super(name, weight, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(8));
+    public LogItem(String name) {
+        super(name, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(8));
     }
 
     @Override

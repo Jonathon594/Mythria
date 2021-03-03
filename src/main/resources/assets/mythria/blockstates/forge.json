@@ -15,16 +15,16 @@
     },
     "full": {
       "0": {
-        "model": "mythria:/block/forge_coal"
+        "model": "mythria:block/forge_coal"
       },
       "1": {
-        "model": "mythria:/block/forge_coal_2"
+        "model": "mythria:block/forge_coal_2"
       },
       "2": {
-        "model": "mythria:/block/forge_coal_3"
+        "model": "mythria:block/forge_coal_3"
       },
       "3": {
-        "model": "mythria:/block/forge_coal_4"
+        "model": "mythria:block/forge_coal_4"
       }
     }
   }

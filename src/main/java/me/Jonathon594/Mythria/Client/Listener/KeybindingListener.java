@@ -1,12 +1,12 @@
 package me.Jonathon594.Mythria.Client.Listener;
 
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
+import me.Jonathon594.Mythria.Client.Keybindings;
 import me.Jonathon594.Mythria.Client.Screen.ScreenPerks;
 import me.Jonathon594.Mythria.Client.Screen.ScreenProfile;
 import me.Jonathon594.Mythria.Client.Screen.ScreenProfileCreation;
-import me.Jonathon594.Mythria.Client.Keybindings;
-import me.Jonathon594.Mythria.Client.Manager.ClientManager;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
+import me.Jonathon594.Mythria.Packet.CPacketAction;
 import me.Jonathon594.Mythria.Packet.CPacketReloadWeapon;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
@@ -32,6 +32,9 @@ public class KeybindingListener {
         }
         if (Keybindings.RELOAD.isPressed()) {
             MythriaPacketHandler.sendToServer(new CPacketReloadWeapon());
+        }
+        if (Keybindings.CRAFTING.isPressed()) {
+            MythriaPacketHandler.sendToServer(new CPacketAction(CPacketAction.Action.SIMPLE_CRAFTING));
         }
     }
 }

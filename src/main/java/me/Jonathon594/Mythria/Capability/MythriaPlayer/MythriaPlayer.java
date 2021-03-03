@@ -104,9 +104,8 @@ public class MythriaPlayer implements IMythriaPlayer {
         return wingFlightFlapAngle;
     }
 
-    public MythriaPlayer setWingFlightFlapAngle(int wingFlightFlapAngle) {
+    public void setWingFlightFlapAngle(int wingFlightFlapAngle) {
         this.wingFlightFlapAngle = wingFlightFlapAngle;
-        return this;
     }
 
     public void onTick() {

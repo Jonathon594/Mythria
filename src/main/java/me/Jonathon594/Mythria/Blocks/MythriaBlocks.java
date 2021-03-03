@@ -4,15 +4,14 @@ import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import me.Jonathon594.Mythria.Items.MythriaBlockItem;
 import me.Jonathon594.Mythria.Items.MythriaItems;
 import me.Jonathon594.Mythria.Mythria;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.StairsBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -31,10 +30,15 @@ public class MythriaBlocks {
     public static final MythriaOre GOLD_ORE = null;
     public static final MythriaOre MITHRIL_ORE = null;
     public static final MythriaOre VIOLACIUM_ORE = null;
+    public static final MythriaOre EMERALD_ORE = null;
     public static final MythriaOre TOPAZ_ORE = null;
     public static final MythriaOre RUBY_ORE = null;
     public static final MythriaOre ONYX_ORE = null;
     public static final MythriaOre SAPPHIRE_ORE = null;
+    public static final MythriaOre REDSTONE_ORE = null;
+    public static final MythriaOre DIAMOND_ORE = null;
+    public static final MythriaOre COAL_ORE = null;
+    public static final MythriaOre LAPIS_ORE = null;
 
     public static final MythriaBlock TOPAZ_BLOCK = null;
     public static final MythriaBlock SAPPHIRE_BLOCK = null;
@@ -86,20 +90,25 @@ public class MythriaBlocks {
     @SubscribeEvent
     public static void RegisterBlocks(final RegistryEvent.Register<Block> event) {
         event.getRegistry().registerAll(
-                new MythriaOre(Material.ROCK, "tin_ore", 10),
-                new MythriaOre(Material.ROCK, "copper_ore", 10),
-                new MythriaOre(Material.ROCK, "silver_ore", 10),
-                new MythriaOre(Material.ROCK, "platinum_ore", 10),
-                new MythriaOre(Material.ROCK, "titanium_ore", 10),
-                new MythriaOre(Material.ROCK, "tungsten_ore", 10),
-                new MythriaOre(Material.ROCK, "iron_ore", 10),
-                new MythriaOre(Material.ROCK, "gold_ore", 10),
-                new MythriaOre(Material.ROCK, "mithril_ore", 10),
-                new MythriaOre(Material.ROCK, "violacium_ore", 10),
-                new MythriaOre(Material.ROCK, "topaz_ore", 10),
-                new MythriaOre(Material.ROCK, "sapphire_ore", 10),
-                new MythriaOre(Material.ROCK, "onyx_ore", 10),
-                new MythriaOre(Material.ROCK, "ruby_ore", 10),
+                new MythriaOre(Material.ROCK, "coal_ore", 10, () -> GROUND_COAL),
+                new MythriaOre(Material.ROCK, "tin_ore", 10, () -> GROUND_TIN),
+                new MythriaOre(Material.ROCK, "copper_ore", 10, () -> GROUND_COPPER),
+                new MythriaOre(Material.ROCK, "silver_ore", 10, () -> GROUND_SILVER),
+                new MythriaOre(Material.ROCK, "platinum_ore", 10, () -> GROUND_PLATINUM),
+                new MythriaOre(Material.ROCK, "titanium_ore", 10, () -> GROUND_TITANIUM),
+                new MythriaOre(Material.ROCK, "tungsten_ore", 10, () -> GROUND_TUNGSTEN),
+                new MythriaOre(Material.ROCK, "iron_ore", 10, () -> GROUND_IRON),
+                new MythriaOre(Material.ROCK, "gold_ore", 10, () -> GROUND_GOLD),
+                new MythriaOre(Material.ROCK, "mithril_ore", 10, () -> GROUND_MITHRIL),
+                new MythriaOre(Material.ROCK, "violacium_ore", 10, () -> GROUND_VIOLACIUM),
+                new MythriaOre(Material.ROCK, "redstone_ore", 10, null),
+                new MythriaOre(Material.ROCK, "lapis_ore", 10, null),
+                new MythriaOre(Material.ROCK, "emerald_ore", 10, null),
+                new MythriaOre(Material.ROCK, "topaz_ore", 10, null),
+                new MythriaOre(Material.ROCK, "sapphire_ore", 10, null),
+                new MythriaOre(Material.ROCK, "onyx_ore", 10, null),
+                new MythriaOre(Material.ROCK, "ruby_ore", 10, null),
+                new MythriaOre(Material.ROCK, "diamond_ore", 10, null),
 
                 new MythriaBlock("ruby_block", 40, Block.Properties.create(Material.IRON, MaterialColor.RED).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)),
                 new MythriaBlock("sapphire_block", 40, Block.Properties.create(Material.IRON, MaterialColor.BLUE).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)),
@@ -174,6 +183,10 @@ public class MythriaBlocks {
                 new MythriaBlockItem(RUBY_ORE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
                 new MythriaBlockItem(TOPAZ_ORE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
                 new MythriaBlockItem(SAPPHIRE_ORE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
+                new MythriaBlockItem(REDSTONE_ORE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
+                new MythriaBlockItem(LAPIS_ORE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
+                new MythriaBlockItem(DIAMOND_ORE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
+                new MythriaBlockItem(COAL_ORE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
 
                 new MythriaBlockItem(SAPPHIRE_BLOCK, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
                 new MythriaBlockItem(RUBY_BLOCK, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),

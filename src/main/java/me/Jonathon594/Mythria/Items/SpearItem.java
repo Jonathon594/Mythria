@@ -5,7 +5,6 @@ import com.google.common.collect.Multimap;
 import me.Jonathon594.Mythria.Client.ClientUtil;
 import me.Jonathon594.Mythria.Client.Renderer.Items.SpearItemRenderer;
 import me.Jonathon594.Mythria.Entity.SpearEntity;
-import me.Jonathon594.Mythria.Interface.IItemData;
 import me.Jonathon594.Mythria.Mythria;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import net.minecraft.block.BlockState;
@@ -24,7 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 
-public class SpearItem extends TieredItem implements IItemData {
+public class SpearItem extends TieredItem {
     private final MythriaResourceLocation textureLocation;
     private final ImmutableMultimap<Attribute, AttributeModifier> attributes;
     private final double weight;
@@ -40,9 +39,7 @@ public class SpearItem extends TieredItem implements IItemData {
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier", extraAttackSpeed - 2.9F, AttributeModifier.Operation.ADDITION));
         this.attributes = builder.build();
 
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            ClientUtil.registerSpearProperty(this);
-        });
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientUtil.registerSpearProperty(this));
     }
 
     public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
@@ -51,9 +48,7 @@ public class SpearItem extends TieredItem implements IItemData {
             int i = this.getUseDuration(stack) - timeLeft;
             if (i >= 10) {
                 if (!worldIn.isRemote) {
-                    stack.damageItem(1, playerentity, (p_220047_1_) -> {
-                        p_220047_1_.sendBreakAnimation(entityLiving.getActiveHand());
-                    });
+                    stack.damageItem(1, playerentity, (p_220047_1_) -> p_220047_1_.sendBreakAnimation(entityLiving.getActiveHand()));
                     SpearEntity spear = new SpearEntity(worldIn, playerentity, stack);
                     spear.func_234612_a_(playerentity, playerentity.rotationPitch, playerentity.rotationYaw, 0.0F, 2.5F, 1.0F);
                     if (playerentity.abilities.isCreativeMode) {
@@ -88,18 +83,14 @@ public class SpearItem extends TieredItem implements IItemData {
 
     public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
         if ((double) state.getBlockHardness(worldIn, pos) != 0.0D) {
-            stack.damageItem(2, entityLiving, (p_220046_0_) -> {
-                p_220046_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND);
-            });
+            stack.damageItem(2, entityLiving, (p_220046_0_) -> p_220046_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND));
         }
 
         return true;
     }
 
     public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        stack.damageItem(1, attacker, (p_220048_0_) -> {
-            p_220048_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND);
-        });
+        stack.damageItem(1, attacker, (p_220048_0_) -> p_220048_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND));
         return true;
     }
 
@@ -113,11 +104,6 @@ public class SpearItem extends TieredItem implements IItemData {
 
     public boolean canPlayerBreakBlockWhileHolding(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
         return !player.isCreative();
-    }
-
-    @Override
-    public double getWeight() {
-        return weight;
     }
 
     public ResourceLocation getThrownEntityTexture() {

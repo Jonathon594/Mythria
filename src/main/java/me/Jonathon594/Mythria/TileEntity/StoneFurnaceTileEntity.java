@@ -42,10 +42,6 @@ public class StoneFurnaceTileEntity extends FuelableFurnaceTileEntity implements
         return inventory.get(4);
     }
 
-    /**
-     * Get an NBT compound to sync to the client with SPacketChunkData, used for initial loading of the chunk or when
-     * many blocks change at once. This compound comes back to you clientside in {@link handleUpdateTag}
-     */
     public CompoundNBT getUpdateTag() {
         return this.writeItems(new CompoundNBT());
     }
@@ -53,12 +49,12 @@ public class StoneFurnaceTileEntity extends FuelableFurnaceTileEntity implements
     @Override
     public void light() {
         BlockState state = world.getBlockState(pos);
-        world.setBlockState(pos, state.with(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
+        world.setBlockState(pos, state.with(BlockStateProperties.LIT, Boolean.TRUE), 11);
     }
 
     @Override
     public boolean canBeLit() {
         BlockState blockState = getBlockState();
-        return blockState.get(PitFurnaceBlock.FULL) == 7 && blockState.get(PitFurnaceBlock.WATERLOGGED) == false;
+        return blockState.get(PitFurnaceBlock.FULL) == 7 && !blockState.get(PitFurnaceBlock.WATERLOGGED);
     }
 }

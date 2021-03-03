@@ -15,9 +15,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.List;
+
 @ObjectHolder(Mythria.MODID)
 public class FletchingPerks implements IPerkRegistry {
     public static final Perk BASIC_FLETCHING = null;
+
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(

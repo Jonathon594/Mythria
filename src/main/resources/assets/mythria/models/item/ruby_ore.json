@@ -1,3 +1,6 @@
 {
-  "parent": "mythria:block/ruby_ore"
+  "parent": "mythria:item/ore_base",
+  "textures": {
+    "ore": "mythria:blocks/ore/ruby_ore"
+  }
 }

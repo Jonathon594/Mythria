@@ -1,7 +1,49 @@
 {
-  "variants": {
-    "": {
-      "model": "mythria:/block/tin_ore"
+  "multipart": [
+    {
+      "when": {
+        "stone": "stone"
+      },
+      "apply": {
+        "model": "block/stone"
+      }
+    },
+    {
+      "when": {
+        "stone": "diorite"
+      },
+      "apply": {
+        "model": "block/diorite"
+      }
+    },
+    {
+      "when": {
+        "stone": "granite"
+      },
+      "apply": {
+        "model": "block/granite"
+      }
+    },
+    {
+      "when": {
+        "stone": "andesite"
+      },
+      "apply": {
+        "model": "block/andesite"
+      }
+    },
+    {
+      "when": {
+        "stone": "netherrack"
+      },
+      "apply": {
+        "model": "block/netherrack"
+      }
+    },
+    {
+      "apply": {
+        "model": "mythria:block/tin_ore"
+      }
     }
-  }
+  ]
 }

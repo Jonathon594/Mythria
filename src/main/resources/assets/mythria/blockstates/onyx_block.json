@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "mythria:/block/onyx_block"
+      "model": "mythria:block/onyx_block"
     }
   }
 }

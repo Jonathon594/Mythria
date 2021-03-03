@@ -74,7 +74,7 @@ public abstract class AbstractTreeMenuScreen extends Screen {
             String page = String.format("%d / %d", tabPage + 1, maxPages + 1);
             int width = this.font.getStringWidth(page);
             RenderSystem.disableLighting();
-            this.font.drawStringWithShadow(matrixStack, page, i + (252 / 2) - (width / 2), j - 44, -1);
+            this.font.drawStringWithShadow(matrixStack, page, i + (252 / 2f) - (width / 2f), j - 44, -1);
         }
         this.renderWindow(matrixStack, i, j);
         this.renderToolTips(matrixStack, mouseX, mouseY, i, j);

@@ -17,7 +17,7 @@ import net.minecraft.util.math.vector.Vector3f;
 
 public class FaeWingLayer extends LayerRenderer<LivingEntity, CharacterModel<LivingEntity>> {
     private final CharacterRenderer renderer;
-    private FaeWingModel wingModel;
+    private final FaeWingModel wingModel;
 
     public FaeWingLayer(CharacterRenderer renderer) {
         super(renderer);

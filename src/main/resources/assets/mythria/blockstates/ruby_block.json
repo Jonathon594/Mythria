@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "mythria:/block/ruby_block"
+      "model": "mythria:block/ruby_block"
     }
   }
 }

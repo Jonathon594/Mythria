@@ -31,8 +31,7 @@ public class TreeFellingManager {
         final int itemmd = axe.getMaxDamage();
         final int itemr = (itemmd - itemd);
         ArrayList<BlockPos> posList = new ArrayList<>();
-        ArrayList<Block> validBlocks = new ArrayList<>();
-        validBlocks.addAll(logs);
+        ArrayList<Block> validBlocks = new ArrayList<>(logs);
         Collection<Block> leaves = MythriaUtil.getBlockCollectionFromTag(BlockTags.LEAVES.getName());
         validBlocks.addAll(leaves);
         validBlocks.add(Blocks.VINE);

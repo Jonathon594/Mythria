@@ -1,0 +1,5 @@
+{
+  "type": "mythria:item_replacer",
+  "replace": "minecraft:warped_fungus",
+  "with": "mythria:warped_fungus"
+}

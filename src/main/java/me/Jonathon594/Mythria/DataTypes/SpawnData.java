@@ -43,10 +43,10 @@ public class SpawnData {
     }
 
     public double getBiomeModifer(Biome b) {
-        return biomeMod.containsKey(b) ? biomeMod.get(b) : 1.0;
+        return biomeMod.getOrDefault(b, 1.0);
     }
 
     public double getSeasonModifier(Season s) {
-        return seasonMod.containsKey(s) ? seasonMod.get(s) : 1.0;
+        return seasonMod.getOrDefault(s, 1.0);
     }
 }

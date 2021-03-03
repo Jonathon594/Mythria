@@ -27,9 +27,9 @@ import java.util.Map;
 
 public abstract class ToolComponentContainer extends Container {
     protected final net.minecraft.inventory.CraftResultInventory CraftResultInventory = new CraftResultInventory();
-    protected Slot component;
-    protected Slot input;
-    protected Slot output;
+    protected final Slot component;
+    protected final Slot input;
+    protected final Slot output;
     protected final CraftingInventory inventory = new CraftingInventory(this, 2, 1) {
         @Override
         public void markDirty() {
@@ -37,7 +37,7 @@ public abstract class ToolComponentContainer extends Container {
             ToolComponentContainer.this.onCraftMatrixChanged(this);
         }
     };
-    protected World world;
+    protected final World world;
     protected long lastSound = 0L;
 
     protected ToolComponentContainer(@Nullable ContainerType<?> type, int id, PlayerInventory playerInventory) {
@@ -176,8 +176,7 @@ public abstract class ToolComponentContainer extends Container {
     private ItemStack getResultItem(CraftingInventory inventory) {
         ItemStack component = inventory.getStackInSlot(0).copy();
         ItemStack handle = inventory.getStackInSlot(1).copy();
-        ItemStack result = getResultStack(component, handle);
-        return result;
+        return getResultStack(component, handle);
     }
 
     protected boolean canCraft() {

@@ -2,10 +2,7 @@ package me.Jonathon594.Mythria.Client.Listener;
 
 import me.Jonathon594.Mythria.Client.Manager.ClientManager;
 import me.Jonathon594.Mythria.Managers.IngameGuiManager;
-import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,7 +30,6 @@ public class ClientTickListener {
                 //Todo TorpidityManager.onPlayerTickClient();
                 //Todo SexManager.onPlayerTickClient();
                 //Todo CombatManager.onPlayerTickClient(player);
-                return;
             }
         }
     }

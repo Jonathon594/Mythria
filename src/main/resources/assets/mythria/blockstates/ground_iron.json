@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "mythria:/block/ground_iron"
+      "model": "mythria:block/ground_iron"
     }
   }
 }

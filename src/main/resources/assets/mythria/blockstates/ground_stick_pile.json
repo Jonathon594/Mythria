@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "mythria:/block/ground_stick_pile"
+      "model": "mythria:block/ground_stick_pile"
     }
   }
 }

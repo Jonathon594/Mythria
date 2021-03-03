@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "mythria:/block/ground_coal"
+      "model": "mythria:block/ground_coal"
     }
   }
 }

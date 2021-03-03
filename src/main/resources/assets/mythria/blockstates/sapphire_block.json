@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "mythria:/block/sapphire_block"
+      "model": "mythria:block/sapphire_block"
     }
   }
 }

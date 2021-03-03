@@ -61,8 +61,7 @@ public class Food implements IFood {
     public double getAgeProportion(ItemStack is) {
         final long age = getAge();
         final long maxAge = FoodManager.getFoodLifeTime(is.getItem());
-        double ageProp = ((double) age / maxAge);
-        return ageProp;
+        return ((double) age / maxAge);
     }
 
 }

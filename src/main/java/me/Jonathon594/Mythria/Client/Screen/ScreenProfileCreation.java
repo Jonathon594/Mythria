@@ -19,7 +19,6 @@ import me.Jonathon594.Mythria.MythriaRegistries;
 import me.Jonathon594.Mythria.Packet.CPacketProfileCreation;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.nbt.CompoundNBT;
@@ -29,7 +28,6 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.fml.client.gui.widget.Slider;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class ScreenProfileCreation extends AbstractMythriaScreen {
@@ -81,7 +79,7 @@ public class ScreenProfileCreation extends AbstractMythriaScreen {
         drawString(matrixStack, font, "Last Name:", txtLastName.x - 65, txtLastName.y + 6, 0xFFFFFFFF);
 
         setSkinData();
-        ScreenUtils.drawEntityOnScreen(width / 2 + 110, height / 2 - 50, 50, (float) (width / 2 + 110) - mouseX,
+        ScreenUtils.drawEntityOnScreen(width / 2f + 110, height / 2f - 50, 50, (float) (width / 2 + 110) - mouseX,
                 (float) (height / 2 - 100) - mouseY, npc);
 
         super.render(matrixStack, mouseX, mouseY, partialTicks);
@@ -146,9 +144,7 @@ public class ScreenProfileCreation extends AbstractMythriaScreen {
 
         sldMonth = new Slider(xPosition, yPosition += 50, 200, 20, new StringTextComponent("Month "),
                 new StringTextComponent(""), 0, 11, 0,
-                false, false, buttonHandler, slider -> {
-            monthValueChanged(slider);
-        });
+                false, false, buttonHandler, this::monthValueChanged);
 
         sldDay = new Slider(xPosition, yPosition += 25, 200, 20, new StringTextComponent("Day: "),
                 new StringTextComponent(""), 1, 31, 1, false,
@@ -180,7 +176,7 @@ public class ScreenProfileCreation extends AbstractMythriaScreen {
         yPosition = height / 2 - 50;
         xPosition = width / 2 + 10;
 
-        btsRace = new GeneticSelector(xPosition, yPosition += 25, buttonHandler, () -> getGeneticNames());
+        btsRace = new GeneticSelector(xPosition, yPosition += 25, buttonHandler, this::getGeneticNames);
 
         btsSkin = new GuiButtonSkinPartSelector(xPosition, yPosition += 25, 200, 20, "Skin: %s", buttonHandler, () -> SkinPartManager.getSkinPartNamesFor(SkinPart.Type.SKIN, getSelectedGender(), getGenetic()));
         btsHair = new GuiButtonSkinPartSelector(xPosition, yPosition += 25, 200, 20, "Hair: %s", buttonHandler, () -> SkinPartManager.getSkinPartNamesFor(SkinPart.Type.HAIR, getSelectedGender(), getGenetic()));
@@ -205,9 +201,8 @@ public class ScreenProfileCreation extends AbstractMythriaScreen {
 
     protected List<String> getGeneticNames() {
         ArrayList<String> names = new ArrayList<>();
-        Iterator<Genetic> geneticIterator = MythriaRegistries.GENETICS.iterator();
-        while(geneticIterator.hasNext()) {
-            names.add(geneticIterator.next().getRegistryName().toString());
+        for (Genetic genetic : MythriaRegistries.GENETICS) {
+            names.add(genetic.getRegistryName().toString());
         }
         return names;
     }

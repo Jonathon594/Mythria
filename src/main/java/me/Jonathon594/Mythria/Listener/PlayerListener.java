@@ -11,7 +11,6 @@ import me.Jonathon594.Mythria.Managers.*;
 import me.Jonathon594.Mythria.Managers.Crafting.ConstructionManager;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.Packet.SPacketProfileCache;
-import me.Jonathon594.Mythria.Util.BlockUtils;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import me.Jonathon594.Mythria.Worlds.MythriaWorlds;
 import net.minecraft.block.material.Material;
@@ -101,17 +100,15 @@ public class PlayerListener {
     @SubscribeEvent
     public static void onCloseContainer(final PlayerContainerEvent.Close event) {
         PlayerEntity player = event.getPlayer();
-        if (player.getEntityWorld().isRemote)
-            return;
-        WeightManager.weightUpdateQue.add(player);
+        if (player.getEntityWorld().isRemote) {
+        }
     }
 
     @SubscribeEvent
     public static void onItemPickup(final PlayerEvent.ItemPickupEvent event) {
         PlayerEntity player = event.getPlayer();
-        if (player.getEntityWorld().isRemote)
-            return;
-        WeightManager.weightUpdateQue.add(player);
+        if (player.getEntityWorld().isRemote) {
+        }
     }
 
     @SubscribeEvent
@@ -133,7 +130,7 @@ public class PlayerListener {
             for (final Perk pa : list)
                 if (p.getPlayerSkills().contains(pa))
                     for (final Map.Entry<MythicSkills, Integer> s : pa.getRequiredSkills().entrySet())
-                        p.addSkillExperience(s.getKey(), EXPConst.ITEM_CRAFT * (s.getValue() / 10 + 1), (ServerPlayerEntity) player, s.getValue());
+                        p.addSkillExperience(s.getKey(), EXPConst.ITEM_CRAFT * (s.getValue() / 10.0 + 1), (ServerPlayerEntity) player, s.getValue());
     }
 
     @SubscribeEvent
@@ -187,7 +184,6 @@ public class PlayerListener {
         StatManager.chargeConsumable(p, cost, Consumable.STAMINA);
         //BlockUtils.physicsCheck(event.getWorld().getWorld(), event.getPos(), event.getPlacedBlock().getBlock(), 10,
         //        true);
-        WeightManager.weightUpdateQue.add(p);
 
         if (ConstructionManager.isReinforced(event.getPlacedBlock().getBlock()))
             ConstructionManager.addRecentlyPlacedBlock(p, event.getPlacedBlock().getBlock(), event.getPos());
@@ -195,9 +191,8 @@ public class PlayerListener {
 
     @SubscribeEvent
     public static void onItemToss(final ItemTossEvent event) {
-        if (event.getPlayer().getEntityWorld().isRemote)
-            return;
-        WeightManager.weightUpdateQue.add(event.getPlayer());
+        if (event.getPlayer().getEntityWorld().isRemote) {
+        }
     }
 
     @SubscribeEvent
@@ -229,7 +224,5 @@ public class PlayerListener {
         TreeFellingManager.HandleTreeChop(p, event.getPos());
         //BlockUtils.physicsCheck(event.getWorld().getWorld(), event.getPos(), event.getState().getBlock(), 10,
         //        true);
-
-        BlockUtils.softenStone(event.getWorld(), event.getPos(), event.getState().getBlock());
     }
 }

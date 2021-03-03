@@ -8,8 +8,8 @@ public class EmptyMoldItem extends HeatableItem {
     private final EnumMetalShape shape;
     private final int volume;
 
-    public EmptyMoldItem(String name, double weight, int volume, EnumMetalShape shape) {
-        super(name, weight, new Item.Properties().group(ItemGroup.TOOLS).maxStackSize(1));
+    public EmptyMoldItem(String name, int volume, EnumMetalShape shape) {
+        super(name, new Item.Properties().group(ItemGroup.TOOLS).maxStackSize(1));
         this.volume = volume;
         this.shape = shape;
     }

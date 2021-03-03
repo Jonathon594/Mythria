@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AbilityHandler {
-    private ArrayList<AbilityInstance> abilityInstances = new ArrayList<>();
+    private final ArrayList<AbilityInstance> abilityInstances = new ArrayList<>();
 
     //instance variables
-    private HashMap<Fluid, Boolean> fluidWalkingMap = new HashMap<>();
+    private final HashMap<Fluid, Boolean> fluidWalkingMap = new HashMap<>();
 
     public AbilityHandler() {
         for (Fluid fluid : ForgeRegistries.FLUIDS.getValues()) {

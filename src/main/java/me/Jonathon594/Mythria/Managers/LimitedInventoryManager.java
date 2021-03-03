@@ -19,7 +19,6 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class LimitedInventoryManager {
@@ -162,9 +161,7 @@ public class LimitedInventoryManager {
 
     private static int getSlotAmounts(PlayerEntity p, boolean backpack) {
         int i = 0;
-        Iterator<ItemStack> iter = p.getArmorInventoryList().iterator();
-        while (iter.hasNext()) {
-            ItemStack is = iter.next();
+        for (ItemStack is : p.getArmorInventoryList()) {
             if (is == null || is.isEmpty()) continue;
             i += getEquipSlotsGrantedFromItem(is)[backpack ? 0 : 1];
         }

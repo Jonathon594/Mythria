@@ -1,7 +1,6 @@
 package me.Jonathon594.Mythria.Items;
 
 import me.Jonathon594.Mythria.Entity.MythriaArrowEntity;
-import me.Jonathon594.Mythria.Interface.IItemData;
 import me.Jonathon594.Mythria.Mythria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
@@ -11,7 +10,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class MythriaArrowItem extends ArrowItem implements IItemData {
+public class MythriaArrowItem extends ArrowItem {
     private final double weight;
 
     public MythriaArrowItem(String name, double weight) {

@@ -17,8 +17,7 @@ public class BowProvider implements ICapabilitySerializable<INBT> {
     private final IBow instance = new Bow();
 
     public static Bow getBow(ItemStack itemStack) {
-        Bow bow = (Bow) itemStack.getCapability(BOW_CAP, null).orElse(null);
-        return bow;
+        return (Bow) itemStack.getCapability(BOW_CAP, null).orElse(null);
     }
 
     @Override

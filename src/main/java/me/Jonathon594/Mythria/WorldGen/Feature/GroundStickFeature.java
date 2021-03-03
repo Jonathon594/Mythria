@@ -24,7 +24,7 @@ public class GroundStickFeature<U extends GroundStickConfig> extends MythriaFeat
     @Override
     public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, U config) {
         boolean generated = false;
-        while (true) {
+        do {
             BlockState state = reader.getBlockState(pos);
             if (state.getBlock().equals(config.leaves.getBlock())) {
                 int lastPlaceHeight = placeUnderLeaves(reader, generator, rand, new BlockPos(pos), config);
@@ -32,8 +32,7 @@ public class GroundStickFeature<U extends GroundStickConfig> extends MythriaFeat
                 pos = new BlockPos(pos.getX(), lastPlaceHeight, pos.getZ());
             }
             pos = pos.down();
-            if (pos.getY() <= 0) break;
-        }
+        } while (pos.getY() > 0);
         return generated;
     }
 
@@ -58,7 +57,7 @@ public class GroundStickFeature<U extends GroundStickConfig> extends MythriaFeat
         FluidState fluidState = worldIn.getFluidState(pos);
         BlockState state = config.stick.getBlockState();
         if (state.isValidPosition(worldIn, pos) && worldIn.getBlockState(pos).getMaterial().isReplaceable() && fluidState.getFluid() != Fluids.LAVA && fluidState.getFluid() != Fluids.FLOWING_LAVA) {
-            worldIn.setBlockState(pos, state.with(BlockGroundCover.ROTATION, rand.nextInt(16)).with(BlockGroundCover.WATERLOGGED, Boolean.valueOf(fluidState.getFluid() == Fluids.WATER)), 2);
+            worldIn.setBlockState(pos, state.with(BlockGroundCover.ROTATION, rand.nextInt(16)).with(BlockGroundCover.WATERLOGGED, fluidState.getFluid() == Fluids.WATER), 2);
         }
     }
 }

@@ -2,10 +2,13 @@ package me.Jonathon594.Mythria.Managers;
 
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
-import me.Jonathon594.Mythria.Genetic.Genetic;
 import me.Jonathon594.Mythria.DataTypes.Perk;
-import me.Jonathon594.Mythria.Enum.*;
+import me.Jonathon594.Mythria.Enum.Attribute;
+import me.Jonathon594.Mythria.Enum.AttributeFlag;
+import me.Jonathon594.Mythria.Enum.Consumable;
+import me.Jonathon594.Mythria.Enum.StatType;
 import me.Jonathon594.Mythria.Event.ChargeConsumableEvent;
+import me.Jonathon594.Mythria.Genetic.Genetic;
 import me.Jonathon594.Mythria.Interface.IHeatProvider;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import me.Jonathon594.Mythria.Worlds.MythriaWorlds;
@@ -26,7 +29,6 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class StatManager {
@@ -149,12 +151,7 @@ public class StatManager {
         //Calculate thirst and stamina regeneration modifiers with respect to temperature
         double temperature = profile.getConsumable(Consumable.TEMPERATURE);
         double idealTemperature = profile.getGenetic().getIdealTemperature();
-        double thirst;
-        if(profile.getGenetic().isWaterNeeded()) {
-            thirst = 0;
-        } else {
-            thirst = Math.min(1 + (Math.pow(Math.max(temperature - idealTemperature, 0), 2) * 0.047), 4);
-        }
+        double thirst = Math.min(1 + (Math.pow(Math.max(temperature - idealTemperature, 0), 2) * 0.047), 4);
         double staminaRegen = Math.max(1 - (Math.pow(Math.abs(temperature - idealTemperature), 3)) / 1000.0, 0);
 
         //Torpor Decay
@@ -281,9 +278,9 @@ public class StatManager {
             foodStats.setFoodLevel(foodLevel - 1); //Subtract 1/2 food bar per minute.
         }
     }
+
     public static double getActualTemperature(ServerPlayerEntity p) {
-        final double bTemp = p.getEntityWorld().getBiome(p.getPosition()).getTemperature(p.getPosition()) * 5 + 10;
-        double eTemp = bTemp;
+        double eTemp = p.getEntityWorld().getBiome(p.getPosition()).getTemperature(p.getPosition()) * 5 + 10;
 
         for (TileEntity te : p.world.loadedTileEntityList) {
             if (te instanceof IHeatProvider) {
@@ -302,7 +299,7 @@ public class StatManager {
             }
         }
 
-        eTemp += (p.getTotalArmorValue() / 8);
+        eTemp += (p.getTotalArmorValue() / 8f);
         return eTemp;
     }
 
@@ -392,9 +389,7 @@ public class StatManager {
 
     private static double getArmorWeight(PlayerEntity p) {
         double armorWeight = 0;
-        Iterator<ItemStack> i = p.getArmorInventoryList().iterator();
-        while (i.hasNext()) {
-            ItemStack is = i.next();
+        for (ItemStack is : p.getArmorInventoryList()) {
             if (is.isEmpty()) continue;
 
             armorWeight += WeightManager.getWeight(is);

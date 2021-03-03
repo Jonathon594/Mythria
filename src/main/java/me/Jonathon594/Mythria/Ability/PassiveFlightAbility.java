@@ -7,9 +7,9 @@ import me.Jonathon594.Mythria.Managers.StatManager;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class PassiveFlightAbility extends PassiveTickAbility {
-    private double cost;
-    private Consumable consumable;
-    private int costInterval;
+    private final double cost;
+    private final Consumable consumable;
+    private final int costInterval;
 
     public PassiveFlightAbility(String name, double cost, Consumable consumable, int costInterval) {
         super(name);

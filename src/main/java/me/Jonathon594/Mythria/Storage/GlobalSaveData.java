@@ -23,9 +23,7 @@ public class GlobalSaveData extends WorldSavedData {
     public static GlobalSaveData get() {
         ServerWorld world = ServerLifecycleHooks.getCurrentServer().getWorld(World.OVERWORLD);
 
-        GlobalSaveData instance = world.getSavedData().getOrCreate(GlobalSaveData::new, DATA_NAME);
-
-        return instance;
+        return world.getSavedData().getOrCreate(GlobalSaveData::new, DATA_NAME);
     }
 
     @Override

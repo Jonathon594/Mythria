@@ -5,7 +5,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class Mold implements IMold {
-    ItemStackHandler inventory = new ItemStackHandler(2);
+    final ItemStackHandler inventory = new ItemStackHandler(2);
 
     @Override
     public CompoundNBT toNBT() {

@@ -28,7 +28,6 @@ public abstract class AbstractUpsetStomach extends HealthCondition {
 
         if (Math.random() < getCrampChance()) {
             triggerCramps(player);
-            return;
         }
     }
 

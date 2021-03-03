@@ -48,13 +48,7 @@ public class HealthData {
             try {
                 condition = (HealthCondition) clazz.getConstructor(HealthConditionType.class)
                         .newInstance(HealthManager.getHealthCondition(data.getString("Type")));
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
+            } catch (InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
                 e.printStackTrace();
             }
             condition.fromNBT(data);
@@ -118,18 +112,8 @@ public class HealthData {
                 if (slot.equals(hc.getSlot()) && !slot.canHaveMultipleConditions()) return;
             }
             conditions.add(type.createNewInstance().setSlot(slot));
-        } catch (NoSuchMethodException e) {
+        } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
-            return;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return;
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            return;
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            return;
         }
     }
 
@@ -141,8 +125,7 @@ public class HealthData {
 
     public HashMap<StatType, Double> getStatModifiers() {
         HashMap<StatType, Double> map = new HashMap<>();
-        for (int i = 0; i < conditions.size(); i++) {
-            HealthCondition condition = conditions.get(i);
+        for (HealthCondition condition : conditions) {
             HealthConditionType type = condition.getConditionType();
             for (Map.Entry<StatType, Double> e : type.getStatModifiers().entrySet()) {
                 map.put(e.getKey(), map.containsKey(e.getKey()) ? map.get(e.getKey()) : 0 + e.getValue());

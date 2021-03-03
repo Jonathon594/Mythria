@@ -29,6 +29,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
@@ -36,8 +37,8 @@ import java.util.Random;
 public class ScreenProfile extends Screen {
     private static final ResourceLocation BACKGROUND = new MythriaResourceLocation("textures/gui/profile.png");
     private static final ResourceLocation WIDGETS = new ResourceLocation("textures/gui/advancements/widgets.png");
-    protected int xSize = 256;
-    protected int ySize = 166;
+    protected final int xSize = 256;
+    protected final int ySize = 166;
 
     public ScreenProfile() {
         super(new StringTextComponent("Profile"));
@@ -99,10 +100,7 @@ public class ScreenProfile extends Screen {
         drawString(matrixStack, font, ColorConst.HIGH_COLOR + "Nutrition:", left + 166, top + 61, 0xFFFFFFFF);
 
         lines.clear();
-        ArrayList<Consumable.Nutrition> nutritions = new ArrayList<>();
-        for (Consumable.Nutrition nutrition : Consumable.Nutrition.values()) {
-            nutritions.add(nutrition);
-        }
+        ArrayList<Consumable.Nutrition> nutritions = new ArrayList<>(Arrays.asList(Consumable.Nutrition.values()));
         boolean showNutrition = p.hasFlag(AttributeFlag.SEE_NUTRITION) || player.isCreative();
         if (!showNutrition) Collections.shuffle(nutritions, new Random(p.getProfileUUID().hashCode()));
         for (Consumable.Nutrition nutrition : nutritions) {

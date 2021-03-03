@@ -9,15 +9,9 @@ import java.util.function.Supplier;
 
 public class GuiButtonSelector extends Button {
     protected final Supplier<List<String>> optionFactory;
-
-    public void setFormat(String format) {
-        this.format = format;
-    }
-
     protected String format;
     protected int index = 0;
     protected String selectedName = "";
-
     public GuiButtonSelector(int xPos, int yPos, int width, int height, String format, IPressable handler, Supplier<List<String>> optionFactory) {
         super(xPos, yPos, width, height, new StringTextComponent(format.replace("%", optionFactory.get().size() == 0 ? "" : optionFactory.get().get(0))), handler);
         this.format = format;
@@ -25,11 +19,16 @@ public class GuiButtonSelector extends Button {
         updateIndex();
     }
 
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
     public void updateIndex() {
         int size = this.optionFactory.get().size();
         if (index >= size) {
             index = size - 1;
-        } if (index < 0 && size > 0) index = 0;
+        }
+        if (index < 0 && size > 0) index = 0;
 
         updateText();
     }
@@ -63,10 +62,8 @@ public class GuiButtonSelector extends Button {
                 }
             }
 
-            return false;
-        } else {
-            return false;
         }
+        return false;
     }
 
     private void cycleOptions(int mouseButton) {

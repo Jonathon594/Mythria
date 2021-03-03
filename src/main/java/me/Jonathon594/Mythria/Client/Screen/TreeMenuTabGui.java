@@ -119,8 +119,8 @@ public class TreeMenuTabGui extends AbstractGui {
 
     public void drawContents(MatrixStack matrixStack) {
         if (!this.centered) {
-            this.scrollX = (117 - (this.maxX + this.minX) / 2);
-            this.scrollY = (56 - (this.maxY + this.minY) / 2);
+            this.scrollX = (117 - (this.maxX + this.minX) / 2f);
+            this.scrollY = (56 - (this.maxY + this.minY) / 2f);
             this.centered = true;
         }
 

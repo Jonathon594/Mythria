@@ -12,8 +12,8 @@ import net.minecraft.item.ItemStack;
 import javax.annotation.Nonnull;
 
 public abstract class BlockCrafterContainer extends CrafterContainer {
-    protected Slot toolSlot;
-    protected Inventory toolInventory = new Inventory(1);
+    protected final Slot toolSlot;
+    protected final Inventory toolInventory = new Inventory(1);
 
     public BlockCrafterContainer(ContainerType<?> type, int windowID, PlayerInventory playerInventory) {
         super(type, windowID, playerInventory);
@@ -64,7 +64,7 @@ public abstract class BlockCrafterContainer extends CrafterContainer {
                     !this.mergeItemStack(itemstack1, 38, 39, false) &&
                     !this.mergeItemStack(itemstack1, 2, 29, false)) {
                 return ItemStack.EMPTY;
-            } else if (index >= 38 && index < 39 &&
+            } else if (index == 38 &&
                     !this.mergeItemStack(itemstack1, 2, 38, false)) {
                 return ItemStack.EMPTY;
             }

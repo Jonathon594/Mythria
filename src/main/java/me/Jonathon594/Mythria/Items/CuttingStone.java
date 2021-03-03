@@ -6,7 +6,6 @@ import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -18,8 +17,8 @@ import java.util.function.Supplier;
 public class CuttingStone extends ToolHeadItem {
     private static final TranslationTextComponent CONTAINER_NAME = new TranslationTextComponent("container.cutting_stone");
 
-    protected CuttingStone(String name, int weight, IItemTier tier, final Supplier<Item> result) {
-        super(name, weight, result, new Properties().maxDamage(tier.getMaxUses()));
+    protected CuttingStone(String name, IItemTier tier, final Supplier<Item> result) {
+        super(name, result, new Properties().maxDamage(tier.getMaxUses()));
     }
 
     @Override

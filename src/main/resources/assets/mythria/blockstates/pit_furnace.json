@@ -5,7 +5,7 @@
         "full": 0
       },
       "apply": {
-        "model": "mythria:/block/pit_furnace_thatch_1"
+        "model": "mythria:block/pit_furnace_thatch_1"
       }
     },
     {
@@ -13,7 +13,7 @@
         "full": 1
       },
       "apply": {
-        "model": "mythria:/block/pit_furnace_thatch_2"
+        "model": "mythria:block/pit_furnace_thatch_2"
       }
     },
     {
@@ -21,7 +21,7 @@
         "full": 2
       },
       "apply": {
-        "model": "mythria:/block/pit_furnace_thatch_3"
+        "model": "mythria:block/pit_furnace_thatch_3"
       }
     },
     {
@@ -29,7 +29,7 @@
         "full": 3
       },
       "apply": {
-        "model": "mythria:/block/pit_furnace_thatch_4"
+        "model": "mythria:block/pit_furnace_thatch_4"
       }
     },
     {
@@ -37,7 +37,7 @@
         "full": 4
       },
       "apply": {
-        "model": "mythria:/block/pit_furnace_logs_1"
+        "model": "mythria:block/pit_furnace_logs_1"
       }
     },
     {
@@ -45,7 +45,7 @@
         "full": 5
       },
       "apply": {
-        "model": "mythria:/block/pit_furnace_logs_2"
+        "model": "mythria:block/pit_furnace_logs_2"
       }
     },
     {
@@ -53,7 +53,7 @@
         "full": 6
       },
       "apply": {
-        "model": "mythria:/block/pit_furnace_logs_3"
+        "model": "mythria:block/pit_furnace_logs_3"
       }
     },
     {
@@ -61,7 +61,7 @@
         "full": 7
       },
       "apply": {
-        "model": "mythria:/block/pit_furnace_logs_4"
+        "model": "mythria:block/pit_furnace_logs_4"
       }
     },
     {
@@ -69,7 +69,7 @@
         "lit": true
       },
       "apply": {
-        "model": "mythria:/block/pit_furnace_burning"
+        "model": "mythria:block/pit_furnace_burning"
       }
     }
   ]

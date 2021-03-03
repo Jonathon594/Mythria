@@ -17,8 +17,7 @@ public class CrucibleProvider implements ICapabilitySerializable<INBT> {
     private final ICrucible instance = new Crucible();
 
     public static Crucible getCrucible(ItemStack itemStack) {
-        Crucible crucible = (Crucible) itemStack.getCapability(CRUCIBLE_CAP, null).orElse(null);
-        return crucible;
+        return (Crucible) itemStack.getCapability(CRUCIBLE_CAP, null).orElse(null);
     }
 
     @Override

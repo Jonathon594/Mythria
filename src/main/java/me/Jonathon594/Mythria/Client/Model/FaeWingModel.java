@@ -17,9 +17,9 @@ import net.minecraft.util.math.vector.Vector3f;
 import java.util.Collections;
 
 public class FaeWingModel extends AgeableModel<LivingEntity> {
+    final QuaternionModelRenderer left_wing = new QuaternionModelRenderer(32, 32, 0, 0);
+    final QuaternionModelRenderer right_wing = new QuaternionModelRenderer(32, 32, 0, 0);
     private final CharacterRenderer renderer;
-    QuaternionModelRenderer left_wing = new QuaternionModelRenderer(32, 32, 0, 0);
-    QuaternionModelRenderer right_wing = new QuaternionModelRenderer(32, 32, 0, 0);
 
     public FaeWingModel(CharacterRenderer renderer) {
         super(RenderType::getEntityTranslucent, false, 5.0f, 2.0f, 2.0f, 2.0f, 24.0f);
@@ -60,7 +60,7 @@ public class FaeWingModel extends AgeableModel<LivingEntity> {
         if (isElytraFlying) {
             MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(entityIn);
             int extraFlap = mythriaPlayer.getWingFlightFlapAngle();
-            if(entityIn.isSprinting()) mythriaPlayer.setWingFlightFlapAngle(Math.min(extraFlap + 1, 20));
+            if (entityIn.isSprinting()) mythriaPlayer.setWingFlightFlapAngle(Math.min(extraFlap + 1, 20));
             else mythriaPlayer.setWingFlightFlapAngle(Math.max(extraFlap - 1, 0));
             float flap = 15 + (20 * (1 - limbSwingElytraFactor));
             idle = MathHelper.cos((limbSwing * 0.6662F + (float) Math.PI * 2) * 2) * (Math.max(flap * limbSwingElytraFactor, extraFlap));

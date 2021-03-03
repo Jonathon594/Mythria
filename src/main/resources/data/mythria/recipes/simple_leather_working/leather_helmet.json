@@ -1,9 +1,0 @@
-{
-  "type": "mythria:simple_leather",
-  "ingredient": {
-    "item": "minecraft:leather"
-  },
-  "result": "minecraft:leather_helmet",
-  "count": 1,
-  "tier": 0
-}

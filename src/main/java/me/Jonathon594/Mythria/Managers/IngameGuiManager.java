@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 
 public class IngameGuiManager {
-    public static ArrayList<IngameGui> overlayList = new ArrayList<>();
+    public static final ArrayList<IngameGui> overlayList = new ArrayList<>();
 
     public static void addOverlay(IngameGui overlay) {
         overlayList.add(overlay);

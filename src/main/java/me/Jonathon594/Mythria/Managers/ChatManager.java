@@ -61,16 +61,12 @@ public class ChatManager {
 
     public static int getRange(final ChatChannel channel) {
         switch (channel) {
-            case LOCAL:
-                return 20;
             case OOC:
                 return 0;
             case WHISPER:
                 return 5;
             case YELL:
                 return 40;
-            case PRAY:
-                return 20;
             case EVENT:
                 return 200;
             default:
@@ -80,8 +76,6 @@ public class ChatManager {
 
     public static TextFormatting getColor(final ChatChannel channel) {
         switch (channel) {
-            case LOCAL:
-                return TextFormatting.GREEN;
             case OOC:
                 return TextFormatting.WHITE;
             case WHISPER:

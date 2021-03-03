@@ -5,21 +5,20 @@ import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.DataTypes.SkinPart;
 import me.Jonathon594.Mythria.Entity.AI.AvoidGeneticGoal;
+import me.Jonathon594.Mythria.Entity.MythriaEntityType;
+import me.Jonathon594.Mythria.Entity.MythriaStriderEntity;
 import me.Jonathon594.Mythria.Entity.NPCEntity;
+import me.Jonathon594.Mythria.Entity.NetherChickenEntity;
 import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Enum.StatType;
 import me.Jonathon594.Mythria.Genetic.Genetic;
-import me.Jonathon594.Mythria.Items.MythriaItems;
 import me.Jonathon594.Mythria.Managers.*;
 import me.Jonathon594.Mythria.MythriaRegistries;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.*;
@@ -122,7 +121,6 @@ public class EntityListener {
             //Cancel Starvation damage because Mythria doesn't need it.
             if (event.getSource().equals(DamageSource.STARVE)) {
                 event.setCanceled(true);
-                return;
             }
         }
     }

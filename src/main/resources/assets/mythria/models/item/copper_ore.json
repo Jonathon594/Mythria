@@ -1,6 +1,6 @@
 {
-  "parent": "mythria:block/copper_ore",
+  "parent": "mythria:item/ore_base",
   "textures": {
-    "all": "mythria:blocks/ore/copper_ore"
+    "ore": "mythria:blocks/ore/copper_ore"
   }
 }

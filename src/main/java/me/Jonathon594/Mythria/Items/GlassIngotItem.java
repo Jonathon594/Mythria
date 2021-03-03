@@ -8,8 +8,8 @@ import net.minecraft.item.ItemGroup;
 public class GlassIngotItem extends MythriaItem implements IBlowable {
     private final EnumGlassShape shape;
 
-    public GlassIngotItem(String name, double weight, EnumGlassShape shape) {
-        super(name, weight, new Item.Properties().group(ItemGroup.MATERIALS));
+    public GlassIngotItem(String name, EnumGlassShape shape) {
+        super(name, new Item.Properties().group(ItemGroup.MATERIALS));
         this.shape = shape;
     }
 

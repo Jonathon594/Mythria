@@ -1,0 +1,6 @@
+{
+  "parent": "mythria:item/ore_base",
+  "textures": {
+    "ore": "mythria:blocks/ore/lapis_ore"
+  }
+}

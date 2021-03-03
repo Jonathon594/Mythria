@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=north": {
-      "model": "mythria:/block/titanium_anvil"
+      "model": "mythria:block/titanium_anvil"
     },
     "facing=south": {
-      "model": "mythria:/block/titanium_anvil",
+      "model": "mythria:block/titanium_anvil",
       "y": 180
     },
     "facing=west": {
-      "model": "mythria:/block/titanium_anvil",
+      "model": "mythria:block/titanium_anvil",
       "y": 270
     },
     "facing=east": {
-      "model": "mythria:/block/titanium_anvil",
+      "model": "mythria:block/titanium_anvil",
       "y": 90
     }
   }

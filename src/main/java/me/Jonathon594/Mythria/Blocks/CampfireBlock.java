@@ -58,7 +58,7 @@ public class CampfireBlock extends MythriaBlockContainer implements IWaterLoggab
 
     public CampfireBlock(String name, double weight) {
         super(name, weight, Properties.create(Material.WOOD, MaterialColor.OBSIDIAN).hardnessAndResistance(2.0F).sound(SoundType.WOOD).setLightLevel(value -> value.get(BlockStateProperties.LIT) ? 15 : 0).tickRandomly().notSolid());
-        this.setDefaultState(this.stateContainer.getBaseState().with(FULL, 0).with(CHARCOAL, false).with(LIT, Boolean.valueOf(false)).with(SIGNAL_FIRE, Boolean.valueOf(false)).with(WATERLOGGED, Boolean.valueOf(false)).with(FACING, Direction.NORTH));
+        this.setDefaultState(this.stateContainer.getBaseState().with(FULL, 0).with(CHARCOAL, false).with(LIT, Boolean.FALSE).with(SIGNAL_FIRE, Boolean.FALSE).with(WATERLOGGED, Boolean.FALSE).with(FACING, Direction.NORTH));
     }
 
     public static void spawnSmokeParticles(World worldIn, BlockPos pos, boolean isSignalFire, boolean spawnExtraSmoke) {
@@ -149,8 +149,8 @@ public class CampfireBlock extends MythriaBlockContainer implements IWaterLoggab
         IWorld iworld = context.getWorld();
         BlockPos blockpos = context.getPos();
         boolean flag = iworld.getFluidState(blockpos).getFluid() == Fluids.WATER;
-        return this.getDefaultState().with(WATERLOGGED, Boolean.valueOf(flag))
-                .with(SIGNAL_FIRE, Boolean.valueOf(this.isHayBlock(iworld.getBlockState(blockpos.down())))).with(LIT, Boolean.valueOf(false)).with(FACING, context.getPlacementHorizontalFacing());
+        return this.getDefaultState().with(WATERLOGGED, flag)
+                .with(SIGNAL_FIRE, this.isHayBlock(iworld.getBlockState(blockpos.down()))).with(LIT, Boolean.FALSE).with(FACING, context.getPlacementHorizontalFacing());
     }
 
     /**
@@ -164,7 +164,7 @@ public class CampfireBlock extends MythriaBlockContainer implements IWaterLoggab
             worldIn.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
         }
 
-        return facing == Direction.DOWN ? stateIn.with(SIGNAL_FIRE, Boolean.valueOf(this.isHayBlock(facingState))) : super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+        return facing == Direction.DOWN ? stateIn.with(SIGNAL_FIRE, this.isHayBlock(facingState)) : super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }
 
     /**
@@ -215,7 +215,7 @@ public class CampfireBlock extends MythriaBlockContainer implements IWaterLoggab
                 }
             }
 
-            worldIn.setBlockState(pos, state.with(WATERLOGGED, Boolean.valueOf(true)).with(LIT, Boolean.valueOf(false)), 3);
+            worldIn.setBlockState(pos, state.with(WATERLOGGED, Boolean.TRUE).with(LIT, Boolean.FALSE), 3);
             worldIn.getPendingFluidTicks().scheduleTick(pos, fluidStateIn.getFluid(), fluidStateIn.getFluid().getTickRate(worldIn));
             return true;
         } else {
@@ -241,7 +241,7 @@ public class CampfireBlock extends MythriaBlockContainer implements IWaterLoggab
                 boolean flag1 = entity == null || entity instanceof PlayerEntity || net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(worldIn, entity);
                 if (flag1 && !state.get(LIT) && !state.get(WATERLOGGED)) {
                     BlockPos blockpos = hit.getPos();
-                    worldIn.setBlockState(blockpos, state.with(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
+                    worldIn.setBlockState(blockpos, state.with(BlockStateProperties.LIT, Boolean.TRUE), 11);
                 }
             }
         }

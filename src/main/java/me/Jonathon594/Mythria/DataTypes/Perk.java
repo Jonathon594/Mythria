@@ -4,8 +4,8 @@ import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Const.ColorConst;
 import me.Jonathon594.Mythria.Enum.*;
 import me.Jonathon594.Mythria.Managers.MaterialManager;
-import me.Jonathon594.Mythria.Perk.Perks;
 import me.Jonathon594.Mythria.MythriaRegistries;
+import me.Jonathon594.Mythria.Perk.Perks;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.block.Block;
@@ -20,10 +20,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
 
@@ -136,8 +133,7 @@ public class Perk extends ForgeRegistryEntry<Perk> {
     }
 
     public Perk addBreakable(final Block... blocks) {
-        for (final Block b : blocks)
-            breakable.add(b);
+        breakable.addAll(Arrays.asList(blocks));
         return this;
     }
 
@@ -177,8 +173,7 @@ public class Perk extends ForgeRegistryEntry<Perk> {
     }
 
     public Perk addPlaceable(final Block... blocks) {
-        for (final Block b : blocks)
-            placable.add(b);
+        placable.addAll(Arrays.asList(blocks));
         return this;
     }
 

@@ -363,5 +363,7 @@
   "item.mythria.warped_spear": "Warped Spear",
   "item.mythria.warped_stick": "Warped Stick",
   "item.mythria.warped_tool_handle": "Warped Tool Handle",
-  "item.mythria.wheat_dough": "Wheat Dough"
+  "item.mythria.wheat_dough": "Wheat Dough",
+
+  "perks.empty": "There's nothing to see here."
 }

@@ -8,9 +8,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class PassiveHealingAbility extends PassiveTickAbility {
-    private double cost;
-    private Consumable consumable;
-    private float maxHealing;
+    private final double cost;
+    private final Consumable consumable;
+    private final float maxHealing;
 
     public PassiveHealingAbility(String name, double cost, Consumable consumable, float maxHealing) {
         super(name);
@@ -22,7 +22,7 @@ public class PassiveHealingAbility extends PassiveTickAbility {
     @Override
     protected void onPassiveTick(AbilityInstance abilityInstance) {
         PlayerEntity player = abilityInstance.getOwner();
-        if(player.getShouldBeDead()) return;
+        if (player.getShouldBeDead()) return;
         World world = player.world;
         if (world.isRemote) return;
         if (world.getGameTime() % 20 == 0) {

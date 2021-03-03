@@ -265,12 +265,9 @@ public class TreeMenuEntryGui extends AbstractGui {
 
     @Nullable
     private TreeMenuEntryGui getFirstVisibleParent(TreeMenuOption advancementIn) {
-        while (true) {
+        do {
             advancementIn = advancementIn.getParent();
-            if (advancementIn == null || advancementIn.getDisplay() != null) {
-                break;
-            }
-        }
+        } while (advancementIn != null && advancementIn.getDisplay() == null);
 
         if (advancementIn != null && advancementIn.getDisplay() != null) {
             return this.treeMenuTabGui.getAdvancementGui(advancementIn);

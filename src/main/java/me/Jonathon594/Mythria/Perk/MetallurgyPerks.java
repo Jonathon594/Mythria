@@ -14,9 +14,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.List;
+
 @ObjectHolder(Mythria.MODID)
 public class MetallurgyPerks implements IPerkRegistry {
     public static final Perk BASIC_SMELTING = null;
+
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(

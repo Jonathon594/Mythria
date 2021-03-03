@@ -6,15 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.world.gen.feature.ProbabilityConfig;
 
 public class GroundStickConfig extends ProbabilityConfig {
-    public static final Codec<GroundStickConfig> CODEC = RecordCodecBuilder.create((builder) -> {
-        return builder.group(Codec.floatRange(0.0F, 1.0F).fieldOf("probability").forGetter((config) -> {
-            return config.probability;
-        }), BlockState.CODEC.fieldOf("leaves").forGetter(config -> {
-            return config.leaves;
-        }), BlockState.CODEC.fieldOf("stick").forGetter((config) -> {
-            return config.stick;
-        })).apply(builder, (probability1, leaves1, stick) -> new GroundStickConfig(probability1, leaves1, stick));
-    });
+    public static final Codec<GroundStickConfig> CODEC = RecordCodecBuilder.create((builder) -> builder.group(Codec.floatRange(0.0F, 1.0F).fieldOf("probability").forGetter((config) -> config.probability), BlockState.CODEC.fieldOf("leaves").forGetter(config -> config.leaves), BlockState.CODEC.fieldOf("stick").forGetter((config) -> config.stick)).apply(builder, GroundStickConfig::new));
     public final BlockState leaves;
     public final BlockState stick;
 

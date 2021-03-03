@@ -1,6 +1,6 @@
 {
-  "parent": "mythria:block/silver_ore",
+  "parent": "mythria:item/ore_base",
   "textures": {
-    "all": "mythria:blocks/ore/silver_ore"
+    "ore": "mythria:blocks/ore/silver_ore"
   }
 }

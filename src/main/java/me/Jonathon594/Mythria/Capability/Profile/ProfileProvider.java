@@ -23,8 +23,7 @@ public class ProfileProvider implements ICapabilitySerializable<INBT> {
     }
 
     public static Profile getProfile(PlayerEntity playerEntity) {
-        Profile profile = (Profile) playerEntity.getCapability(PROFILE_CAP, null).orElse(new Profile());
-        return profile;
+        return (Profile) playerEntity.getCapability(PROFILE_CAP, null).orElse(new Profile());
     }
 
     @Override

@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 public class BackpackModel extends AgeableModel {
-    private ModelRenderer backpack = new ModelRenderer(32, 32, 0, 0);
+    private final ModelRenderer backpack = new ModelRenderer(32, 32, 0, 0);
 
     public BackpackModel() {
         backpack.addBox(-4.0F, 0.0F, 2.0F, 8, 9, 4);

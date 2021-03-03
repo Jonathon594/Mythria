@@ -25,7 +25,7 @@ public class NPCEntity extends LivingEntity {
     public static final DataParameter<String> WINGS = EntityDataManager.createKey(NPCEntity.class, DataSerializers.STRING);
 
     public <T extends Entity> NPCEntity(World world) {
-        this(MythriaEntities.NPC.get(), world);
+        this(MythriaEntityType.NPC, world);
     }
 
     public NPCEntity(EntityType<NPCEntity> entityType, World world) {

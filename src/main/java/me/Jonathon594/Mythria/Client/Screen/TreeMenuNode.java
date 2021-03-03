@@ -152,9 +152,7 @@ public class TreeMenuNode {
     }
 
     private TreeMenuNode apportion(TreeMenuNode nodeIn) {
-        if (this.sibling == null) {
-            return nodeIn;
-        } else {
+        if (this.sibling != null) {
             TreeMenuNode advancementtreenode = this;
             TreeMenuNode advancementtreenode1 = this;
             TreeMenuNode advancementtreenode2 = this.sibling;
@@ -194,8 +192,8 @@ public class TreeMenuNode {
                 nodeIn = this;
             }
 
-            return nodeIn;
         }
+        return nodeIn;
     }
 
     private void moveSubtree(TreeMenuNode nodeIn, float p_192316_2_) {

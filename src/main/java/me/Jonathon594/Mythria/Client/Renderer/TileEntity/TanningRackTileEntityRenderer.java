@@ -26,7 +26,7 @@ public class TanningRackTileEntityRenderer extends TileEntityRenderer<TanningRac
         if (itemstack != ItemStack.EMPTY) {
             matrixStackIn.push();
             matrixStackIn.translate(0.5D, 0.5D, 0.5D);
-            Direction direction1 = Direction.byHorizontalIndex((0 + direction.getHorizontalIndex()) % 4);
+            Direction direction1 = Direction.byHorizontalIndex((direction.getHorizontalIndex()) % 4);
             float f = -direction1.getHorizontalAngle();
             matrixStackIn.rotate(Vector3f.YP.rotationDegrees(f));
             matrixStackIn.translate(0D, 0D, -0.07D);

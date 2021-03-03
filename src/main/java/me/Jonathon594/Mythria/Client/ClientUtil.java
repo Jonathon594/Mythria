@@ -1,6 +1,5 @@
 package me.Jonathon594.Mythria.Client;
 
-import me.Jonathon594.Mythria.Ability.AbilityInstance;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Client.Manager.ClientManager;
@@ -11,17 +10,18 @@ import me.Jonathon594.Mythria.Items.MythriaBowItem;
 import me.Jonathon594.Mythria.Items.MythriaShieldItem;
 import me.Jonathon594.Mythria.Items.SpearItem;
 import me.Jonathon594.Mythria.Managers.LimitedInventoryManager;
-import me.Jonathon594.Mythria.Packet.*;
+import me.Jonathon594.Mythria.Packet.SPacketProfileCache;
+import me.Jonathon594.Mythria.Packet.SPacketUpdateConsumables;
+import me.Jonathon594.Mythria.Packet.SPacketUpdateExperience;
+import me.Jonathon594.Mythria.Packet.SPacketUpdateNutrition;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.CEntityActionPacket;
 import net.minecraftforge.client.event.GuiScreenEvent;
 
 import javax.annotation.Nullable;

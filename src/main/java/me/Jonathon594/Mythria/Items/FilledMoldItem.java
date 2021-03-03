@@ -18,8 +18,8 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import javax.annotation.Nullable;
 
 public class FilledMoldItem extends HeatableItem {
-    public FilledMoldItem(String name, double weight) {
-        super(name, weight, new Item.Properties().group(ItemGroup.TOOLS).maxStackSize(1));
+    public FilledMoldItem(String name) {
+        super(name, new Item.Properties().group(ItemGroup.TOOLS).maxStackSize(1));
     }
 
     @Override

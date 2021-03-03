@@ -4,6 +4,7 @@ import me.Jonathon594.Mythria.Enum.CookType;
 import net.minecraft.item.Item;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class FoodRecipe {
     private final Item result;
@@ -14,9 +15,7 @@ public class FoodRecipe {
         super();
         this.result = result;
         this.ingredient = ingredient;
-        for (int i = 0; i < type.length; i++) {
-            this.type.add(type[i]);
-        }
+        this.type.addAll(Arrays.asList(type));
     }
 
     public Item getIngredient() {

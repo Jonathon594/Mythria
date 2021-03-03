@@ -15,10 +15,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.List;
+
 @ObjectHolder(Mythria.MODID)
 public class MiningPerks implements IPerkRegistry {
     public static final Perk EXCAVATION = null;
     public static final Perk STONE_MINING = null;
+
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(

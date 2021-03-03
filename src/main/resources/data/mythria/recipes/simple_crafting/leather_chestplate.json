@@ -1,0 +1,9 @@
+{
+  "type": "mythria:simple_crafting",
+  "ingredient": {
+    "item": "minecraft:leather"
+  },
+  "result": "minecraft:leather_chestplate",
+  "count": 1,
+  "tier": 0
+}

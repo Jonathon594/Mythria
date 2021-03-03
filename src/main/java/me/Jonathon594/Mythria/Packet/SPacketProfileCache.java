@@ -18,9 +18,7 @@ public class SPacketProfileCache extends NBTPacket {
 
 
     public static void handle(SPacketProfileCache msg, Supplier<NetworkEvent.Context> contextSupplier) {
-        contextSupplier.get().enqueueWork(() -> {
-            ClientUtil.handleUpdateProfileCache(msg);
-        });
+        contextSupplier.get().enqueueWork(() -> ClientUtil.handleUpdateProfileCache(msg));
         contextSupplier.get().setPacketHandled(true);
     }
 

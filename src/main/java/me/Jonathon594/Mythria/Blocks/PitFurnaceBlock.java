@@ -114,7 +114,7 @@ public class PitFurnaceBlock extends MythriaBlockContainer implements IWaterLogg
         IWorld iworld = context.getWorld();
         BlockPos blockpos = context.getPos();
         boolean flag = iworld.getFluidState(blockpos).getFluid() == Fluids.WATER;
-        return this.getDefaultState().with(WATERLOGGED, Boolean.valueOf(flag)).with(LIT, Boolean.valueOf(false));
+        return this.getDefaultState().with(WATERLOGGED, flag).with(LIT, Boolean.FALSE);
     }
 
     public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
@@ -167,7 +167,7 @@ public class PitFurnaceBlock extends MythriaBlockContainer implements IWaterLogg
                 }
             }
 
-            worldIn.setBlockState(pos, state.with(WATERLOGGED, Boolean.valueOf(true)).with(LIT, Boolean.valueOf(false)), 3);
+            worldIn.setBlockState(pos, state.with(WATERLOGGED, Boolean.TRUE).with(LIT, Boolean.FALSE), 3);
             worldIn.getPendingFluidTicks().scheduleTick(pos, fluidStateIn.getFluid(), fluidStateIn.getFluid().getTickRate(worldIn));
             return true;
         } else {

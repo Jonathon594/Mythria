@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=north": {
-      "model": "mythria:/block/steel_anvil"
+      "model": "mythria:block/steel_anvil"
     },
     "facing=south": {
-      "model": "mythria:/block/steel_anvil",
+      "model": "mythria:block/steel_anvil",
       "y": 180
     },
     "facing=west": {
-      "model": "mythria:/block/steel_anvil",
+      "model": "mythria:block/steel_anvil",
       "y": 270
     },
     "facing=east": {
-      "model": "mythria:/block/steel_anvil",
+      "model": "mythria:block/steel_anvil",
       "y": 90
     }
   }

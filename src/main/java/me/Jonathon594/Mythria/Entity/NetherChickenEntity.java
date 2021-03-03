@@ -2,11 +2,9 @@ package me.Jonathon594.Mythria.Entity;
 
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.monster.GhastEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,6 +21,15 @@ public class NetherChickenEntity extends ChickenEntity {
         super(type, worldIn);
     }
 
+    public static AttributeModifierMap.MutableAttribute registerAttributes() {
+        return MonsterEntity.func_234295_eP_()
+                .createMutableAttribute(Attributes.MAX_HEALTH, 8.0D)
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D)
+                .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 0.0F)
+                .createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 0.5D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 1.0D);
+    }
+
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
@@ -37,17 +44,8 @@ public class NetherChickenEntity extends ChickenEntity {
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setCallsForHelp(NetherChickenEntity.class));
     }
 
-    public static AttributeModifierMap.MutableAttribute registerAttributes() {
-        return MonsterEntity.func_234295_eP_()
-                .createMutableAttribute(Attributes.MAX_HEALTH, 8.0D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, (double)0.25D)
-                .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, (double)0.0F)
-                .createMutableAttribute(Attributes.ATTACK_KNOCKBACK, 0.5D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 1.0D);
-    }
-
     public ChickenEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
-        return MythriaEntities.NETHER_CHICKEN.get().create(p_241840_1_);
+        return MythriaEntityType.NETHER_CHICKEN.create(p_241840_1_);
     }
 
     public boolean isBreedingItem(ItemStack stack) {

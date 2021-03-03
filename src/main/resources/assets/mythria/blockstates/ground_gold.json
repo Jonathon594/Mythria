@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "mythria:/block/ground_gold"
+      "model": "mythria:block/ground_gold"
     }
   }
 }

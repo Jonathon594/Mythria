@@ -14,10 +14,10 @@ import net.minecraft.util.text.TextFormatting;
 import java.util.ArrayList;
 
 public abstract class HealthCondition {
+    protected final ArrayList<CureCondition> appliedTreatments = new ArrayList<>();
     private final HealthConditionType type;
     protected double cureProgress;
     protected int painTimer;
-    protected ArrayList<CureCondition> appliedTreatments = new ArrayList<>();
     private AnatomySlot slot;
 
     public HealthCondition(HealthConditionType type) {

@@ -18,8 +18,8 @@ import net.minecraftforge.fml.DistExecutor;
 public class BowstringItem extends MythriaItem {
     private static final TranslationTextComponent CONTAINER_NAME = new TranslationTextComponent("container.bowstring");
 
-    public BowstringItem(String name, double weight) {
-        super(name, weight, new Properties().group(ItemGroup.TOOLS).maxStackSize(1));
+    public BowstringItem(String name) {
+        super(name, new Properties().group(ItemGroup.TOOLS).maxStackSize(1));
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             for (int i = 0; i < 4; i++) {

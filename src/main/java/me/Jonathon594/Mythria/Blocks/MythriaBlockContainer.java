@@ -1,10 +1,9 @@
 package me.Jonathon594.Mythria.Blocks;
 
-import me.Jonathon594.Mythria.Interface.IBlockData;
 import me.Jonathon594.Mythria.Mythria;
 import net.minecraft.block.ContainerBlock;
 
-public abstract class MythriaBlockContainer extends ContainerBlock implements IBlockData {
+public abstract class MythriaBlockContainer extends ContainerBlock {
     private final double weight;
 
     public MythriaBlockContainer(String name, double weight, Properties properties) {
@@ -15,10 +14,5 @@ public abstract class MythriaBlockContainer extends ContainerBlock implements IB
         super(properties);
         setRegistryName(override ? "minecraft" : Mythria.MODID, name);
         this.weight = weight;
-    }
-
-    @Override
-    public double getWeight() {
-        return weight;
     }
 }

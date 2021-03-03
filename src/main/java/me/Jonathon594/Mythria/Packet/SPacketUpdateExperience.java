@@ -24,9 +24,7 @@ public class SPacketUpdateExperience {
 
 
     public static void handle(SPacketUpdateExperience msg, Supplier<NetworkEvent.Context> contextSupplier) {
-        contextSupplier.get().enqueueWork(() -> {
-            ClientUtil.handleUpdateExperience(msg);
-        });
+        contextSupplier.get().enqueueWork(() -> ClientUtil.handleUpdateExperience(msg));
         contextSupplier.get().setPacketHandled(true);
     }
 

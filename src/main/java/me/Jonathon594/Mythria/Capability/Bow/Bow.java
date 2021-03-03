@@ -6,11 +6,11 @@ import net.minecraftforge.items.ItemStackHandler;
 
 public class Bow implements IBow {
 
+    final ItemStackHandler inventory = new ItemStackHandler(2);
+
     public ItemStack getArrow() {
         return inventory.getStackInSlot(1);
     }
-
-    ItemStackHandler inventory = new ItemStackHandler(2);
 
     public void setArrow(ItemStack arrow) {
         inventory.setStackInSlot(1, arrow);

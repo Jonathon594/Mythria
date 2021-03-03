@@ -1,0 +1,5 @@
+{
+  "type": "mythria:item_replacer",
+  "replace": "minecraft:brown_mushroom",
+  "with": "mythria:brown_mushroom"
+}

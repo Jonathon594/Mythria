@@ -2,7 +2,6 @@ package me.Jonathon594.Mythria.Items;
 
 import me.Jonathon594.Mythria.Capability.Tool.ToolProvider;
 import me.Jonathon594.Mythria.Client.Renderer.Items.PickaxeItemRenderer;
-import me.Jonathon594.Mythria.Interface.IItemData;
 import me.Jonathon594.Mythria.Interface.IModularTool;
 import me.Jonathon594.Mythria.Mythria;
 import net.minecraft.item.*;
@@ -12,7 +11,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
-public class MythriaPickaxeItem extends PickaxeItem implements IItemData, IModularTool {
+public class MythriaPickaxeItem extends PickaxeItem implements IModularTool {
     private final double weight;
     private final Supplier<Item> toolHead;
 
@@ -24,10 +23,6 @@ public class MythriaPickaxeItem extends PickaxeItem implements IItemData, IModul
         this.toolHead = toolHead;
     }
 
-    @Override
-    public double getWeight() {
-        return weight;
-    }
 
     @Override
     public Item getToolHeadItem() {

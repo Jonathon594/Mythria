@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "mythria:/block/empty"
+      "model": "mythria:block/empty"
     }
   }
 }

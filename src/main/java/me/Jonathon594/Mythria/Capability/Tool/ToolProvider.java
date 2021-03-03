@@ -22,8 +22,7 @@ public class ToolProvider implements ICapabilitySerializable<INBT> {
     }
 
     public static Tool getTool(ItemStack itemStack) {
-        Tool tool = (Tool) itemStack.getCapability(TOOL_CAP, null).orElse(null);
-        return tool;
+        return (Tool) itemStack.getCapability(TOOL_CAP, null).orElse(null);
     }
 
     @Override

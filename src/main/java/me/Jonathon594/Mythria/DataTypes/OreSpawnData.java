@@ -1,11 +1,13 @@
 package me.Jonathon594.Mythria.DataTypes;
 
+import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OreSpawnData {
     private final OreSpawnType type;
@@ -16,11 +18,11 @@ public class OreSpawnData {
     private final int hSize;
     private final int clusters;
     private final int density;
-    private final RegistryKey<World> dimension;
+    private final List<RegistryKey<World>> dimension;
     private final Block block;
     private final ArrayList<Biome> idealBiomes;
 
-    public OreSpawnData(Block block, OreSpawnType type, int rarity, int minY, int maxY, int vSize, int hSize, RegistryKey<World> dimension, int clusters, int density) {
+    public OreSpawnData(List<RegistryKey<World>> dimension, Block block, OreSpawnType type, int rarity, int minY, int maxY, int vSize, int hSize, int clusters, int density) {
         this.block = block;
         this.type = type;
         this.rarity = rarity;
@@ -32,6 +34,10 @@ public class OreSpawnData {
         this.clusters = clusters;
         this.density = density;
         idealBiomes = new ArrayList<>();
+    }
+
+    public OreSpawnData(RegistryKey<World> dimension, Block block, OreSpawnType type, int rarity, int minY, int maxY, int vSize, int hSize, int clusters, int density) {
+        this(ImmutableList.of(dimension), block, type, rarity, minY, maxY, vSize, hSize, clusters, density);
     }
 
     public OreSpawnData addIdealBiome(Biome b) {
@@ -75,7 +81,7 @@ public class OreSpawnData {
         return idealBiomes;
     }
 
-    public RegistryKey<World> getDimension() {
+    public List<RegistryKey<World>> getDimensions() {
         return dimension;
     }
 

@@ -20,22 +20,22 @@ public class MythriaArrowEntity extends AbstractArrowEntity {
     }
 
     public MythriaArrowEntity(World worldIn, double x, double y, double z) {
-        super(MythriaEntities.ARROW.get(), x, y, z, worldIn);
+        super(MythriaEntityType.ARROW, x, y, z, worldIn);
         dataManager.register(ARROW_STACK, ItemStack.EMPTY);
     }
 
     public MythriaArrowEntity(World worldIn, LivingEntity shooter) {
-        super(MythriaEntities.ARROW.get(), shooter, worldIn);
+        super(MythriaEntityType.ARROW, shooter, worldIn);
         dataManager.register(ARROW_STACK, ItemStack.EMPTY);
-    }
-
-    public void setArrowStack(ItemStack arrowStack) {
-        dataManager.set(ARROW_STACK, arrowStack);
     }
 
     @Override
     public ItemStack getArrowStack() {
         return dataManager.get(ARROW_STACK);
+    }
+
+    public void setArrowStack(ItemStack arrowStack) {
+        dataManager.set(ARROW_STACK, arrowStack);
     }
 
     @Override

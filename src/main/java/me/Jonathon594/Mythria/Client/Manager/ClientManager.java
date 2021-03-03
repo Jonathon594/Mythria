@@ -2,16 +2,19 @@ package me.Jonathon594.Mythria.Client.Manager;
 
 import me.Jonathon594.Mythria.Ability.Ability;
 import me.Jonathon594.Mythria.Blocks.MythriaBlocks;
+import me.Jonathon594.Mythria.Blocks.MythriaOre;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Client.Keybindings;
 import me.Jonathon594.Mythria.Client.Model.Loader.MythriaPropertyGetter;
 import me.Jonathon594.Mythria.Client.Screen.*;
 import me.Jonathon594.Mythria.Container.MythriaContainerType;
-import me.Jonathon594.Mythria.Entity.MythriaEntities;
+import me.Jonathon594.Mythria.Entity.MythriaEntityType;
 import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Managers.IngameGuiManager;
 import me.Jonathon594.Mythria.TileEntity.MythriaTileEntities;
+import me.Jonathon594.Mythria.Util.MythriaUtil;
+import net.minecraft.block.Block;
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -54,21 +57,24 @@ public class ClientManager {
 
     public static void clientSetup() {
         Keybindings.init();
-        MythriaEntities.registerRendersClient();
+        MythriaEntityType.registerRendersClient();
         MythriaTileEntities.registerRendersClient();
         IngameGuiManager.addOverlay(new ScreenHud(Minecraft.getInstance()));
 
         ScreenManager.registerFactory(MythriaContainerType.SAWHORSE, SawhorseScreen::new);
         ScreenManager.registerFactory(MythriaContainerType.WOOD_CARVING, WoodCarvingScreen::new);
         ScreenManager.registerFactory(MythriaContainerType.TOOL_HANDLE, ToolHandleScreen::new);
-        ScreenManager.registerFactory(MythriaContainerType.SIMPLE_POTTERY, SimplePotteryScreen::new);
+        ScreenManager.registerFactory(MythriaContainerType.SIMPLE_CRAFTING, SimpleCraftingScreen::new);
         ScreenManager.registerFactory(MythriaContainerType.CRUCIBLE, CrucibleScreen::new);
         ScreenManager.registerFactory(MythriaContainerType.CRUCIBLE_FULL, CrucibleFullScreen::new);
         ScreenManager.registerFactory(MythriaContainerType.BOWSTRING, BowstringScreen::new);
-        ScreenManager.registerFactory(MythriaContainerType.SIMPLE_LEATHER, SimpleLeatherWorkingScreen::new);
 
         RenderTypeLookup.setRenderLayer(MythriaBlocks.CAMPFIRE, RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(MythriaBlocks.PIT_FURNACE, RenderType.getCutout());
+
+        for (Block block : MythriaUtil.getAllBlocksOfType(MythriaOre.class)) {
+            RenderTypeLookup.setRenderLayer(block, RenderType.getCutout());
+        }
 
         for (Map.Entry<Item, Collection<MythriaPropertyGetter>> e : propertyOverrideMap.entrySet()) {
             for (MythriaPropertyGetter getter : e.getValue()) {

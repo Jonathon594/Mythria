@@ -18,7 +18,7 @@ public class AvoidGeneticGoal extends AvoidEntityGoal<PlayerEntity> {
     public boolean shouldExecute() {
         boolean avoid = super.shouldExecute();
         if (avoidTarget != null) {
-            if (!ProfileProvider.getProfile((PlayerEntity) avoidTarget).getGenetic().equals(genetic)) {
+            if (!ProfileProvider.getProfile(avoidTarget).getGenetic().equals(genetic)) {
                 avoid = false;
             }
         }

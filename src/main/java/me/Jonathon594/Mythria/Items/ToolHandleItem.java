@@ -14,8 +14,8 @@ import net.minecraft.world.World;
 public class ToolHandleItem extends MythriaItem {
     private static final TranslationTextComponent CONTAINER_NAME = new TranslationTextComponent("container.tool_handle");
 
-    protected ToolHandleItem(String name, double weight) {
-        super(name, weight, new Properties().maxStackSize(4).group(ItemGroup.MATERIALS));
+    protected ToolHandleItem(String name) {
+        super(name, new Properties().maxStackSize(4).group(ItemGroup.MATERIALS));
     }
 
     @Override

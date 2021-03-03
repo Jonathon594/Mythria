@@ -19,8 +19,8 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public abstract class AbstractFireStarterItem extends MythriaItem {
-    public AbstractFireStarterItem(String name, double weight, Properties properties) {
-        super(name, weight, properties);
+    public AbstractFireStarterItem(String name, Properties properties) {
+        super(name, properties);
     }
 
     @Override

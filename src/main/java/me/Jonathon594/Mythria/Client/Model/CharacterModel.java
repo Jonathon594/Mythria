@@ -5,12 +5,9 @@ import com.google.common.collect.Iterables;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
-import net.minecraft.client.renderer.model.ModelHelper;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.HandSide;
-import net.minecraft.util.math.MathHelper;
 
 public class CharacterModel<T extends LivingEntity> extends PlayerModel<T> {
     public final ModelRenderer bipedLeftArmwear;

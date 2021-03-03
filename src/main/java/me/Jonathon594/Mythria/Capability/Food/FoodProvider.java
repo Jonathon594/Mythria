@@ -17,8 +17,7 @@ public class FoodProvider implements ICapabilitySerializable<INBT> {
     private final IFood instance = FOOD_CAP.getDefaultInstance();
 
     public static Food getFood(ItemStack itemStack) {
-        Food profile = (Food) itemStack.getCapability(FOOD_CAP, null).orElse(null);
-        return profile;
+        return (Food) itemStack.getCapability(FOOD_CAP, null).orElse(null);
     }
 
     @Override

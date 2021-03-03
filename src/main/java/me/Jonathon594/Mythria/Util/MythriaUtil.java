@@ -5,15 +5,14 @@ import me.Jonathon594.Mythria.Const.ColorConst;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.SpawnPos;
 import me.Jonathon594.Mythria.DataTypes.Time.Date;
-import me.Jonathon594.Mythria.Perk.Perks;
 import me.Jonathon594.Mythria.Managers.TimeManager;
 import me.Jonathon594.Mythria.Mythria;
+import me.Jonathon594.Mythria.Perk.Perks;
 import me.Jonathon594.Mythria.Worlds.MythriaWorlds;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -49,10 +48,7 @@ public class MythriaUtil {
     private static final Random RANDOM = new Random();
 
     public static void addLoreToItemStack(final ItemStack stack, boolean replace, String... lines) {
-        ArrayList<String> list = new ArrayList<>();
-        for (int i = 0; i < lines.length; i++) {
-            list.add(lines[i]);
-        }
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(lines));
 
         addLoreToItemStack(stack, list, replace);
     }
@@ -84,9 +80,7 @@ public class MythriaUtil {
         if (player.world.isRemote) return;
         ArrayList<IRecipe<?>> toUnlock = new ArrayList<>();
         for (Item item : attribute.getCraftable()) {
-            Iterator<IRecipe<?>> i = player.world.getServer().getRecipeManager().getRecipes().iterator();
-            while (i.hasNext()) {
-                IRecipe recipe = i.next();
+            for (IRecipe recipe : player.world.getServer().getRecipeManager().getRecipes()) {
                 if (recipe.getRecipeOutput().getItem().equals(item)) {
                     toUnlock.add(recipe);
                 }
@@ -101,10 +95,7 @@ public class MythriaUtil {
     }
 
     public static boolean isOre(Block block) {
-        //Todo use tag
-        return block == Blocks.REDSTONE_ORE || block == Blocks.COAL_ORE || block == Blocks.DIAMOND_ORE ||
-                block == Blocks.GOLD_ORE || block == Blocks.IRON_ORE || block == Blocks.EMERALD_ORE ||
-                block == Blocks.LAPIS_ORE || block instanceof MythriaOre;
+        return block instanceof MythriaOre;
     }
 
     public static void DropAllItems(final PlayerEntity player, final boolean armor, final boolean offhand) {
@@ -131,9 +122,7 @@ public class MythriaUtil {
 
     public static void unlockDefaultRecipes(ServerPlayerEntity player) {
         ArrayList<IRecipe<?>> toUnlock = new ArrayList<>();
-        Iterator<IRecipe<?>> i = player.server.getRecipeManager().getRecipes().iterator();
-        while (i.hasNext()) {
-            IRecipe recipe = i.next();
+        for (IRecipe recipe : player.server.getRecipeManager().getRecipes()) {
             if (!recipe.getId().getNamespace().equals(Mythria.MODID)) continue;
             if (!Perks.requiresPerk(recipe.getRecipeOutput().getItem())) {
                 toUnlock.add(recipe);
@@ -184,16 +173,7 @@ public class MythriaUtil {
         double prop = MathHelper.clamp((double) value / maxValue, 0, 1);
         double slider = maxChance - minChance;
         double adjusted = slider * prop;
-        double chance = minChance + adjusted;
-        return chance;
-    }
-
-    public static Item getItemFromItemOrBlock(final Block b) {
-        return Item.getItemFromBlock(b);
-    }
-
-    public static Item getItemFromItemOrBlock(final Item i) {
-        return i;
+        return minChance + adjusted;
     }
 
     public static Date getDateFromAgeMonthDay(int age, final int month, final int day) {
@@ -245,15 +225,15 @@ public class MythriaUtil {
     public static String capitalizeWords(final String s) {
         if (s.length() == 0)
             return s;
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (String part : s.split(" ")) {
             String lower = part.toLowerCase();
             final char[] c = lower.toCharArray();
             c[0] = Character.toUpperCase(c[0]);
-            result = result + String.valueOf(c) + " ";
+            result.append(String.valueOf(c)).append(" ");
         }
-        result = result.trim();
-        return result;
+        result = new StringBuilder(result.toString().trim());
+        return result.toString();
     }
 
     public static int wrapInt(int kX, final int kLowerBound, final int kUpperBound) {
@@ -286,20 +266,6 @@ public class MythriaUtil {
         return 7500.0 * Math.pow(2, (double) level / 7) - 7500.0;
     }
 
-    public static double getExperienceForAttributeLevel(int level) {
-        return 750.0 * Math.pow(2, (4.0 * (double) level) / 7) - 750.0;
-    }
-
-    public static int getAttributeLevelForXP(final double y) {
-        if (y == 0) return 0;
-        return (int) Math.floor(((7.0 / 4.0) * Math.log((y / 750.0) + 1)) / Math.log(2));
-    }
-
-    public static Block[] getBlocksFromTag(ResourceLocation resourceLocationIn) {
-        Collection<Block> blocks = getBlockCollectionFromTag(resourceLocationIn);
-        return blocks.toArray(new Block[blocks.size()]);
-    }
-
     public static Collection<Block> getBlockCollectionFromTag(ResourceLocation resourceLocationIn) {
         return BlockTags.getCollection().get(resourceLocationIn).getAllElements();
     }
@@ -310,18 +276,6 @@ public class MythriaUtil {
 
     public static Collection<Item> getItemCollectionFromTag(ResourceLocation resourceLocation) {
         return ItemTags.getCollection().get(resourceLocation).getAllElements();
-    }
-
-    public static String createSkinString(String skin, String clothes, String eyes, String hair) {
-        return String.format("%s-%s-%s-%s", skin, clothes, eyes, hair);
-    }
-
-    public static String[] getSkinTexturesFromData(String skin) {
-        String[] parts = skin.split("-");
-        for (int i = 0; i < parts.length; i++) {
-            parts[i] = "mythria:textures/entity/player/" + parts[i] + ".png";
-        }
-        return parts;
     }
 
     public static Block[] getAllBlocksOfType(Class clazz) {
@@ -345,7 +299,7 @@ public class MythriaUtil {
                 items.add(b);
             }
         }
-        return items.toArray(new Item[items.size()]);
+        return items.toArray(new Item[0]);
     }
 
     public static boolean destroyBlockWithTool(World world, BlockPos pos, boolean drops, @Nullable Entity entity, ItemStack stack) {
@@ -373,8 +327,7 @@ public class MythriaUtil {
         double angle = Math.random() * Math.PI * 2;
         double x = Math.cos(angle) * Math.random() * radius;
         double z = Math.sin(angle) * Math.random() * radius;
-        SpawnPos pos = new SpawnPos((int)  + center.getX(), (int) z + center.getZ());
-        return pos;
+        return new SpawnPos(+center.getX(), (int) z + center.getZ());
     }
 
     public static float celciusFromBiomeTemperature(float temperature) {

@@ -96,9 +96,7 @@ public class CampfireTileEntity extends TileEntity implements IClearable, ITicka
                 food.setCooked(((double) this.cookingTimes[i] / (double) this.cookingTotalTimes[i]));
                 if (this.cookingTimes[i] >= this.cookingTotalTimes[i]) {
                     IInventory iinventory = new Inventory(itemstack);
-                    ItemStack itemstack1 = this.world.getRecipeManager().getRecipe(IRecipeType.CAMPFIRE_COOKING, iinventory, this.world).map((p_213979_1_) -> {
-                        return p_213979_1_.getCraftingResult(iinventory);
-                    }).orElse(itemstack);
+                    ItemStack itemstack1 = this.world.getRecipeManager().getRecipe(IRecipeType.CAMPFIRE_COOKING, iinventory, this.world).map((p_213979_1_) -> p_213979_1_.getCraftingResult(iinventory)).orElse(itemstack);
                     BlockPos blockpos = this.getPos();
                     Food food1 = FoodProvider.getFood(itemstack1);
                     food1.setCooked(1D);
@@ -235,7 +233,7 @@ public class CampfireTileEntity extends TileEntity implements IClearable, ITicka
     @Override
     public void light() {
         BlockState state = world.getBlockState(pos);
-        world.setBlockState(pos, state.with(BlockStateProperties.LIT, Boolean.valueOf(true)), 11);
+        world.setBlockState(pos, state.with(BlockStateProperties.LIT, Boolean.TRUE), 11);
     }
 
     @Override
@@ -251,7 +249,7 @@ public class CampfireTileEntity extends TileEntity implements IClearable, ITicka
     @Override
     public boolean canBeLit() {
         BlockState blockState = getBlockState();
-        return blockState.get(CampfireBlock.FULL) == 3 && blockState.get(CampfireBlock.WATERLOGGED) == false;
+        return blockState.get(CampfireBlock.FULL) == 3 && !blockState.get(CampfireBlock.WATERLOGGED);
     }
 
     @Override

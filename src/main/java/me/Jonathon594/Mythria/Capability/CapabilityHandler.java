@@ -79,13 +79,13 @@ public class CapabilityHandler {
     }
 
     public static void init() {
-        CapabilityManager.INSTANCE.register(IProfile.class, new ProfileStorage(), () -> new Profile());
-        CapabilityManager.INSTANCE.register(IMythriaPlayer.class, new MythriaPlayerDataStorage(), () -> new MythriaPlayer());
-        CapabilityManager.INSTANCE.register(IFood.class, new FoodStorage(), () -> new Food());
-        CapabilityManager.INSTANCE.register(IHeatable.class, new HeatableStorage(), () -> new HeatableItem());
-        CapabilityManager.INSTANCE.register(ICrucible.class, new CrucibleStorage(), () -> new Crucible());
-        CapabilityManager.INSTANCE.register(ITool.class, new ToolStorage(), () -> new Tool());
-        CapabilityManager.INSTANCE.register(IMold.class, new MoldStorage(), () -> new Mold());
-        CapabilityManager.INSTANCE.register(IBow.class, new BowStorage(), () -> new Bow());
+        CapabilityManager.INSTANCE.register(IProfile.class, new ProfileStorage(), Profile::new);
+        CapabilityManager.INSTANCE.register(IMythriaPlayer.class, new MythriaPlayerDataStorage(), MythriaPlayer::new);
+        CapabilityManager.INSTANCE.register(IFood.class, new FoodStorage(), Food::new);
+        CapabilityManager.INSTANCE.register(IHeatable.class, new HeatableStorage(), HeatableItem::new);
+        CapabilityManager.INSTANCE.register(ICrucible.class, new CrucibleStorage(), Crucible::new);
+        CapabilityManager.INSTANCE.register(ITool.class, new ToolStorage(), Tool::new);
+        CapabilityManager.INSTANCE.register(IMold.class, new MoldStorage(), Mold::new);
+        CapabilityManager.INSTANCE.register(IBow.class, new BowStorage(), Bow::new);
     }
 }

@@ -12,20 +12,14 @@ import net.minecraftforge.registries.ObjectHolder;
 public class MythriaRecipeSerializer {
     public static final IRecipeSerializer<CarpentryRecipe> CARPENTRY = null;
     public static final IRecipeSerializer<WoodCarvingRecipe> WOOD_CARVING = null;
-    public static final IRecipeSerializer<SimplePotteryRecipe> SIMPLE_POTTERY = null;
-    public static final IRecipeSerializer<SimpleLeatherRecipe> SIMPLE_LEATHER = null;
+    public static final IRecipeSerializer<SimpleCraftingRecipe> SIMPLE_CRAFTING = null;
 
     @SubscribeEvent
     public static void registerRecipes(final RegistryEvent.Register<IRecipeSerializer<?>> event) {
         event.getRegistry().registerAll(
-                new CrafterRecipe.Serializer<>((resourceLocation, group, ingredient, cost, itemStack, tier) ->
-                        new CarpentryRecipe(resourceLocation, group, ingredient, cost, itemStack, tier)).setRegistryName(Mythria.MODID, "carpentry"),
-                new CrafterRecipe.Serializer<>((resourceLocation1, group1, ingredient1, cost, itemStack1, tier) ->
-                        new WoodCarvingRecipe(resourceLocation1, group1, ingredient1, cost, itemStack1, tier)).setRegistryName(Mythria.MODID, "wood_carving"),
-                new CrafterRecipe.Serializer<>((resourceLocation1, group1, ingredient1, cost, itemStack1, tier) ->
-                        new SimplePotteryRecipe(resourceLocation1, group1, ingredient1, cost, itemStack1, tier)).setRegistryName(Mythria.MODID, "simple_pottery"),
-                new CrafterRecipe.Serializer<>((resourceLocation1, group1, ingredient1, cost, itemStack1, tier) ->
-                        new SimpleLeatherRecipe(resourceLocation1, group1, ingredient1, cost, itemStack1, tier)).setRegistryName(Mythria.MODID, "simple_leather")
+                new CrafterRecipe.Serializer<>(CarpentryRecipe::new).setRegistryName(Mythria.MODID, "carpentry"),
+                new CrafterRecipe.Serializer<>(WoodCarvingRecipe::new).setRegistryName(Mythria.MODID, "wood_carving"),
+                new CrafterRecipe.Serializer<>(SimpleCraftingRecipe::new).setRegistryName(Mythria.MODID, "simple_crafting")
         );
     }
 }

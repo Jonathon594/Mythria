@@ -38,7 +38,7 @@ public class SpearEntity extends AbstractArrowEntity {
     }
 
     public SpearEntity(World worldIn, LivingEntity thrower, ItemStack thrownStackIn) {
-        super(MythriaEntities.SPEAR.get(), thrower, worldIn);
+        super(MythriaEntityType.SPEAR, thrower, worldIn);
         this.dataManager.set(THROWN_STACK, thrownStackIn.copy());
         this.dataManager.set(LOYALTY_LEVEL, (byte) EnchantmentHelper.getLoyaltyModifier(thrownStackIn));
         this.dataManager.set(ENCHANTED, thrownStackIn.hasEffect());

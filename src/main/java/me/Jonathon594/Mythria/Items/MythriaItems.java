@@ -383,20 +383,24 @@ public class MythriaItems {
     public static final Item CRIMSON_SPEAR = null;
     public static final Item WARPED_SPEAR = null;
     public static final Item DUMMY_ELYTRA = null;
+    public static final Item WARPED_FUNGUS = null;
+    public static final Item CRIMSON_FUNGUS = null;
+    public static final Item RED_MUSHROOM = null;
+    public static final Item BROWN_MUSHROOM = null;
 
     @SubscribeEvent
     public static void onRegisterItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(
-                new MythriaItem("sinew", 0.25, new Item.Properties().maxStackSize(6).group(ItemGroup.MATERIALS)),
+                new MythriaItem("sinew", new Item.Properties().maxStackSize(6).group(ItemGroup.MATERIALS)),
 
-                new StickItem("oak_stick", 0.25),
-                new StickItem("spruce_stick", 0.25),
-                new StickItem("birch_stick", 0.25),
-                new StickItem("jungle_stick", 0.25),
-                new StickItem("acacia_stick", 0.25),
-                new StickItem("dark_oak_stick", 0.25),
-                new StickItem("crimson_stick", 0.25),
-                new StickItem("warped_stick", 0.25),
+                new StickItem("oak_stick"),
+                new StickItem("spruce_stick"),
+                new StickItem("birch_stick"),
+                new StickItem("jungle_stick"),
+                new StickItem("acacia_stick"),
+                new StickItem("dark_oak_stick"),
+                new StickItem("crimson_stick"),
+                new StickItem("warped_stick"),
 
                 new MythriaBowItem("oak_bow", ItemTier.WOOD, 1),
                 new MythriaBowItem("birch_bow", ItemTier.WOOD, 1),
@@ -406,7 +410,7 @@ public class MythriaItems {
                 new MythriaBowItem("dark_oak_bow", ItemTier.WOOD, 1),
                 new MythriaBowItem("warped_bow", ItemTier.WOOD, 1),
                 new MythriaBowItem("crimson_bow", ItemTier.WOOD, 1),
-                new BowstringItem("sinew_bowstring", 0.25),
+                new BowstringItem("sinew_bowstring"),
 
                 new MythriaShieldItem("tin_shield", MythriaItemTier.TIN, 20),
                 new MythriaShieldItem("copper_shield", MythriaItemTier.COPPER, 40),
@@ -417,7 +421,7 @@ public class MythriaItems {
                 new MythriaShieldItem("tungsten_shield", MythriaItemTier.TUNGSTEN, 65),
 
                 //PrimitiveTools
-                new CuttingStone("cutting_stone", 1, MythriaItemTier.PRIMITIVE, () -> PRIMITIVE_HATCHET),
+                new CuttingStone("cutting_stone", MythriaItemTier.PRIMITIVE, () -> PRIMITIVE_HATCHET),
                 new MythriaHatchetItem(1, -2f, MythriaItemTier.PRIMITIVE, "primitive_hatchet", 2, () -> CUTTING_STONE),
 
                 new MythriaDaggerItem("tin_dagger", MythriaItemTier.TIN, 4, () -> TIN_DAGGER_BLADE),
@@ -498,195 +502,195 @@ public class MythriaItems {
                 new MythriaHammerItem(2, -3.7f, MythriaItemTier.TUNGSTEN, "tungsten_hammer", 9, () -> TUNGSTEN_HAMMER_HEAD),
                 new MythriaSawItem("tungsten_saw", -2.2f, 1, MythriaItemTier.TUNGSTEN, 9, () -> TUNGSTEN_SAW_BLADE),
                 //Ingots
-                new IngotItem("tin_ingot", 1, MythriaMaterial.TIN, EnumMetalShape.INGOT),
-                new IngotItem("tin_double_ingot", 2, MythriaMaterial.TIN, EnumMetalShape.DOUBLE_INGOT),
-                new IngotItem("tin_sheet", 2, MythriaMaterial.TIN, EnumMetalShape.SHEET),
-                new IngotItem("tin_double_sheet", 4, MythriaMaterial.TIN, EnumMetalShape.DOUBLE_SHEET),
-                new IngotItem("copper_ingot", 3, MythriaMaterial.COPPER, EnumMetalShape.INGOT),
-                new IngotItem("copper_double_ingot", 6, MythriaMaterial.COPPER, EnumMetalShape.DOUBLE_INGOT),
-                new IngotItem("copper_sheet", 6, MythriaMaterial.COPPER, EnumMetalShape.SHEET),
-                new IngotItem("copper_double_sheet", 12, MythriaMaterial.COPPER, EnumMetalShape.DOUBLE_SHEET),
-                new IngotItem("bronze_ingot", 2, MythriaMaterial.BRONZE, EnumMetalShape.INGOT),
-                new IngotItem("bronze_double_ingot", 4, MythriaMaterial.BRONZE, EnumMetalShape.DOUBLE_INGOT),
-                new IngotItem("bronze_sheet", 4, MythriaMaterial.BRONZE, EnumMetalShape.SHEET),
-                new IngotItem("bronze_double_sheet", 8, MythriaMaterial.BRONZE, EnumMetalShape.DOUBLE_SHEET),
-                new IngotItem("iron_ingot", 2, MythriaMaterial.IRON, EnumMetalShape.INGOT),
-                new IngotItem("iron_double_ingot", 4, MythriaMaterial.IRON, EnumMetalShape.DOUBLE_INGOT),
-                new IngotItem("iron_sheet", 4, MythriaMaterial.IRON, EnumMetalShape.SHEET),
-                new IngotItem("iron_double_sheet", 8, MythriaMaterial.IRON, EnumMetalShape.DOUBLE_SHEET),
-                new IngotItem("steel_ingot", 2, MythriaMaterial.STEEL, EnumMetalShape.INGOT),
-                new IngotItem("steel_double_ingot", 4, MythriaMaterial.STEEL, EnumMetalShape.DOUBLE_INGOT),
-                new IngotItem("steel_sheet", 4, MythriaMaterial.STEEL, EnumMetalShape.SHEET),
-                new IngotItem("steel_double_sheet", 8, MythriaMaterial.STEEL, EnumMetalShape.DOUBLE_SHEET),
-                new IngotItem("titanium_ingot", 2, MythriaMaterial.TITANIUM, EnumMetalShape.INGOT),
-                new IngotItem("titanium_double_ingot", 4, MythriaMaterial.TITANIUM, EnumMetalShape.DOUBLE_INGOT),
-                new IngotItem("titanium_sheet", 4, MythriaMaterial.TITANIUM, EnumMetalShape.SHEET),
-                new IngotItem("titanium_double_sheet", 8, MythriaMaterial.TITANIUM, EnumMetalShape.DOUBLE_SHEET),
-                new GlassIngotItem("glass_ingot", 4, EnumGlassShape.INGOT),
-                new IngotItem("silver_ingot", 3, MythriaMaterial.SILVER, EnumMetalShape.INGOT),
-                new IngotItem("gold_ingot", 3, MythriaMaterial.GOLD, EnumMetalShape.INGOT),
-                new IngotItem("gold_double_ingot", 6, MythriaMaterial.GOLD, EnumMetalShape.DOUBLE_INGOT),
-                new IngotItem("gold_sheet", 6, MythriaMaterial.GOLD, EnumMetalShape.SHEET),
-                new IngotItem("gold_double_sheet", 12, MythriaMaterial.GOLD, EnumMetalShape.DOUBLE_SHEET),
-                new IngotItem("tungsten_ingot", 4, MythriaMaterial.TUNGSTEN, EnumMetalShape.INGOT),
-                new IngotItem("tungsten_double_ingot", 8, MythriaMaterial.TUNGSTEN, EnumMetalShape.DOUBLE_INGOT),
-                new IngotItem("tungsten_sheet", 8, MythriaMaterial.TUNGSTEN, EnumMetalShape.SHEET),
-                new IngotItem("tungsten_double_sheet", 16, MythriaMaterial.TUNGSTEN, EnumMetalShape.DOUBLE_SHEET),
-                new IngotItem("platinum_ingot", 4, MythriaMaterial.PLATINUM, EnumMetalShape.INGOT),
-                new CoinItem("gold_coin", 0.03),
-                new CoinItem("silver_coin", 0.018),
-                new CoinItem("copper_coin", 0.015),
-                new CoinItem("platinum_coin", 0.03),
-                new EmptyMoldItem("ceramic_mold_ingot", 1, 500, EnumMetalShape.INGOT),
-                new EmptyMoldItem("ceramic_mold_axe", 1, 500, EnumMetalShape.AXE),
-                new EmptyMoldItem("ceramic_mold_pick", 1, 500, EnumMetalShape.PICK),
-                new EmptyMoldItem("ceramic_mold_shovel", 1, 500, EnumMetalShape.SHOVEL),
-                new EmptyMoldItem("ceramic_mold_sword", 1, 500, EnumMetalShape.SWORD),
-                new EmptyMoldItem("ceramic_mold_hoe", 1, 300, EnumMetalShape.HOE),
-                new EmptyMoldItem("ceramic_mold_dagger", 1, 200, EnumMetalShape.DAGGER),
-                new EmptyMoldItem("ceramic_mold_hammer", 1, 500, EnumMetalShape.HAMMER),
-                new EmptyMoldItem("ceramic_mold_chisel", 1, 100, EnumMetalShape.CHISEL),
-                new EmptyMoldItem("ceramic_mold_saw", 1, 100, EnumMetalShape.SAW),
-                new CrucibleItem("ceramic_crucible", 1.2),
+                new IngotItem("tin_ingot", MythriaMaterial.TIN, EnumMetalShape.INGOT),
+                new IngotItem("tin_double_ingot", MythriaMaterial.TIN, EnumMetalShape.DOUBLE_INGOT),
+                new IngotItem("tin_sheet", MythriaMaterial.TIN, EnumMetalShape.SHEET),
+                new IngotItem("tin_double_sheet", MythriaMaterial.TIN, EnumMetalShape.DOUBLE_SHEET),
+                new IngotItem("copper_ingot", MythriaMaterial.COPPER, EnumMetalShape.INGOT),
+                new IngotItem("copper_double_ingot", MythriaMaterial.COPPER, EnumMetalShape.DOUBLE_INGOT),
+                new IngotItem("copper_sheet", MythriaMaterial.COPPER, EnumMetalShape.SHEET),
+                new IngotItem("copper_double_sheet", MythriaMaterial.COPPER, EnumMetalShape.DOUBLE_SHEET),
+                new IngotItem("bronze_ingot", MythriaMaterial.BRONZE, EnumMetalShape.INGOT),
+                new IngotItem("bronze_double_ingot", MythriaMaterial.BRONZE, EnumMetalShape.DOUBLE_INGOT),
+                new IngotItem("bronze_sheet", MythriaMaterial.BRONZE, EnumMetalShape.SHEET),
+                new IngotItem("bronze_double_sheet", MythriaMaterial.BRONZE, EnumMetalShape.DOUBLE_SHEET),
+                new IngotItem("iron_ingot", MythriaMaterial.IRON, EnumMetalShape.INGOT),
+                new IngotItem("iron_double_ingot", MythriaMaterial.IRON, EnumMetalShape.DOUBLE_INGOT),
+                new IngotItem("iron_sheet", MythriaMaterial.IRON, EnumMetalShape.SHEET),
+                new IngotItem("iron_double_sheet", MythriaMaterial.IRON, EnumMetalShape.DOUBLE_SHEET),
+                new IngotItem("steel_ingot", MythriaMaterial.STEEL, EnumMetalShape.INGOT),
+                new IngotItem("steel_double_ingot", MythriaMaterial.STEEL, EnumMetalShape.DOUBLE_INGOT),
+                new IngotItem("steel_sheet", MythriaMaterial.STEEL, EnumMetalShape.SHEET),
+                new IngotItem("steel_double_sheet", MythriaMaterial.STEEL, EnumMetalShape.DOUBLE_SHEET),
+                new IngotItem("titanium_ingot", MythriaMaterial.TITANIUM, EnumMetalShape.INGOT),
+                new IngotItem("titanium_double_ingot", MythriaMaterial.TITANIUM, EnumMetalShape.DOUBLE_INGOT),
+                new IngotItem("titanium_sheet", MythriaMaterial.TITANIUM, EnumMetalShape.SHEET),
+                new IngotItem("titanium_double_sheet", MythriaMaterial.TITANIUM, EnumMetalShape.DOUBLE_SHEET),
+                new GlassIngotItem("glass_ingot", EnumGlassShape.INGOT),
+                new IngotItem("silver_ingot", MythriaMaterial.SILVER, EnumMetalShape.INGOT),
+                new IngotItem("gold_ingot", MythriaMaterial.GOLD, EnumMetalShape.INGOT),
+                new IngotItem("gold_double_ingot", MythriaMaterial.GOLD, EnumMetalShape.DOUBLE_INGOT),
+                new IngotItem("gold_sheet", MythriaMaterial.GOLD, EnumMetalShape.SHEET),
+                new IngotItem("gold_double_sheet", MythriaMaterial.GOLD, EnumMetalShape.DOUBLE_SHEET),
+                new IngotItem("tungsten_ingot", MythriaMaterial.TUNGSTEN, EnumMetalShape.INGOT),
+                new IngotItem("tungsten_double_ingot", MythriaMaterial.TUNGSTEN, EnumMetalShape.DOUBLE_INGOT),
+                new IngotItem("tungsten_sheet", MythriaMaterial.TUNGSTEN, EnumMetalShape.SHEET),
+                new IngotItem("tungsten_double_sheet", MythriaMaterial.TUNGSTEN, EnumMetalShape.DOUBLE_SHEET),
+                new IngotItem("platinum_ingot", MythriaMaterial.PLATINUM, EnumMetalShape.INGOT),
+                new CoinItem("gold_coin"),
+                new CoinItem("silver_coin"),
+                new CoinItem("copper_coin"),
+                new CoinItem("platinum_coin"),
+                new EmptyMoldItem("ceramic_mold_ingot", 500, EnumMetalShape.INGOT),
+                new EmptyMoldItem("ceramic_mold_axe", 500, EnumMetalShape.AXE),
+                new EmptyMoldItem("ceramic_mold_pick", 500, EnumMetalShape.PICK),
+                new EmptyMoldItem("ceramic_mold_shovel", 500, EnumMetalShape.SHOVEL),
+                new EmptyMoldItem("ceramic_mold_sword", 500, EnumMetalShape.SWORD),
+                new EmptyMoldItem("ceramic_mold_hoe", 300, EnumMetalShape.HOE),
+                new EmptyMoldItem("ceramic_mold_dagger", 200, EnumMetalShape.DAGGER),
+                new EmptyMoldItem("ceramic_mold_hammer", 500, EnumMetalShape.HAMMER),
+                new EmptyMoldItem("ceramic_mold_chisel", 100, EnumMetalShape.CHISEL),
+                new EmptyMoldItem("ceramic_mold_saw", 100, EnumMetalShape.SAW),
+                new CrucibleItem("ceramic_crucible"),
                 //Molds
-                new PotteryItem("clay_mold_ingot", 1, () -> CERAMIC_MOLD_INGOT),
-                new PotteryItem("clay_mold_axe", 1, () -> CERAMIC_MOLD_AXE),
-                new PotteryItem("clay_mold_pick", 1, () -> CERAMIC_MOLD_PICK),
-                new PotteryItem("clay_mold_shovel", 1, () -> CERAMIC_MOLD_SHOVEL),
-                new PotteryItem("clay_mold_sword", 1, () -> CERAMIC_MOLD_SWORD),
-                new PotteryItem("clay_mold_hoe", 1, () -> CERAMIC_MOLD_HOE),
-                new PotteryItem("clay_mold_dagger", 1, () -> CERAMIC_MOLD_DAGGER),
-                new PotteryItem("clay_mold_hammer", 1, () -> CERAMIC_MOLD_HAMMER),
-                new PotteryItem("clay_mold_chisel", 1, () -> CERAMIC_MOLD_CHISEL),
-                new PotteryItem("clay_mold_saw", 1, () -> CERAMIC_MOLD_SAW),
-                new PotteryItem("clay_brick", 1, () -> Items.BRICK),
-                new PotteryItem("clay_crucible", 2, () -> MythriaItems.CERAMIC_CRUCIBLE),
+                new PotteryItem("clay_mold_ingot", () -> CERAMIC_MOLD_INGOT),
+                new PotteryItem("clay_mold_axe", () -> CERAMIC_MOLD_AXE),
+                new PotteryItem("clay_mold_pick", () -> CERAMIC_MOLD_PICK),
+                new PotteryItem("clay_mold_shovel", () -> CERAMIC_MOLD_SHOVEL),
+                new PotteryItem("clay_mold_sword", () -> CERAMIC_MOLD_SWORD),
+                new PotteryItem("clay_mold_hoe", () -> CERAMIC_MOLD_HOE),
+                new PotteryItem("clay_mold_dagger", () -> CERAMIC_MOLD_DAGGER),
+                new PotteryItem("clay_mold_hammer", () -> CERAMIC_MOLD_HAMMER),
+                new PotteryItem("clay_mold_chisel", () -> CERAMIC_MOLD_CHISEL),
+                new PotteryItem("clay_mold_saw", () -> CERAMIC_MOLD_SAW),
+                new PotteryItem("clay_brick", () -> Items.BRICK),
+                new PotteryItem("clay_crucible", () -> MythriaItems.CERAMIC_CRUCIBLE),
 
                 //Tool Heads
-                new ToolHeadItem("tin_sword_blade", 4, () -> MythriaItems.TIN_SWORD, new Item.Properties())
+                new ToolHeadItem("tin_sword_blade", () -> MythriaItems.TIN_SWORD, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SWORD, MythriaMaterial.TIN),
-                new ToolHeadItem("tin_axe_head", 4, () -> MythriaItems.TIN_AXE, new Item.Properties())
+                new ToolHeadItem("tin_axe_head", () -> MythriaItems.TIN_AXE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.AXE, MythriaMaterial.TIN),
-                new ToolHeadItem("tin_pickaxe_head", 4, () -> MythriaItems.TIN_PICKAXE, new Item.Properties())
+                new ToolHeadItem("tin_pickaxe_head", () -> MythriaItems.TIN_PICKAXE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.PICK, MythriaMaterial.TIN),
-                new ToolHeadItem("tin_shovel_head", 4, () -> MythriaItems.TIN_SHOVEL, new Item.Properties())
+                new ToolHeadItem("tin_shovel_head", () -> MythriaItems.TIN_SHOVEL, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SHOVEL, MythriaMaterial.TIN),
-                new ToolHeadItem("tin_hoe_head", 3, () -> MythriaItems.TIN_HOE, new Item.Properties())
+                new ToolHeadItem("tin_hoe_head", () -> MythriaItems.TIN_HOE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.HOE, MythriaMaterial.TIN),
-                new ToolHeadItem("tin_dagger_blade", 2.5, () -> MythriaItems.TIN_DAGGER, new Item.Properties())
+                new ToolHeadItem("tin_dagger_blade", () -> MythriaItems.TIN_DAGGER, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.DAGGER, MythriaMaterial.TIN),
-                new ToolHeadItem("tin_hammer_head", 6, () -> MythriaItems.TIN_HAMMER, new Item.Properties())
+                new ToolHeadItem("tin_hammer_head", () -> MythriaItems.TIN_HAMMER, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.HAMMER, MythriaMaterial.TIN),
-                new ToolHeadItem("tin_chisel_head", 0.5, () -> MythriaItems.TIN_CHISEL, new Item.Properties())
+                new ToolHeadItem("tin_chisel_head", () -> MythriaItems.TIN_CHISEL, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.CHISEL, MythriaMaterial.TIN),
-                new ToolHeadItem("tin_saw_blade", 0.5, () -> MythriaItems.TIN_SAW, new Item.Properties())
+                new ToolHeadItem("tin_saw_blade", () -> MythriaItems.TIN_SAW, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SAW, MythriaMaterial.TIN),
 
-                new ToolHeadItem("copper_sword_blade", 9, () -> MythriaItems.COPPER_SWORD, new Item.Properties())
+                new ToolHeadItem("copper_sword_blade", () -> MythriaItems.COPPER_SWORD, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SWORD, MythriaMaterial.COPPER),
-                new ToolHeadItem("copper_axe_head", 9, () -> MythriaItems.COPPER_AXE, new Item.Properties())
+                new ToolHeadItem("copper_axe_head", () -> MythriaItems.COPPER_AXE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.AXE, MythriaMaterial.COPPER),
-                new ToolHeadItem("copper_pickaxe_head", 9, () -> MythriaItems.COPPER_PICKAXE, new Item.Properties())
+                new ToolHeadItem("copper_pickaxe_head", () -> MythriaItems.COPPER_PICKAXE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.PICK, MythriaMaterial.COPPER),
-                new ToolHeadItem("copper_shovel_head", 9, () -> MythriaItems.COPPER_SHOVEL, new Item.Properties())
+                new ToolHeadItem("copper_shovel_head", () -> MythriaItems.COPPER_SHOVEL, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SHOVEL, MythriaMaterial.COPPER),
-                new ToolHeadItem("copper_hoe_head", 7.5, () -> MythriaItems.COPPER_HOE, new Item.Properties())
+                new ToolHeadItem("copper_hoe_head", () -> MythriaItems.COPPER_HOE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.HOE, MythriaMaterial.COPPER),
-                new ToolHeadItem("copper_dagger_blade", 6.25, () -> MythriaItems.COPPER_DAGGER, new Item.Properties())
+                new ToolHeadItem("copper_dagger_blade", () -> MythriaItems.COPPER_DAGGER, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.DAGGER, MythriaMaterial.COPPER),
-                new ToolHeadItem("copper_hammer_head", 12, () -> MythriaItems.COPPER_HAMMER, new Item.Properties())
+                new ToolHeadItem("copper_hammer_head", () -> MythriaItems.COPPER_HAMMER, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.HAMMER, MythriaMaterial.COPPER),
-                new ToolHeadItem("copper_chisel_head", 1.15, () -> MythriaItems.COPPER_CHISEL, new Item.Properties())
+                new ToolHeadItem("copper_chisel_head", () -> MythriaItems.COPPER_CHISEL, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.CHISEL, MythriaMaterial.COPPER),
-                new ToolHeadItem("copper_saw_blade", 1.15, () -> MythriaItems.COPPER_SAW, new Item.Properties())
+                new ToolHeadItem("copper_saw_blade", () -> MythriaItems.COPPER_SAW, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SAW, MythriaMaterial.COPPER),
-                new ToolHeadItem("bronze_sword_blade", 8, () -> MythriaItems.BRONZE_SWORD, new Item.Properties())
+                new ToolHeadItem("bronze_sword_blade", () -> MythriaItems.BRONZE_SWORD, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SWORD, MythriaMaterial.BRONZE),
-                new ToolHeadItem("bronze_axe_head", 8, () -> MythriaItems.BRONZE_AXE, new Item.Properties())
+                new ToolHeadItem("bronze_axe_head", () -> MythriaItems.BRONZE_AXE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.AXE, MythriaMaterial.BRONZE),
-                new ToolHeadItem("bronze_pickaxe_head", 8, () -> MythriaItems.BRONZE_PICKAXE, new Item.Properties())
+                new ToolHeadItem("bronze_pickaxe_head", () -> MythriaItems.BRONZE_PICKAXE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.PICK, MythriaMaterial.BRONZE),
-                new ToolHeadItem("bronze_shovel_head", 8, () -> MythriaItems.BRONZE_SHOVEL, new Item.Properties())
+                new ToolHeadItem("bronze_shovel_head", () -> MythriaItems.BRONZE_SHOVEL, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SHOVEL, MythriaMaterial.BRONZE),
-                new ToolHeadItem("bronze_hoe_head", 6, () -> MythriaItems.BRONZE_HOE, new Item.Properties())
+                new ToolHeadItem("bronze_hoe_head", () -> MythriaItems.BRONZE_HOE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.HOE, MythriaMaterial.BRONZE),
-                new ToolHeadItem("bronze_dagger_blade", 5, () -> MythriaItems.BRONZE_DAGGER, new Item.Properties())
+                new ToolHeadItem("bronze_dagger_blade", () -> MythriaItems.BRONZE_DAGGER, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.DAGGER, MythriaMaterial.BRONZE),
-                new ToolHeadItem("bronze_hammer_head", 10, () -> MythriaItems.BRONZE_HAMMER, new Item.Properties())
+                new ToolHeadItem("bronze_hammer_head", () -> MythriaItems.BRONZE_HAMMER, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.HAMMER, MythriaMaterial.BRONZE),
-                new ToolHeadItem("bronze_chisel_head", 1, () -> MythriaItems.BRONZE_CHISEL, new Item.Properties())
+                new ToolHeadItem("bronze_chisel_head", () -> MythriaItems.BRONZE_CHISEL, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.CHISEL, MythriaMaterial.BRONZE),
-                new ToolHeadItem("bronze_saw_blade", 1, () -> MythriaItems.BRONZE_SAW, new Item.Properties())
+                new ToolHeadItem("bronze_saw_blade", () -> MythriaItems.BRONZE_SAW, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SAW, MythriaMaterial.BRONZE),
-                new ToolHeadItem("bone_axe_head", 10, () -> MythriaItems.BONE_AXE, new Item.Properties()),
-                new ToolHeadItem("bone_shovel_head", 10, () -> MythriaItems.BONE_SHOVEL, new Item.Properties()),
-                new ToolHeadItem("bone_hoe_head", 8, () -> MythriaItems.BONE_HOE, new Item.Properties()),
-                new ToolHeadItem("bone_dagger_blade", 7, () -> MythriaItems.BONE_DAGGER, new Item.Properties()),
-                new ToolHeadItem("iron_sword_blade", 8, () -> Items.IRON_SWORD, new Item.Properties())
+                new ToolHeadItem("bone_axe_head", () -> MythriaItems.BONE_AXE, new Item.Properties()),
+                new ToolHeadItem("bone_shovel_head", () -> MythriaItems.BONE_SHOVEL, new Item.Properties()),
+                new ToolHeadItem("bone_hoe_head", () -> MythriaItems.BONE_HOE, new Item.Properties()),
+                new ToolHeadItem("bone_dagger_blade", () -> MythriaItems.BONE_DAGGER, new Item.Properties()),
+                new ToolHeadItem("iron_sword_blade", () -> Items.IRON_SWORD, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SWORD, MythriaMaterial.IRON),
-                new ToolHeadItem("iron_axe_head", 8, () -> Items.IRON_AXE, new Item.Properties())
+                new ToolHeadItem("iron_axe_head", () -> Items.IRON_AXE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.AXE, MythriaMaterial.IRON),
-                new ToolHeadItem("iron_pickaxe_head", 8, () -> Items.IRON_PICKAXE, new Item.Properties())
+                new ToolHeadItem("iron_pickaxe_head", () -> Items.IRON_PICKAXE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.PICK, MythriaMaterial.IRON),
-                new ToolHeadItem("iron_shovel_head", 8, () -> Items.IRON_SHOVEL, new Item.Properties())
+                new ToolHeadItem("iron_shovel_head", () -> Items.IRON_SHOVEL, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SHOVEL, MythriaMaterial.IRON),
-                new ToolHeadItem("iron_hoe_head", 6, () -> Items.IRON_HOE, new Item.Properties())
+                new ToolHeadItem("iron_hoe_head", () -> Items.IRON_HOE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.HOE, MythriaMaterial.IRON),
-                new ToolHeadItem("iron_dagger_blade", 5, () -> MythriaItems.IRON_DAGGER, new Item.Properties())
+                new ToolHeadItem("iron_dagger_blade", () -> MythriaItems.IRON_DAGGER, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.DAGGER, MythriaMaterial.IRON),
-                new ToolHeadItem("iron_hammer_head", 10, () -> MythriaItems.IRON_HAMMER, new Item.Properties())
+                new ToolHeadItem("iron_hammer_head", () -> MythriaItems.IRON_HAMMER, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.HAMMER, MythriaMaterial.IRON),
-                new ToolHeadItem("iron_chisel_head", 1, () -> MythriaItems.IRON_CHISEL, new Item.Properties())
+                new ToolHeadItem("iron_chisel_head", () -> MythriaItems.IRON_CHISEL, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.CHISEL, MythriaMaterial.IRON),
-                new ToolHeadItem("iron_saw_blade", 1, () -> MythriaItems.IRON_SAW, new Item.Properties())
+                new ToolHeadItem("iron_saw_blade", () -> MythriaItems.IRON_SAW, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SAW, MythriaMaterial.IRON),
-                new ToolHeadItem("steel_sword_blade", 8, () -> MythriaItems.STEEL_SWORD, new Item.Properties()),
-                new ToolHeadItem("steel_axe_head", 8, () -> MythriaItems.STEEL_AXE, new Item.Properties()),
-                new ToolHeadItem("steel_pickaxe_head", 8, () -> MythriaItems.STEEL_PICKAXE, new Item.Properties()),
-                new ToolHeadItem("steel_shovel_head", 8, () -> MythriaItems.STEEL_SHOVEL, new Item.Properties()),
-                new ToolHeadItem("steel_hoe_head", 6, () -> MythriaItems.STEEL_HOE, new Item.Properties()),
-                new ToolHeadItem("steel_dagger_blade", 5, () -> MythriaItems.STEEL_DAGGER, new Item.Properties()),
-                new ToolHeadItem("steel_hammer_head", 10, () -> MythriaItems.STEEL_HAMMER, new Item.Properties()),
-                new ToolHeadItem("steel_chisel_head", 1, () -> MythriaItems.STEEL_CHISEL, new Item.Properties()),
-                new ToolHeadItem("steel_saw_blade", 1, () -> MythriaItems.STEEL_SAW, new Item.Properties()),
-                new ToolHeadItem("titanium_sword_blade", 8, () -> MythriaItems.TITANIUM_SWORD, new Item.Properties())
+                new ToolHeadItem("steel_sword_blade", () -> MythriaItems.STEEL_SWORD, new Item.Properties()),
+                new ToolHeadItem("steel_axe_head", () -> MythriaItems.STEEL_AXE, new Item.Properties()),
+                new ToolHeadItem("steel_pickaxe_head", () -> MythriaItems.STEEL_PICKAXE, new Item.Properties()),
+                new ToolHeadItem("steel_shovel_head", () -> MythriaItems.STEEL_SHOVEL, new Item.Properties()),
+                new ToolHeadItem("steel_hoe_head", () -> MythriaItems.STEEL_HOE, new Item.Properties()),
+                new ToolHeadItem("steel_dagger_blade", () -> MythriaItems.STEEL_DAGGER, new Item.Properties()),
+                new ToolHeadItem("steel_hammer_head", () -> MythriaItems.STEEL_HAMMER, new Item.Properties()),
+                new ToolHeadItem("steel_chisel_head", () -> MythriaItems.STEEL_CHISEL, new Item.Properties()),
+                new ToolHeadItem("steel_saw_blade", () -> MythriaItems.STEEL_SAW, new Item.Properties()),
+                new ToolHeadItem("titanium_sword_blade", () -> MythriaItems.TITANIUM_SWORD, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SWORD, MythriaMaterial.TITANIUM),
-                new ToolHeadItem("titanium_axe_head", 8, () -> MythriaItems.TITANIUM_AXE, new Item.Properties())
+                new ToolHeadItem("titanium_axe_head", () -> MythriaItems.TITANIUM_AXE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.AXE, MythriaMaterial.TITANIUM),
-                new ToolHeadItem("titanium_pickaxe_head", 8, () -> MythriaItems.TITANIUM_PICKAXE, new Item.Properties())
+                new ToolHeadItem("titanium_pickaxe_head", () -> MythriaItems.TITANIUM_PICKAXE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.PICK, MythriaMaterial.TITANIUM),
-                new ToolHeadItem("titanium_shovel_head", 8, () -> MythriaItems.TITANIUM_SHOVEL, new Item.Properties())
+                new ToolHeadItem("titanium_shovel_head", () -> MythriaItems.TITANIUM_SHOVEL, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SHOVEL, MythriaMaterial.TITANIUM),
-                new ToolHeadItem("titanium_hoe_head", 6, () -> MythriaItems.TITANIUM_HOE, new Item.Properties())
+                new ToolHeadItem("titanium_hoe_head", () -> MythriaItems.TITANIUM_HOE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.HOE, MythriaMaterial.TITANIUM),
-                new ToolHeadItem("titanium_dagger_blade", 5, () -> MythriaItems.TITANIUM_DAGGER, new Item.Properties())
+                new ToolHeadItem("titanium_dagger_blade", () -> MythriaItems.TITANIUM_DAGGER, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.DAGGER, MythriaMaterial.TITANIUM),
-                new ToolHeadItem("titanium_hammer_head", 10, () -> MythriaItems.TITANIUM_HAMMER, new Item.Properties())
+                new ToolHeadItem("titanium_hammer_head", () -> MythriaItems.TITANIUM_HAMMER, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.HAMMER, MythriaMaterial.TITANIUM),
-                new ToolHeadItem("titanium_chisel_head", 1, () -> MythriaItems.TITANIUM_CHISEL, new Item.Properties())
+                new ToolHeadItem("titanium_chisel_head", () -> MythriaItems.TITANIUM_CHISEL, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.CHISEL, MythriaMaterial.TITANIUM),
-                new ToolHeadItem("titanium_saw_blade", 1, () -> MythriaItems.TITANIUM_SAW, new Item.Properties())
+                new ToolHeadItem("titanium_saw_blade", () -> MythriaItems.TITANIUM_SAW, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SAW, MythriaMaterial.TITANIUM),
-                new ToolHeadItem("tungsten_sword_blade", 8, () -> MythriaItems.TUNGSTEN_SWORD, new Item.Properties())
+                new ToolHeadItem("tungsten_sword_blade", () -> MythriaItems.TUNGSTEN_SWORD, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SWORD, MythriaMaterial.TUNGSTEN),
-                new ToolHeadItem("tungsten_axe_head", 8, () -> MythriaItems.TUNGSTEN_AXE, new Item.Properties())
+                new ToolHeadItem("tungsten_axe_head", () -> MythriaItems.TUNGSTEN_AXE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.AXE, MythriaMaterial.TUNGSTEN),
-                new ToolHeadItem("tungsten_pickaxe_head", 8, () -> MythriaItems.TUNGSTEN_PICKAXE, new Item.Properties())
+                new ToolHeadItem("tungsten_pickaxe_head", () -> MythriaItems.TUNGSTEN_PICKAXE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.PICK, MythriaMaterial.TUNGSTEN),
-                new ToolHeadItem("tungsten_shovel_head", 8, () -> MythriaItems.TUNGSTEN_SHOVEL, new Item.Properties())
+                new ToolHeadItem("tungsten_shovel_head", () -> MythriaItems.TUNGSTEN_SHOVEL, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SHOVEL, MythriaMaterial.TUNGSTEN),
-                new ToolHeadItem("tungsten_hoe_head", 6, () -> MythriaItems.TUNGSTEN_HOE, new Item.Properties())
+                new ToolHeadItem("tungsten_hoe_head", () -> MythriaItems.TUNGSTEN_HOE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.HOE, MythriaMaterial.TUNGSTEN),
-                new ToolHeadItem("tungsten_dagger_blade", 5, () -> MythriaItems.TUNGSTEN_DAGGER, new Item.Properties())
+                new ToolHeadItem("tungsten_dagger_blade", () -> MythriaItems.TUNGSTEN_DAGGER, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.DAGGER, MythriaMaterial.TUNGSTEN),
-                new ToolHeadItem("tungsten_hammer_head", 10, () -> MythriaItems.TUNGSTEN_HAMMER, new Item.Properties())
+                new ToolHeadItem("tungsten_hammer_head", () -> MythriaItems.TUNGSTEN_HAMMER, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.HAMMER, MythriaMaterial.TUNGSTEN),
-                new ToolHeadItem("tungsten_chisel_head", 1, () -> MythriaItems.TUNGSTEN_CHISEL, new Item.Properties())
+                new ToolHeadItem("tungsten_chisel_head", () -> MythriaItems.TUNGSTEN_CHISEL, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.CHISEL, MythriaMaterial.TUNGSTEN),
-                new ToolHeadItem("tungsten_saw_blade", 1, () -> MythriaItems.TUNGSTEN_SAW, new Item.Properties())
+                new ToolHeadItem("tungsten_saw_blade", () -> MythriaItems.TUNGSTEN_SAW, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.SAW, MythriaMaterial.TUNGSTEN),
 
-                new FilledMoldItem("ceramic_mold_closed", 9),
+                new FilledMoldItem("ceramic_mold_closed"),
 
 //    public static final ArmorMaterial PRIMATIVE_AM EnumHelper.addArmorMaterial("primative", "mythria:primative", 3,
 //            new int[]{0, 0, 0, 0}, 2, SoundEvents.BLOCK_CLOTH_PLACE, 0.0f),
@@ -700,69 +704,69 @@ public class MythriaItems {
 //            EquipmentSlotType.CHEST, 1, 27, 0),
 
                 //Tool Parts
-                new ToolHandleItem("oak_tool_handle", 1),
-                new ToolHandleItem("birch_tool_handle", 1),
-                new ToolHandleItem("jungle_tool_handle", 1),
-                new ToolHandleItem("acacia_tool_handle", 1),
-                new ToolHandleItem("spruce_tool_handle", 1),
-                new ToolHandleItem("dark_oak_tool_handle", 1),
-                new ToolHandleItem("warped_tool_handle", 1),
-                new ToolHandleItem("crimson_tool_handle", 1),
-                new ToolHandleItem("bone_tool_handle", 0.5),
+                new ToolHandleItem("oak_tool_handle"),
+                new ToolHandleItem("birch_tool_handle"),
+                new ToolHandleItem("jungle_tool_handle"),
+                new ToolHandleItem("acacia_tool_handle"),
+                new ToolHandleItem("spruce_tool_handle"),
+                new ToolHandleItem("dark_oak_tool_handle"),
+                new ToolHandleItem("warped_tool_handle"),
+                new ToolHandleItem("crimson_tool_handle"),
+                new ToolHandleItem("bone_tool_handle"),
 
-                new ToolHandleItem("oak_blade_handle", 1),
-                new ToolHandleItem("birch_blade_handle", 1),
-                new ToolHandleItem("jungle_blade_handle", 1),
-                new ToolHandleItem("acacia_blade_handle", 1),
-                new ToolHandleItem("spruce_blade_handle", 1),
-                new ToolHandleItem("dark_oak_blade_handle", 1),
-                new ToolHandleItem("warped_blade_handle", 1),
-                new ToolHandleItem("crimson_blade_handle", 1),
-                new ToolHandleItem("bone_blade_handle", 0.25),
+                new ToolHandleItem("oak_blade_handle"),
+                new ToolHandleItem("birch_blade_handle"),
+                new ToolHandleItem("jungle_blade_handle"),
+                new ToolHandleItem("acacia_blade_handle"),
+                new ToolHandleItem("spruce_blade_handle"),
+                new ToolHandleItem("dark_oak_blade_handle"),
+                new ToolHandleItem("warped_blade_handle"),
+                new ToolHandleItem("crimson_blade_handle"),
+                new ToolHandleItem("bone_blade_handle"),
 
-                new ToolHandleItem("oak_saw_handle", 1),
-                new ToolHandleItem("birch_saw_handle", 1),
-                new ToolHandleItem("jungle_saw_handle", 1),
-                new ToolHandleItem("acacia_saw_handle", 1),
-                new ToolHandleItem("spruce_saw_handle", 1),
-                new ToolHandleItem("dark_oak_saw_handle", 1),
-                new ToolHandleItem("warped_saw_handle", 1),
-                new ToolHandleItem("crimson_saw_handle", 1),
+                new ToolHandleItem("oak_saw_handle"),
+                new ToolHandleItem("birch_saw_handle"),
+                new ToolHandleItem("jungle_saw_handle"),
+                new ToolHandleItem("acacia_saw_handle"),
+                new ToolHandleItem("spruce_saw_handle"),
+                new ToolHandleItem("dark_oak_saw_handle"),
+                new ToolHandleItem("warped_saw_handle"),
+                new ToolHandleItem("crimson_saw_handle"),
 
-                new MythriaItemThrowable("rock", 4, 4, ItemGroup.MATERIALS, 2),
+                new MythriaItemThrowable("rock", 4, ItemGroup.MATERIALS, 2),
 
-                new MythriaItem("stone_brick", 1, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(8)),
-                new LogItem("oak_log", 10),
-                new LogItem("birch_log", 10),
-                new LogItem("spruce_log", 10),
-                new LogItem("acacia_log", 10),
-                new LogItem("jungle_log", 10),
-                new LogItem("dark_oak_log", 10),
-                new LogItem("warped_log", 10),
-                new LogItem("crimson_log", 10),
-                new PlankItem("oak_plank", 5),
-                new PlankItem("birch_plank", 5),
-                new PlankItem("spruce_plank", 5),
-                new PlankItem("acacia_plank", 5),
-                new PlankItem("jungle_plank", 5),
-                new PlankItem("dark_oak_plank", 5),
-                new PlankItem("warped_plank", 5),
-                new PlankItem("crimson_plank", 5),
+                new MythriaItem("stone_brick", new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(8)),
+                new LogItem("oak_log"),
+                new LogItem("birch_log"),
+                new LogItem("spruce_log"),
+                new LogItem("acacia_log"),
+                new LogItem("jungle_log"),
+                new LogItem("dark_oak_log"),
+                new LogItem("warped_log"),
+                new LogItem("crimson_log"),
+                new PlankItem("oak_plank"),
+                new PlankItem("birch_plank"),
+                new PlankItem("spruce_plank"),
+                new PlankItem("acacia_plank"),
+                new PlankItem("jungle_plank"),
+                new PlankItem("dark_oak_plank"),
+                new PlankItem("warped_plank"),
+                new PlankItem("crimson_plank"),
                 //Ore
-                new OreItem("copper_ore_item", 3),
-                new OreItem("tin_ore_item", 2),
-                new OreItem("iron_ore_item", 5),
-                new OreItem("silver_ore_item", 5),
-                new OreItem("gold_ore_item", 20),
-                new OreItem("platinum_ore_item", 8),
-                new OreItem("titanium_ore_item", 12),
-                new OreItem("tungsten_ore_item", 14),
-                new OreItem("mithril_ore_item", 14),
-                new OreItem("violacium_ore_item", 32),
+                new OreItem("copper_ore_item"),
+                new OreItem("tin_ore_item"),
+                new OreItem("iron_ore_item"),
+                new OreItem("silver_ore_item"),
+                new OreItem("gold_ore_item"),
+                new OreItem("platinum_ore_item"),
+                new OreItem("titanium_ore_item"),
+                new OreItem("tungsten_ore_item"),
+                new OreItem("mithril_ore_item"),
+                new OreItem("violacium_ore_item"),
 
-                new ThatchItem("thatch", 0.5),
-                new OreItem("sand", 1),
-                new MythriaItem("wheat_dough", 1, new Item.Properties().group(ItemGroup.FOOD)),
+                new ThatchItem("thatch"),
+                new OreItem("sand"),
+                new MythriaItem("wheat_dough", new Item.Properties().group(ItemGroup.FOOD)),
 
                 new MythriaArrowItem("oak_arrow", 0.1),
                 new MythriaArrowItem("spruce_arrow", 0.1),
@@ -833,25 +837,28 @@ public class MythriaItems {
                 new MythriaArmorItem("tungsten_boots", MythriaArmorMaterial.TUNGSTEN,
                         EquipmentSlotType.FEET, 30, 0, 0),
 
-                new MythriaItem("oak_arrow_shaft", 0.1f, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
-                new MythriaItem("spruce_arrow_shaft", 0.1f, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
-                new MythriaItem("birch_arrow_shaft", 0.1f, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
-                new MythriaItem("jungle_arrow_shaft", 0.1f, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
-                new MythriaItem("acacia_arrow_shaft", 0.1f, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
-                new MythriaItem("dark_oak_arrow_shaft", 0.1f, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
-                new MythriaItem("warped_arrow_shaft", 0.1f, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
-                new MythriaItem("crimson_arrow_shaft", 0.1f, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
+                new MythriaItem("oak_arrow_shaft", new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
+                new MythriaItem("spruce_arrow_shaft", new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
+                new MythriaItem("birch_arrow_shaft", new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
+                new MythriaItem("jungle_arrow_shaft", new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
+                new MythriaItem("acacia_arrow_shaft", new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
+                new MythriaItem("dark_oak_arrow_shaft", new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
+                new MythriaItem("warped_arrow_shaft", new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
+                new MythriaItem("crimson_arrow_shaft", new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
 
-                new MythriaItem("animal_hide", 10, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(6)),
+                new MythriaItem("animal_hide", new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(6)),
 
-                new MythriaItem("ruby", 0.05f, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
-                new MythriaItem("onyx", 0.05f, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
-                new MythriaItem("sapphire", 0.05f, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
-                new MythriaItem("topaz", 0.05f, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
+                new MythriaItem("ruby", new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
+                new MythriaItem("onyx", new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
+                new MythriaItem("sapphire", new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
+                new MythriaItem("topaz", new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
 
                 //Overrides
-                new ClayBallItem("clay_ball", 1f, new Item.Properties().group(ItemGroup.MATERIALS)),
-                new HeatableItem("brick", 0.9f, new Item.Properties().group(ItemGroup.MATERIALS), true),
+                new HeatableItem("brick", new Item.Properties().group(ItemGroup.MATERIALS), true),
+                new FoodItem("brown_mushroom", 2, 0.5f),
+                new FoodItem("red_mushroom", 2, 0.5f),
+                new FoodItem("warped_fungus", 3, 0.5f),
+                new FoodItem("crimson_fungus", 3, 0.5f),
 
                 new SpearItem("oak_spear", MythriaItemTier.PRIMITIVE, 1, 0, 0.0),
                 new SpearItem("birch_spear", MythriaItemTier.PRIMITIVE, 0.8, 0.2, 0.0),
@@ -860,9 +867,7 @@ public class MythriaItems {
                 new SpearItem("acacia_spear", MythriaItemTier.PRIMITIVE, 0.9, 0.1, 0.0),
                 new SpearItem("dark_oak_spear", MythriaItemTier.PRIMITIVE, 1.2, 0, 2.0),
                 new SpearItem("warped_spear", MythriaItemTier.PRIMITIVE, 0.9, 0.3, 0.0),
-                new SpearItem("crimson_spear", MythriaItemTier.PRIMITIVE, 1.2, 0, 4.0),
-
-                new LeatherItem("leather", 2, new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(4))
+                new SpearItem("crimson_spear", MythriaItemTier.PRIMITIVE, 1.2, 0, 4.0)
         );
     }
 }

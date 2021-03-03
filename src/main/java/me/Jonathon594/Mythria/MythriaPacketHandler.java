@@ -32,6 +32,7 @@ public class MythriaPacketHandler {
         HANDLER.registerMessage(disc++, CPacketSpendAttribute.class, CPacketSpendAttribute::encode, CPacketSpendAttribute::new, CPacketSpendAttribute::handle);
         HANDLER.registerMessage(disc++, CPacketOpenInventory.class, CPacketOpenInventory::encode, CPacketOpenInventory::new, CPacketOpenInventory::handle);
         HANDLER.registerMessage(disc++, CPacketReloadWeapon.class, CPacketReloadWeapon::encode, CPacketReloadWeapon::new, CPacketReloadWeapon::handle);
+        HANDLER.registerMessage(disc++, CPacketAction.class, CPacketAction::encode, CPacketAction::new, CPacketAction::handle);
     }
 
     public static <MSG> void sendToServer(MSG msg) {

@@ -6,7 +6,6 @@ import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Capability.Tool.ToolProvider;
 import me.Jonathon594.Mythria.Client.Renderer.Items.HammerItemRenderer;
 import me.Jonathon594.Mythria.Enum.Consumable;
-import me.Jonathon594.Mythria.Interface.IItemData;
 import me.Jonathon594.Mythria.Interface.IModularTool;
 import me.Jonathon594.Mythria.Managers.Crafting.ConstructionManager;
 import me.Jonathon594.Mythria.Managers.MaterialManager;
@@ -28,7 +27,7 @@ import javax.annotation.Nullable;
 import java.util.Set;
 import java.util.function.Supplier;
 
-public class MythriaHammerItem extends ToolItem implements IItemData, IModularTool {
+public class MythriaHammerItem extends ToolItem implements IModularTool {
 
     private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet();
     private final double weight;
@@ -42,10 +41,6 @@ public class MythriaHammerItem extends ToolItem implements IItemData, IModularTo
         this.toolHead = toolHead;
     }
 
-    @Override
-    public double getWeight() {
-        return weight;
-    }
 
     @Override
     public ActionResultType onItemUse(ItemUseContext context) {

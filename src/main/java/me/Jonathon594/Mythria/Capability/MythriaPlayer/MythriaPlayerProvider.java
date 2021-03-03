@@ -1,8 +1,6 @@
 package me.Jonathon594.Mythria.Capability.MythriaPlayer;
 
-import me.Jonathon594.Mythria.Entity.NPCEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;

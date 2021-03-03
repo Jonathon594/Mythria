@@ -9,8 +9,8 @@ import java.util.function.Supplier;
 public class PotteryItem extends HeatableItem implements IHeatChangingItem {
     private final Supplier<Item> result;
 
-    public PotteryItem(String name, double weight, Supplier<Item> result) {
-        super(name, weight, new Item.Properties().group(ItemGroup.TOOLS).maxStackSize(1));
+    public PotteryItem(String name, Supplier<Item> result) {
+        super(name, new Item.Properties().group(ItemGroup.TOOLS).maxStackSize(1));
         this.result = result;
     }
 

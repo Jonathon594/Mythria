@@ -6,10 +6,10 @@ import me.Jonathon594.Mythria.Const.ColorConst;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.RootPerk;
 import me.Jonathon594.Mythria.Enum.PerkType;
-import me.Jonathon594.Mythria.Perk.Perks;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.MythriaRegistries;
 import me.Jonathon594.Mythria.Packet.CPacketBuyPerk;
+import me.Jonathon594.Mythria.Perk.Perks;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.advancements.DisplayInfo;
 import net.minecraft.advancements.FrameType;
@@ -95,12 +95,12 @@ public class ScreenPerks extends AbstractTreeMenuScreen {
         if (hidden) icon = new ItemStack(Items.IRON_BARS);
         IFormattableTextComponent title = new StringTextComponent(hidden ? "Locked" : (perk instanceof RootPerk) ? MythriaUtil.capitalize(perk.getType().name()) : perk.getDisplayName());
         title.mergeStyle(hasPerk ? ColorConst.MAIN_COLOR : ColorConst.HEAD_COLOR);
-        String desc = "";
+        StringBuilder desc = new StringBuilder();
         for (String s : perk.getDataLines(p)) {
-            desc += s + "\n";
+            desc.append(s).append("\n");
         }
-        desc = desc.substring(0, desc.length() - 2);
-        StringTextComponent description = new StringTextComponent(desc);
+        desc = new StringBuilder(desc.substring(0, desc.length() - 2));
+        StringTextComponent description = new StringTextComponent(desc.toString());
 
         ResourceLocation background = null;
         if (perk instanceof RootPerk) {
@@ -130,12 +130,11 @@ public class ScreenPerks extends AbstractTreeMenuScreen {
                 if (perk instanceof RootPerk) tab.setDisplayData(displayInfo);
                 treeMenuOption.setDisplay(displayInfo);
 
-                TreeMenuEntryGui value = treeMenuEntryGui;
-                value.setDisplayInfo(displayInfo);
+                treeMenuEntryGui.setDisplayInfo(displayInfo);
 
                 if (p.hasPerk(perk)) {
                     treeMenuOption.setHighlight(true);
-                    value.setHighlight(true);
+                    treeMenuEntryGui.setHighlight(true);
                 }
             }
         }

@@ -61,8 +61,7 @@ public class Genetics {
                         1, 210, 44, zero).setSpawnDimension(World.THE_NETHER)
                         .addImmunity(DamageSource.IN_FIRE, DamageSource.ON_FIRE, DamageSource.HOT_FLOOR, DamageSource.LAVA)
                         .addMobTruce(EntityType.GHAST, EntityType.BLAZE)
-                        .setSpecialSkinPartType(SkinPart.Type.SKAEREN_SCALES)
-                        .setWaterNeeded(false),
+                        .setSpecialSkinPartType(SkinPart.Type.SKAEREN_SCALES),
 
                 new Genetic("katana", "Ka'Tana", 14,
                         300, 0.02, 60, -4, 0.85, 20,

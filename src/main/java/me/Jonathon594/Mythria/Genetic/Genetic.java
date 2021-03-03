@@ -26,54 +26,19 @@ public class Genetic extends ForgeRegistryEntry<Genetic> {
     private final double baseManaRegen;
     private final int lifeExpectancy;
     private final int fertileCycleLength;
-    private SpawnPos spawnPos;
+    private final SpawnPos spawnPos;
     private final double idealTemperature;
-    private List<EntityType<? extends CreatureEntity>> fleeingEntities = new ArrayList<>();
-
-    public Genetic setBonusUnarmedDamage(float bonusUnarmedDamage) {
-        this.bonusUnarmedDamage = bonusUnarmedDamage;
-        return this;
-    }
-
-    public Genetic addFleeingEntity(EntityType<? extends CreatureEntity> type) {
-        if (!this.fleeingEntities.contains(type)) fleeingEntities.add(type);
-        return this;
-    }
-
+    private final List<EntityType<? extends CreatureEntity>> fleeingEntities = new ArrayList<>();
+    private final List<EntityType> mobTruces = new ArrayList<>();
+    private final List<String> damageImmunity = new ArrayList<>();
+    private final ArrayList<EquipmentSlotType> lockedEquipSlots = new ArrayList<>();
+    private final ArrayList<Ability> grantedAbilities = new ArrayList<>();
     private float bonusUnarmedDamage = 0.0f;
-    private List<EntityType> mobTruces = new ArrayList<>();
-
-    public Genetic setWaterNeeded(boolean waterNeeded) {
-        this.waterNeeded = waterNeeded;
-        return this;
-    }
-
-    private boolean waterNeeded = true;
-
-    public List<String> getDamageImmunity() {
-        return damageImmunity;
-    }
-
-    private List<String> damageImmunity = new ArrayList<>();
-
-    public Genetic setCanGlide(boolean canGlide) {
-        this.canGlide = canGlide;
-        return this;
-    }
-
     private boolean canGlide;
     private RegistryKey<World> spawnDimension = World.OVERWORLD;
     private boolean locked = false;
     private SkinPart.Type specialSkinPartType = null;
-    private ArrayList<EquipmentSlotType> lockedEquipSlots = new ArrayList<>();
     private double genderBias = 0.5;
-
-    public ArrayList<Ability> getGrantedAbilities() {
-        return grantedAbilities;
-    }
-
-    private ArrayList<Ability> grantedAbilities = new ArrayList<>();
-
     public Genetic(final String name, String displayName, double idealTemperature, double baseStamina, double baseSpeed, double baseWeight, double baseHealth, double baseXP, double baseMana, double baseManaRegen, int lifeExpectancy,
                    int fertileCycleLength, SpawnPos spawnPos) {
         this.displayName = displayName;
@@ -89,6 +54,24 @@ public class Genetic extends ForgeRegistryEntry<Genetic> {
         this.spawnPos = spawnPos;
         this.idealTemperature = idealTemperature;
         setRegistryName(new MythriaResourceLocation(name));
+    }
+
+    public Genetic addFleeingEntity(EntityType<? extends CreatureEntity> type) {
+        if (!this.fleeingEntities.contains(type)) fleeingEntities.add(type);
+        return this;
+    }
+
+    public List<String> getDamageImmunity() {
+        return damageImmunity;
+    }
+
+    public Genetic setCanGlide(boolean canGlide) {
+        this.canGlide = canGlide;
+        return this;
+    }
+
+    public ArrayList<Ability> getGrantedAbilities() {
+        return grantedAbilities;
     }
 
     public Genetic addGrantedAbility(Ability ability) {
@@ -186,8 +169,7 @@ public class Genetic extends ForgeRegistryEntry<Genetic> {
     }
 
     public boolean isSlotOpen(EquipmentSlotType slotType) {
-        if (lockedEquipSlots.contains(slotType)) return false;
-        return true;
+        return !lockedEquipSlots.contains(slotType);
     }
 
     public boolean isGlidingAllowed() {
@@ -221,12 +203,13 @@ public class Genetic extends ForgeRegistryEntry<Genetic> {
         return mobTruces.contains(type);
     }
 
-    public boolean isWaterNeeded() {
-        return waterNeeded;
-    }
-
     public float getBonusUnarmedDamage() {
         return bonusUnarmedDamage;
+    }
+
+    public Genetic setBonusUnarmedDamage(float bonusUnarmedDamage) {
+        this.bonusUnarmedDamage = bonusUnarmedDamage;
+        return this;
     }
 
     public List<EntityType<? extends CreatureEntity>> getFleeingEntities() {

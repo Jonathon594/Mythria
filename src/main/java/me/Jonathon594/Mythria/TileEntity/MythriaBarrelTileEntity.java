@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ChestTileEntity;
@@ -30,7 +31,7 @@ public class MythriaBarrelTileEntity extends LockableLootTileEntity {
     }
 
     public MythriaBarrelTileEntity() {
-        this(TileEntityType.BARREL);
+        this(MythriaTileEntities.THATCH_BASKET.get());
     }
 
     public CompoundNBT write(CompoundNBT compound) {
@@ -67,11 +68,11 @@ public class MythriaBarrelTileEntity extends LockableLootTileEntity {
     }
 
     protected ITextComponent getDefaultName() {
-        return new TranslationTextComponent("container.barrel");
+        return new TranslationTextComponent("container.thatch_basket");
     }
 
     protected Container createMenu(int id, PlayerInventory player) {
-        return ChestContainer.createGeneric9X3(id, player, this);
+        return new ChestContainer(ContainerType.GENERIC_9X1, id, player, this, 1);
     }
 
     public void openInventory(PlayerEntity player) {
@@ -128,7 +129,7 @@ public class MythriaBarrelTileEntity extends LockableLootTileEntity {
     }
 
     private void setOpenProperty(BlockState state, boolean open) {
-        this.world.setBlockState(this.getPos(), state.with(MythriaBarrelBlock.PROPERTY_OPEN, Boolean.valueOf(open)), 3);
+        this.world.setBlockState(this.getPos(), state.with(MythriaBarrelBlock.PROPERTY_OPEN, open), 3);
     }
 
     private void playSound(BlockState state, SoundEvent sound) {
@@ -136,7 +137,7 @@ public class MythriaBarrelTileEntity extends LockableLootTileEntity {
         double d0 = (double) this.pos.getX() + 0.5D + (double) vector3i.getX() / 2.0D;
         double d1 = (double) this.pos.getY() + 0.5D + (double) vector3i.getY() / 2.0D;
         double d2 = (double) this.pos.getZ() + 0.5D + (double) vector3i.getZ() / 2.0D;
-        this.world.playSound((PlayerEntity) null, d0, d1, d2, sound, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+        this.world.playSound(null, d0, d1, d2, sound, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
     }
 }
 

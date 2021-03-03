@@ -4,7 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 
 public class CoinItem extends MythriaItem {
-    public CoinItem(String name, double weight) {
-        super(name, weight, new Item.Properties().group(ItemGroup.MISC).maxStackSize(50));
+    public CoinItem(String name) {
+        super(name, new Item.Properties().group(ItemGroup.MISC).maxStackSize(50));
     }
 }

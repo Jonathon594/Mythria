@@ -21,7 +21,7 @@ public class SmeltingManager {
         new MetallurgyRecipe(1, MythriaMaterial.BRONZE, 950, new MetallurgyRecipe.MetallurgyRecipePair(() -> MythriaItems.COPPER_ORE_ITEM, 0.8),
                 new MetallurgyRecipe.MetallurgyRecipePair(() -> MythriaItems.TIN_ORE_ITEM, 0.2));
         new MetallurgyRecipe(1, MythriaMaterial.IRON, 1538, new MetallurgyRecipe.MetallurgyRecipePair(() -> MythriaItems.IRON_ORE_ITEM, 1.0));
-        new MetallurgyRecipe(1, MythriaMaterial.STEEL, 1370, null);
+        new MetallurgyRecipe(1, MythriaMaterial.STEEL, 1370);
         new MetallurgyRecipe(3, MythriaMaterial.TITANIUM, 1668, new MetallurgyRecipe.MetallurgyRecipePair(() -> MythriaItems.TITANIUM_ORE_ITEM, 1.0));
         new MetallurgyRecipe(4, MythriaMaterial.PLATINUM, 1765, new MetallurgyRecipe.MetallurgyRecipePair(() -> MythriaItems.PLATINUM_INGOT, 1.0));
         new MetallurgyRecipe(4, MythriaMaterial.TUNGSTEN, 3422, new MetallurgyRecipe.MetallurgyRecipePair(() -> MythriaItems.TUNGSTEN_ORE_ITEM, 1.0));

@@ -3,7 +3,6 @@ package me.Jonathon594.Mythria.Items;
 import com.google.common.collect.Sets;
 import me.Jonathon594.Mythria.Capability.Tool.ToolProvider;
 import me.Jonathon594.Mythria.Client.Renderer.Items.ChiselItemRenderer;
-import me.Jonathon594.Mythria.Interface.IItemData;
 import me.Jonathon594.Mythria.Interface.IModularTool;
 import me.Jonathon594.Mythria.Mythria;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
@@ -25,7 +24,7 @@ import javax.annotation.Nullable;
 import java.util.Set;
 import java.util.function.Supplier;
 
-public class MythriaChiselItem extends ToolItem implements IItemData, IModularTool {
+public class MythriaChiselItem extends ToolItem implements IModularTool {
     private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.STONE);
     private final double weight;
     private final Supplier<Item> toolHead;
@@ -46,10 +45,6 @@ public class MythriaChiselItem extends ToolItem implements IItemData, IModularTo
         return 0f;
     }
 
-    @Override
-    public double getWeight() {
-        return weight;
-    }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {

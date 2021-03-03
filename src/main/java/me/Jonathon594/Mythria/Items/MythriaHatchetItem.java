@@ -3,7 +3,6 @@ package me.Jonathon594.Mythria.Items;
 import com.google.common.collect.Sets;
 import me.Jonathon594.Mythria.Capability.Tool.ToolProvider;
 import me.Jonathon594.Mythria.Client.Renderer.Items.HatchetItemRenderer;
-import me.Jonathon594.Mythria.Interface.IItemData;
 import me.Jonathon594.Mythria.Interface.IModularTool;
 import me.Jonathon594.Mythria.Mythria;
 import net.minecraft.block.Block;
@@ -17,7 +16,7 @@ import javax.annotation.Nullable;
 import java.util.Set;
 import java.util.function.Supplier;
 
-public class MythriaHatchetItem extends ToolItem implements IItemData, IModularTool {
+public class MythriaHatchetItem extends ToolItem implements IModularTool {
     public static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.OAK_LEAVES, Blocks.BIRCH_LEAVES, Blocks.JUNGLE_LEAVES, Blocks.SPRUCE_LEAVES,
             Blocks.ACACIA_LEAVES, Blocks.DARK_OAK_LEAVES, Blocks.BAMBOO, Blocks.BAMBOO_SAPLING, Blocks.WARPED_WART_BLOCK, Blocks.NETHER_WART_BLOCK);
     private final double weight;
@@ -32,14 +31,10 @@ public class MythriaHatchetItem extends ToolItem implements IItemData, IModularT
     }
 
     public float getDestroySpeed(ItemStack stack, BlockState state) {
-        if (getToolTypes(stack).stream().anyMatch(e -> state.isToolEffective(e))) return efficiency;
-        return this.EFFECTIVE_ON.contains(state.getBlock()) ? this.efficiency : 1.0F;
+        if (getToolTypes(stack).stream().anyMatch(state::isToolEffective)) return efficiency;
+        return EFFECTIVE_ON.contains(state.getBlock()) ? this.efficiency : 1.0F;
     }
 
-    @Override
-    public double getWeight() {
-        return weight;
-    }
 
     @Override
     public Item getToolHeadItem() {

@@ -64,7 +64,7 @@ public class OreVein {
         return 0.005 * spawnData.getDensity() * (1.0 - shortestDistance);
     }
 
-    private class OreSpawnPoint {
+    private static class OreSpawnPoint {
         private final BlockPos pos;
         private final double size;
 

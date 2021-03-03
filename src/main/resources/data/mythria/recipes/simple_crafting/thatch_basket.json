@@ -1,0 +1,10 @@
+{
+  "type": "mythria:simple_crafting",
+  "ingredient": {
+    "item": "mythria:thatch"
+  },
+  "cost": 4,
+  "result": "mythria:thatch_basket",
+  "count": 1,
+  "tier": 0
+}

@@ -18,6 +18,7 @@ import java.util.List;
 @ObjectHolder(Mythria.MODID)
 public class CarpentryPerks implements IPerkRegistry {
     public static final Perk BASIC_CARPENTRY = null;
+
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(

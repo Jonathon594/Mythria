@@ -3,17 +3,23 @@ package me.Jonathon594.Mythria.Capability.Profile;
 import me.Jonathon594.Mythria.Ability.Ability;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
 import me.Jonathon594.Mythria.Const.MythriaConst;
-import me.Jonathon594.Mythria.Genetic.Genetic;
 import me.Jonathon594.Mythria.DataTypes.HealthData;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.SkinPart;
 import me.Jonathon594.Mythria.DataTypes.Time.Date;
 import me.Jonathon594.Mythria.Enum.*;
+import me.Jonathon594.Mythria.Genetic.Genetic;
 import me.Jonathon594.Mythria.Genetic.Genetics;
-import me.Jonathon594.Mythria.Managers.*;
+import me.Jonathon594.Mythria.Managers.AbilityHandler;
+import me.Jonathon594.Mythria.Managers.SkinPartManager;
+import me.Jonathon594.Mythria.Managers.StatManager;
+import me.Jonathon594.Mythria.Managers.TimeManager;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.MythriaRegistries;
-import me.Jonathon594.Mythria.Packet.*;
+import me.Jonathon594.Mythria.Packet.SPacketProfileCache;
+import me.Jonathon594.Mythria.Packet.SPacketUpdateConsumables;
+import me.Jonathon594.Mythria.Packet.SPacketUpdateExperience;
+import me.Jonathon594.Mythria.Packet.SPacketUpdateNutrition;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.entity.LivingEntity;
@@ -42,8 +48,10 @@ public class Profile implements IProfile {
     private final HashMap<Attribute, Integer> attributeValues = new HashMap<>();
     private final HashMap<Deity, Integer> favorLevels = new HashMap<>();
     private final HashMap<StatType, Double> statModifiers = new HashMap<>();
-    private final HashMap<SkinPart.Type, SkinPart> skinData = new HashMap<SkinPart.Type, SkinPart>();
+    private final HashMap<SkinPart.Type, SkinPart> skinData = new HashMap<>();
     private final Random random;
+    private final ArrayList<Ability> abilities = new ArrayList<>();
+    private final AbilityHandler abilityHandler = new AbilityHandler();
     private String firstName = "";
     private String middleName = "";
     private String lastName = "";
@@ -63,8 +71,6 @@ public class Profile implements IProfile {
     private Genetic genetic = Genetics.HUMAN;
     private double bleeding = 0.0;
     private double playerLevelProgressBuffer;
-    private ArrayList<Ability> abilities = new ArrayList<>();
-    private AbilityHandler abilityHandler = new AbilityHandler();
 
     public Profile() {
         fillHashMaps();
@@ -172,6 +178,11 @@ public class Profile implements IProfile {
 
     public Genetic getGenetic() {
         return genetic;
+    }
+
+    public void setGenetic(Genetic genetic) {
+        this.genetic = genetic;
+        addGrantedAbilities();
     }
 
     public Date getBirthDay() {
@@ -337,8 +348,7 @@ public class Profile implements IProfile {
 
     public int getPlayerLevel() {
         double totalExperience = getTotalExperience();
-        int playerLevel = MythriaUtil.getPlayerLevelForXP(totalExperience);
-        return playerLevel;
+        return MythriaUtil.getPlayerLevelForXP(totalExperience);
     }
 
     public CompoundNBT toNBT() {
@@ -632,7 +642,7 @@ public class Profile implements IProfile {
     }
 
     public int getFavor(Deity d) {
-        return favorLevels.containsKey(d) ? favorLevels.get(d) : 0;
+        return favorLevels.getOrDefault(d, 0);
     }
 
     public String getLastName() {
@@ -765,8 +775,7 @@ public class Profile implements IProfile {
             totalAttributes += value;
         }
         int playerLevel = getPlayerLevel();
-        int spendablePoints = playerLevel + 5 - totalAttributes;
-        return spendablePoints;
+        return playerLevel + 5 - totalAttributes;
     }
 
     public void setAttributeLevel(Attribute attribute, int level) {
@@ -846,11 +855,6 @@ public class Profile implements IProfile {
         double xpDifference = xpForNextLevel - xpForCurrentLevel;
         double progress = xpProgress / xpDifference;
         playerLevelProgressBuffer = MathHelper.clamp(progress, 0, 1);
-    }
-
-    public void setGenetic(Genetic genetic) {
-        this.genetic = genetic;
-        addGrantedAbilities();
     }
 
     private void addGrantedAbilities() {
