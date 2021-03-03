@@ -36,7 +36,6 @@ public class CharacterRenderer extends LivingRenderer<LivingEntity, CharacterMod
     public CharacterRenderer(EntityRendererManager renderManager, boolean useSmallArms) {
         super(renderManager, new CharacterModel<>(0.0F, useSmallArms), 0.5F);
         this.addLayer(new CharacterLayerRenderer(this, SkinPart.Type.EYES));
-        this.addLayer(new CharacterLayerRenderer(this, SkinPart.Type.SKAEREN_SCALES));
         this.addLayer(new CharacterLayerRenderer(this, SkinPart.Type.DRYAD_VINES));
         this.addLayer(new CharacterLayerRenderer(this, SkinPart.Type.CLOTHING));
         this.addLayer(new CharacterLayerRenderer(this, SkinPart.Type.HAIR));

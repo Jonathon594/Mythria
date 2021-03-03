@@ -26,9 +26,13 @@ public class SkinPartManager {
 //                new SkinPart("Peasant Dress", "human_clothes_female_0", SkinPart.Type.CLOTHING, false, true),
 //                new SkinPart("Blacksmith Robes", "human_clothes_unis_1", SkinPart.Type.CLOTHING, true, true),
 //                new SkinPart("Black Cloak", "human_clothes_unis_2", SkinPart.Type.CLOTHING, true, true),
+                new SkinPart("Primitive", "skaeren_clothes_male_primitive", SkinPart.Type.CLOTHING, true, false)
+                        .addAllowedRace(Genetics.SKAEREN),
+                new SkinPart("Primitive", "skaeren_clothes_female_primitive", SkinPart.Type.CLOTHING, false, true)
+                        .addAllowedRace(Genetics.SKAEREN),
 
                 new SkinPart("Nude", "clothes_nude", SkinPart.Type.CLOTHING, true, true)
-                        .addAllowedRace(Genetics.DRYAD, Genetics.SKAEREN),
+                        .addAllowedRace(Genetics.DRYAD),
 
                 new SkinPart("Felixia", "deity_clothes_felixia", SkinPart.Type.CLOTHING, false, true),
                 new SkinPart("Melinias", "deity_clothes_melinias", SkinPart.Type.CLOTHING, false, true),
@@ -106,12 +110,7 @@ public class SkinPartManager {
                 new SkinPart("Green Wings", "fae_wings_green", SkinPart.Type.WINGS, true, true).addAllowedRace(Genetics.FAE),
 
                 new SkinPart("Vines", "dryad_vines_0", SkinPart.Type.DRYAD_VINES, true, true)
-                        .addAllowedRace(Genetics.DRYAD),
-
-                new SkinPart("Red Scales", "skaeren_scales_female_0", SkinPart.Type.SKAEREN_SCALES, false, true)
-                        .addAllowedRace(Genetics.SKAEREN),
-                new SkinPart("Red Scales", "skaeren_scales_male_0", SkinPart.Type.SKAEREN_SCALES, true, false)
-                        .addAllowedRace(Genetics.SKAEREN)
+                        .addAllowedRace(Genetics.DRYAD)
         );
     }
 

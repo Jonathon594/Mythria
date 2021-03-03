@@ -94,7 +94,6 @@ public class ScreenProfileCreation extends AbstractMythriaScreen {
         SkinPart.Type specialType = getGenetic().getSpecialSkinPartType();
         mythriaPlayer.setSkinPart(SkinPart.Type.WINGS, specialType != null && specialType.equals(SkinPart.Type.WINGS) ? getSpecial().getResourceLocation().toString() : "");
         mythriaPlayer.setSkinPart(SkinPart.Type.DRYAD_VINES, specialType != null && specialType.equals(SkinPart.Type.DRYAD_VINES) ? getSpecial().getResourceLocation().toString() : "");
-        mythriaPlayer.setSkinPart(SkinPart.Type.SKAEREN_SCALES, specialType != null && specialType.equals(SkinPart.Type.SKAEREN_SCALES) ? getSpecial().getResourceLocation().toString() : "");
     }
 
     protected SkinPart getClothes() {

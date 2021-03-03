@@ -56,6 +56,6 @@ public class SkinPart extends ForgeRegistryEntry<SkinPart> {
     }
 
     public enum Type {
-        SKIN, EYES, HAIR, CLOTHING, WINGS, DRYAD_VINES, SKAEREN_SCALES
+        SKIN, EYES, HAIR, CLOTHING, WINGS, DRYAD_VINES
     }
 }

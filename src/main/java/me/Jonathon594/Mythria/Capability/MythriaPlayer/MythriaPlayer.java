@@ -68,9 +68,6 @@ public class MythriaPlayer implements IMythriaPlayer {
             case DRYAD_VINES:
                 entity.getDataManager().set(VINES, part);
                 break;
-            case SKAEREN_SCALES:
-                entity.getDataManager().set(SCALES, part);
-                break;
         }
     }
 
@@ -89,8 +86,6 @@ public class MythriaPlayer implements IMythriaPlayer {
                 return entity.getDataManager().get(WINGS);
             case DRYAD_VINES:
                 return entity.getDataManager().get(VINES);
-            case SKAEREN_SCALES:
-                return entity.getDataManager().get(SCALES);
         }
         return null;
     }
