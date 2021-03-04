@@ -12,6 +12,7 @@ public class GuiButtonSelector extends Button {
     protected String format;
     protected int index = 0;
     protected String selectedName = "";
+
     public GuiButtonSelector(int xPos, int yPos, int width, int height, String format, IPressable handler, Supplier<List<String>> optionFactory) {
         super(xPos, yPos, width, height, new StringTextComponent(format.replace("%", optionFactory.get().size() == 0 ? "" : optionFactory.get().get(0))), handler);
         this.format = format;
@@ -41,9 +42,13 @@ public class GuiButtonSelector extends Button {
             return;
         }
         String name = optionFactory.get().get(index);
-        setMessage(new StringTextComponent(format.replace("%s", name)));
+        setMessage(new StringTextComponent(format.replace("%s", modifyMessage(name))));
 
         selectedName = name;
+    }
+
+    protected String modifyMessage(String string) {
+        return string;
     }
 
     public int getIndex() {

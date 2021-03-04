@@ -181,6 +181,7 @@ public class Profile implements IProfile {
     }
 
     public void setGenetic(Genetic genetic) {
+        abilities.clear();
         this.genetic = genetic;
         addGrantedAbilities();
     }

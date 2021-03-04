@@ -44,6 +44,7 @@ public class CPacketProfileCreation extends NBTPacket {
             profile.fromNBT(profileNBT);
             profile.getPlayerSkills().clear();
             profile.getSkillLevels().clear();
+            profile.getAbilities().clear();
             profile.fillHashMaps();
 
             for (SkinPart.Type type : SkinPart.Type.values()) {

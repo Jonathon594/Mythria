@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 class SpecialSkinPartSelector extends GuiButtonSkinPartSelector {
-    public SpecialSkinPartSelector(int xPosition, int yPosition, IPressable buttonHandler, Supplier<List<String>> optionFactory) {
-        super(xPosition, yPosition += 25, 200, 20, "Race Trait: %s", buttonHandler, optionFactory);
+    public SpecialSkinPartSelector(int xPos, int yPos, int width, int height, IPressable buttonHandler, Supplier<List<String>> optionFactory) {
+        super(xPos, yPos, width, height, "Race Trait: %s", buttonHandler, optionFactory);
     }
 
     @Override
