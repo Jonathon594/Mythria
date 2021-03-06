@@ -19,7 +19,7 @@ public class Genetic extends ForgeRegistryEntry<Genetic> {
 
     private List<Gene> genes = new ArrayList<>();
 
-    public Genetic(final String name, String displayName, double idealTemperature, double baseStamina, double baseSpeed, double baseWeight, double baseHealth, double baseXP, double baseMana, double baseManaRegen, int lifeExpectancy,
+    public Genetic(final String name, String displayName,
                    SpawnPos spawnPos) {
         this.displayName = displayName;
         this.spawnPos = spawnPos;
@@ -73,5 +73,55 @@ public class Genetic extends ForgeRegistryEntry<Genetic> {
     public Genetic setSpecialSkinPartType(SkinPart.Type specialSkinPartType) {
         this.specialSkinPartType = specialSkinPartType;
         return this;
+    }
+
+    protected double getDoubleStatGeneValue(Gene.GeneType type) {
+        DoubleStatGene gene = (DoubleStatGene) getEssentialGene(type);
+        return gene.getValue();
+    }
+
+    protected int getIntGeneValue(Gene.GeneType type) {
+        IntStatGene gene = (IntStatGene) getEssentialGene(type);
+        return gene.getValue();
+    }
+
+    public double getGenderBias() {
+        return getDoubleStatGeneValue(Gene.GeneType.GENDER_BIAS);
+    }
+
+    public int getLifeExpectancy() {
+        return getIntGeneValue(Gene.GeneType.LIFESPAN);
+    }
+
+    public double getBaseStamina() {
+        return getDoubleStatGeneValue(Gene.GeneType.STAMINA);
+    }
+
+    public double getBaseSpeed() {
+        return getDoubleStatGeneValue(Gene.GeneType.SPEED);
+    }
+
+    public double getBaseWeight() {
+        return getDoubleStatGeneValue(Gene.GeneType.WEIGHT);
+    }
+
+    public double getBaseHealth() {
+        return getDoubleStatGeneValue(Gene.GeneType.HEALTH);
+    }
+
+    public double getBaseXP() {
+        return getDoubleStatGeneValue(Gene.GeneType.INTELLIGENCE);
+    }
+
+    public double getBaseMana() {
+        return getDoubleStatGeneValue(Gene.GeneType.MANA);
+    }
+
+    public double getBaseManaRegen() {
+        return getDoubleStatGeneValue(Gene.GeneType.MANA_REGEN);
+    }
+
+    public double getIdealTemperature() {
+        return getDoubleStatGeneValue(Gene.GeneType.TEMPERATURE);
     }
 }

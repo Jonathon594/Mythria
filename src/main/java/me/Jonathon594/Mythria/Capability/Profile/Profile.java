@@ -469,7 +469,7 @@ public class Profile implements IProfile {
         for (SkinPart.Type type : SkinPart.Type.values()) {
             String partName = skin.getString(type.name());
             if (partName.isEmpty()) continue;
-            SkinPart part = SkinPartManager.getSkinPart(new ResourceLocation(partName));
+            SkinPart part = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(partName));
             if (part == null) continue;
             skinData.put(type, part);
         }
@@ -690,21 +690,21 @@ public class Profile implements IProfile {
     }
 
     public void inseminate(Profile maleProfile, Profile femaleProfile) {
-        if (gender == 0) return;
-        if (!created) return;
-        if (pregnant) return;
-
-        Genetic primary = getGenetic();
-        int cycleLength = primary.getFertileCycleLength();
-        int cycleDay = MythriaUtil.wrapInt(TimeManager.getCurrentDate().getMGD(), 1, cycleLength);
-        int padding = 0;
-        if (cycleDay + padding > cycleLength / 4 && cycleDay - padding < cycleLength / 2) {
-            pregnant = true;
-            pregMotherProfileData = femaleProfile.toNBT();
-            pregFatherProfileData = maleProfile.toNBT();
-            pregBabyCount = (int) Math.floor(-((Math.log(random.nextDouble()) / -Math.log(89)) / Math.log(89)));
-            pregConceptionData = TimeManager.getCurrentDate().getMGD();
-        }
+//        if (gender == 0) return;
+//        if (!created) return;
+//        if (pregnant) return;
+//
+//        Genetic primary = getGenetic();
+//        int cycleLength = primary.getFertileCycleLength();
+//        int cycleDay = MythriaUtil.wrapInt(TimeManager.getCurrentDate().getMGD(), 1, cycleLength);
+//        int padding = 0;
+//        if (cycleDay + padding > cycleLength / 4 && cycleDay - padding < cycleLength / 2) {
+//            pregnant = true;
+//            pregMotherProfileData = femaleProfile.toNBT();
+//            pregFatherProfileData = maleProfile.toNBT();
+//            pregBabyCount = (int) Math.floor(-((Math.log(random.nextDouble()) / -Math.log(89)) / Math.log(89)));
+//            pregConceptionData = TimeManager.getCurrentDate().getMGD();
+//        }
     }
 
     public HealthData getHealthData() {
@@ -859,9 +859,9 @@ public class Profile implements IProfile {
     }
 
     private void addGrantedAbilities() {
-        for (Ability ability : genetic.getGrantedAbilities()) {
-            if (!abilities.contains(ability)) addAbility(ability);
-        }
+        //for (Ability ability : genetic.getGrantedAbilities()) {
+        //    if (!abilities.contains(ability)) addAbility(ability);
+        //} todo
     }
 
     public double getNutrition(Consumable.Nutrition nutrition) {

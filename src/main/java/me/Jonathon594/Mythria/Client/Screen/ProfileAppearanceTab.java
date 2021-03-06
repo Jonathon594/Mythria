@@ -116,15 +116,15 @@ public class ProfileAppearanceTab extends ProfileCreationTab {
         Profile profile = ProfileProvider.getProfile(playerEntity);
         profile.setGenetic(getSelectedRace());
         profile.setGender(getSelectedGender());
-        profile.setSkinData(SkinPart.Type.HAIR, SkinPartManager.getSkinPart(new ResourceLocation(hair.getSelectedName())));
-        profile.setSkinData(SkinPart.Type.EYES, SkinPartManager.getSkinPart(new ResourceLocation(eyes.getSelectedName())));
-        profile.setSkinData(SkinPart.Type.SKIN, SkinPartManager.getSkinPart(new ResourceLocation(skin.getSelectedName())));
-        profile.setSkinData(SkinPart.Type.CLOTHING, SkinPartManager.getSkinPart(new ResourceLocation(clothes.getSelectedName())));
+        profile.setSkinData(SkinPart.Type.HAIR, MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(hair.getSelectedName())));
+        profile.setSkinData(SkinPart.Type.EYES, MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(eyes.getSelectedName())));
+        profile.setSkinData(SkinPart.Type.SKIN, MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(skin.getSelectedName())));
+        profile.setSkinData(SkinPart.Type.CLOTHING, MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(clothes.getSelectedName())));
 
         SkinPart.Type specialSkinPartType = getSelectedRace().getSpecialSkinPartType();
         for (SkinPart.Type type : ImmutableList.of(SkinPart.Type.WINGS, SkinPart.Type.DRYAD_VINES)) {
             profile.setSkinData(type, type.equals(specialSkinPartType) ?
-                    SkinPartManager.getSkinPart(new ResourceLocation(unique.getSelectedName())) : null);
+                    MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(unique.getSelectedName())) : null);
         }
 
         profile.copySkinToMythriaPlayer(MythriaPlayerProvider.getMythriaPlayer(playerEntity));

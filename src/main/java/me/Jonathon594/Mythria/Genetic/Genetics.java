@@ -1,15 +1,9 @@
 package me.Jonathon594.Mythria.Genetic;
 
-import me.Jonathon594.Mythria.Ability.Abilities;
-import me.Jonathon594.Mythria.DataTypes.SkinPart;
 import me.Jonathon594.Mythria.DataTypes.SpawnPos;
+import me.Jonathon594.Mythria.Enum.Gender;
 import me.Jonathon594.Mythria.Managers.SkinPartManager;
 import me.Jonathon594.Mythria.Mythria;
-import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
-import net.minecraft.entity.EntityType;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -30,10 +24,21 @@ public class Genetics {
     public static void onRegisterGenetics(RegistryEvent.Register<Genetic> event) {
         SpawnPos zero = SpawnPos.ZERO;
         event.getRegistry().registerAll(
-                new Genetic("human", "Human", 14,
-                        100, 0.0, 50, 4, 1.5, 10,
-                        0, 74, zero)
-                .withGene(new SkinPartGene(SkinPartManager.getSkinPart(new MythriaResourceLocation())))
+                new Genetic("human", "Human", zero)
+                        .withGene(new HairGene(SkinPartManager.HUMAN_CLOTHES_UNIS_PRIMITIVE, Gender.MALE))
+                        .withGene(new EyesGene(SkinPartManager.HUMAN_EYES_MALE_0, Gender.MALE))
+                        .withGene(new SkinGene(SkinPartManager.HUMAN_SKIN_UNIS_0, Gender.MALE))
+                        .withGene(new DoubleStatGene(Gene.GeneType.HEALTH, 4))
+                        .withGene(new DoubleStatGene(Gene.GeneType.STAMINA, 100))
+                        .withGene(new DoubleStatGene(Gene.GeneType.SPEED, 0.0))
+                        .withGene(new DoubleStatGene(Gene.GeneType.WEIGHT, 50))
+                        .withGene(new DoubleStatGene(Gene.GeneType.INTELLIGENCE, 1.5))
+                        .withGene(new DoubleStatGene(Gene.GeneType.MANA, 10))
+                        .withGene(new DoubleStatGene(Gene.GeneType.MANA_REGEN, 0))
+                        .withGene(new IntStatGene(Gene.GeneType.LIFESPAN, 74))
+                        .withGene(new DoubleStatGene(Gene.GeneType.TEMPERATURE, 14))
+                        .withGene(new DoubleStatGene(Gene.GeneType.GENDER_BIAS, 0.5))
+
 
 //                new Genetic("elf", "Elf", 12,
 //                        80, 0.01, 45, -2, 1.0, 50,

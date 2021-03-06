@@ -1,6 +1,7 @@
 package me.Jonathon594.Mythria.Client.Screen;
 
 import me.Jonathon594.Mythria.Managers.SkinPartManager;
+import me.Jonathon594.Mythria.MythriaRegistries;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 
@@ -24,7 +25,7 @@ public class GuiButtonSkinPartSelector extends GuiButtonSelector {
             return;
         }
         String name = optionFactory.get().get(index);
-        String displayName = SkinPartManager.getSkinPart(new ResourceLocation(name)).getDisplayName();
+        String displayName = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(name)).getDisplayName();
         setMessage(new StringTextComponent(format.replace("%s", displayName)));
 
         selectedName = name;

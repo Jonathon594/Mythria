@@ -70,8 +70,8 @@ public class EntityListener {
         LivingEntity revengeTarget = entity.getRevengeTarget();
         if (revengeTarget == null || !revengeTarget.equals(target)) {
             if (target instanceof PlayerEntity && entity instanceof MobEntity) {
-                if (ProfileProvider.getProfile((PlayerEntity) target).getGenetic().isInTruceWith(entity.getType()))
-                    ((MobEntity) entity).setAttackTarget(null);
+                //if (ProfileProvider.getProfile((PlayerEntity) target).getGenetic().isInTruceWith(entity.getType()))
+                //    ((MobEntity) entity).setAttackTarget(null); todo
             }
         }
     }
@@ -106,9 +106,9 @@ public class EntityListener {
 
             if (event.getEntityLiving() instanceof PlayerEntity) {
                 PlayerEntity playerEntity = (PlayerEntity) event.getEntityLiving();
-                if (ProfileProvider.getProfile(playerEntity).getGenetic().isImmune(event.getSource())) {
-                    event.setCanceled(true);
-                }
+                //if (ProfileProvider.getProfile(playerEntity).getGenetic().isImmune(event.getSource())) {
+                //    event.setCanceled(true);
+                //} todo
             }
 
             if (event.isCanceled()) return;
@@ -139,10 +139,10 @@ public class EntityListener {
     public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
         Entity entity = event.getEntity();
         for (Genetic genetic : MythriaRegistries.GENETICS.getValues()) {
-            if (genetic.getFleeingEntities().contains(entity.getType())) {
-                CreatureEntity creatureEntity = (CreatureEntity) entity;
-                creatureEntity.goalSelector.addGoal(-1, new AvoidGeneticGoal(creatureEntity, genetic));
-            }
+            //if (genetic.getFleeingEntities().contains(entity.getType())) {
+            //    CreatureEntity creatureEntity = (CreatureEntity) entity;
+            //    creatureEntity.goalSelector.addGoal(-1, new AvoidGeneticGoal(creatureEntity, genetic));
+            //} todo
         }
     }
 

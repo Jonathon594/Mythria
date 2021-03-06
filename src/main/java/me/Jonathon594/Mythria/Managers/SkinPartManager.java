@@ -3,18 +3,84 @@ package me.Jonathon594.Mythria.Managers;
 import me.Jonathon594.Mythria.DataTypes.SkinPart;
 import me.Jonathon594.Mythria.Genetic.Genetic;
 import me.Jonathon594.Mythria.Genetic.Genetics;
-import net.minecraft.util.ResourceLocation;
+import me.Jonathon594.Mythria.Mythria;
+import me.Jonathon594.Mythria.MythriaRegistries;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ObjectHolder;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@ObjectHolder(Mythria.MODID)
 public class SkinPartManager {
     private static final ArrayList<SkinPart> skinParts = new ArrayList<>();
+
+    public static final SkinPart HUMAN_CLOTHES_UNIS_PRIMITIVE = null;
+    public static final SkinPart SKAEREN_CLOTHES_MALE_PRIMITIVE = null;
+    public static final SkinPart SKAEREN_CLOTHES_FEMALE_PRIMITIVE = null;
+    public static final SkinPart CLOTHES_NUDE = null;
+    public static final SkinPart DEITY_CLOTHES_FELIXIA = null;
+    public static final SkinPart DEITY_CLOTHES_MELINIAS = null;
+    public static final SkinPart DEITY_CLOTHES_ASANA = null;
+    public static final SkinPart DEITY_CLOTHES_KASAI = null;
+    public static final SkinPart DEITY_CLOTHES_RAIKA = null;
+    public static final SkinPart DEITY_CLOTHES_SELINA = null;
+    public static final SkinPart DEITY_CLOTHES_LILASIA = null;
+    public static final SkinPart DEITY_CLOTHES_ELIANA = null;
+    public static final SkinPart DEITY_CLOTHES_MAL = null;
+    public static final SkinPart HUMAN_EYES_MALE_0 = null;
+    public static final SkinPart HUMAN_EYES_MALE_1 = null;
+    public static final SkinPart HUMAN_EYES_MALE_2 = null;
+    public static final SkinPart HUMAN_EYES_FEMALE_0 = null;
+    public static final SkinPart HUMAN_EYES_FEMALE_1 = null;
+    public static final SkinPart HUMAN_EYES_FEMALE_2 = null;
+    public static final SkinPart HUMAN_EYES_FEMALE_3 = null;
+    public static final SkinPart DEITY_EYES_FELIXIA = null;
+    public static final SkinPart DEITY_EYES_MELINIAS = null;
+    public static final SkinPart DEITY_EYES_ASANA = null;
+    public static final SkinPart DEITY_EYES_KASAI = null;
+    public static final SkinPart DEITY_EYES_RAIKA = null;
+    public static final SkinPart DEITY_EYES_SELINA = null;
+    public static final SkinPart DEITY_EYES_LILASIA = null;
+    public static final SkinPart DEITY_EYES_ELIANA = null;
+    public static final SkinPart DEITY_EYES_MAL = null;
+    public static final SkinPart HUMAN_HAIR_MALE_0 = null;
+    public static final SkinPart HUMAN_HAIR_MALE_1 = null;
+    public static final SkinPart HUMAN_HAIR_MALE_2 = null;
+    public static final SkinPart HUMAN_HAIR_MALE_3 = null;
+    public static final SkinPart HUMAN_HAIR_MALE_4 = null;
+    public static final SkinPart HUMAN_HAIR_MALE_5 = null;
+    public static final SkinPart HUMAN_HAIR_MALE_6 = null;
+    public static final SkinPart HUMAN_HAIR_MALE_7 = null;
+    public static final SkinPart HUMAN_HAIR_FEMALE_0 = null;
+    public static final SkinPart HUMAN_HAIR_FEMALE_1 = null;
+    public static final SkinPart HUMAN_HAIR_FEMALE_2 = null;
+    public static final SkinPart HUMAN_HAIR_FEMALE_3 = null;
+    public static final SkinPart DEITY_HAIR_FELIXIA = null;
+    public static final SkinPart DEITY_HAIR_MELINIAS = null;
+    public static final SkinPart DEITY_HAIR_ASANA = null;
+    public static final SkinPart DEITY_HAIR_KASAI = null;
+    public static final SkinPart DEITY_HAIR_RAIKA = null;
+    public static final SkinPart DEITY_HAIR_SELINA = null;
+    public static final SkinPart DEITY_HAIR_LILASIA = null;
+    public static final SkinPart DEITY_HAIR_MAL = null;
+    public static final SkinPart HUMAN_SKIN_UNIS_0 = null;
+    public static final SkinPart HUMAN_SKIN_UNIS_1 = null;
+    public static final SkinPart HUMAN_SKIN_UNIS_2 = null;
+    public static final SkinPart HUMAN_SKIN_UNIS_3 = null;
+    public static final SkinPart HUMAN_SKIN_UNIS_4 = null;
+    public static final SkinPart ORC_SKIN_UNIS_0 = null;
+    public static final SkinPart ORC_SKIN_FEMALE_0 = null;
+    public static final SkinPart ORC_SKIN_UNIS_1 = null;
+    public static final SkinPart ORC_SKIN_UNIS_2 = null;
+    public static final SkinPart FAE_WINGS_BLUE = null;
+    public static final SkinPart FAE_WINGS_RED = null;
+    public static final SkinPart FAE_WINGS_GREEN = null;
+    public static final SkinPart DRYAD_VINES_0 = null;
 
     @SubscribeEvent
     public static void onRegisterSkinParts(RegistryEvent.Register<SkinPart> event) {
@@ -114,20 +180,9 @@ public class SkinPartManager {
         );
     }
 
-    public static void addSkinPart(SkinPart part) {
-        skinParts.add(part);
-    }
-
-    public static SkinPart getSkinPart(ResourceLocation resourceLocation) {
-        for (SkinPart skinPart : skinParts) {
-            if (skinPart.getRegistryName().equals(resourceLocation)) return skinPart;
-        }
-        return null;
-    }
-
     public static List<SkinPart> getSkinPartsFor(SkinPart.Type type, int gender, @Nullable Genetic race) {
         List<SkinPart> parts = new ArrayList<>();
-        for (SkinPart part : skinParts) {
+        for (SkinPart part : MythriaRegistries.SKIN_PARTS.getValues()) {
             if (race != null && !part.getAllowedRaces().isEmpty() && !part.getAllowedRaces().contains(race)) continue;
             if (!part.getType().equals(type)) continue;
             if (gender == 0 && !part.isMasculine()) continue;

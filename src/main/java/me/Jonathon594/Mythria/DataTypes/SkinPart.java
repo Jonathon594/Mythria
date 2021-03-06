@@ -22,8 +22,6 @@ public class SkinPart extends ForgeRegistryEntry<SkinPart> {
         this.displayName = displayName;
         this.masculine = masculine;
         this.feminine = feminine;
-
-        SkinPartManager.addSkinPart(this);
     }
 
     public ArrayList<Genetic> getAllowedRaces() {

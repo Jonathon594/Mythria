@@ -14,12 +14,12 @@ public abstract class PlayerEntityMixin {
     protected void onTryToStartFallFlying(CallbackInfoReturnable<Boolean> cir) {
         if ((Object) this instanceof PlayerEntity) {
             PlayerEntity playerEntity = (PlayerEntity) ((Object) this);
-            if (ProfileProvider.getProfile(playerEntity).getGenetic().isGlidingAllowed()) {
-                if (!playerEntity.isOnGround() && !playerEntity.isElytraFlying() && !playerEntity.isInWater() && !playerEntity.isPotionActive(Effects.LEVITATION)) {
-                    playerEntity.startFallFlying();
-                    cir.setReturnValue(true);
-                }
-            }
+            //if (ProfileProvider.getProfile(playerEntity).getGenetic().isGlidingAllowed()) {
+            //    if (!playerEntity.isOnGround() && !playerEntity.isElytraFlying() && !playerEntity.isInWater() && !playerEntity.isPotionActive(Effects.LEVITATION)) {
+            //        playerEntity.startFallFlying();
+            //        cir.setReturnValue(true);
+            //    }
+            //} todo
         }
     }
 }

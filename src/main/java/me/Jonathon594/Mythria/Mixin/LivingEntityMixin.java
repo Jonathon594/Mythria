@@ -24,8 +24,8 @@ public abstract class LivingEntityMixin {
         if ((Object) this instanceof PlayerEntity) {
             PlayerEntity playerEntity = (PlayerEntity) ((Object) this);
             if (!playerEntity.isOnGround() && playerEntity.isElytraFlying() && !playerEntity.isInWater() && !playerEntity.isPotionActive(Effects.LEVITATION)) {
-                if (ProfileProvider.getProfile(playerEntity).getGenetic().isGlidingAllowed())
-                    ci.cancel();
+                //if (ProfileProvider.getProfile(playerEntity).getGenetic().isGlidingAllowed())
+                //    ci.cancel(); todo
             }
         }
     }
