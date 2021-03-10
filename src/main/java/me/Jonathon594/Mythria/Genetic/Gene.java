@@ -1,5 +1,7 @@
 package me.Jonathon594.Mythria.Genetic;
 
+import net.minecraft.nbt.CompoundNBT;
+
 public abstract class Gene {
     private GeneType type;
 
@@ -10,6 +12,10 @@ public abstract class Gene {
     public GeneType getType() {
         return type;
     }
+
+    public abstract GeneSerializer<? extends Gene> getSerializer();
+
+    public abstract CompoundNBT toNBT(boolean writeSerializer);
 
     public enum GeneType {
         HAIR(false, true),
@@ -27,8 +33,10 @@ public abstract class Gene {
         GENDER_BIAS(false, true),
 
         IMMUNITY(true, false),
-        ENTITY_INTERACTION(true, false),
-        ABILITY(true, false);
+        ENTITY_RELATION(true, false),
+        ABILITY(true, false),
+        WINGS(false, false),
+        VINES(false, false);
 
         private final boolean stackable;
         private final boolean essential;

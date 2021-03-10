@@ -1,6 +1,7 @@
 package me.Jonathon594.Mythria.Client.Renderer;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Client.Model.CharacterModel;
 import me.Jonathon594.Mythria.Client.Renderer.Layer.CharacterLayerRenderer;
@@ -52,8 +53,10 @@ public class CharacterRenderer extends LivingRenderer<LivingEntity, CharacterMod
     }
 
     public static ResourceLocation getCharacterLayeredTexture(LivingEntity entity, SkinPart.Type skin) {
-        String name = MythriaPlayerProvider.getMythriaPlayer(entity).getSkinPart(skin);
-        return name.isEmpty() ? null : new ResourceLocation(name);
+        MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(entity);
+        SkinPart skinPart = mythriaPlayer.getSkinPart(skin);
+        if(skinPart == null) return null;
+        return skinPart.getTextureLocation(mythriaPlayer.getGender());
     }
 
     @Override

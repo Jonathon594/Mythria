@@ -41,17 +41,17 @@ public class ClientListener {
 
     @SubscribeEvent
     public static void onRenderBlockOverlay(RenderBlockOverlayEvent event) {
-        //if (event.getOverlayType().equals(RenderBlockOverlayEvent.OverlayType.FIRE) &&
-            //    ProfileProvider.getProfile(Minecraft.getInstance().player).getGenetic().isImmune(DamageSource.ON_FIRE))
-            //event.setCanceled(true); todo
+        if (event.getOverlayType().equals(RenderBlockOverlayEvent.OverlayType.FIRE) &&
+                ProfileProvider.getProfile(Minecraft.getInstance().player).getGenetic().isImmune(DamageSource.ON_FIRE))
+            event.setCanceled(true);
     }
 
     @SubscribeEvent
     public static void onFog(EntityViewRenderEvent.FogDensity event) {
         if (event.getInfo().getFluidState().isTagged(FluidTags.LAVA)) {
-            //if (ProfileProvider.getProfile(Minecraft.getInstance().player).getGenetic().isImmune(DamageSource.LAVA))
-             //   event.setDensity(0.05f);
-            //event.setCanceled(true); todo
+            if (ProfileProvider.getProfile(Minecraft.getInstance().player).getGenetic().isImmune(DamageSource.LAVA))
+                event.setDensity(0.05f);
+            event.setCanceled(true);
         }
     }
 

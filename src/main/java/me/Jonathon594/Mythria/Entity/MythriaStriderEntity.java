@@ -1,7 +1,5 @@
 package me.Jonathon594.Mythria.Entity;
 
-import me.Jonathon594.Mythria.Entity.AI.AvoidAllOtherGeneticGoal;
-import me.Jonathon594.Mythria.Genetic.Genetics;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -22,7 +20,6 @@ public class MythriaStriderEntity extends StriderEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(-1, new AvoidAllOtherGeneticGoal(this, Genetics.SKAEREN));
         super.registerGoals();
     }
 

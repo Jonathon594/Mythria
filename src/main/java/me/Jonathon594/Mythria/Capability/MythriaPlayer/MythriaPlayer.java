@@ -1,19 +1,22 @@
 package me.Jonathon594.Mythria.Capability.MythriaPlayer;
 
 import me.Jonathon594.Mythria.DataTypes.SkinPart;
+import me.Jonathon594.Mythria.Enum.Gender;
+import me.Jonathon594.Mythria.Network.MythriaSerializers;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 
 public class MythriaPlayer implements IMythriaPlayer {
     public static final DataParameter<Boolean> PARRYING = new DataParameter<>(254, DataSerializers.BOOLEAN);
-    public static final DataParameter<String> HAIR = new DataParameter<>(253, DataSerializers.STRING);
-    public static final DataParameter<String> SKIN = new DataParameter<>(252, DataSerializers.STRING);
-    public static final DataParameter<String> CLOTHES = new DataParameter<>(251, DataSerializers.STRING);
-    public static final DataParameter<String> EYES = new DataParameter<>(250, DataSerializers.STRING);
-    public static final DataParameter<String> WINGS = new DataParameter<>(249, DataSerializers.STRING);
-    public static final DataParameter<String> VINES = new DataParameter<>(248, DataSerializers.STRING);
-    public static final DataParameter<String> SCALES = new DataParameter<>(247, DataSerializers.STRING);
+    public static final DataParameter<SkinPart> HAIR = new DataParameter<>(253, MythriaSerializers.SKIN);
+    public static final DataParameter<SkinPart> SKIN = new DataParameter<>(252, MythriaSerializers.SKIN);
+    public static final DataParameter<SkinPart> CLOTHES = new DataParameter<>(251, MythriaSerializers.SKIN);
+    public static final DataParameter<SkinPart> EYES = new DataParameter<>(250, MythriaSerializers.SKIN);
+    public static final DataParameter<SkinPart> WINGS = new DataParameter<>(249, MythriaSerializers.SKIN);
+    public static final DataParameter<SkinPart> VINES = new DataParameter<>(248, MythriaSerializers.SKIN);
+    public static final DataParameter<SkinPart> SCALES = new DataParameter<>(247, MythriaSerializers.SKIN);
+    public static final DataParameter<Gender> GENDER = new DataParameter<>(246, MythriaSerializers.GENDER);
 
     private LivingEntity entity;
     private int ticksParrying;
@@ -48,7 +51,7 @@ public class MythriaPlayer implements IMythriaPlayer {
     }
 
     @Override
-    public void setSkinPart(SkinPart.Type skinPart, String part) {
+    public void setSkinPart(SkinPart.Type skinPart, SkinPart part) {
         switch (skinPart) {
             case SKIN:
                 entity.getDataManager().set(SKIN, part);
@@ -72,7 +75,7 @@ public class MythriaPlayer implements IMythriaPlayer {
     }
 
     @Override
-    public String getSkinPart(SkinPart.Type skinPart) {
+    public SkinPart getSkinPart(SkinPart.Type skinPart) {
         switch (skinPart) {
             case SKIN:
                 return entity.getDataManager().get(SKIN);
@@ -90,9 +93,14 @@ public class MythriaPlayer implements IMythriaPlayer {
         return null;
     }
 
-    //todo remove
-    public void setEntity(LivingEntity entity) {
-        this.entity = entity;
+    @Override
+    public void setGender(Gender gender) {
+        entity.getDataManager().set(GENDER, gender);
+    }
+
+    @Override
+    public Gender getGender() {
+        return entity.getDataManager().get(GENDER);
     }
 
     public int getWingFlightFlapAngle() {

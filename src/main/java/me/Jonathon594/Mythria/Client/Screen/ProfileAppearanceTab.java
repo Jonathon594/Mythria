@@ -6,8 +6,10 @@ import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.DataTypes.SkinPart;
-import me.Jonathon594.Mythria.Genetic.Genetic;
-import me.Jonathon594.Mythria.Managers.SkinPartManager;
+import me.Jonathon594.Mythria.Enum.Gender;
+import me.Jonathon594.Mythria.Genetic.GeneticType;
+import me.Jonathon594.Mythria.Genetic.ISkinPartGene;
+import me.Jonathon594.Mythria.Managers.SkinParts;
 import me.Jonathon594.Mythria.MythriaRegistries;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.client.Minecraft;
@@ -39,7 +41,7 @@ public class ProfileAppearanceTab extends ProfileCreationTab {
                 "Race: %s", this::onRaceClicked, () -> getRaceNames()) {
             @Override
             protected String modifyMessage(String message) {
-                Genetic genetic = MythriaRegistries.GENETICS.getValue(new ResourceLocation(message));
+                GeneticType genetic = MythriaRegistries.GENETICS.getValue(new ResourceLocation(message));
                 return genetic.getDisplayName();
             }
         });
@@ -55,38 +57,39 @@ public class ProfileAppearanceTab extends ProfileCreationTab {
 
         hair = addWidget(new GuiButtonSkinPartSelector(xPos, yPos += yStep, width, height,
                 "Hair: %s", this::onSkinPartChanged, () ->
-                SkinPartManager.getSkinPartNamesFor(SkinPart.Type.HAIR, getSelectedGender(), getSelectedRace())));
+                SkinParts.getSkinPartNamesFor(getSelectedGeneticType().getAllowedHairs())));
         eyes = addWidget(new GuiButtonSkinPartSelector(xPos, yPos += yStep, width, height,
                 "Eyes: %s", this::onSkinPartChanged, () ->
-                SkinPartManager.getSkinPartNamesFor(SkinPart.Type.EYES, getSelectedGender(), getSelectedRace())));
+                SkinParts.getSkinPartNamesFor(getSelectedGeneticType().getAllowedEyes())));
         skin = addWidget(new GuiButtonSkinPartSelector(xPos, yPos += yStep, width, height,
                 "Skin: %s", this::onSkinPartChanged, () ->
-                SkinPartManager.getSkinPartNamesFor(SkinPart.Type.SKIN, getSelectedGender(), getSelectedRace())));
+                SkinParts.getSkinPartNamesFor(getSelectedGeneticType().getAllowedSkins())));
         clothes = addWidget(new GuiButtonSkinPartSelector(xPos, yPos += yStep, width, height,
                 "Clothes: %s", this::onSkinPartChanged, () ->
-                SkinPartManager.getSkinPartNamesFor(SkinPart.Type.CLOTHING, getSelectedGender(), getSelectedRace())));
+                SkinParts.getSkinPartNamesFor(getSelectedGeneticType().getAllowedClothes())));
         unique = addWidget(new SpecialSkinPartSelector(xPos, yPos + yStep, width, height, this::onSkinPartChanged, () -> {
-            SkinPart.Type type = getSelectedRace().getSpecialSkinPartType();
+            SkinPart.Type type = getSelectedGeneticType().getSpecialSkinPartType();
             if (type == null) return ImmutableList.of();
-            return SkinPartManager.getSkinPartNamesFor(type, getSelectedGender(), getSelectedRace());
+            return SkinParts.getSkinPartNamesFor(SkinParts.getSkinPartsFor(type));
         }));
 
         updateProfileSkin();
     }
 
-    private int getSelectedGender() {
-        return gender.selectedName == "male" ? 0 : 1;
+    private Gender getSelectedGender() {
+        return Gender.valueOf(gender.selectedName);
     }
 
     private List<String> getValidGenders() {
         List<String> genders = Lists.newArrayList();
-        if (getSelectedRace().getGenderBias() != 1) genders.add("male");
-        if (getSelectedRace().getGenderBias() != 0) genders.add("female");
+        double genderBias = getSelectedGeneticType().getDefaultInstance().getGenderBias();
+        if (genderBias != 1) genders.add(Gender.MALE.name());
+        if (genderBias != 0) genders.add(Gender.FEMALE.name());
         return genders;
     }
 
 
-    private Genetic getSelectedRace() {
+    private GeneticType getSelectedGeneticType() {
         return MythriaRegistries.GENETICS.getValue(new ResourceLocation(race.getSelectedName()));
     }
 
@@ -99,7 +102,7 @@ public class ProfileAppearanceTab extends ProfileCreationTab {
     private void onRaceClicked(Button button) {
         gender.updateIndex();
         updateSkinPartIndices();
-        int lifeExpectancy = getSelectedRace().getLifeExpectancy();
+        int lifeExpectancy = getSelectedGeneticType().getDefaultInstance().getLifeExpectancy();
         parent.profileNamesTab.age.setMaxValue(lifeExpectancy <= 0 ? 500 : lifeExpectancy / 2);
     }
 
@@ -114,18 +117,22 @@ public class ProfileAppearanceTab extends ProfileCreationTab {
     private void updateProfileSkin() {
         PlayerEntity playerEntity = Minecraft.getInstance().player;
         Profile profile = ProfileProvider.getProfile(playerEntity);
-        profile.setGenetic(getSelectedRace());
+        profile.setGenetic(getSelectedGeneticType().createGenetic());
         profile.setGender(getSelectedGender());
-        profile.setSkinData(SkinPart.Type.HAIR, MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(hair.getSelectedName())));
-        profile.setSkinData(SkinPart.Type.EYES, MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(eyes.getSelectedName())));
-        profile.setSkinData(SkinPart.Type.SKIN, MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(skin.getSelectedName())));
-        profile.setSkinData(SkinPart.Type.CLOTHING, MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(clothes.getSelectedName())));
+        profile.getGenetic().getHair().setSkinPart(MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(hair.getSelectedName())));
+        profile.getGenetic().getEyes().setSkinPart(MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(eyes.getSelectedName())));
+        profile.getGenetic().getSkin().setSkinPart(MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(skin.getSelectedName())));
+        profile.setClothing(MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(clothes.getSelectedName())));
 
-        SkinPart.Type specialSkinPartType = getSelectedRace().getSpecialSkinPartType();
-        for (SkinPart.Type type : ImmutableList.of(SkinPart.Type.WINGS, SkinPart.Type.DRYAD_VINES)) {
-            profile.setSkinData(type, type.equals(specialSkinPartType) ?
-                    MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(unique.getSelectedName())) : null);
-        }
+        SkinPart.Type specialSkinPartType = getSelectedGeneticType().getSpecialSkinPartType();
+        profile.getGenetic().getExtraGenes().forEach(gene -> {
+            if (gene instanceof ISkinPartGene) {
+                ISkinPartGene skinPartGene = (ISkinPartGene) gene;
+                if (skinPartGene.getSkinPart().getType().equals(specialSkinPartType)) {
+                    skinPartGene.setSkinPart(MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(unique.getSelectedName())));
+                }
+            }
+        });
 
         profile.copySkinToMythriaPlayer(MythriaPlayerProvider.getMythriaPlayer(playerEntity));
     }

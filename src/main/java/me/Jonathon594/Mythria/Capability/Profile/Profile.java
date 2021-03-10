@@ -9,9 +9,10 @@ import me.Jonathon594.Mythria.DataTypes.SkinPart;
 import me.Jonathon594.Mythria.DataTypes.Time.Date;
 import me.Jonathon594.Mythria.Enum.*;
 import me.Jonathon594.Mythria.Genetic.Genetic;
-import me.Jonathon594.Mythria.Genetic.Genetics;
+import me.Jonathon594.Mythria.Genetic.GeneticTypes;
+import me.Jonathon594.Mythria.Genetic.ISkinPartGene;
 import me.Jonathon594.Mythria.Managers.AbilityHandler;
-import me.Jonathon594.Mythria.Managers.SkinPartManager;
+import me.Jonathon594.Mythria.Managers.SkinParts;
 import me.Jonathon594.Mythria.Managers.StatManager;
 import me.Jonathon594.Mythria.Managers.TimeManager;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
@@ -48,7 +49,6 @@ public class Profile implements IProfile {
     private final HashMap<Attribute, Integer> attributeValues = new HashMap<>();
     private final HashMap<Deity, Integer> favorLevels = new HashMap<>();
     private final HashMap<StatType, Double> statModifiers = new HashMap<>();
-    private final HashMap<SkinPart.Type, SkinPart> skinData = new HashMap<>();
     private final Random random;
     private final ArrayList<Ability> abilities = new ArrayList<>();
     private final AbilityHandler abilityHandler = new AbilityHandler();
@@ -56,7 +56,7 @@ public class Profile implements IProfile {
     private String middleName = "";
     private String lastName = "";
     private Date birthDay = new Date();
-    private int gender = 0;
+    private Gender gender = Gender.MALE;
     private boolean created = false;
     private PlayerEntity player;
     private UUID profileUUID;
@@ -68,19 +68,20 @@ public class Profile implements IProfile {
     private int pregBabyCount = 0;
     private int pregConceptionData = 0;
     private Long lastDisconnect = 0L;
-    private Genetic genetic = Genetics.HUMAN;
+    private Genetic genetic;
     private double bleeding = 0.0;
     private double playerLevelProgressBuffer;
+    private SkinPart clothing = SkinParts.CLOTHES_PRIMITIVE;
 
     public Profile() {
-        fillHashMaps();
+        init();
         random = new Random();
     }
 
-    public void fillHashMaps() {
+    public void init() {
+        genetic = GeneticTypes.HUMAN.createGenetic();
         for (final MythicSkills sk : MythicSkills.values())
             skillLevels.put(sk, (double) 0);
-
         for (final Attribute a : Attribute.values())
             attributeValues.put(a, 0);
         for (final Consumable s : Consumable.values())
@@ -94,11 +95,6 @@ public class Profile implements IProfile {
         }
         for (StatType type : StatType.values()) {
             statModifiers.put(type, 1.0);
-        }
-
-        for (SkinPart.Type type : SkinPart.Type.values()) {
-            List<SkinPart> parts = SkinPartManager.getSkinPartsFor(type, gender, Genetics.HUMAN);
-            skinData.put(type, parts.size() == 0 ? null : parts.get(0));
         }
     }
 
@@ -117,14 +113,6 @@ public class Profile implements IProfile {
         return unlockedPerkTypes.contains(type);
     }
 
-    public void setSkinData(SkinPart.Type type, SkinPart part) {
-        skinData.put(type, part);
-    }
-
-    public SkinPart getSkinData(SkinPart.Type type) {
-        return skinData.get(type);
-    }
-
     public void applyRandomStatModifiers() {
         for (StatType type : StatType.values()) {
             double value = random.nextDouble() + 0.5;
@@ -135,12 +123,12 @@ public class Profile implements IProfile {
     public void clear() {
         perks.clear();
         unlockedPerkTypes.clear();
-        fillHashMaps();
+        init();
         firstName = "";
         middleName = "";
         lastName = "";
         birthDay = new Date();
-        gender = 0;
+        gender = Gender.MALE;
         created = false;
         player = null;
         ownerName = null;
@@ -341,10 +329,22 @@ public class Profile implements IProfile {
     }
 
     public void copySkinToMythriaPlayer(MythriaPlayer mythriaPlayer) {
+        Genetic genetic = getGenetic();
+        HashMap<SkinPart.Type, SkinPart> copy = new HashMap<>();
+        copy.put(SkinPart.Type.HAIR, genetic.getHair().getSkinPart());
+        copy.put(SkinPart.Type.EYES, genetic.getEyes().getSkinPart());
+        copy.put(SkinPart.Type.SKIN, genetic.getSkin().getSkinPart());
+        copy.put(SkinPart.Type.CLOTHING, clothing);
+        genetic.getExtraGenes().forEach(gene -> {
+            if (gene instanceof ISkinPartGene) {
+                ISkinPartGene skinPartGene = (ISkinPartGene) gene;
+                copy.put(skinPartGene.getSkinPart().getType(), skinPartGene.getSkinPart());
+            }
+        });
         for (SkinPart.Type type : SkinPart.Type.values()) {
-            SkinPart skinData = getSkinData(type);
-            mythriaPlayer.setSkinPart(type, skinData == null ? "" : skinData.getResourceLocation().toString());
+            mythriaPlayer.setSkinPart(type, copy.get(type));
         }
+        mythriaPlayer.setGender(getGender());
     }
 
     public int getPlayerLevel() {
@@ -359,18 +359,10 @@ public class Profile implements IProfile {
         comp.putString("LastName", getLastName());
         if (getOwnerName() != null) comp.putString("OwnerName", getOwnerName());
         comp.putInt("Birthday", getBirthDay().getMGD());
-        comp.putInt("Gender", getGender());
+        comp.putString("Gender", getGender().name());
         comp.putBoolean("Created", getCreated());
         comp.putString("DataVersion", getDataVersion() == null ? "" : getDataVersion());
-        comp.putString("Genetic", genetic.getRegistryName().toString());
-
-        CompoundNBT skin = new CompoundNBT();
-        for (Map.Entry<SkinPart.Type, SkinPart> entry : skinData.entrySet()) {
-            skin.putString(entry.getKey().name(), entry.getValue() == null ? "" : entry.getValue().getRegistryName().toString());
-        }
-
-        comp.put("Skin", skin);
-
+        comp.put("Genetic", genetic.toNBT());
         comp.putBoolean("Pregnant", getPregnant());
         comp.put("PregFatherProfile", getPregFatherProfile());
         comp.put("PregMotherProfile", getPregMotherProfile());
@@ -460,20 +452,10 @@ public class Profile implements IProfile {
         setLastName(comp.getString("LastName"));
         setOwnerName(comp.getString("OwnerName"));
         setBirthDay(new Date(comp.getInt("Birthday")));
-        setGender(comp.getInt("Gender"));
+        setGender(Gender.valueOf(comp.getString("Gender")));
         setCreated(comp.getBoolean("Created"));
         setDataVersion(comp.getString("DataVersion"));
-        genetic = MythriaRegistries.GENETICS.getValue(new ResourceLocation(comp.getString("Genetic")));
-
-        CompoundNBT skin = comp.getCompound("Skin");
-        for (SkinPart.Type type : SkinPart.Type.values()) {
-            String partName = skin.getString(type.name());
-            if (partName.isEmpty()) continue;
-            SkinPart part = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(partName));
-            if (part == null) continue;
-            skinData.put(type, part);
-        }
-
+        genetic.fromNBT(comp.getCompound("Genetic"));
         setPregnant(comp.getBoolean("Pregnant"));
         setPregFatherProfileData(comp.getCompound("PregFatherProfile"));
         setPregMotherProfileData(comp.getCompound("PregMotherProfile"));
@@ -681,11 +663,11 @@ public class Profile implements IProfile {
         return getFirstName() + " " + getMiddleName() + " " + getLastName();
     }
 
-    public int getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(final int gender) {
+    public void setGender(final Gender gender) {
         this.gender = gender;
     }
 
@@ -859,9 +841,9 @@ public class Profile implements IProfile {
     }
 
     private void addGrantedAbilities() {
-        //for (Ability ability : genetic.getGrantedAbilities()) {
-        //    if (!abilities.contains(ability)) addAbility(ability);
-        //} todo
+        for (Ability ability : genetic.getGrantedAbilities()) {
+            if (!abilities.contains(ability)) addAbility(ability);
+        }
     }
 
     public double getNutrition(Consumable.Nutrition nutrition) {
@@ -901,5 +883,13 @@ public class Profile implements IProfile {
 
     public ArrayList<Ability> getAbilities() {
         return abilities;
+    }
+
+    public void setClothing(SkinPart part) {
+        clothing = part;
+    }
+
+    public SkinPart getClothing() {
+        return clothing;
     }
 }

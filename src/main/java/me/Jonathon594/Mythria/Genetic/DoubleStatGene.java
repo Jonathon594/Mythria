@@ -1,5 +1,8 @@
 package me.Jonathon594.Mythria.Genetic;
 
+import me.Jonathon594.Mythria.Managers.GeneSerializers;
+import net.minecraft.nbt.CompoundNBT;
+
 public class DoubleStatGene extends Gene {
     private final double value;
 
@@ -10,5 +13,15 @@ public class DoubleStatGene extends Gene {
 
     public double getValue() {
         return value;
+    }
+
+    @Override
+    public GeneSerializer<DoubleStatGene> getSerializer() {
+        return GeneSerializers.DOUBLE_STAT;
+    }
+
+    @Override
+    public CompoundNBT toNBT(boolean writeSerializer) {
+        return getSerializer().serialize(this, writeSerializer);
     }
 }

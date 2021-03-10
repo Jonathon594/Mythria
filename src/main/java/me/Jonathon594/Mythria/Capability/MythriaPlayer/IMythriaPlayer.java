@@ -1,6 +1,7 @@
 package me.Jonathon594.Mythria.Capability.MythriaPlayer;
 
 import me.Jonathon594.Mythria.DataTypes.SkinPart;
+import me.Jonathon594.Mythria.Enum.Gender;
 
 public interface IMythriaPlayer {
     boolean isParrying();
@@ -11,7 +12,11 @@ public interface IMythriaPlayer {
 
     void setTicksParrying(int ticksParrying);
 
-    void setSkinPart(SkinPart.Type skinPart, String part);
+    void setSkinPart(SkinPart.Type skinPart, SkinPart part);
 
-    String getSkinPart(SkinPart.Type skinPart);
+    SkinPart getSkinPart(SkinPart.Type skinPart);
+
+    void setGender(Gender gender);
+
+    Gender getGender();
 }

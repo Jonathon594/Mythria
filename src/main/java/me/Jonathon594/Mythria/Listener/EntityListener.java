@@ -5,20 +5,18 @@ import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.DataTypes.SkinPart;
 import me.Jonathon594.Mythria.Entity.AI.AvoidGeneticGoal;
-import me.Jonathon594.Mythria.Entity.MythriaEntityType;
-import me.Jonathon594.Mythria.Entity.MythriaStriderEntity;
 import me.Jonathon594.Mythria.Entity.NPCEntity;
-import me.Jonathon594.Mythria.Entity.NetherChickenEntity;
 import me.Jonathon594.Mythria.Enum.Consumable;
+import me.Jonathon594.Mythria.Enum.Gender;
 import me.Jonathon594.Mythria.Enum.StatType;
-import me.Jonathon594.Mythria.Genetic.Genetic;
 import me.Jonathon594.Mythria.Managers.*;
-import me.Jonathon594.Mythria.MythriaRegistries;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
-import net.minecraft.entity.*;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.*;
@@ -50,13 +48,14 @@ public class EntityListener {
         if (entity instanceof PlayerEntity || entity instanceof NPCEntity) {
             LivingEntity player = (LivingEntity) entity;
             player.getDataManager().register(MythriaPlayer.PARRYING, false);
-            player.getDataManager().register(MythriaPlayer.SKIN, SkinPartManager.getSkinPartsFor(SkinPart.Type.SKIN, 0, null).get(0).getResourceLocation().toString());
-            player.getDataManager().register(MythriaPlayer.HAIR, SkinPartManager.getSkinPartsFor(SkinPart.Type.HAIR, 0, null).get(0).getResourceLocation().toString());
-            player.getDataManager().register(MythriaPlayer.CLOTHES, SkinPartManager.getSkinPartsFor(SkinPart.Type.CLOTHING, 0, null).get(0).getResourceLocation().toString());
-            player.getDataManager().register(MythriaPlayer.EYES, SkinPartManager.getSkinPartsFor(SkinPart.Type.EYES, 0, null).get(0).getResourceLocation().toString());
-            player.getDataManager().register(MythriaPlayer.WINGS, "");
-            player.getDataManager().register(MythriaPlayer.VINES, "");
-            player.getDataManager().register(MythriaPlayer.SCALES, "");
+            player.getDataManager().register(MythriaPlayer.SKIN, SkinParts.getSkinPartsFor(SkinPart.Type.SKIN).get(0));
+            player.getDataManager().register(MythriaPlayer.HAIR, SkinParts.getSkinPartsFor(SkinPart.Type.HAIR).get(0));
+            player.getDataManager().register(MythriaPlayer.CLOTHES, SkinParts.getSkinPartsFor(SkinPart.Type.CLOTHING).get(0));
+            player.getDataManager().register(MythriaPlayer.EYES, SkinParts.getSkinPartsFor(SkinPart.Type.EYES).get(0));
+            player.getDataManager().register(MythriaPlayer.WINGS, null);
+            player.getDataManager().register(MythriaPlayer.VINES, null);
+            player.getDataManager().register(MythriaPlayer.SCALES, null);
+            player.getDataManager().register(MythriaPlayer.GENDER, Gender.MALE);
         }
     }
 
@@ -106,9 +105,9 @@ public class EntityListener {
 
             if (event.getEntityLiving() instanceof PlayerEntity) {
                 PlayerEntity playerEntity = (PlayerEntity) event.getEntityLiving();
-                //if (ProfileProvider.getProfile(playerEntity).getGenetic().isImmune(event.getSource())) {
-                //    event.setCanceled(true);
-                //} todo
+                if (ProfileProvider.getProfile(playerEntity).getGenetic().isImmune(event.getSource())) {
+                    event.setCanceled(true);
+                }
             }
 
             if (event.isCanceled()) return;
@@ -138,11 +137,9 @@ public class EntityListener {
     @SubscribeEvent
     public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
         Entity entity = event.getEntity();
-        for (Genetic genetic : MythriaRegistries.GENETICS.getValues()) {
-            //if (genetic.getFleeingEntities().contains(entity.getType())) {
-            //    CreatureEntity creatureEntity = (CreatureEntity) entity;
-            //    creatureEntity.goalSelector.addGoal(-1, new AvoidGeneticGoal(creatureEntity, genetic));
-            //} todo
+        if (entity instanceof CreatureEntity) {
+            CreatureEntity creatureEntity = (CreatureEntity) entity;
+            creatureEntity.goalSelector.addGoal(-1, new AvoidGeneticGoal(creatureEntity));
         }
     }
 

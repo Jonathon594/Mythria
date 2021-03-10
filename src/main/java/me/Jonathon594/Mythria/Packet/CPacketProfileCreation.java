@@ -4,7 +4,6 @@ import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Const.MythriaConst;
-import me.Jonathon594.Mythria.DataTypes.SkinPart;
 import me.Jonathon594.Mythria.Enum.PerkType;
 import me.Jonathon594.Mythria.Managers.SpawnManager;
 import me.Jonathon594.Mythria.Managers.StatManager;
@@ -45,12 +44,7 @@ public class CPacketProfileCreation extends NBTPacket {
             profile.getPlayerSkills().clear();
             profile.getSkillLevels().clear();
             profile.getAbilities().clear();
-            profile.fillHashMaps();
-
-            for (SkinPart.Type type : SkinPart.Type.values()) {
-                profile.setSkinData(type, temp.getSkinData(type));
-            }
-
+            profile.init();
             profile.setGenetic(temp.getGenetic());
             profile.setCreated(true);
             StatManager.applyInitialStats(profile, serverPlayer);

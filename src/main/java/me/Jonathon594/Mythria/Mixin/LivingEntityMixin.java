@@ -1,6 +1,7 @@
 package me.Jonathon594.Mythria.Mixin;
 
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
+import me.Jonathon594.Mythria.Genetic.SpecialAbility;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
@@ -24,8 +25,8 @@ public abstract class LivingEntityMixin {
         if ((Object) this instanceof PlayerEntity) {
             PlayerEntity playerEntity = (PlayerEntity) ((Object) this);
             if (!playerEntity.isOnGround() && playerEntity.isElytraFlying() && !playerEntity.isInWater() && !playerEntity.isPotionActive(Effects.LEVITATION)) {
-                //if (ProfileProvider.getProfile(playerEntity).getGenetic().isGlidingAllowed())
-                //    ci.cancel(); todo
+                if (ProfileProvider.getProfile(playerEntity).getGenetic().getSpecialAbilities().contains(SpecialAbility.GLIDING))
+                    ci.cancel();
             }
         }
     }

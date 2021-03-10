@@ -6,6 +6,7 @@ import me.Jonathon594.Mythria.Entity.MythriaEntityType;
 import me.Jonathon594.Mythria.Listener.BiomeListener;
 import me.Jonathon594.Mythria.Managers.Crafting.ConstructionManager;
 import me.Jonathon594.Mythria.Managers.*;
+import me.Jonathon594.Mythria.Network.MythriaSerializers;
 import me.Jonathon594.Mythria.TileEntity.MythriaTileEntities;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -38,6 +39,8 @@ public class Mythria {
         VanillaManager.init();
         ConstructionManager.init();
         SmeltingManager.init();
+
+        MythriaSerializers.init();
 
         BiomeListener.addEntityReplacement(EntityType.STRIDER, MythriaEntityType.STRIDER);
     }

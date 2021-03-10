@@ -1,6 +1,7 @@
 package me.Jonathon594.Mythria.Mixin;
 
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
+import me.Jonathon594.Mythria.Genetic.SpecialAbility;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Effects;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,12 +15,12 @@ public abstract class PlayerEntityMixin {
     protected void onTryToStartFallFlying(CallbackInfoReturnable<Boolean> cir) {
         if ((Object) this instanceof PlayerEntity) {
             PlayerEntity playerEntity = (PlayerEntity) ((Object) this);
-            //if (ProfileProvider.getProfile(playerEntity).getGenetic().isGlidingAllowed()) {
-            //    if (!playerEntity.isOnGround() && !playerEntity.isElytraFlying() && !playerEntity.isInWater() && !playerEntity.isPotionActive(Effects.LEVITATION)) {
-            //        playerEntity.startFallFlying();
-            //        cir.setReturnValue(true);
-            //    }
-            //} todo
+            if (ProfileProvider.getProfile(playerEntity).getGenetic().getSpecialAbilities().contains(SpecialAbility.GLIDING)) {
+                if (!playerEntity.isOnGround() && !playerEntity.isElytraFlying() && !playerEntity.isInWater() && !playerEntity.isPotionActive(Effects.LEVITATION)) {
+                    playerEntity.startFallFlying();
+                    cir.setReturnValue(true);
+                }
+            }
         }
     }
 }

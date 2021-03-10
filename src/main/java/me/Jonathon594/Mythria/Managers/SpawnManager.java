@@ -12,14 +12,14 @@ import net.minecraft.world.server.ServerWorld;
 
 public class SpawnManager {
     public static void spawnInWorld(ServerPlayerEntity serverPlayer, Profile profile) {
-        RegistryKey<World> dimensionType = profile.getGenetic().getSpawnDimension();
+        RegistryKey<World> dimensionType = profile.getGenetic().getType().getSpawnDimension();
         ServerWorld world = serverPlayer.getServer().getWorld(dimensionType);
         SpawnPos spawnPos;
         BlockPos blockPos;
         int spawnHeight;
         int recursion = 0;
         while (true) {
-            spawnPos = MythriaUtil.getRandomPositionAroundPoint(profile.getGenetic().getSpawnPos(), 250 + recursion, world);
+            spawnPos = MythriaUtil.getRandomPositionAroundPoint(profile.getGenetic().getType().getSpawnPos(), 250 + recursion, world);
             blockPos = new BlockPos(spawnPos.getX(), 0, spawnPos.getZ());
             spawnHeight = getSpawnHeight(dimensionType, world, blockPos);
             if (spawnHeight > 0) break;

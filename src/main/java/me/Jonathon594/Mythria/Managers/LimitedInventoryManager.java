@@ -52,7 +52,7 @@ public class LimitedInventoryManager {
 
     public static boolean isArmorSlotOpen(PlayerEntity p, int i) {
         if (p.isCreative() || p.isSpectator()) return true;
-        return true; // todo ProfileProvider.getProfile(p).getGenetic().isSlotOpen(EquipmentSlotType.fromSlotTypeAndIndex(EquipmentSlotType.Group.ARMOR, i));
+        return !ProfileProvider.getProfile(p).getGenetic().isSlotLocked(EquipmentSlotType.fromSlotTypeAndIndex(EquipmentSlotType.Group.ARMOR, i));
     }
 
     public static void onOpenContainer(PlayerEntity player, Container container) {

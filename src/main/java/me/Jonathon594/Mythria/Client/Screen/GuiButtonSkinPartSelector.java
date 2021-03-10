@@ -1,6 +1,5 @@
 package me.Jonathon594.Mythria.Client.Screen;
 
-import me.Jonathon594.Mythria.Managers.SkinPartManager;
 import me.Jonathon594.Mythria.MythriaRegistries;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;

@@ -32,6 +32,7 @@ import me.Jonathon594.Mythria.Entity.NPCEntity;
 import me.Jonathon594.Mythria.Interface.IHeatableItem;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -59,10 +60,10 @@ public class CapabilityHandler {
     public static void attachCapabilityEntity(final AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof PlayerEntity) {
             event.addCapability(PROFILE_CAP, new ProfileProvider((PlayerEntity) event.getObject()));
-            event.addCapability(PLAYER_CAP, new MythriaPlayerProvider());
+            event.addCapability(PLAYER_CAP, new MythriaPlayerProvider((LivingEntity) event.getObject()));
         }
         if (event.getObject() instanceof NPCEntity) {
-            event.addCapability(PLAYER_CAP, new MythriaPlayerProvider());
+            event.addCapability(PLAYER_CAP, new MythriaPlayerProvider((LivingEntity) event.getObject()));
         }
     }
 

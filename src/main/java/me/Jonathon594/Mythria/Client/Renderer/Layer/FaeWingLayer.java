@@ -2,6 +2,7 @@ package me.Jonathon594.Mythria.Client.Renderer.Layer;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Client.Model.CharacterModel;
 import me.Jonathon594.Mythria.Client.Model.FaeWingModel;
@@ -43,14 +44,13 @@ public class FaeWingLayer extends LayerRenderer<LivingEntity, CharacterModel<Liv
     }
 
     private boolean shouldRenderWings(LivingEntity entityIn) {
-        return !getWingTextureName(entityIn).isEmpty();
+        return getWingTexture(entityIn) != null;
     }
 
-    private String getWingTextureName(LivingEntity entityIn) {
-        return MythriaPlayerProvider.getMythriaPlayer(entityIn).getSkinPart(SkinPart.Type.WINGS);
-    }
-
-    private ResourceLocation getWingTexture(LivingEntity entity) {
-        return new ResourceLocation(getWingTextureName(entity));
+    private ResourceLocation getWingTexture(LivingEntity entityIn) {
+        MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(entityIn);
+        SkinPart skinPart = mythriaPlayer.getSkinPart(SkinPart.Type.WINGS);
+        if(skinPart == null) return null;
+        return skinPart.getTextureLocation(mythriaPlayer.getGender());
     }
 }
