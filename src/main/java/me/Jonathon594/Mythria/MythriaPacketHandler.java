@@ -24,14 +24,21 @@ public class MythriaPacketHandler {
                 CPacketProfileCreation::handle);
         HANDLER.registerMessage(disc++, SPacketProfileCache.class, SPacketProfileCache::encode, SPacketProfileCache::new,
                 SPacketProfileCache::handle);
-        HANDLER.registerMessage(disc++, SPacketTimeManager.class, SPacketTimeManager::encode, SPacketTimeManager::new, SPacketTimeManager::handle);
-        HANDLER.registerMessage(disc++, SPacketUpdateConsumables.class, SPacketUpdateConsumables::encode, SPacketUpdateConsumables::new, SPacketUpdateConsumables::handle);
-        HANDLER.registerMessage(disc++, SPacketUpdateNutrition.class, SPacketUpdateNutrition::encode, SPacketUpdateNutrition::new, SPacketUpdateNutrition::handle);
-        HANDLER.registerMessage(disc++, SPacketUpdateExperience.class, SPacketUpdateExperience::encode, SPacketUpdateExperience::new, SPacketUpdateExperience::handle);
+        HANDLER.registerMessage(disc++, SPacketTimeManager.class, SPacketTimeManager::encode, SPacketTimeManager::new,
+                SPacketTimeManager::handle);
+        HANDLER.registerMessage(disc++, SPacketUpdateConsumables.class, SPacketUpdateConsumables::encode, SPacketUpdateConsumables::new,
+                SPacketUpdateConsumables::handle);
+        HANDLER.registerMessage(disc++, SPacketUpdateNutrition.class, SPacketUpdateNutrition::encode, SPacketUpdateNutrition::new,
+                SPacketUpdateNutrition::handle);
+        HANDLER.registerMessage(disc++, SPacketUpdateExperience.class, SPacketUpdateExperience::encode, SPacketUpdateExperience::new,
+                SPacketUpdateExperience::handle);
         HANDLER.registerMessage(disc++, CPacketBuyPerk.class, CPacketBuyPerk::encode, CPacketBuyPerk::new, CPacketBuyPerk::handle);
-        HANDLER.registerMessage(disc++, CPacketSpendAttribute.class, CPacketSpendAttribute::encode, CPacketSpendAttribute::new, CPacketSpendAttribute::handle);
-        HANDLER.registerMessage(disc++, CPacketOpenInventory.class, CPacketOpenInventory::encode, CPacketOpenInventory::new, CPacketOpenInventory::handle);
-        HANDLER.registerMessage(disc++, CPacketReloadWeapon.class, CPacketReloadWeapon::encode, CPacketReloadWeapon::new, CPacketReloadWeapon::handle);
+        HANDLER.registerMessage(disc++, CPacketSpendAttribute.class, CPacketSpendAttribute::encode, CPacketSpendAttribute::new,
+                CPacketSpendAttribute::handle);
+        HANDLER.registerMessage(disc++, CPacketOpenInventory.class, CPacketOpenInventory::encode, CPacketOpenInventory::new,
+                CPacketOpenInventory::handle);
+        HANDLER.registerMessage(disc++, CPacketReloadWeapon.class, CPacketReloadWeapon::encode, CPacketReloadWeapon::new,
+                CPacketReloadWeapon::handle);
         HANDLER.registerMessage(disc++, CPacketAction.class, CPacketAction::encode, CPacketAction::new, CPacketAction::handle);
     }
 

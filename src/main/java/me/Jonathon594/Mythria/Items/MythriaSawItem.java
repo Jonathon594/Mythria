@@ -3,6 +3,7 @@ package me.Jonathon594.Mythria.Items;
 import com.google.common.collect.Sets;
 import me.Jonathon594.Mythria.Capability.Tool.ToolProvider;
 import me.Jonathon594.Mythria.Client.Renderer.Items.SawItemRenderer;
+import me.Jonathon594.Mythria.DataTypes.MythriaToolType;
 import me.Jonathon594.Mythria.Interface.IModularTool;
 import me.Jonathon594.Mythria.Mythria;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
@@ -18,14 +19,13 @@ import java.util.function.Supplier;
 
 public class MythriaSawItem extends ToolItem implements IModularTool {
     private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet();
-    private final double weight;
     private final Supplier<Item> toolHead;
 
-    public MythriaSawItem(String name, float damage, float speed, IItemTier tier, double weight, Supplier<Item> toolHead) {
+    public MythriaSawItem(String name, float damage, float speed, IItemTier tier, Supplier<Item> toolHead) {
         super(damage, speed, tier, EFFECTIVE_ON, new Item.Properties().group(ItemGroup.TOOLS)
+                .addToolType(MythriaToolType.SAW, tier.getHarvestLevel())
                 .setISTER(() -> SawItemRenderer::new));
         setRegistryName(Mythria.MODID, name);
-        this.weight = weight;
         this.toolHead = toolHead;
     }
 

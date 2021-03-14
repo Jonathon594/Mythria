@@ -22,7 +22,6 @@ public class RenderListener {
     @SubscribeEvent
     public static void renderHand(RenderHandEvent event) {
         event.setCanceled(true);
-
         PlayerRenderManager.renderHand(event);
     }
 

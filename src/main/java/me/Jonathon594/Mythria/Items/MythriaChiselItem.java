@@ -3,6 +3,7 @@ package me.Jonathon594.Mythria.Items;
 import com.google.common.collect.Sets;
 import me.Jonathon594.Mythria.Capability.Tool.ToolProvider;
 import me.Jonathon594.Mythria.Client.Renderer.Items.ChiselItemRenderer;
+import me.Jonathon594.Mythria.DataTypes.MythriaToolType;
 import me.Jonathon594.Mythria.Interface.IModularTool;
 import me.Jonathon594.Mythria.Mythria;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
@@ -31,6 +32,7 @@ public class MythriaChiselItem extends ToolItem implements IModularTool {
 
     public MythriaChiselItem(float damage, float speed, IItemTier tier, String name, double weight, Supplier<Item> toolHead) {
         super(damage, speed, tier, EFFECTIVE_ON, new Item.Properties().group(ItemGroup.TOOLS)
+                .addToolType(MythriaToolType.CHISEL, tier.getHarvestLevel())
                 .setISTER(() -> ChiselItemRenderer::new));
         setRegistryName(Mythria.MODID, name);
         this.weight = weight;

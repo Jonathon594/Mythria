@@ -21,6 +21,7 @@ public class ScreenProfileCreation extends Screen {
     protected int selectedTab = 0;
     public ProfileNamesTab profileNamesTab;
     public ProfileAppearanceTab profileLooksTab;
+    public ProfileGiftTab profileGiftTab;
 
     public ScreenProfileCreation() {
         super(new StringTextComponent("Profile Creation"));
@@ -87,6 +88,7 @@ public class ScreenProfileCreation extends Screen {
         tabs.clear();
         tabs.add(profileNamesTab = new ProfileNamesTab(this, font, left, top));
         tabs.add(profileLooksTab = new ProfileAppearanceTab(this, font, left, top));
+        tabs.add(profileGiftTab = new ProfileGiftTab(this, font, left, top));
         tabs.add(new ProfileSummaryTab(this, font, left, top));
         for (ProfileCreationTab tab : tabs) {
             addListener(tab);

@@ -1,9 +1,12 @@
 package me.Jonathon594.Mythria.Genetic;
 
 import me.Jonathon594.Mythria.Ability.Ability;
+import me.Jonathon594.Mythria.Enum.Consumable;
+import me.Jonathon594.Mythria.Genetic.Gene.*;
+import me.Jonathon594.Mythria.Genetic.Serializers.GeneSerializer;
 import me.Jonathon594.Mythria.Managers.GeneSerializers;
-import me.Jonathon594.Mythria.Managers.SkinParts;
 import me.Jonathon594.Mythria.MythriaRegistries;
+import me.Jonathon594.Mythria.Skin.SkinParts;
 import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.nbt.CompoundNBT;
@@ -13,7 +16,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Genetic {
     private GeneticType type;
@@ -27,6 +32,7 @@ public class Genetic {
     private DoubleStatGene temperature;
     private DoubleStatGene genderBias;
     private IntStatGene lifespanGene;
+    private NutritionGene nutrition;
 
     private SkinPartGene hair;
     private SkinPartGene eyes;
@@ -35,7 +41,8 @@ public class Genetic {
     private List<Gene> extraGenes = new ArrayList<>();
 
     public Genetic(GeneticType type, double health, double stamina, double speed,
-                   double weight, double intelligence, double mana, int lifespan, double temperature, double manaRegen) {
+                   double weight, double intelligence, double mana, int lifespan, double temperature, double manaRegen,
+                   Map<Consumable.Nutrition, Integer> requiredNutrition) {
         this.type = type;
         this.healthGene = new DoubleStatGene(Gene.GeneType.HEALTH, health);
         this.staminaGene = new DoubleStatGene(Gene.GeneType.STAMINA, stamina);
@@ -47,6 +54,7 @@ public class Genetic {
         this.temperature = new DoubleStatGene(Gene.GeneType.TEMPERATURE, temperature);
         this.genderBias = new DoubleStatGene(Gene.GeneType.GENDER_BIAS, 0.5);
         this.lifespanGene = new IntStatGene(Gene.GeneType.LIFESPAN, lifespan);
+        this.nutrition = new NutritionGene(new HashMap<>(requiredNutrition));
 
         hair = new SkinPartGene(SkinParts.HUMAN_HAIR_BLOND, Gene.GeneType.HAIR);
         eyes = new SkinPartGene(SkinParts.HUMAN_EYES_BLUE, Gene.GeneType.EYES);
@@ -130,13 +138,13 @@ public class Genetic {
         return false;
     }
 
-    public List<EntityType> getEntityRelationships(EntityRelationGene.Relationship relationship) {
+    public List<EntityType> getEntityRelationships(EntityAttitudeGene.Attitude attitude) {
         List<EntityType> relations = new ArrayList<>();
         getExtraGenes().forEach(gene -> {
-            if (gene instanceof EntityRelationGene) {
-                EntityRelationGene entityRelationGene = (EntityRelationGene) gene;
-                if (entityRelationGene.getRelationship().equals(relationship)) {
-                    entityRelationGene.getEntityTypes().forEach(entityType -> {
+            if (gene instanceof EntityAttitudeGene) {
+                EntityAttitudeGene entityAttitudeGene = (EntityAttitudeGene) gene;
+                if (entityAttitudeGene.getAttitude().equals(attitude)) {
+                    entityAttitudeGene.getEntityTypes().forEach(entityType -> {
                         relations.add(entityType);
                     });
                 }
@@ -179,6 +187,7 @@ public class Genetic {
         compoundNBT.put("Temperature", temperature.toNBT(false));
         compoundNBT.put("GenderBias", genderBias.toNBT(false));
         compoundNBT.put("Lifespan", lifespanGene.toNBT(false));
+        compoundNBT.put("Nutrition", nutrition.toNBT(false));
 
         compoundNBT.put("Hair", hair.toNBT(false));
         compoundNBT.put("Eyes", eyes.toNBT(false));
@@ -204,6 +213,7 @@ public class Genetic {
         temperature = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Temperature"));
         genderBias = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("GenderBias"));
         lifespanGene = GeneSerializers.INT_STAT.deserialize(compound.getCompound("Lifespan"));
+        nutrition = GeneSerializers.NUTRITION.deserialize(compound.getCompound("Nutrition"));
 
         hair = GeneSerializers.SKIN_PART.deserialize(compound.getCompound("Hair"));
         eyes = GeneSerializers.SKIN_PART.deserialize(compound.getCompound("Eyes"));
@@ -246,5 +256,9 @@ public class Genetic {
 
     public GeneticType getType() {
         return type;
+    }
+
+    public NutritionGene getNutrition() {
+        return nutrition;
     }
 }

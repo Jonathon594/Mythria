@@ -3,7 +3,7 @@ package me.Jonathon594.Mythria.Managers;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.DataTypes.CureCondition;
 import me.Jonathon594.Mythria.DataTypes.HealthConditionType;
-import me.Jonathon594.Mythria.DataTypes.HealthConditions.*;
+import me.Jonathon594.Mythria.Health.*;
 import me.Jonathon594.Mythria.DataTypes.ObtainCondition;
 import me.Jonathon594.Mythria.Enum.AnatomySlot;
 import me.Jonathon594.Mythria.Enum.ObtainConditionType;

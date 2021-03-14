@@ -1,5 +1,7 @@
 package me.Jonathon594.Mythria.Managers;
 
+import com.google.common.collect.ImmutableList;
+import me.Jonathon594.Mythria.Tags.MythriaBlockTags;
 import me.Jonathon594.Mythria.Util.BlockUtils;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.block.Block;
@@ -14,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class TreeFellingManager {
     public static ArrayList<Block> HandleTreeChop(final PlayerEntity p, final BlockPos block) {
@@ -21,20 +24,17 @@ public class TreeFellingManager {
         Block b = p.world.getBlockState(block).getBlock();
         Collection<Block> logs = MythriaUtil.getBlockCollectionFromTag(BlockTags.LOGS.getName());
         if (!logs.contains(b))
-            return null;
+            return new ArrayList<>();
         ItemStack axe = p.getHeldItemMainhand();
         if (!MythriaUtil.isAxe(axe.getItem()))
-            return null;
+            return new ArrayList<>();
         if (p.isSneaking())
-            return null;
+            return new ArrayList<>();
         final int itemd = axe.getDamage();
         final int itemmd = axe.getMaxDamage();
         final int itemr = (itemmd - itemd);
         ArrayList<BlockPos> posList = new ArrayList<>();
-        ArrayList<Block> validBlocks = new ArrayList<>(logs);
-        Collection<Block> leaves = MythriaUtil.getBlockCollectionFromTag(BlockTags.LEAVES.getName());
-        validBlocks.addAll(leaves);
-        validBlocks.add(Blocks.VINE);
+        List<Block> leaves = MythriaBlockTags.TREE_FELLER_LEAVES.getAllElements();
         BlockUtils.getAllTreeBlocks(p.world, block, posList, 0, block);
         for (BlockPos pos : posList) {
             blocks.add(p.world.getBlockState(pos).getBlock());
@@ -46,7 +46,7 @@ public class TreeFellingManager {
                 break;
             }
         }
-        if (!hasLeaves) return null;
+        if (!hasLeaves) return new ArrayList<>();
         for (BlockPos pos : posList) {
             MythriaUtil.destroyBlockWithTool(p.world, pos, true, p, axe);
         }

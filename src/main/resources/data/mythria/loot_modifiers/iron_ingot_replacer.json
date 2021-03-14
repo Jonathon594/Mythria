@@ -1,5 +1,0 @@
-{
-  "type": "mythria:item_replacer",
-  "replace": "minecraft:iron_ingot",
-  "with": "mythria:iron_ingot"
-}

@@ -13,13 +13,11 @@ import java.util.function.Supplier;
 
 public class MythriaShovelItem extends ShovelItem implements IModularTool {
     private final Supplier<Item> toolHead;
-    private final double weight;
 
-    public MythriaShovelItem(String name, IItemTier tier, double weight, Supplier<Item> toolHead, boolean overrideVanilla) {
+    public MythriaShovelItem(String name, IItemTier tier, Supplier<Item> toolHead, boolean overrideVanilla) {
         super(tier, 1.5f, -3.0f, new Item.Properties().group(ItemGroup.TOOLS)
                 .setISTER(() -> ShovelItemRenderer::new));
         setRegistryName(overrideVanilla ? "minecraft" : Mythria.MODID, name);
-        this.weight = weight;
         this.toolHead = toolHead;
     }
 

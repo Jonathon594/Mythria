@@ -7,7 +7,7 @@ import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Client.Model.CharacterModel;
 import me.Jonathon594.Mythria.Client.Model.FaeWingModel;
 import me.Jonathon594.Mythria.Client.Renderer.CharacterRenderer;
-import me.Jonathon594.Mythria.DataTypes.SkinPart;
+import me.Jonathon594.Mythria.Skin.SkinPart;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -30,6 +30,7 @@ public class FaeWingLayer extends LayerRenderer<LivingEntity, CharacterModel<Liv
     public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, LivingEntity entityIn, float limbSwing,
                        float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (!shouldRenderWings(entityIn)) return;
+        matrixStackIn.push();
         matrixStackIn.rotate(Vector3f.YP.rotation(renderer.getEntityModel().bipedBody.rotateAngleY));
 
         matrixStackIn.translate(0, entityIn.isCrouching() ? 3.2 / 16.0 : 0, 0);
@@ -40,6 +41,7 @@ public class FaeWingLayer extends LayerRenderer<LivingEntity, CharacterModel<Liv
         this.wingModel.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         IVertexBuilder ivertexbuilder = ItemRenderer.getBuffer(bufferIn, this.wingModel.getRenderType(getWingTexture(entityIn)), false, false);
         wingModel.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 0.9f);
+        matrixStackIn.pop();
         matrixStackIn.pop();
     }
 

@@ -3,6 +3,7 @@ package me.Jonathon594.Mythria.Items;
 import com.google.common.collect.Sets;
 import me.Jonathon594.Mythria.Capability.Tool.ToolProvider;
 import me.Jonathon594.Mythria.Client.Renderer.Items.HatchetItemRenderer;
+import me.Jonathon594.Mythria.DataTypes.MythriaToolType;
 import me.Jonathon594.Mythria.Interface.IModularTool;
 import me.Jonathon594.Mythria.Mythria;
 import net.minecraft.block.Block;
@@ -10,6 +11,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import javax.annotation.Nullable;
@@ -24,17 +26,12 @@ public class MythriaHatchetItem extends ToolItem implements IModularTool {
 
     public MythriaHatchetItem(float damage, float speed, IItemTier tier, String name, double weight, Supplier<Item> toolHead) {
         super(damage, speed, tier, EFFECTIVE_ON, new Properties().group(ItemGroup.TOOLS)
+                .addToolType(MythriaToolType.HATCHET, tier.getHarvestLevel())
                 .setISTER(() -> HatchetItemRenderer::new));
         setRegistryName(Mythria.MODID, name);
         this.weight = weight;
         this.toolHead = toolHead;
     }
-
-    public float getDestroySpeed(ItemStack stack, BlockState state) {
-        if (getToolTypes(stack).stream().anyMatch(state::isToolEffective)) return efficiency;
-        return EFFECTIVE_ON.contains(state.getBlock()) ? this.efficiency : 1.0F;
-    }
-
 
     @Override
     public Item getToolHeadItem() {

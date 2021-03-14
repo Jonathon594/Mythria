@@ -1,8 +1,8 @@
 package me.Jonathon594.Mythria.Entity;
 
-import me.Jonathon594.Mythria.DataTypes.SkinPart;
+import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Enum.Gender;
-import me.Jonathon594.Mythria.Managers.SkinParts;
+import me.Jonathon594.Mythria.Skin.SkinParts;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

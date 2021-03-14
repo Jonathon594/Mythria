@@ -12,13 +12,11 @@ import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 public class MythriaAxeItem extends AxeItem implements IModularTool {
-    private final double weight;
     private final Supplier<Item> toolHead;
 
-    public MythriaAxeItem(String name, IItemTier tier, float speed, double weight, float damage, Supplier<Item> toolHead, boolean overrideVanilla) {
+    public MythriaAxeItem(String name, IItemTier tier, float speed, float damage, Supplier<Item> toolHead, boolean overrideVanilla) {
         super(tier, damage, speed, new Item.Properties().group(ItemGroup.TOOLS).setISTER(() -> AxeItemRenderer::new));
         setRegistryName(overrideVanilla ? "minecraft" : Mythria.MODID, name);
-        this.weight = weight;
         this.toolHead = toolHead;
     }
 

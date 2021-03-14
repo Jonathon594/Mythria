@@ -1,6 +1,7 @@
 package me.Jonathon594.Mythria.DataTypes;
 
 import me.Jonathon594.Mythria.Enum.Gender;
+import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import net.minecraft.util.ResourceLocation;
 

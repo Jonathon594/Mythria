@@ -1,18 +1,10 @@
 package me.Jonathon594.Mythria.Client.Screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import me.Jonathon594.Mythria.Capability.Profile.Profile;
-import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
-import me.Jonathon594.Mythria.DataTypes.Time.Date;
-import me.Jonathon594.Mythria.Managers.TimeManager;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.Packet.CPacketProfileCreation;
-import me.Jonathon594.Mythria.Util.MythriaUtil;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.command.arguments.NBTTagArgument;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.StringTextComponent;
 
 public class ProfileSummaryTab extends ProfileCreationTab {
@@ -26,19 +18,14 @@ public class ProfileSummaryTab extends ProfileCreationTab {
 
     private void onCreate(Button button) {
         if (parent.canCreate()) {
-            Profile profile = ProfileProvider.getProfile(Minecraft.getInstance().player);
             ProfileNamesTab profileNamesTab = parent.profileNamesTab;
-            profile.setFirstName(profileNamesTab.firstName.getText());
-            profile.setMiddleName(profileNamesTab.middleName.getText());
-            profile.setLastName(profileNamesTab.lastName.getText());
-            Date date = MythriaUtil.getDateFromAgeMonthDay(profileNamesTab.age.getValueInt(),
-                    profileNamesTab.month.getValueInt(),
-                    profileNamesTab.day.getValueInt());
-            profile.setBirthDay(date);
-            CompoundNBT compoundNBT = new CompoundNBT();
-            compoundNBT.put("Profile", profile.toNBT());
+            ProfileAppearanceTab profileLooksTab = parent.profileLooksTab;
             MythriaPacketHandler.sendToServer(
-                    new CPacketProfileCreation(compoundNBT));
+                    new CPacketProfileCreation(profileNamesTab.firstName.getText(), profileNamesTab.middleName.getText(),
+                            profileNamesTab.lastName.getText(), profileNamesTab.month.getValueInt(), profileNamesTab.day.getValueInt(),
+                            profileLooksTab.getSelectedGeneticType(), profileLooksTab.getSelectedGender(), profileLooksTab.getSelectedHair(),
+                            profileLooksTab.getSelectedEyes(), profileLooksTab.getSelectedClothing(), profileLooksTab.getSelectedSkin(),
+                            profileLooksTab.getSelectedUnique(), parent.profileGiftTab.getSelectedGift()));
         }
     }
 

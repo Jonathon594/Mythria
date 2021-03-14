@@ -1,18 +1,26 @@
 package me.Jonathon594.Mythria.Entity;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+
+import java.util.Random;
 
 public class NetherChickenEntity extends ChickenEntity {
     private static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
@@ -50,5 +58,10 @@ public class NetherChickenEntity extends ChickenEntity {
 
     public boolean isBreedingItem(ItemStack stack) {
         return TEMPTATION_ITEMS.test(stack);
+    }
+
+    public static boolean canNetherChickenSpawn(EntityType<? extends AnimalEntity> animal, IWorld worldIn, SpawnReason reason, BlockPos pos, Random random) {
+        BlockState blockState = worldIn.getBlockState(pos.down());
+        return blockState.isIn(Blocks.CRIMSON_NYLIUM) || blockState.isIn(Blocks.WARPED_NYLIUM);
     }
 }

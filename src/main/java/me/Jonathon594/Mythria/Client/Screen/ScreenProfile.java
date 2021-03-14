@@ -5,7 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Const.ColorConst;
-import me.Jonathon594.Mythria.DataTypes.Time.Date;
+import me.Jonathon594.Mythria.DataTypes.Date;
 import me.Jonathon594.Mythria.Enum.Attribute;
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import me.Jonathon594.Mythria.Enum.Consumable;

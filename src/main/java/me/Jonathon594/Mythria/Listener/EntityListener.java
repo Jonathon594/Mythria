@@ -3,13 +3,14 @@ package me.Jonathon594.Mythria.Listener;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
-import me.Jonathon594.Mythria.DataTypes.SkinPart;
+import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Entity.AI.AvoidGeneticGoal;
 import me.Jonathon594.Mythria.Entity.NPCEntity;
 import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Enum.Gender;
 import me.Jonathon594.Mythria.Enum.StatType;
 import me.Jonathon594.Mythria.Managers.*;
+import me.Jonathon594.Mythria.Skin.SkinParts;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
@@ -34,10 +35,6 @@ public class EntityListener {
                 BlessingManager.onJumpServer(player);
                 final Profile p = ProfileProvider.getProfile(player);
                 StatManager.onJump(player, p);
-                if (p.getConsumables().get(Consumable.WEIGHT) > p.getStat(StatType.MAX_WEIGHT)) {
-                    MythriaUtil.DropAllItems(player, false, true);
-                    StatManager.updateCarryWeight(player);
-                }
             }
         }
     }

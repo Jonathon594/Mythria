@@ -5,6 +5,7 @@ import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Capability.Tool.ToolProvider;
 import me.Jonathon594.Mythria.Client.Renderer.Items.HammerItemRenderer;
+import me.Jonathon594.Mythria.DataTypes.MythriaToolType;
 import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Interface.IModularTool;
 import me.Jonathon594.Mythria.Managers.Crafting.ConstructionManager;
@@ -35,6 +36,7 @@ public class MythriaHammerItem extends ToolItem implements IModularTool {
 
     public MythriaHammerItem(float damage, float speed, IItemTier tier, String name, double weight, Supplier<Item> toolHead) {
         super(damage, speed, tier, EFFECTIVE_ON, new Item.Properties().group(ItemGroup.COMBAT)
+                .addToolType(MythriaToolType.HAMMER, tier.getHarvestLevel())
                 .setISTER(() -> HammerItemRenderer::new));
         setRegistryName(Mythria.MODID, name);
         this.weight = weight;

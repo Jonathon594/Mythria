@@ -5,11 +5,11 @@ import com.google.common.collect.Lists;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
-import me.Jonathon594.Mythria.DataTypes.SkinPart;
+import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Enum.Gender;
 import me.Jonathon594.Mythria.Genetic.GeneticType;
-import me.Jonathon594.Mythria.Genetic.ISkinPartGene;
-import me.Jonathon594.Mythria.Managers.SkinParts;
+import me.Jonathon594.Mythria.Genetic.Gene.ISkinPartGene;
+import me.Jonathon594.Mythria.Skin.SkinParts;
 import me.Jonathon594.Mythria.MythriaRegistries;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.client.Minecraft;
@@ -76,7 +76,7 @@ public class ProfileAppearanceTab extends ProfileCreationTab {
         updateProfileSkin();
     }
 
-    private Gender getSelectedGender() {
+    public Gender getSelectedGender() {
         return Gender.valueOf(gender.selectedName);
     }
 
@@ -89,7 +89,7 @@ public class ProfileAppearanceTab extends ProfileCreationTab {
     }
 
 
-    private GeneticType getSelectedGeneticType() {
+    public GeneticType getSelectedGeneticType() {
         return MythriaRegistries.GENETICS.getValue(new ResourceLocation(race.getSelectedName()));
     }
 
@@ -102,8 +102,7 @@ public class ProfileAppearanceTab extends ProfileCreationTab {
     private void onRaceClicked(Button button) {
         gender.updateIndex();
         updateSkinPartIndices();
-        int lifeExpectancy = getSelectedGeneticType().getDefaultInstance().getLifeExpectancy();
-        parent.profileNamesTab.age.setMaxValue(lifeExpectancy <= 0 ? 500 : lifeExpectancy / 2);
+        parent.profileGiftTab.giftSelectorButton.updateIndex();
     }
 
     private void onGenderClicked(Button button) {
@@ -119,22 +118,42 @@ public class ProfileAppearanceTab extends ProfileCreationTab {
         Profile profile = ProfileProvider.getProfile(playerEntity);
         profile.setGenetic(getSelectedGeneticType().createGenetic());
         profile.setGender(getSelectedGender());
-        profile.getGenetic().getHair().setSkinPart(MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(hair.getSelectedName())));
-        profile.getGenetic().getEyes().setSkinPart(MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(eyes.getSelectedName())));
-        profile.getGenetic().getSkin().setSkinPart(MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(skin.getSelectedName())));
-        profile.setClothing(MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(clothes.getSelectedName())));
+        profile.getGenetic().getHair().setSkinPart(getSelectedHair());
+        profile.getGenetic().getEyes().setSkinPart(getSelectedEyes());
+        profile.getGenetic().getSkin().setSkinPart(getSelectedSkin());
+        profile.setClothing(getSelectedClothing());
 
         SkinPart.Type specialSkinPartType = getSelectedGeneticType().getSpecialSkinPartType();
         profile.getGenetic().getExtraGenes().forEach(gene -> {
             if (gene instanceof ISkinPartGene) {
                 ISkinPartGene skinPartGene = (ISkinPartGene) gene;
                 if (skinPartGene.getSkinPart().getType().equals(specialSkinPartType)) {
-                    skinPartGene.setSkinPart(MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(unique.getSelectedName())));
+                    skinPartGene.setSkinPart(getSelectedUnique());
                 }
             }
         });
 
         profile.copySkinToMythriaPlayer(MythriaPlayerProvider.getMythriaPlayer(playerEntity));
+    }
+
+    public SkinPart getSelectedUnique() {
+        return MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(unique.getSelectedName()));
+    }
+
+    public SkinPart getSelectedClothing() {
+        return MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(clothes.getSelectedName()));
+    }
+
+    public SkinPart getSelectedSkin() {
+        return MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(skin.getSelectedName()));
+    }
+
+    public SkinPart getSelectedEyes() {
+        return MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(eyes.getSelectedName()));
+    }
+
+    public SkinPart getSelectedHair() {
+        return MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(hair.getSelectedName()));
     }
 
     private void updateSkinPartIndices() {

@@ -49,5 +49,6 @@ public class MythriaConst {
     public static final String[] FOOD_AGE = new String[]{"This food looks fresh.", "This food is still good.", "It's starting to turn a bit.", "I should probably eat this now before it goes bad.", "This food is spoiled, ew!"};
     public static final String NOT_ENOUGH_FAVOR = ColorConst.MAIN_COLOR + "You don't have enough connection with a Divine to learn this.";
     public static final String PERK_EXCLUDED = ColorConst.MAIN_COLOR + "A perk you have learned prevents you from ever learning this.";
-    public static final String NAME_TOO_LONG = "Please make sure your name is no longer than 26 characters total. (Currently %s)";
+    public static final String NAME_TOO_LONG = ColorConst.MAIN_COLOR + "Please make sure your name is no longer than 26 characters total. (Currently %s)";
+    public static final String CANT_PLACE = ColorConst.MAIN_COLOR + "You do not know how to place this.";
 }

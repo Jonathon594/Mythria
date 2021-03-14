@@ -13,13 +13,11 @@ import java.util.function.Supplier;
 
 public class MythriaHoeItem extends HoeItem implements IModularTool {
     private final Supplier<Item> toolHead;
-    private final double weight;
 
-    public MythriaHoeItem(String name, IItemTier tier, float speed, double weight, Supplier<Item> toolHead, boolean overrideVanilla) {
+    public MythriaHoeItem(String name, IItemTier tier, float speed, Supplier<Item> toolHead, boolean overrideVanilla) {
         super(tier, 0, speed, new Item.Properties().group(ItemGroup.TOOLS)
                 .setISTER(() -> HoeItemRenderer::new));
         setRegistryName(overrideVanilla ? "minecraft" : Mythria.MODID, name);
-        this.weight = weight;
         this.toolHead = toolHead;
     }
 

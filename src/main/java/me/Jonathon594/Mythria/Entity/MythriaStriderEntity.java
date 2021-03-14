@@ -1,5 +1,6 @@
 package me.Jonathon594.Mythria.Entity;
 
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -12,6 +13,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class MythriaStriderEntity extends StriderEntity {
     public MythriaStriderEntity(EntityType<? extends StriderEntity> p_i231562_1_, World p_i231562_2_) {
@@ -24,7 +26,7 @@ public class MythriaStriderEntity extends StriderEntity {
     }
 
     public boolean canBeSteered() {
-        return this.getControllingPassenger() instanceof LivingEntity;
+        return this.getControllingPassenger() instanceof PlayerEntity;
     }
 
     @Override
@@ -80,5 +82,9 @@ public class MythriaStriderEntity extends StriderEntity {
                 return actionresulttype;
             }
         }
+    }
+
+    public StriderEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
+        return MythriaEntityType.STRIDER.create(p_241840_1_);
     }
 }

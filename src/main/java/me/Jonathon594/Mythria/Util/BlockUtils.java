@@ -1,22 +1,21 @@
 package me.Jonathon594.Mythria.Util;
 
+import me.Jonathon594.Mythria.Tags.MythriaBlockTags;
 import net.minecraft.block.Block;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class BlockUtils {
-    private static final Collection<Block> logs = MythriaUtil.getBlockCollectionFromTag(BlockTags.LOGS.getName());
-    private static final Collection<Block> leaves = MythriaUtil.getBlockCollectionFromTag(BlockTags.LEAVES.getName());
-
     public static void getAllTreeBlocks(World worldIn, final BlockPos lastPos, final ArrayList<BlockPos> blocks, int leafStep, final BlockPos firstPos) {
         Block currentBlock = worldIn.getBlockState(lastPos).getBlock();
 
+        ITag<Block> leaves = MythriaBlockTags.TREE_FELLER_LEAVES;
         if (leaves.contains(currentBlock)) leafStep++;
 
         for (Direction direction : Direction.values()) {
@@ -24,7 +23,7 @@ public class BlockUtils {
             Block nextBlock = worldIn.getBlockState(next).getBlock();
             BlockPos nextFlat = new BlockPos(next.getX(), firstPos.getY(), next.getZ());
             if (nextFlat.distanceSq(firstPos) < 25) {
-                if (logs.contains(nextBlock) || (leafStep <= 2 && leaves.contains(nextBlock))) {
+                if ((BlockTags.LOGS.contains(nextBlock) && leafStep <= 2) || (leafStep <= 4 && leaves.contains(nextBlock))) {
                     if (!blocks.contains(next)) {
                         blocks.add(next);
                         final boolean isHoriz = !direction.equals(Direction.DOWN) && !direction.equals(Direction.UP);

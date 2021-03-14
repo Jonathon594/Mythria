@@ -3,7 +3,9 @@
   "package": "me.Jonathon594.Mythria.Mixin",
   "mixins": [
     "LivingEntityMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "PiglinTasksMixin",
+    "MapDataMixin"
   ],
   "client": [
     "ClientPlayerEntityMixin"

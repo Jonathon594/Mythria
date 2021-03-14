@@ -47,7 +47,7 @@ public class PassiveDryadGrowthAbility extends PassiveTickAbility {
 
             if (!abilityInstance.isOnCooldown()) {
                 int count = random.nextInt(10);
-                for (int i = 0; i < count; i++) {
+                for (int i = 0; i < Math.min(count, positions.size()); i++) {
                     if (positions.isEmpty()) break;
                     Collections.shuffle(positions);
                     BlockPos growPos = positions.get(i);

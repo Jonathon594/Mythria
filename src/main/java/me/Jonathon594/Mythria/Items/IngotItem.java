@@ -18,7 +18,11 @@ public class IngotItem extends MythriaItem implements IWorkable {
     private final EnumMetalShape metalShape;
 
     public IngotItem(String name, MythriaMaterial material, EnumMetalShape shape) {
-        super(name, new Item.Properties().group(ItemGroup.MATERIALS));
+        this(name, material, shape, false);
+    }
+
+    public IngotItem(String name, MythriaMaterial material, EnumMetalShape shape, boolean override) {
+        super(name, new Item.Properties().group(ItemGroup.MATERIALS), override);
         this.type = material;
         this.metalShape = shape;
     }

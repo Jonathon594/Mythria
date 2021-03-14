@@ -1,6 +1,7 @@
 package me.Jonathon594.Mythria.Managers;
 
-import me.Jonathon594.Mythria.Genetic.*;
+import me.Jonathon594.Mythria.Genetic.Gene.Gene;
+import me.Jonathon594.Mythria.Genetic.Serializers.*;
 import me.Jonathon594.Mythria.Mythria;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,6 +18,7 @@ public class GeneSerializers {
     public static final FaeWingsSerializer FAE_WINGS = null;
     public static final ImmunitySerializer IMMUNITY = null;
     public static final EntityRelationSerializer ENTITY_RELATION = null;
+    public static final NutritionSerializer NUTRITION = null;
 
     @SubscribeEvent
     public static void onRegisterSkinParts(RegistryEvent.Register<GeneSerializer<? extends Gene>> event) {
@@ -27,7 +29,8 @@ public class GeneSerializers {
                 new AbilitySerializer("ability"),
                 new FaeWingsSerializer("fae_wings"),
                 new ImmunitySerializer("immunity"),
-                new EntityRelationSerializer("entity_relation")
+                new EntityRelationSerializer("entity_relation"),
+                new NutritionSerializer("nutrition")
         );
     }
 }

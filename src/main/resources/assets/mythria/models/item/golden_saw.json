@@ -1,0 +1,6 @@
+{
+  "parent": "mythria:item/tool_generated",
+  "textures": {
+    "particle": "mythria:blocks/metal/gold"
+  }
+}

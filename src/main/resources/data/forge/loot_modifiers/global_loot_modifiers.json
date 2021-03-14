@@ -1,8 +1,6 @@
 {
   "replace": false,
   "entries": [
-    "mythria:iron_ingot_replacer",
-    "mythria:gold_ingot_replacer",
     "mythria:stick_replacer",
     "mythria:brown_mushroom",
     "mythria:red_mushroom",

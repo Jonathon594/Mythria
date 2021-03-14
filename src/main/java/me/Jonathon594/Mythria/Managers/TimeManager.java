@@ -1,7 +1,7 @@
 package me.Jonathon594.Mythria.Managers;
 
-import me.Jonathon594.Mythria.DataTypes.Time.Date;
-import me.Jonathon594.Mythria.DataTypes.Time.Month;
+import me.Jonathon594.Mythria.DataTypes.Date;
+import me.Jonathon594.Mythria.DataTypes.Month;
 import me.Jonathon594.Mythria.Enum.BirthSign;
 import me.Jonathon594.Mythria.Event.NewDayEvent;
 import me.Jonathon594.Mythria.MythriaPacketHandler;

@@ -3,16 +3,14 @@ package me.Jonathon594.Mythria.Capability.Profile;
 import me.Jonathon594.Mythria.Ability.Ability;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
 import me.Jonathon594.Mythria.Const.MythriaConst;
+import me.Jonathon594.Mythria.DataTypes.Date;
 import me.Jonathon594.Mythria.DataTypes.HealthData;
 import me.Jonathon594.Mythria.DataTypes.Perk;
-import me.Jonathon594.Mythria.DataTypes.SkinPart;
-import me.Jonathon594.Mythria.DataTypes.Time.Date;
 import me.Jonathon594.Mythria.Enum.*;
+import me.Jonathon594.Mythria.Genetic.Gene.ISkinPartGene;
 import me.Jonathon594.Mythria.Genetic.Genetic;
 import me.Jonathon594.Mythria.Genetic.GeneticTypes;
-import me.Jonathon594.Mythria.Genetic.ISkinPartGene;
 import me.Jonathon594.Mythria.Managers.AbilityHandler;
-import me.Jonathon594.Mythria.Managers.SkinParts;
 import me.Jonathon594.Mythria.Managers.StatManager;
 import me.Jonathon594.Mythria.Managers.TimeManager;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
@@ -21,6 +19,8 @@ import me.Jonathon594.Mythria.Packet.SPacketProfileCache;
 import me.Jonathon594.Mythria.Packet.SPacketUpdateConsumables;
 import me.Jonathon594.Mythria.Packet.SPacketUpdateExperience;
 import me.Jonathon594.Mythria.Packet.SPacketUpdateNutrition;
+import me.Jonathon594.Mythria.Skin.SkinPart;
+import me.Jonathon594.Mythria.Skin.SkinParts;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.entity.LivingEntity;
@@ -370,6 +370,7 @@ public class Profile implements IProfile {
         comp.putInt("PregConceptionDate", getPregConceptionDate());
         comp.putLong("LastDisconnect", getLastDisconnect());
         comp.put("HealthData", healthData.toNBT());
+        comp.putString("Clothing", clothing.getRegistryName().toString());
 
         if (getProfileUUID() == null)
             setProfileUUID(UUID.randomUUID());
@@ -463,6 +464,7 @@ public class Profile implements IProfile {
         setPregConceptionData(comp.getInt("PregConceptionDate"));
         setLastDisconnect(comp.getLong("LastDisconnect"));
         bleeding = comp.getDouble("bleeding");
+        clothing = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(comp.getString("Clothing")));
 
         healthData.fromNBT(comp.getCompound("HealthData"));
 
@@ -868,13 +870,13 @@ public class Profile implements IProfile {
     }
 
     public double getAverageNutrition() {
-        double avg = 0;
-        for (Consumable.Nutrition nutrition : Consumable.Nutrition.values()) {
-            avg += this.nutrition.get(nutrition);
+        HashMap<Double, Integer> weightMap = new HashMap<>();
+        HashMap<Consumable.Nutrition, Integer> requiredNutrition = getGenetic().getNutrition().getRequiredNutrition();
+        for (Consumable.Nutrition nutrition : requiredNutrition.keySet()) {
+            weightMap.put(getNutrition(nutrition), requiredNutrition.get(nutrition));
         }
-        avg /= this.nutrition.size();
 
-        return avg;
+        return MythriaUtil.calculateWeightedAverage(weightMap);
     }
 
     public AbilityHandler getAbilityHandler() {

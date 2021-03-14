@@ -1,6 +1,6 @@
 package me.Jonathon594.Mythria.Client.Screen;
 
-import me.Jonathon594.Mythria.DataTypes.Time.Month;
+import me.Jonathon594.Mythria.DataTypes.Month;
 import me.Jonathon594.Mythria.Managers.TimeManager;
 import net.minecraft.util.text.StringTextComponent;
 

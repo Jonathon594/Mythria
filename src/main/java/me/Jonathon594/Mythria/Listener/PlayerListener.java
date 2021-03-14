@@ -5,21 +5,29 @@ import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Const.EXPConst;
+import me.Jonathon594.Mythria.Const.MythriaConst;
 import me.Jonathon594.Mythria.DataTypes.Perk;
-import me.Jonathon594.Mythria.Enum.*;
+import me.Jonathon594.Mythria.Enum.AttributeFlag;
+import me.Jonathon594.Mythria.Enum.ChatChannel;
+import me.Jonathon594.Mythria.Enum.Consumable;
+import me.Jonathon594.Mythria.Enum.MythicSkills;
 import me.Jonathon594.Mythria.Managers.*;
 import me.Jonathon594.Mythria.Managers.Crafting.ConstructionManager;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.Packet.SPacketProfileCache;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import me.Jonathon594.Mythria.Worlds.MythriaWorlds;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -27,6 +35,8 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -134,95 +144,124 @@ public class PlayerListener {
     }
 
     @SubscribeEvent
-    public static void onBreakSpeed(final net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed event) {
+    public static void onBreakSpeed(final PlayerEvent.BreakSpeed event) {
+        float originalSpeed = event.getOriginalSpeed();
         PlayerEntity p = event.getPlayer();
         Profile profile = ProfileProvider.getProfile(p);
-        float factor = 0f;
-        if (MythriaUtil.isOre(event.getState().getBlock())) {
-            int mining = profile.getSkillLevel(MythicSkills.MINING);
-            factor = MathHelper.clamp((float) mining / 100f, 0, 1);
-        }
-        if (event.getState().getMaterial().equals(Material.ROCK)) {
-            if (profile.hasFlag(AttributeFlag.DWARF_DIGGING)) factor = 1;
-        }
-        int strength = profile.getAttributeLevel(Attribute.STRENGTH);
-        float strengthFactor = MathHelper.clamp((float) strength / 200f, 0f, 0.5f);
-        float finalFactor = Math.max(strengthFactor, factor);
-        int breakSpeedMultiplier = 10;
-
-        if (ConstructionManager.isReinforced(event.getState().getBlock())) {
-            breakSpeedMultiplier = 500;
-        }
-
-        event.setNewSpeed(event.getOriginalSpeed() / (1 + ((breakSpeedMultiplier - 1) * (1 - finalFactor))));
-    }
-
-    @SubscribeEvent
-    public static void onBlockPlace(final BlockEvent.EntityPlaceEvent event) {
-        // If client, return;
-        if (event.getWorld().isRemote()) return;
-        Entity entity = event.getEntity();
-        if (!(entity instanceof PlayerEntity)) return;
-        final PlayerEntity p = (PlayerEntity) entity;
-        if (p.isCreative())
-            return;
         if (p.world.getDimensionKey().equals(MythriaWorlds.SPAWN_KEY)) {
             event.setCanceled(true);
             return;
         }
-        final Profile profile = ProfileProvider.getProfile(p);
-        double cost = MaterialManager.getStaminaCostForBreaking(event.getPlacedBlock(), event.getWorld(), event.getPos());
+
+        float speed = event.getOriginalSpeed() / 10f;
+        if (ConstructionManager.isReinforced(event.getState().getBlock())) {
+            speed /= 50;
+        }
+
+        final List<Perk> list = MaterialManager.PERKS_FOR_BREAKING.get(event.getState().getBlock());
+        if (list != null) {
+            HashMap<MythicSkills, Integer> levelModifiers = new HashMap<>();
+            boolean able = list.size() == 0;
+            for (final Perk pa : list) {
+                if (profile.getPlayerSkills().contains(pa)) able = true;
+                for (MythicSkills skill : pa.getRequiredSkills().keySet()) {
+                    levelModifiers.computeIfAbsent(skill, mythicSkills ->
+                            levelModifiers.put(mythicSkills, profile.getSkillLevel(mythicSkills)));
+                }
+            }
+            if (!able) {
+                event.setCanceled(true);
+                return;
+            }
+            float highestMult = 1f;
+            for (int level : levelModifiers.values()) {
+                float mult = level / 100f + 1f;
+                highestMult = Math.max(highestMult, mult);
+            }
+            speed *= highestMult;
+        }
+
+        double cost = MaterialManager.getStaminaCostForBreaking(event.getState(), p.world, event.getPos());
         if (profile.getConsumable(Consumable.STAMINA) < cost) {
             event.setCanceled(true);
             return;
         }
+        event.setNewSpeed(Math.min(originalSpeed, speed));
+    }
 
-        MaterialManager.onBlockPlace(event);
-        if (event.isCanceled())
-            return;
-
+    @SubscribeEvent
+    public static void onBlockPlace(final BlockEvent.EntityPlaceEvent event) {
+        Entity entity = event.getEntity();
+        if (!(entity instanceof PlayerEntity)) return;
+        final PlayerEntity p = (PlayerEntity) entity;
+        double cost = MaterialManager.getStaminaCostForBreaking(event.getPlacedBlock(), event.getWorld(), event.getPos());
+        if (!(entity instanceof PlayerEntity)) return;
+        final Profile profile = ProfileProvider.getProfile(p);
+        final List<Perk> list = MaterialManager.PERKS_FOR_PLACING.get(event.getPlacedBlock().getBlock());
+        if (list != null) {
+            for (final Perk pa : list) {
+                if (profile.getPlayerSkills().contains(pa)) {
+                    for (final Map.Entry<MythicSkills, Integer> s : pa.getRequiredSkills().entrySet())
+                        profile.addSkillExperience(s.getKey(), EXPConst.BLOCK_PLACE * (s.getValue() / 10.0 + 1), (ServerPlayerEntity) p, s.getValue());
+                }
+            }
+        }
         StatManager.chargeConsumable(p, cost, Consumable.STAMINA);
-        //BlockUtils.physicsCheck(event.getWorld().getWorld(), event.getPos(), event.getPlacedBlock().getBlock(), 10,
-        //        true);
-
         if (ConstructionManager.isReinforced(event.getPlacedBlock().getBlock()))
             ConstructionManager.addRecentlyPlacedBlock(p, event.getPlacedBlock().getBlock(), event.getPos());
     }
 
     @SubscribeEvent
-    public static void onItemToss(final ItemTossEvent event) {
-        if (event.getPlayer().getEntityWorld().isRemote) {
+    public static void onBlockBreak(final BlockEvent.BreakEvent event) {
+        final PlayerEntity p = event.getPlayer();
+        final Profile profile = ProfileProvider.getProfile(p);
+        Block block = event.getState().getBlock();
+        double cost = MaterialManager.getStaminaCostForBreaking(event.getState(), p.world, event.getPos());
+        StatManager.chargeConsumable(event.getPlayer(), cost, Consumable.STAMINA);
+        ArrayList<Block> treeBlocks = TreeFellingManager.HandleTreeChop(p, event.getPos());
+        if (treeBlocks.size() > 0) {
+            for (Block b : treeBlocks) {
+                addExperienceForBreaking((ServerPlayerEntity) p, profile, b);
+            }
+        } else {
+            addExperienceForBreaking((ServerPlayerEntity) p, profile, block);
         }
     }
 
     @SubscribeEvent
-    public static void onBlockBreak(final BlockEvent.BreakEvent event) {
-        // If client, return;
-        if (event.getWorld().isRemote())
-            return;
-        final PlayerEntity p = event.getPlayer();
-        if (p.isCreative())
-            return;
-        if (p.world.getDimensionKey().equals(MythriaWorlds.SPAWN_KEY)) {
-            event.setCanceled(true);
-            return;
+    public static void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        PlayerEntity player = event.getPlayer();
+        Profile profile = ProfileProvider.getProfile(player);
+        ItemStack is = player.getHeldItem(event.getHand());
+        if (is.isEmpty()) return;
+        Item item = is.getItem();
+        if (!(item instanceof BlockItem)) return;
+        Block block = ((BlockItem) item).getBlock();
+        List<Perk> perks = MaterialManager.PERKS_FOR_PLACING.get(block);
+        if (perks == null) return;
+        boolean able = perks.size() == 0;
+        for (Perk perk : perks) {
+            if (profile.getPlayerSkills().contains(perk)) {
+                able = true;
+                break;
+            }
         }
-        final Profile profile = ProfileProvider.getProfile(p);
-
-        double cost = MaterialManager.getStaminaCostForBreaking(event.getState(), event.getWorld(), event.getPos());
-        if (profile.getConsumable(Consumable.STAMINA) < cost) {
+        if (!able) {
+            event.setCancellationResult(ActionResultType.PASS);
             event.setCanceled(true);
-            return;
+            if (!player.world.isRemote)
+                player.sendMessage(new StringTextComponent(MythriaConst.CANT_PLACE), Util.DUMMY_UUID);
         }
-        MaterialManager.onBlockBreak(event, p, profile);
-        if (event.isCanceled())
-            return;
-        if (event.isCanceled())
-            return;
+    }
 
-        StatManager.chargeConsumable(event.getPlayer(), cost, Consumable.STAMINA);
-        TreeFellingManager.HandleTreeChop(p, event.getPos());
-        //BlockUtils.physicsCheck(event.getWorld().getWorld(), event.getPos(), event.getState().getBlock(), 10,
-        //        true);
+    protected static void addExperienceForBreaking(ServerPlayerEntity p, Profile profile, Block block) {
+        final List<Perk> list = MaterialManager.PERKS_FOR_BREAKING.get(block);
+        if (list != null) {
+            for (final Perk pa : list)
+                if (profile.getPlayerSkills().contains(pa)) {
+                    for (final Map.Entry<MythicSkills, Integer> s : pa.getRequiredSkills().entrySet())
+                        profile.addSkillExperience(s.getKey(), EXPConst.BLOCK_BREAK * (s.getValue() / 10.0 + 1), p, s.getValue());
+                }
+        }
     }
 }

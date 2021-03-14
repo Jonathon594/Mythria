@@ -6,7 +6,7 @@ import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Client.Model.CharacterModel;
 import me.Jonathon594.Mythria.Client.Renderer.Layer.CharacterLayerRenderer;
 import me.Jonathon594.Mythria.Client.Renderer.Layer.FaeWingLayer;
-import me.Jonathon594.Mythria.DataTypes.SkinPart;
+import me.Jonathon594.Mythria.Skin.SkinPart;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererManager;

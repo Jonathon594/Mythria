@@ -4,7 +4,7 @@ import me.Jonathon594.Mythria.Blocks.MythriaOre;
 import me.Jonathon594.Mythria.Const.ColorConst;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.SpawnPos;
-import me.Jonathon594.Mythria.DataTypes.Time.Date;
+import me.Jonathon594.Mythria.DataTypes.Date;
 import me.Jonathon594.Mythria.Managers.TimeManager;
 import me.Jonathon594.Mythria.Mythria;
 import me.Jonathon594.Mythria.Perk.Perks;
@@ -266,7 +266,7 @@ public class MythriaUtil {
         return 7500.0 * Math.pow(2, (double) level / 7) - 7500.0;
     }
 
-    public static Collection<Block> getBlockCollectionFromTag(ResourceLocation resourceLocationIn) {
+    public static List<Block> getBlockCollectionFromTag(ResourceLocation resourceLocationIn) {
         return BlockTags.getCollection().get(resourceLocationIn).getAllElements();
     }
 
@@ -274,7 +274,7 @@ public class MythriaUtil {
         return getItemCollectionFromTag(resourceLocation).toArray(new Item[0]);
     }
 
-    public static Collection<Item> getItemCollectionFromTag(ResourceLocation resourceLocation) {
+    public static List<Item> getItemCollectionFromTag(ResourceLocation resourceLocation) {
         return ItemTags.getCollection().get(resourceLocation).getAllElements();
     }
 
@@ -332,5 +332,23 @@ public class MythriaUtil {
 
     public static float celciusFromBiomeTemperature(float temperature) {
         return temperature * 20f;
+    }
+
+    /**
+     * Calculates the weighted average of a map.
+     *
+     * @throws ArithmeticException If divide by zero happens
+     * @param map A map of values and weights
+     * @return The weighted average of the map
+     */
+    public static Double calculateWeightedAverage(Map<Double, Integer> map) throws ArithmeticException {
+        double num = 0;
+        double denom = 0;
+        for (Map.Entry<Double, Integer> entry : map.entrySet()) {
+            num += entry.getKey() * entry.getValue();
+            denom += entry.getValue();
+        }
+
+        return num / denom;
     }
 }

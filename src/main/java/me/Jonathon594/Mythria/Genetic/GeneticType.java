@@ -1,13 +1,16 @@
 package me.Jonathon594.Mythria.Genetic;
 
-import me.Jonathon594.Mythria.DataTypes.SkinPart;
+import me.Jonathon594.Mythria.Skin.SkinPart;
+import me.Jonathon594.Mythria.SpawnGifts.SpawnGift;
 import me.Jonathon594.Mythria.DataTypes.SpawnPos;
-import me.Jonathon594.Mythria.Managers.SkinParts;
+import me.Jonathon594.Mythria.Skin.SkinParts;
+import me.Jonathon594.Mythria.MythriaRegistries;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -18,13 +21,15 @@ public class GeneticType extends ForgeRegistryEntry<GeneticType> {
     private SkinPart.Type specialSkinPartType = null;
     private RegistryKey<World> spawnDimension = World.OVERWORLD;
     private Genetic instance;
+    private int startingAge;
 
-    public GeneticType(String name, String displayName, SpawnPos spawnPos, Supplier<Genetic> factory) {
+    public GeneticType(String name, String displayName, SpawnPos spawnPos, Supplier<Genetic> factory, int startingAge) {
         setRegistryName(new MythriaResourceLocation(name));
         this.displayName = displayName;
         this.spawnPos = spawnPos;
         this.factory = factory;
         this.instance = factory.get();
+        this.startingAge = startingAge;
     }
 
     public String getDisplayName() {
@@ -75,5 +80,13 @@ public class GeneticType extends ForgeRegistryEntry<GeneticType> {
 
     public List<SkinPart> getAllowedClothes() {
         return SkinParts.getSkinPartsFor(SkinPart.Type.CLOTHING);
+    }
+
+    public Collection<SpawnGift> getAllowedSpawnGifts() {
+        return MythriaRegistries.SPAWN_GIFTS.getValues();
+    }
+
+    public int getStartingAge() {
+        return startingAge;
     }
 }
