@@ -35,6 +35,4 @@ public class BowProvider implements ICapabilitySerializable<INBT> {
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         return BOW_CAP.orEmpty(cap, LazyOptional.of(() -> instance));
     }
-
-
 }

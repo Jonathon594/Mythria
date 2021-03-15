@@ -31,7 +31,20 @@ public class MythriaPickaxeItem extends PickaxeItem implements IModularTool {
 
     @Nullable
     @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
-        return new ToolProvider(this);
+    public CompoundNBT getShareTag(ItemStack stack) {
+        CompoundNBT tag = stack.getOrCreateTag();
+        tag.put(Mythria.MODID + ".tool_sync", ToolProvider.getTool(stack).toNBT());
+        return tag;
+    }
+
+    @Override
+    public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
+        if(nbt == null) return;
+        String key = Mythria.MODID + ".tool_sync";
+        if(nbt.contains(key)) {
+            ToolProvider.getTool(stack).fromNBT(nbt.getCompound(key));
+            nbt.remove(key);
+        }
+        stack.setTag(nbt);
     }
 }

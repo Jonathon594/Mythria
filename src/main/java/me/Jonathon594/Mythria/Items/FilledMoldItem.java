@@ -35,12 +35,6 @@ public class FilledMoldItem extends HeatableItem {
         return new ActionResult<>(ActionResultType.SUCCESS, result.copy());
     }
 
-    @Nullable
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
-        return new MoldProvider();
-    }
-
     @Override
     public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
         return ActionResultType.SUCCESS;

@@ -5,13 +5,14 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class Bow implements IBow {
-
     final ItemStackHandler inventory = new ItemStackHandler(2);
 
+    @Override
     public ItemStack getArrow() {
         return inventory.getStackInSlot(1);
     }
 
+    @Override
     public void setArrow(ItemStack arrow) {
         inventory.setStackInSlot(1, arrow);
     }
@@ -28,10 +29,12 @@ public class Bow implements IBow {
         inventory.deserializeNBT(nbt.getCompound("inventory"));
     }
 
+    @Override
     public ItemStack getBowstring() {
         return inventory.getStackInSlot(0);
     }
 
+    @Override
     public void setBowstring(ItemStack bowstring) {
         inventory.setStackInSlot(0, bowstring);
     }

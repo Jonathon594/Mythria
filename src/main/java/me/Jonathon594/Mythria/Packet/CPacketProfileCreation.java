@@ -50,20 +50,20 @@ public class CPacketProfileCreation {
     }
 
     public CPacketProfileCreation(PacketBuffer packetBuffer) {
-        firstName = packetBuffer.readString();
-        middleName = packetBuffer.readString();
-        lastName = packetBuffer.readString();
+        firstName = packetBuffer.readString(32767);
+        middleName = packetBuffer.readString(32767);
+        lastName = packetBuffer.readString(32767);
         month = packetBuffer.readInt();
         day = packetBuffer.readInt();
-        geneticType = MythriaRegistries.GENETICS.getValue(new ResourceLocation(packetBuffer.readString()));
-        gender = Gender.valueOf(packetBuffer.readString());
-        hair = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(packetBuffer.readString()));
-        eyes = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(packetBuffer.readString()));
-        clothes = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(packetBuffer.readString()));
-        skin = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(packetBuffer.readString()));
-        gift = MythriaRegistries.SPAWN_GIFTS.getValue(new ResourceLocation(packetBuffer.readString()));
+        geneticType = MythriaRegistries.GENETICS.getValue(new ResourceLocation(packetBuffer.readString(32767)));
+        gender = Gender.valueOf(packetBuffer.readString(32767));
+        hair = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(packetBuffer.readString(32767)));
+        eyes = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(packetBuffer.readString(32767)));
+        clothes = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(packetBuffer.readString(32767)));
+        skin = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(packetBuffer.readString(32767)));
+        gift = MythriaRegistries.SPAWN_GIFTS.getValue(new ResourceLocation(packetBuffer.readString(32767)));
 
-        String s = packetBuffer.readString();
+        String s = packetBuffer.readString(32767);
         if (!s.isEmpty()) unique = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(s));
     }
 

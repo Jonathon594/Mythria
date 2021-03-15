@@ -19,7 +19,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.DistExecutor;
 
@@ -28,11 +27,9 @@ import java.util.function.Predicate;
 
 public class MythriaBowItem extends BowItem {
     public static final Predicate<ItemStack> MYTHRIA_ARROWS = (stack) -> stack.getItem() instanceof MythriaArrowItem;
-    private final double weight;
 
-    public MythriaBowItem(String name, IItemTier tier, double weight) {
+    public MythriaBowItem(String name, IItemTier tier) {
         super(new Item.Properties().maxDamage(tier.getMaxUses()).group(ItemGroup.COMBAT));
-        this.weight = weight;
         setRegistryName(Mythria.MODID, name);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientUtil.registerBowProperty(this));
@@ -57,7 +54,7 @@ public class MythriaBowItem extends BowItem {
         if (ammo.isEmpty()) return false;
         if (bow.getBowstring().isEmpty()) return false;
         bow.setArrow(ammo.split(1));
-        player.setHeldItem(hand, stack);
+        //player.setHeldItem(hand, stack);
         boolean flag = !bow.getArrow().isEmpty();
         ActionResult<ItemStack> actionResult = ForgeEventFactory.onArrowNock(bow.getArrow(), player.world, player, hand, flag);
         if (actionResult != null) return actionResult.getType().isSuccess();
@@ -150,20 +147,21 @@ public class MythriaBowItem extends BowItem {
 
     @Nullable
     @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
-        return new BowProvider();
-    }
-
-    @Override
-    public void onUsingTick(ItemStack stack, LivingEntity player, int count) {
-    }
-
-    @Nullable
-    @Override
     public CompoundNBT getShareTag(ItemStack stack) {
         CompoundNBT tag = stack.getOrCreateTag();
-        tag.put("arrow", BowProvider.getBow(stack).getArrow().serializeNBT());
+        tag.put(Mythria.MODID + ".bow_sync", BowProvider.getBow(stack).toNBT());
         return tag;
+    }
+
+    @Override
+    public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
+        if(nbt == null) return;
+        String key = Mythria.MODID + ".bow_sync";
+        if(nbt.contains(key)) {
+            BowProvider.getBow(stack).fromNBT(nbt.getCompound(key));
+            nbt.remove(key);
+        }
+        stack.setTag(nbt);
     }
 
     @Override

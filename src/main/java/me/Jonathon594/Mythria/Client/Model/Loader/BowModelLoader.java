@@ -196,13 +196,15 @@ public class BowModelLoader implements IModelGeometry<BowModelLoader> {
         public IBakedModel getOverrideModel(IBakedModel model, ItemStack stack, @Nullable ClientWorld world, @Nullable LivingEntity livingEntity) {
             BakedModel bakedModel = (BakedModel) model;
             Bow bow = BowProvider.getBow(stack);
-            bakedModel.setArrow(bow.getArrow().getItem().getRegistryName().getPath());
             boolean flag = livingEntity == null;
             boolean pulling = !flag && livingEntity.getActiveItemStack() == stack;
             float pull = flag ? 0F : pulling ? (float) (stack.getUseDuration() - livingEntity.getItemInUseCount()) / 20f : 0f;
             int pullState = pulling ? getPullState(pull) : 0;
             bakedModel.setPullState(pullState);
-            bakedModel.setBowstring(bow.getBowstring().getItem().getRegistryName().getPath(), pullState);
+            if(bow != null) {
+                bakedModel.setArrow(bow.getArrow().getItem().getRegistryName().getPath());
+                bakedModel.setBowstring(bow.getBowstring().getItem().getRegistryName().getPath(), pullState);
+            }
             return model;
         }
 

@@ -1,9 +1,11 @@
 package me.Jonathon594.Mythria.Capability;
 
 import me.Jonathon594.Mythria.Capability.Bow.Bow;
+import me.Jonathon594.Mythria.Capability.Bow.BowProvider;
 import me.Jonathon594.Mythria.Capability.Bow.BowStorage;
 import me.Jonathon594.Mythria.Capability.Bow.IBow;
 import me.Jonathon594.Mythria.Capability.Crucible.Crucible;
+import me.Jonathon594.Mythria.Capability.Crucible.CrucibleProvider;
 import me.Jonathon594.Mythria.Capability.Crucible.CrucibleStorage;
 import me.Jonathon594.Mythria.Capability.Crucible.ICrucible;
 import me.Jonathon594.Mythria.Capability.Food.Food;
@@ -16,6 +18,7 @@ import me.Jonathon594.Mythria.Capability.HeatableItem.HeatableStorage;
 import me.Jonathon594.Mythria.Capability.HeatableItem.IHeatable;
 import me.Jonathon594.Mythria.Capability.Mold.IMold;
 import me.Jonathon594.Mythria.Capability.Mold.Mold;
+import me.Jonathon594.Mythria.Capability.Mold.MoldProvider;
 import me.Jonathon594.Mythria.Capability.Mold.MoldStorage;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.IMythriaPlayer;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
@@ -27,9 +30,14 @@ import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileStorage;
 import me.Jonathon594.Mythria.Capability.Tool.ITool;
 import me.Jonathon594.Mythria.Capability.Tool.Tool;
+import me.Jonathon594.Mythria.Capability.Tool.ToolProvider;
 import me.Jonathon594.Mythria.Capability.Tool.ToolStorage;
 import me.Jonathon594.Mythria.Entity.NPCEntity;
 import me.Jonathon594.Mythria.Interface.IHeatableItem;
+import me.Jonathon594.Mythria.Interface.IModularTool;
+import me.Jonathon594.Mythria.Items.CrucibleItem;
+import me.Jonathon594.Mythria.Items.FilledMoldItem;
+import me.Jonathon594.Mythria.Items.MythriaBowItem;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -55,6 +63,7 @@ public class CapabilityHandler {
     public static final ResourceLocation HEATABLE_CAP = new MythriaResourceLocation("heatable_item_capability");
     public static final ResourceLocation TOOL_CAP = new MythriaResourceLocation("tool_capability");
     public static final ResourceLocation BOW_CAP = new MythriaResourceLocation("bow_capability");
+    private static final ResourceLocation MOLD_CAP = new MythriaResourceLocation("mold_cap");
 
     @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
     public static void attachCapabilityEntity(final AttachCapabilitiesEvent<Entity> event) {
@@ -73,9 +82,20 @@ public class CapabilityHandler {
         if (itemStack.isFood()) {
             event.addCapability(FOOD_CAP, new FoodProvider());
         }
-
         if (itemStack.getItem() instanceof IHeatableItem) {
             event.addCapability(HEATABLE_CAP, new HeatableProvider());
+        }
+        if (itemStack.getItem() instanceof IModularTool) {
+            event.addCapability(TOOL_CAP, new ToolProvider((IModularTool) itemStack.getItem()));
+        }
+        if (itemStack.getItem() instanceof MythriaBowItem) {
+            event.addCapability(BOW_CAP, new BowProvider());
+        }
+        if (itemStack.getItem() instanceof FilledMoldItem) {
+            event.addCapability(MOLD_CAP, new MoldProvider());
+        }
+        if (itemStack.getItem() instanceof CrucibleItem) {
+            event.addCapability(CRUCIBLE_CAP, new CrucibleProvider());
         }
     }
 

@@ -57,12 +57,6 @@ public class CrucibleItem extends HeatableItem {
         }
     }
 
-    @Nullable
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
-        return new CrucibleProvider();
-    }
-
     @Override
     public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
         return ActionResultType.SUCCESS;
