@@ -1,0 +1,6 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "particle": "mythria:blocks/thatch_block_side"
+  }
+}

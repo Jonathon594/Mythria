@@ -24,12 +24,8 @@ public class ProfileGiftTab extends ProfileCreationTab {
         }, this::getValidGiftNames));
     }
 
-    private List<String> getValidGiftNames() {
-        List<String> list = new ArrayList<>();
-        for (SpawnGift gift : parent.profileLooksTab.getSelectedGeneticType().getAllowedSpawnGifts()) {
-            list.add(gift.getRegistryName().toString());
-        }
-        return list;
+    public SpawnGift getSelectedGift() {
+        return MythriaRegistries.SPAWN_GIFTS.getValue(new ResourceLocation(giftSelectorButton.getSelectedName()));
     }
 
     @Override
@@ -45,7 +41,11 @@ public class ProfileGiftTab extends ProfileCreationTab {
         }
     }
 
-    public SpawnGift getSelectedGift() {
-        return MythriaRegistries.SPAWN_GIFTS.getValue(new ResourceLocation(giftSelectorButton.getSelectedName()));
+    private List<String> getValidGiftNames() {
+        List<String> list = new ArrayList<>();
+        for (SpawnGift gift : parent.profileLooksTab.getSelectedGeneticType().getAllowedSpawnGifts()) {
+            list.add(gift.getRegistryName().toString());
+        }
+        return list;
     }
 }

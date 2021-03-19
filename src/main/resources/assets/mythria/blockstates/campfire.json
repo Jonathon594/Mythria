@@ -1,260 +1,45 @@
 {
   "multipart": [
+    {"apply": {"model": "mythria:block/campfire_particle"}},
     {
-      "when": {
-        "full": 0,
-        "lit": false,
-        "facing": "north"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_log_1",
-        "y": 180
-      }
+      "when": {"lit": true, "soulfire": false},
+      "apply": {"model": "mythria:block/campfire_fire"}
     },
     {
-      "when": {
-        "full": 0,
-        "lit": false,
-        "facing": "south"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_log_1",
-        "y": 0
-      }
+      "when": {"lit": true, "soulfire": true},
+      "apply": {"model": "mythria:block/campfire_soulfire"}
     },
     {
-      "when": {
-        "full": 0,
-        "lit": false,
-        "facing": "east"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_log_1",
-        "y": 270
-      }
+      "when": {"charcoal": true, "facing": "north", "soulfire": false},
+      "apply": {"model": "mythria:block/campfire_charcoal", "y": 180}
     },
     {
-      "when": {
-        "full": 0,
-        "lit": false,
-        "facing": "west"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_log_1",
-        "y": 90
-      }
+      "when": {"charcoal": true, "facing": "south", "soulfire": false},
+      "apply": {"model": "mythria:block/campfire_charcoal", "y": 0}
     },
     {
-      "when": {
-        "full": 1,
-        "lit": false,
-        "facing": "north"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_log_2",
-        "y": 180
-      }
+      "when": {"charcoal": true, "facing": "east", "soulfire": false},
+      "apply": {"model": "mythria:block/campfire_charcoal", "y": 270}
     },
     {
-      "when": {
-        "full": 1,
-        "lit": false,
-        "facing": "south"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_log_2",
-        "y": 0
-      }
+      "when": {"charcoal": true, "facing": "west", "soulfire": false},
+      "apply": {"model": "mythria:block/campfire_charcoal", "y": 90}
     },
     {
-      "when": {
-        "full": 1,
-        "lit": false,
-        "facing": "east"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_log_2",
-        "y": 270
-      }
+      "when": {"charcoal": true, "facing": "north", "soulfire": true},
+      "apply": {"model": "mythria:block/campfire_charcoal_soul", "y": 180}
     },
     {
-      "when": {
-        "full": 1,
-        "lit": false,
-        "facing": "west"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_log_2",
-        "y": 90
-      }
+      "when": {"charcoal": true, "facing": "south", "soulfire": true},
+      "apply": {"model": "mythria:block/campfire_charcoal_soul", "y": 0}
     },
     {
-      "when": {
-        "full": 2,
-        "lit": false,
-        "facing": "north"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_log_3",
-        "y": 180
-      }
+      "when": {"charcoal": true, "facing": "east", "soulfire": true},
+      "apply": {"model": "mythria:block/campfire_charcoal_soul", "y": 270}
     },
     {
-      "when": {
-        "full": 2,
-        "lit": false,
-        "facing": "south"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_log_3",
-        "y": 0
-      }
-    },
-    {
-      "when": {
-        "full": 2,
-        "lit": false,
-        "facing": "east"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_log_3",
-        "y": 270
-      }
-    },
-    {
-      "when": {
-        "full": 2,
-        "lit": false,
-        "facing": "west"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_log_3",
-        "y": 90
-      }
-    },
-    {
-      "when": {
-        "full": 3,
-        "lit": false,
-        "facing": "north"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_log_4",
-        "y": 180
-      }
-    },
-    {
-      "when": {
-        "full": 3,
-        "lit": false,
-        "facing": "south"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_log_4",
-        "y": 0
-      }
-    },
-    {
-      "when": {
-        "full": 3,
-        "lit": false,
-        "facing": "east"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_log_4",
-        "y": 270
-      }
-    },
-    {
-      "when": {
-        "full": 3,
-        "lit": false,
-        "facing": "west"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_log_4",
-        "y": 90
-      }
-    },
-    {
-      "when": {
-        "lit": true,
-        "facing": "north"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_lit",
-        "y": 180
-      }
-    },
-    {
-      "when": {
-        "lit": true,
-        "facing": "south"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_lit",
-        "y": 0
-      }
-    },
-    {
-      "when": {
-        "lit": true,
-        "facing": "east"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_lit",
-        "y": 270
-      }
-    },
-    {
-      "when": {
-        "lit": true,
-        "facing": "west"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_lit",
-        "y": 90
-      }
-    },
-    {
-      "when": {
-        "charcoal": true,
-        "facing": "north"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_charcoal",
-        "y": 180
-      }
-    },
-    {
-      "when": {
-        "charcoal": true,
-        "facing": "south"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_charcoal",
-        "y": 0
-      }
-    },
-    {
-      "when": {
-        "charcoal": true,
-        "facing": "east"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_charcoal",
-        "y": 270
-      }
-    },
-    {
-      "when": {
-        "charcoal": true,
-        "facing": "west"
-      },
-      "apply": {
-        "model": "mythria:block/campfire_charcoal",
-        "y": 90
-      }
+      "when": {"charcoal": true, "facing": "west", "soulfire": true},
+      "apply": {"model": "mythria:block/campfire_charcoal_soul", "y": 90}
     }
   ]
 }

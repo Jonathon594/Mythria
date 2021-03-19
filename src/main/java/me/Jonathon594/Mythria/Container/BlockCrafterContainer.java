@@ -34,6 +34,43 @@ public abstract class BlockCrafterContainer extends CrafterContainer {
     }
 
     @Override
+    public void onContainerClosed(PlayerEntity playerIn) {
+        super.onContainerClosed(playerIn);
+        clearContainer(playerIn, world, toolInventory);
+    }
+
+    @Override
+    protected Slot createInputSlot() {
+        return addSlot(new Slot(inventory, 0, 20, 24) {
+            @Override
+            public boolean isItemValid(ItemStack stack) {
+                return getValidItems().contains(stack.getItem());
+            }
+        });
+    }
+
+    @Override
+    protected Slot createOutputSlot() {
+        return addSlot(new Slot(CraftResultInventory, 1, 143, 33) {
+            @Override
+            public ItemStack onTake(PlayerEntity player, ItemStack stack) {
+                BlockCrafterContainer.this.onOutputTakeStack(player, stack);
+                return super.onTake(player, stack);
+            }
+
+            @Override
+            public boolean isItemValid(ItemStack stack) {
+                return false;
+            }
+
+            @Override
+            public boolean canTakeStack(PlayerEntity playerIn) {
+                return canCraft();
+            }
+        });
+    }
+
+    @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
@@ -88,42 +125,5 @@ public abstract class BlockCrafterContainer extends CrafterContainer {
     @Override
     public boolean canInteractWith(PlayerEntity playerIn) {
         return true;
-    }
-
-    @Override
-    public void onContainerClosed(PlayerEntity playerIn) {
-        super.onContainerClosed(playerIn);
-        clearContainer(playerIn, world, toolInventory);
-    }
-
-    @Override
-    protected Slot createInputSlot() {
-        return addSlot(new Slot(inventory, 0, 20, 24) {
-            @Override
-            public boolean isItemValid(ItemStack stack) {
-                return getValidItems().contains(stack.getItem());
-            }
-        });
-    }
-
-    @Override
-    protected Slot createOutputSlot() {
-        return addSlot(new Slot(CraftResultInventory, 1, 143, 33) {
-            @Override
-            public boolean isItemValid(ItemStack stack) {
-                return false;
-            }
-
-            @Override
-            public boolean canTakeStack(PlayerEntity playerIn) {
-                return canCraft();
-            }
-
-            @Override
-            public ItemStack onTake(PlayerEntity player, ItemStack stack) {
-                BlockCrafterContainer.this.onOutputTakeStack(player, stack);
-                return super.onTake(player, stack);
-            }
-        });
     }
 }

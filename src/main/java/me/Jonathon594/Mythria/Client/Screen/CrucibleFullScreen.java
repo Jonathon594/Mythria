@@ -18,6 +18,12 @@ public class CrucibleFullScreen extends ContainerScreen<CrucibleContainerFull> {
     }
 
     @Override
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+    }
+
+    @Override
     protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
         this.font.drawString(matrixStack, this.title.getString(), 8.0F, 4.0F, 4210752);
         this.font.drawString(matrixStack, this.playerInventory.getDisplayName().getString(), 8.0F, (float) (this.ySize - 94), 4210752);
@@ -30,7 +36,6 @@ public class CrucibleFullScreen extends ContainerScreen<CrucibleContainerFull> {
         RenderHelper.disableStandardItemLighting();
     }
 
-
     @Override
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
         this.renderBackground(matrixStack);
@@ -39,11 +44,5 @@ public class CrucibleFullScreen extends ContainerScreen<CrucibleContainerFull> {
         int i = this.guiLeft;
         int j = this.guiTop;
         this.blit(matrixStack, i, j, 0, 0, this.xSize, this.ySize);
-    }
-
-    @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
     }
 }

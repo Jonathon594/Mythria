@@ -37,10 +37,6 @@ public class MetallurgyRecipe {
         SmeltingManager.addRecipe(this);
     }
 
-    public HashMap<Item, Double> getRecipe() {
-        return recipe;
-    }
-
     public MetallurgyRecipe addIngredient(Item item, double proportion) {
         if (proportion > 1.0) throw new IllegalArgumentException("proportion can not be larger than 1.0.");
         double proportionTotal = 0;
@@ -58,6 +54,10 @@ public class MetallurgyRecipe {
 
     public double getMeltingPoint() {
         return meltingPoint;
+    }
+
+    public HashMap<Item, Double> getRecipe() {
+        return recipe;
     }
 
     public boolean matches(IItemHandler items) {

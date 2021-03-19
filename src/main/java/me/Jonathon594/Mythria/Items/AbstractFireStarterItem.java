@@ -57,17 +57,17 @@ public abstract class AbstractFireStarterItem extends MythriaItem {
         return ActionResultType.PASS;
     }
 
-    protected abstract String getBreakMessage();
+    protected abstract boolean doesInstantLight();
 
     protected double getBreakChance() {
         return 0.05;
     }
 
-    protected abstract int getRequiredLevel();
+    protected abstract String getBreakMessage();
 
     protected double getFriction() {
         return 0.1;
     }
 
-    protected abstract boolean doesInstantLight();
+    protected abstract int getRequiredLevel();
 }

@@ -51,27 +51,18 @@ public abstract class CrafterRecipe implements IRecipe<IInventory> {
         return cost;
     }
 
-    public int getTier() {
-        return tier;
-    }
-
-    public IRecipeType<?> getType() {
-        return this.type;
-    }
-
-    public IRecipeSerializer<?> getSerializer() {
-        return this.serializer;
-    }
-
-    public ResourceLocation getId() {
-        return this.id;
+    /**
+     * Returns an Item that is the result of this recipe
+     */
+    public ItemStack getCraftingResult(IInventory inv) {
+        return this.result.copy();
     }
 
     /**
-     * Recipes with equal group are combined into one button in the recipe book
+     * Used to determine if this recipe can fit in a grid of the given width/height
      */
-    public String getGroup() {
-        return this.group;
+    public boolean canFit(int width, int height) {
+        return true;
     }
 
     /**
@@ -88,12 +79,40 @@ public abstract class CrafterRecipe implements IRecipe<IInventory> {
         return nonnulllist;
     }
 
+    @Override
+    public boolean isDynamic() {
+        return true;
+    }
+
+    /**
+     * Recipes with equal group are combined into one button in the recipe book
+     */
+    public String getGroup() {
+        return this.group;
+    }
+
+    public ResourceLocation getId() {
+        return this.id;
+    }
+
+    public IRecipeSerializer<?> getSerializer() {
+        return this.serializer;
+    }
+
+    public IRecipeType<?> getType() {
+        return this.type;
+    }
+
     public List<ITextComponent> getRecipeTooltips(PlayerEntity playerEntity, long gameTime, CrafterContainer container) {
         ArrayList<ITextComponent> tooltips = new ArrayList<>();
         tooltips.add(getNameTooltip());
         tooltips.addAll(getPerkTooltips(playerEntity));
         tooltips.addAll(getIngredientTooltips(gameTime, container.hasRequiredQuantity(this)));
         return tooltips;
+    }
+
+    public int getTier() {
+        return tier;
     }
 
     private List<ITextComponent> getIngredientTooltips(long gameTime, boolean hasRequiredIngredients) {
@@ -106,44 +125,6 @@ public abstract class CrafterRecipe implements IRecipe<IInventory> {
         tooltips.add(new StringTextComponent(color.toString() + cost + "x " +
                 matchingStacks[index].getDisplayName().getString()));
         return tooltips;
-    }
-
-    protected StringTextComponent getNameTooltip() {
-        ItemStack recipeOutput = getRecipeOutput();
-        return new StringTextComponent(ColorConst.HIGH_COLOR.toString() + recipeOutput.getCount() + "x " + recipeOutput.getDisplayName().getString());
-    }
-
-    protected ArrayList<ITextComponent> getPerkTooltips(PlayerEntity playerEntity) {
-        ArrayList<ITextComponent> tooltips = new ArrayList<>();
-        List<Perk> perk = MaterialManager.PERKS_FOR_CRAFTING.get(getRecipeOutput().getItem());
-        if (perk != null && perk.size() > 0) {
-            tooltips.add(new StringTextComponent(ColorConst.MAIN_COLOR + "Granted by perk:"));
-            for (Perk p : perk) {
-                TextFormatting perkColor = ProfileProvider.getProfile(playerEntity).hasPerk(p) ?
-                        ColorConst.SUCCESS_COLOR : ColorConst.CONT_COLOR;
-                tooltips.add(new StringTextComponent(perkColor + p.getDisplayName()));
-            }
-        }
-        return tooltips;
-    }
-
-    @Override
-    public boolean isDynamic() {
-        return true;
-    }
-
-    /**
-     * Used to determine if this recipe can fit in a grid of the given width/height
-     */
-    public boolean canFit(int width, int height) {
-        return true;
-    }
-
-    /**
-     * Returns an Item that is the result of this recipe
-     */
-    public ItemStack getCraftingResult(IInventory inv) {
-        return this.result.copy();
     }
 
     public static class Serializer<T extends CrafterRecipe> extends net.minecraftforge.registries.ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T> {
@@ -198,5 +179,24 @@ public abstract class CrafterRecipe implements IRecipe<IInventory> {
         interface IRecipeFactory<T extends CrafterRecipe> {
             T create(ResourceLocation p_create_1_, String p_create_2_, Ingredient ingredient, int cost, ItemStack result, int tier);
         }
+    }
+
+    protected StringTextComponent getNameTooltip() {
+        ItemStack recipeOutput = getRecipeOutput();
+        return new StringTextComponent(ColorConst.HIGH_COLOR.toString() + recipeOutput.getCount() + "x " + recipeOutput.getDisplayName().getString());
+    }
+
+    protected ArrayList<ITextComponent> getPerkTooltips(PlayerEntity playerEntity) {
+        ArrayList<ITextComponent> tooltips = new ArrayList<>();
+        List<Perk> perk = MaterialManager.PERKS_FOR_CRAFTING.get(getRecipeOutput().getItem());
+        if (perk != null && perk.size() > 0) {
+            tooltips.add(new StringTextComponent(ColorConst.MAIN_COLOR + "Granted by perk:"));
+            for (Perk p : perk) {
+                TextFormatting perkColor = ProfileProvider.getProfile(playerEntity).hasPerk(p) ?
+                        ColorConst.SUCCESS_COLOR : ColorConst.CONT_COLOR;
+                tooltips.add(new StringTextComponent(perkColor + p.getDisplayName()));
+            }
+        }
+        return tooltips;
     }
 }

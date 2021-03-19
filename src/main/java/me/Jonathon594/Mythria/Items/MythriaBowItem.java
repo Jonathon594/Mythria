@@ -45,32 +45,31 @@ public class MythriaBowItem extends BowItem {
         return f;
     }
 
-    public boolean onReloadAmmo(ItemStack stack, ServerPlayerEntity player, Hand hand) {
-        if (player.getItemInUseCount() > 0) return false;
-        Bow bow = BowProvider.getBow(stack);
-        if (!bow.getArrow().isEmpty()) return false;
-        ItemStack ammo = player.findAmmo(stack);
-        if (player.abilities.isCreativeMode) ammo = new ItemStack(MythriaItems.OAK_ARROW);
-        if (ammo.isEmpty()) return false;
-        if (bow.getBowstring().isEmpty()) return false;
-        bow.setArrow(ammo.split(1));
-        //player.setHeldItem(hand, stack);
-        boolean flag = !bow.getArrow().isEmpty();
-        ActionResult<ItemStack> actionResult = ForgeEventFactory.onArrowNock(bow.getArrow(), player.world, player, hand, flag);
-        if (actionResult != null) return actionResult.getType().isSuccess();
-        player.world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(),
-                SoundEvents.ITEM_CROSSBOW_LOADING_END, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + 0.5F);
-        return flag;
+    @Override
+    public boolean onDroppedByPlayer(ItemStack item, PlayerEntity player) {
+        Bow bow = BowProvider.getBow(item);
+        player.dropItem(bow.getArrow(), false);
+        bow.setArrow(ItemStack.EMPTY);
+        return true;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
-        Bow bow = BowProvider.getBow(itemstack);
-        if (bow.getBowstring().isEmpty()) return ActionResult.resultFail(itemstack);
-        playerIn.setActiveHand(handIn);
-        playerIn.world.playSound(null, playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(),
-                SoundEvents.ITEM_CROSSBOW_LOADING_START, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + 0.5F);
-        return ActionResult.resultConsume(itemstack);
+    @Nullable
+    @Override
+    public CompoundNBT getShareTag(ItemStack stack) {
+        CompoundNBT tag = stack.getOrCreateTag();
+        tag.put(Mythria.MODID + ".bow_sync", BowProvider.getBow(stack).toNBT());
+        return tag;
+    }
+
+    @Override
+    public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
+        if (nbt == null) return;
+        String key = Mythria.MODID + ".bow_sync";
+        if (nbt.contains(key)) {
+            BowProvider.getBow(stack).fromNBT(nbt.getCompound(key));
+            nbt.remove(key);
+        }
+        stack.setTag(nbt);
     }
 
     public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
@@ -141,34 +140,35 @@ public class MythriaBowItem extends BowItem {
         }
     }
 
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
+        Bow bow = BowProvider.getBow(itemstack);
+        if (bow.getBowstring().isEmpty()) return ActionResult.resultFail(itemstack);
+        playerIn.setActiveHand(handIn);
+        playerIn.world.playSound(null, playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(),
+                SoundEvents.ITEM_CROSSBOW_LOADING_START, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + 0.5F);
+        return ActionResult.resultConsume(itemstack);
+    }
+
     public Predicate<ItemStack> getInventoryAmmoPredicate() {
         return MYTHRIA_ARROWS;
     }
 
-    @Nullable
-    @Override
-    public CompoundNBT getShareTag(ItemStack stack) {
-        CompoundNBT tag = stack.getOrCreateTag();
-        tag.put(Mythria.MODID + ".bow_sync", BowProvider.getBow(stack).toNBT());
-        return tag;
-    }
-
-    @Override
-    public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
-        if(nbt == null) return;
-        String key = Mythria.MODID + ".bow_sync";
-        if(nbt.contains(key)) {
-            BowProvider.getBow(stack).fromNBT(nbt.getCompound(key));
-            nbt.remove(key);
-        }
-        stack.setTag(nbt);
-    }
-
-    @Override
-    public boolean onDroppedByPlayer(ItemStack item, PlayerEntity player) {
-        Bow bow = BowProvider.getBow(item);
-        player.dropItem(bow.getArrow(), false);
-        bow.setArrow(ItemStack.EMPTY);
-        return true;
+    public boolean onReloadAmmo(ItemStack stack, ServerPlayerEntity player, Hand hand) {
+        if (player.getItemInUseCount() > 0) return false;
+        Bow bow = BowProvider.getBow(stack);
+        if (!bow.getArrow().isEmpty()) return false;
+        ItemStack ammo = player.findAmmo(stack);
+        if (player.abilities.isCreativeMode) ammo = new ItemStack(MythriaItems.OAK_ARROW);
+        if (ammo.isEmpty()) return false;
+        if (bow.getBowstring().isEmpty()) return false;
+        bow.setArrow(ammo.split(1));
+        //player.setHeldItem(hand, stack);
+        boolean flag = !bow.getArrow().isEmpty();
+        ActionResult<ItemStack> actionResult = ForgeEventFactory.onArrowNock(bow.getArrow(), player.world, player, hand, flag);
+        if (actionResult != null) return actionResult.getType().isSuccess();
+        player.world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(),
+                SoundEvents.ITEM_CROSSBOW_LOADING_END, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + 0.5F);
+        return flag;
     }
 }

@@ -66,13 +66,13 @@ public class VanillaManager {
         ObfuscationReflectionHelper.setPrivateValue(Item.class, item, i, "field_77777_bU");
     }
 
-    private static void setStackSize(final Block block, final int i) {
-        setStackSize(Item.BLOCK_TO_ITEM.get(block), i);
-    }
-
     private static void setStackSize(Class<? extends Item> clazz, final int i) {
         for (Item item : MythriaUtil.getAllItemsOfType(clazz)) {
             setStackSize(item, i);
         }
+    }
+
+    private static void setStackSize(final Block block, final int i) {
+        setStackSize(Item.BLOCK_TO_ITEM.get(block), i);
     }
 }

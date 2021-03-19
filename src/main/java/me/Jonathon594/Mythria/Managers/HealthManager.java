@@ -3,17 +3,38 @@ package me.Jonathon594.Mythria.Managers;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.DataTypes.CureCondition;
 import me.Jonathon594.Mythria.DataTypes.HealthConditionType;
-import me.Jonathon594.Mythria.Health.*;
 import me.Jonathon594.Mythria.DataTypes.ObtainCondition;
 import me.Jonathon594.Mythria.Enum.AnatomySlot;
 import me.Jonathon594.Mythria.Enum.ObtainConditionType;
 import me.Jonathon594.Mythria.Enum.StatType;
+import me.Jonathon594.Mythria.Health.*;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.ArrayList;
 
 public class HealthManager {
     private static final ArrayList<HealthConditionType> conditionTypes = new ArrayList<>();
+
+    public static void addCondition(HealthConditionType healthConditionType) {
+        conditionTypes.add(healthConditionType);
+    }
+
+    public static void curePlayer(PlayerEntity player) {
+        ProfileProvider.getProfile(player).getHealthData().cureAll();
+    }
+
+    public static HealthConditionType getHealthCondition(String s) {
+        for (HealthConditionType type : conditionTypes) {
+            if (type.getName().equalsIgnoreCase(s)) {
+                return type;
+            }
+        }
+        return null;
+    }
+
+    public static ArrayList<HealthConditionType> getHealthConditions() {
+        return conditionTypes;
+    }
 
     public static void init() {
         new HealthConditionType("broken_ankle", "Broken Ankle", 6, 2, BrokenAnkleCondition.class, CureCondition.WRAP)
@@ -60,26 +81,5 @@ public class HealthManager {
                 .addValidSlot(AnatomySlot.RIGHT_LEG_TENDON)
                 .addModifier(StatType.MAX_WEIGHT, -50)
                 .addModifier(StatType.MAX_SPEED, -0.05);
-    }
-
-    public static void addCondition(HealthConditionType healthConditionType) {
-        conditionTypes.add(healthConditionType);
-    }
-
-    public static ArrayList<HealthConditionType> getHealthConditions() {
-        return conditionTypes;
-    }
-
-    public static HealthConditionType getHealthCondition(String s) {
-        for (HealthConditionType type : conditionTypes) {
-            if (type.getName().equalsIgnoreCase(s)) {
-                return type;
-            }
-        }
-        return null;
-    }
-
-    public static void curePlayer(PlayerEntity player) {
-        ProfileProvider.getProfile(player).getHealthData().cureAll();
     }
 }

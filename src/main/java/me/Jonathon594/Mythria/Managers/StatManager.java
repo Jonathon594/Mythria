@@ -35,6 +35,38 @@ public class StatManager {
 
     private HashMap<Consumable, Double> deltaStats;
 
+    public static void UpdateMaxHealth(final Profile profile, final PlayerEntity p) {
+        MythriaUtil.applyMythriaAttributeModifier(p, "Mythria.ProfileHealth",
+                profile.getStat(StatType.MAX_HEALTH), Attributes.MAX_HEALTH);
+    }
+
+    public static void UpdateSpeed(final Profile profile, final PlayerEntity p) {
+        if (p == null) return;
+        if (p.world.isRemote)
+            return;
+
+        double value = profile.getStat(StatType.MAX_SPEED);
+        double maxWeight = profile.getStat(StatType.MAX_WEIGHT);
+        Double currentWeight = profile.getConsumable(Consumable.WEIGHT);
+        net.minecraft.entity.ai.attributes.Attribute movementSpeed = Attributes.MOVEMENT_SPEED;
+        double baseSpeed = p.getAttribute(movementSpeed).getBaseValue();
+        if (currentWeight >= maxWeight) {
+            double encumberanceProp = Math.min((currentWeight - maxWeight) / (maxWeight * 4), 1);
+            value += -(baseSpeed + profile.getStat(StatType.MAX_SPEED)) * encumberanceProp;
+        }
+
+        if (profile.getConsumable(Consumable.FATIGUE) >= 0.75)
+            value = -0.05;
+        if (profile.getConsumable(Consumable.FATIGUE) >= 0.85)
+            value = -100;
+
+        double armorWeight = getArmorWeight(p);
+        double armorLoss = Math.pow(Math.max(armorWeight - 45 - getArmorMitigation(profile.getAttributeLevel(Attribute.VITALITY)), 0), 2) * 0.00002 - armorWeight > 45 ? 0.02 : 0;
+        value -= armorLoss;
+
+        MythriaUtil.applyMythriaAttributeModifier(p, "Mythria.ProfileSpeed", value, movementSpeed);
+    }
+
     //Used to set a profiles base stats after creation
     public static void applyInitialStats(final Profile profile, ServerPlayerEntity serverPlayer) {
         for (final Consumable c : Consumable.values()) {
@@ -70,11 +102,6 @@ public class StatManager {
         }
     }
 
-    //Called when the player jumps to consume stamina
-    public static void onJump(final PlayerEntity player, final Profile p) {
-        chargeConsumable(player, 5, Consumable.STAMINA);
-    }
-
     public static boolean chargeConsumable(final PlayerEntity player, double amount, final Consumable consumable) {
         if (amount <= 0) return false;
         final Profile p = ProfileProvider.getProfile(player);
@@ -89,6 +116,30 @@ public class StatManager {
         return false;
     }
 
+    public static double getActualTemperature(ServerPlayerEntity p) {
+        double eTemp = p.getEntityWorld().getBiome(p.getPosition()).getTemperature(p.getPosition()) * 5 + 10;
+
+        for (TileEntity te : p.world.loadedTileEntityList) {
+            if (te instanceof IHeatProvider) {
+                IHeatProvider provider = (IHeatProvider) te;
+
+                double temp = provider.getTemperatureForHeating();
+                double distance = p.getPositionVec().distanceTo(new Vector3d(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ()));
+                int maxDistance = 7;
+                if (p.world.canBlockSeeSky(te.getPos().up())) maxDistance = 2;
+                if (distance > maxDistance) continue;
+                distance = Math.min(distance, maxDistance) / maxDistance;
+                double tempFactor = 1 - distance;
+                double scaling = Math.pow(tempFactor, 2) * 0.3;
+                double effectiveTemp = temp * scaling;
+                eTemp = Math.max(eTemp, effectiveTemp);
+            }
+        }
+
+        eTemp += (p.getTotalArmorValue() / 8f);
+        return eTemp;
+    }
+
     public static double getTotalFatigueMitigation(final Profile p) {
         double fm = 0;
         for (final Perk pa : p.getPlayerSkills()) {
@@ -98,6 +149,11 @@ public class StatManager {
         }
         fm = MathHelper.clamp(fm, 0, 0.8);
         return fm;
+    }
+
+    //Called when the player jumps to consume stamina
+    public static void onJump(final PlayerEntity player, final Profile p) {
+        chargeConsumable(player, 5, Consumable.STAMINA);
     }
 
     public static void onTick(final TickEvent.ServerTickEvent event) {
@@ -279,33 +335,18 @@ public class StatManager {
         }
     }
 
-    public static double getActualTemperature(ServerPlayerEntity p) {
-        double eTemp = p.getEntityWorld().getBiome(p.getPosition()).getTemperature(p.getPosition()) * 5 + 10;
-
-        for (TileEntity te : p.world.loadedTileEntityList) {
-            if (te instanceof IHeatProvider) {
-                IHeatProvider provider = (IHeatProvider) te;
-
-                double temp = provider.getTemperatureForHeating();
-                double distance = p.getPositionVec().distanceTo(new Vector3d(te.getPos().getX(), te.getPos().getY(), te.getPos().getZ()));
-                int maxDistance = 7;
-                if (p.world.canBlockSeeSky(te.getPos().up())) maxDistance = 2;
-                if (distance > maxDistance) continue;
-                distance = Math.min(distance, maxDistance) / maxDistance;
-                double tempFactor = 1 - distance;
-                double scaling = Math.pow(tempFactor, 2) * 0.3;
-                double effectiveTemp = temp * scaling;
-                eTemp = Math.max(eTemp, effectiveTemp);
-            }
-        }
-
-        eTemp += (p.getTotalArmorValue() / 8f);
-        return eTemp;
+    private static int getArmorMitigation(int strength) {
+        return strength * 2;
     }
 
-    public static void UpdateMaxHealth(final Profile profile, final PlayerEntity p) {
-        MythriaUtil.applyMythriaAttributeModifier(p, "Mythria.ProfileHealth",
-                profile.getStat(StatType.MAX_HEALTH), Attributes.MAX_HEALTH);
+    private static double getArmorWeight(PlayerEntity p) {
+        double armorWeight = 0;
+        for (ItemStack is : p.getArmorInventoryList()) {
+            if (is.isEmpty()) continue;
+
+            armorWeight += WeightManager.getWeight(is);
+        }
+        return armorWeight;
     }
 
     private static void handleStatEffects(ServerPlayerEntity p, Profile profile) {
@@ -385,46 +426,5 @@ public class StatManager {
         if (addTorpor) {
             profile.setConsumable(Consumable.TORPOR, profile.getConsumable(Consumable.TORPOR) + 0.5);
         }
-    }
-
-    private static double getArmorWeight(PlayerEntity p) {
-        double armorWeight = 0;
-        for (ItemStack is : p.getArmorInventoryList()) {
-            if (is.isEmpty()) continue;
-
-            armorWeight += WeightManager.getWeight(is);
-        }
-        return armorWeight;
-    }
-
-    private static int getArmorMitigation(int strength) {
-        return strength * 2;
-    }
-
-    public static void UpdateSpeed(final Profile profile, final PlayerEntity p) {
-        if (p == null) return;
-        if (p.world.isRemote)
-            return;
-
-        double value = profile.getStat(StatType.MAX_SPEED);
-        double maxWeight = profile.getStat(StatType.MAX_WEIGHT);
-        Double currentWeight = profile.getConsumable(Consumable.WEIGHT);
-        net.minecraft.entity.ai.attributes.Attribute movementSpeed = Attributes.MOVEMENT_SPEED;
-        double baseSpeed = p.getAttribute(movementSpeed).getBaseValue();
-        if (currentWeight >= maxWeight) {
-            double encumberanceProp = Math.min((currentWeight - maxWeight) / (maxWeight * 4), 1);
-            value += -(baseSpeed + profile.getStat(StatType.MAX_SPEED)) * encumberanceProp;
-        }
-
-        if (profile.getConsumable(Consumable.FATIGUE) >= 0.75)
-            value = -0.05;
-        if (profile.getConsumable(Consumable.FATIGUE) >= 0.85)
-            value = -100;
-
-        double armorWeight = getArmorWeight(p);
-        double armorLoss = Math.pow(Math.max(armorWeight - 45 - getArmorMitigation(profile.getAttributeLevel(Attribute.VITALITY)), 0), 2) * 0.00002 - armorWeight > 45 ? 0.02 : 0;
-        value -= armorLoss;
-
-        MythriaUtil.applyMythriaAttributeModifier(p, "Mythria.ProfileSpeed", value, movementSpeed);
     }
 }

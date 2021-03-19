@@ -21,7 +21,7 @@ public class MythriaItems {
     public static final Item BIRCH_BOW = null;
     public static final Item ACACIA_BOW = null;
     public static final Item JUNGLE_BOW = null;
-    public static final Item DARK_BOW = null;
+    public static final Item DARK_OAK_BOW = null;
     public static final Item WARPED_BOW = null;
     public static final Item CRIMSON_BOW = null;
 
@@ -43,7 +43,7 @@ public class MythriaItems {
     public static final Item COPPER_DAGGER = null;
     public static final Item BRONZE_DAGGER = null;
     public static final Item IRON_DAGGER = null;
-    public static final Item GOLD_DAGGER = null;
+    public static final Item GOLDEN_DAGGER = null;
     public static final Item STEEL_DAGGER = null;
     public static final Item TITANIUM_DAGGER = null;
     public static final Item TUNGSTEN_DAGGER = null;
@@ -312,6 +312,8 @@ public class MythriaItems {
     public static final Item ACACIA_LOG = null;
     public static final Item JUNGLE_LOG = null;
     public static final Item DARK_OAK_LOG = null;
+    public static final Item CRIMSON_LOG = null;
+    public static final Item WARPED_LOG = null;
     public static final Item OAK_PLANK = null;
     public static final Item BIRCH_PLANK = null;
     public static final Item SPRUCE_PLANK = null;
@@ -398,7 +400,6 @@ public class MythriaItems {
     public static final Item WARPED_STICK = null;
     public static final Item CRIMSON_SPEAR = null;
     public static final Item WARPED_SPEAR = null;
-    public static final Item DUMMY_ELYTRA = null;
     public static final Item WARPED_FUNGUS = null;
     public static final Item CRIMSON_FUNGUS = null;
     public static final Item RED_MUSHROOM = null;
@@ -681,7 +682,7 @@ public class MythriaItems {
                         .createCastingRecipe(EnumMetalShape.SHOVEL, MythriaMaterial.GOLD),
                 new ToolHeadItem("golden_hoe_head", () -> Items.GOLDEN_HOE, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.HOE, MythriaMaterial.GOLD),
-                new ToolHeadItem("golden_dagger_blade", () -> MythriaItems.GOLD_DAGGER, new Item.Properties())
+                new ToolHeadItem("golden_dagger_blade", () -> MythriaItems.GOLDEN_DAGGER, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.DAGGER, MythriaMaterial.GOLD),
                 new ToolHeadItem("golden_hammer_head", () -> MythriaItems.GOLDEN_HAMMER, new Item.Properties())
                         .createCastingRecipe(EnumMetalShape.HAMMER, MythriaMaterial.GOLD),

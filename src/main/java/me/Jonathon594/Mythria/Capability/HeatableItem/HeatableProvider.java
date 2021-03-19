@@ -16,6 +16,12 @@ public class HeatableProvider implements ICapabilitySerializable<INBT> {
     public static final Capability<IHeatable> HEATABLE_CAP = null;
     private final IHeatable instance = new HeatableItem();
 
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        return HEATABLE_CAP.orEmpty(cap, LazyOptional.of(() -> instance));
+    }
+
     public static HeatableItem getHeatable(ItemStack itemStack) {
         return (HeatableItem) itemStack.getCapability(HEATABLE_CAP, null).orElse(null);
     }
@@ -28,11 +34,5 @@ public class HeatableProvider implements ICapabilitySerializable<INBT> {
     @Override
     public void deserializeNBT(INBT nbt) {
         HEATABLE_CAP.getStorage().readNBT(HEATABLE_CAP, instance, null, nbt);
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return HEATABLE_CAP.orEmpty(cap, LazyOptional.of(() -> instance));
     }
 }

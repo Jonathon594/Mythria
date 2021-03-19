@@ -29,24 +29,6 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class ClientListener {
     @SubscribeEvent
-    public static void onOpenGui(final GuiOpenEvent event) {
-        Screen gui = event.getGui();
-        if (gui instanceof ContainerScreen) {
-            ContainerScreen container = (ContainerScreen) gui;
-            LimitedInventoryManager.onOpenContainer(Minecraft.getInstance().player, container.getContainer());
-            if (event.getGui() instanceof InventoryScreen)
-                MythriaPacketHandler.sendToServer(new CPacketOpenInventory());
-        }
-    }
-
-    @SubscribeEvent
-    public static void onRenderBlockOverlay(RenderBlockOverlayEvent event) {
-        if (event.getOverlayType().equals(RenderBlockOverlayEvent.OverlayType.FIRE) &&
-                ProfileProvider.getProfile(Minecraft.getInstance().player).getGenetic().isImmune(DamageSource.ON_FIRE))
-            event.setCanceled(true);
-    }
-
-    @SubscribeEvent
     public static void onFog(EntityViewRenderEvent.FogDensity event) {
         if (event.getInfo().getFluidState().isTagged(FluidTags.LAVA)) {
             if (ProfileProvider.getProfile(Minecraft.getInstance().player).getGenetic().isImmune(DamageSource.LAVA))
@@ -72,6 +54,24 @@ public class ClientListener {
                 event.getToolTip().addAll(heatableItem.getHeatToolTips(heatable.getTemperature()));
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onOpenGui(final GuiOpenEvent event) {
+        Screen gui = event.getGui();
+        if (gui instanceof ContainerScreen) {
+            ContainerScreen container = (ContainerScreen) gui;
+            LimitedInventoryManager.onOpenContainer(Minecraft.getInstance().player, container.getContainer());
+            if (event.getGui() instanceof InventoryScreen)
+                MythriaPacketHandler.sendToServer(new CPacketOpenInventory());
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRenderBlockOverlay(RenderBlockOverlayEvent event) {
+        if (event.getOverlayType().equals(RenderBlockOverlayEvent.OverlayType.FIRE) &&
+                ProfileProvider.getProfile(Minecraft.getInstance().player).getGenetic().isImmune(DamageSource.ON_FIRE))
+            event.setCanceled(true);
     }
 
 }

@@ -22,6 +22,10 @@ public class OreSpawnData {
     private final Block block;
     private final ArrayList<Biome> idealBiomes;
 
+    public OreSpawnData(RegistryKey<World> dimension, Block block, OreSpawnType type, int rarity, int minY, int maxY, int vSize, int hSize, int clusters, int density) {
+        this(ImmutableList.of(dimension), block, type, rarity, minY, maxY, vSize, hSize, clusters, density);
+    }
+
     public OreSpawnData(List<RegistryKey<World>> dimension, Block block, OreSpawnType type, int rarity, int minY, int maxY, int vSize, int hSize, int clusters, int density) {
         this.block = block;
         this.type = type;
@@ -36,53 +40,13 @@ public class OreSpawnData {
         idealBiomes = new ArrayList<>();
     }
 
-    public OreSpawnData(RegistryKey<World> dimension, Block block, OreSpawnType type, int rarity, int minY, int maxY, int vSize, int hSize, int clusters, int density) {
-        this(ImmutableList.of(dimension), block, type, rarity, minY, maxY, vSize, hSize, clusters, density);
-    }
-
     public OreSpawnData addIdealBiome(Biome b) {
         idealBiomes.add(b);
         return this;
     }
 
-    public OreSpawnType getType() {
-        return type;
-    }
-
-    public int getSize() {
-        return 0;
-    }
-
-    public int getRarity() {
-        return rarity;
-    }
-
-    public int getMinY() {
-        return minY;
-    }
-
-    public int getMaxY() {
-        return maxY;
-    }
-
-    public int getVerticalSize() {
-        return vSize;
-    }
-
-    public int getHorizontalSize() {
-        return hSize;
-    }
-
     public Block getBlock() {
         return block;
-    }
-
-    public ArrayList<Biome> getIdealBiomes() {
-        return idealBiomes;
-    }
-
-    public List<RegistryKey<World>> getDimensions() {
-        return dimension;
     }
 
     public int getClusters() {
@@ -91,6 +55,42 @@ public class OreSpawnData {
 
     public int getDensity() {
         return density;
+    }
+
+    public List<RegistryKey<World>> getDimensions() {
+        return dimension;
+    }
+
+    public int getHorizontalSize() {
+        return hSize;
+    }
+
+    public ArrayList<Biome> getIdealBiomes() {
+        return idealBiomes;
+    }
+
+    public int getMaxY() {
+        return maxY;
+    }
+
+    public int getMinY() {
+        return minY;
+    }
+
+    public int getRarity() {
+        return rarity;
+    }
+
+    public int getSize() {
+        return 0;
+    }
+
+    public OreSpawnType getType() {
+        return type;
+    }
+
+    public int getVerticalSize() {
+        return vSize;
     }
 
     public enum OreSpawnType {

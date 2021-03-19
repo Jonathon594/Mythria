@@ -14,13 +14,6 @@ public abstract class ToolCrafterContainer extends CrafterContainer {
         if (needsTool()) findTool(playerInventory.player);
     }
 
-    private void findTool(PlayerEntity player) {
-        for (Hand hand : Hand.values()) {
-            ItemStack heldItem = player.getHeldItem(hand);
-            if (isValidTool(heldItem)) tool = heldItem;
-        }
-    }
-
     @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
@@ -72,6 +65,13 @@ public abstract class ToolCrafterContainer extends CrafterContainer {
         return (tool != null && !tool.isEmpty()) || !needsTool();
     }
 
+    private void findTool(PlayerEntity player) {
+        for (Hand hand : Hand.values()) {
+            ItemStack heldItem = player.getHeldItem(hand);
+            if (isValidTool(heldItem)) tool = heldItem;
+        }
+    }
+
     @Override
     protected Slot createInputSlot() {
         return addSlot(new Slot(inventory, 0, 20, 34) {
@@ -86,6 +86,12 @@ public abstract class ToolCrafterContainer extends CrafterContainer {
     protected Slot createOutputSlot() {
         return addSlot(new Slot(CraftResultInventory, 1, 143, 33) {
             @Override
+            public ItemStack onTake(PlayerEntity player, ItemStack stack) {
+                ToolCrafterContainer.this.onOutputTakeStack(player, stack);
+                return super.onTake(player, stack);
+            }
+
+            @Override
             public boolean isItemValid(ItemStack stack) {
                 return false;
             }
@@ -93,12 +99,6 @@ public abstract class ToolCrafterContainer extends CrafterContainer {
             @Override
             public boolean canTakeStack(PlayerEntity playerIn) {
                 return canCraft();
-            }
-
-            @Override
-            public ItemStack onTake(PlayerEntity player, ItemStack stack) {
-                ToolCrafterContainer.this.onOutputTakeStack(player, stack);
-                return super.onTake(player, stack);
             }
         });
     }

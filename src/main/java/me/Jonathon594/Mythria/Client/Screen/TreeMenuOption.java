@@ -58,17 +58,13 @@ public class TreeMenuOption {
     }
 
     /**
-     * Get this {@code TreeMenuOption}'s unique identifier.
+     * Get the children of this {@code TreeMenuOption}.
      *
-     * @return this {@code TreeMenuOption}'s unique identifier
+     * @return an {@code Iterable} of this {@code TreeMenuOption}'s children.
+     * @see #getParent()
      */
-    public ResourceLocation getId() {
-        return this.id;
-    }
-
-    @Nullable
-    public TreeMenuOption getParent() {
-        return this.parent;
+    public Iterable<TreeMenuOption> getChildren() {
+        return this.children;
     }
 
     /**
@@ -87,13 +83,31 @@ public class TreeMenuOption {
     }
 
     /**
-     * Get the children of this {@code TreeMenuOption}.
+     * Returns the {@code ITextComponent} that is shown in the chat message sent after this {@code TreeMenuOption} is
+     * completed.
      *
-     * @return an {@code Iterable} of this {@code TreeMenuOption}'s children.
-     * @see #getParent()
+     * @return the {@code ITextComponent} that is shown in the chat message sent after this {@code TreeMenuOption} is
+     * completed. If this {@code TreeMenuOption} is {@linkplain #getDisplay() invisible}, then it consists simply of {@link
+     * #getId()}. Otherwise, it is the {@linkplain DisplayInfo#getTitle() title} inside square brackets, colored by the
+     * {@linkplain net.minecraft.advancements.FrameType#getFormat frame type}, and hovering over it shows the {@linkplain
+     * DisplayInfo#getDescription() description}.
      */
-    public Iterable<TreeMenuOption> getChildren() {
-        return this.children;
+    public ITextComponent getDisplayText() {
+        return this.displayText;
+    }
+
+    /**
+     * Get this {@code TreeMenuOption}'s unique identifier.
+     *
+     * @return this {@code TreeMenuOption}'s unique identifier
+     */
+    public ResourceLocation getId() {
+        return this.id;
+    }
+
+    @Nullable
+    public TreeMenuOption getParent() {
+        return this.parent;
     }
 
     public int hashCode() {
@@ -109,20 +123,6 @@ public class TreeMenuOption {
             TreeMenuOption TreeMenuOption = (TreeMenuOption) p_equals_1_;
             return this.id.equals(TreeMenuOption.id);
         }
-    }
-
-    /**
-     * Returns the {@code ITextComponent} that is shown in the chat message sent after this {@code TreeMenuOption} is
-     * completed.
-     *
-     * @return the {@code ITextComponent} that is shown in the chat message sent after this {@code TreeMenuOption} is
-     * completed. If this {@code TreeMenuOption} is {@linkplain #getDisplay() invisible}, then it consists simply of {@link
-     * #getId()}. Otherwise, it is the {@linkplain DisplayInfo#getTitle() title} inside square brackets, colored by the
-     * {@linkplain net.minecraft.advancements.FrameType#getFormat frame type}, and hovering over it shows the {@linkplain
-     * DisplayInfo#getDescription() description}.
-     */
-    public ITextComponent getDisplayText() {
-        return this.displayText;
     }
 
     public boolean isHighlight() {
@@ -146,33 +146,6 @@ public class TreeMenuOption {
         private Builder() {
         }
 
-        public static TreeMenuOption.Builder builder() {
-            return new TreeMenuOption.Builder();
-        }
-
-        public TreeMenuOption.Builder withParent(TreeMenuOption parentIn) {
-            this.parent = parentIn;
-            return this;
-        }
-
-        public TreeMenuOption.Builder withParentId(ResourceLocation parentIdIn) {
-            this.parentId = parentIdIn;
-            return this;
-        }
-
-        public TreeMenuOption.Builder func_215092_a(ItemStack p_215092_1_, ITextComponent p_215092_2_, ITextComponent p_215092_3_, @Nullable ResourceLocation p_215092_4_, FrameType p_215092_5_, boolean p_215092_6_, boolean p_215092_7_, boolean p_215092_8_) {
-            return this.withDisplay(new DisplayInfo(p_215092_1_, p_215092_2_, p_215092_3_, p_215092_4_, p_215092_5_, p_215092_6_, p_215092_7_, p_215092_8_));
-        }
-
-        public TreeMenuOption.Builder withDisplay(DisplayInfo displayIn) {
-            this.display = displayIn;
-            return this;
-        }
-
-        public TreeMenuOption.Builder withDisplay(IItemProvider itemIn, ITextComponent title, ITextComponent description, @Nullable ResourceLocation background, FrameType frame, boolean showToast, boolean announceToChat, boolean hidden) {
-            return this.withDisplay(new DisplayInfo(new ItemStack(itemIn.asItem()), title, description, background, frame, showToast, announceToChat, hidden));
-        }
-
         public TreeMenuOption build(ResourceLocation id, List<TreeMenuOption> list) {
             if (list != null && !this.resolveParent((lookup) -> {
                 for (TreeMenuOption option : list) {
@@ -184,6 +157,14 @@ public class TreeMenuOption {
             } else {
                 return new TreeMenuOption(id, this.parent, this.display);
             }
+        }
+
+        public static TreeMenuOption.Builder builder() {
+            return new TreeMenuOption.Builder();
+        }
+
+        public TreeMenuOption.Builder func_215092_a(ItemStack p_215092_1_, ITextComponent p_215092_2_, ITextComponent p_215092_3_, @Nullable ResourceLocation p_215092_4_, FrameType p_215092_5_, boolean p_215092_6_, boolean p_215092_7_, boolean p_215092_8_) {
+            return this.withDisplay(new DisplayInfo(p_215092_1_, p_215092_2_, p_215092_3_, p_215092_4_, p_215092_5_, p_215092_6_, p_215092_7_, p_215092_8_));
         }
 
         /**
@@ -199,6 +180,25 @@ public class TreeMenuOption {
 
                 return this.parent != null;
             }
+        }
+
+        public TreeMenuOption.Builder withDisplay(DisplayInfo displayIn) {
+            this.display = displayIn;
+            return this;
+        }
+
+        public TreeMenuOption.Builder withDisplay(IItemProvider itemIn, ITextComponent title, ITextComponent description, @Nullable ResourceLocation background, FrameType frame, boolean showToast, boolean announceToChat, boolean hidden) {
+            return this.withDisplay(new DisplayInfo(new ItemStack(itemIn.asItem()), title, description, background, frame, showToast, announceToChat, hidden));
+        }
+
+        public TreeMenuOption.Builder withParent(TreeMenuOption parentIn) {
+            this.parent = parentIn;
+            return this;
+        }
+
+        public TreeMenuOption.Builder withParentId(ResourceLocation parentIdIn) {
+            this.parentId = parentIdIn;
+            return this;
         }
     }
 }

@@ -17,6 +17,21 @@ public class SimpleCraftingContainer extends ToolCrafterContainer {
     }
 
     @Override
+    protected boolean isValidTool(ItemStack tool) {
+        return true;
+    }
+
+    @Override
+    protected IRecipeType<SimpleCraftingRecipe> getRecipeType() {
+        return SimpleCraftingRecipe.SIMPLE_CRAFTING_RECIPE;
+    }
+
+    @Override
+    protected int getCraftingTier() {
+        return 0;
+    }
+
+    @Override
     protected Collection<Item> getValidItems() {
         return ForgeRegistries.ITEMS.getValues();
     }
@@ -29,20 +44,5 @@ public class SimpleCraftingContainer extends ToolCrafterContainer {
     @Override
     protected SoundEvent getCraftSound() {
         return SoundEvents.ENTITY_SHEEP_SHEAR;
-    }
-
-    @Override
-    protected boolean isValidTool(ItemStack tool) {
-        return true;
-    }
-
-    @Override
-    protected int getCraftingTier() {
-        return 0;
-    }
-
-    @Override
-    protected IRecipeType<SimpleCraftingRecipe> getRecipeType() {
-        return SimpleCraftingRecipe.SIMPLE_CRAFTING_RECIPE;
     }
 }

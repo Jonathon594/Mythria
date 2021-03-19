@@ -8,6 +8,11 @@ public class Bow implements IBow {
     final ItemStackHandler inventory = new ItemStackHandler(2);
 
     @Override
+    public void fromNBT(CompoundNBT nbt) {
+        inventory.deserializeNBT(nbt.getCompound("inventory"));
+    }
+
+    @Override
     public ItemStack getArrow() {
         return inventory.getStackInSlot(1);
     }
@@ -18,18 +23,6 @@ public class Bow implements IBow {
     }
 
     @Override
-    public CompoundNBT toNBT() {
-        CompoundNBT nbt = new CompoundNBT();
-        nbt.put("inventory", inventory.serializeNBT());
-        return nbt;
-    }
-
-    @Override
-    public void fromNBT(CompoundNBT nbt) {
-        inventory.deserializeNBT(nbt.getCompound("inventory"));
-    }
-
-    @Override
     public ItemStack getBowstring() {
         return inventory.getStackInSlot(0);
     }
@@ -37,5 +30,12 @@ public class Bow implements IBow {
     @Override
     public void setBowstring(ItemStack bowstring) {
         inventory.setStackInSlot(0, bowstring);
+    }
+
+    @Override
+    public CompoundNBT toNBT() {
+        CompoundNBT nbt = new CompoundNBT();
+        nbt.put("inventory", inventory.serializeNBT());
+        return nbt;
     }
 }

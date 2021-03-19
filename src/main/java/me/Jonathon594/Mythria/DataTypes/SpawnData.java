@@ -15,15 +15,6 @@ public class SpawnData {
         this.baseChance = baseChance;
     }
 
-    public boolean needsRain() {
-        return needsRain;
-    }
-
-    public SpawnData setNeedsRain(boolean needsRain) {
-        this.needsRain = needsRain;
-        return this;
-    }
-
     public SpawnData addBiomeModifier(Biome b, double v) {
         biomeMod.put(b, v);
         return this;
@@ -34,19 +25,28 @@ public class SpawnData {
         return this;
     }
 
-    public double getSpawnChance(Biome b, Season s) {
-        return getBaseChance() * getBiomeModifer(b) * getSeasonModifier(s);
-    }
-
-    private double getBaseChance() {
-        return baseChance;
-    }
-
     public double getBiomeModifer(Biome b) {
         return biomeMod.getOrDefault(b, 1.0);
     }
 
     public double getSeasonModifier(Season s) {
         return seasonMod.getOrDefault(s, 1.0);
+    }
+
+    public double getSpawnChance(Biome b, Season s) {
+        return getBaseChance() * getBiomeModifer(b) * getSeasonModifier(s);
+    }
+
+    public boolean needsRain() {
+        return needsRain;
+    }
+
+    public SpawnData setNeedsRain(boolean needsRain) {
+        this.needsRain = needsRain;
+        return this;
+    }
+
+    private double getBaseChance() {
+        return baseChance;
     }
 }

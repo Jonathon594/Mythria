@@ -11,12 +11,6 @@ public class PassiveFaeFlightAbility extends PassiveElytraPropulsionAbility {
     }
 
     @Override
-    protected float getSpeed(PlayerEntity player, Profile profile) {
-        float boost = 0.03f * ((float) profile.getAttributeLevel(Attribute.STRENGTH) / 25.0f);
-        return 0.02f + boost;
-    }
-
-    @Override
     protected Consumable getConsumable() {
         return Consumable.STAMINA;
     }
@@ -24,5 +18,11 @@ public class PassiveFaeFlightAbility extends PassiveElytraPropulsionAbility {
     @Override
     protected double getCost() {
         return 1;
+    }
+
+    @Override
+    protected float getSpeed(PlayerEntity player, Profile profile) {
+        float boost = 0.03f * ((float) profile.getAttributeLevel(Attribute.STRENGTH) / 25.0f);
+        return 0.02f + boost;
     }
 }

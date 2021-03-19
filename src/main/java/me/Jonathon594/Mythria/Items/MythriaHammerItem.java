@@ -22,7 +22,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import javax.annotation.Nullable;
 import java.util.Set;
@@ -43,6 +42,29 @@ public class MythriaHammerItem extends ToolItem implements IModularTool {
         this.toolHead = toolHead;
     }
 
+    @Nullable
+    @Override
+    public CompoundNBT getShareTag(ItemStack stack) {
+        CompoundNBT tag = stack.getOrCreateTag();
+        tag.put(Mythria.MODID + ".tool_sync", ToolProvider.getTool(stack).toNBT());
+        return tag;
+    }
+
+    @Override
+    public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
+        if (nbt == null) return;
+        String key = Mythria.MODID + ".tool_sync";
+        if (nbt.contains(key)) {
+            ToolProvider.getTool(stack).fromNBT(nbt.getCompound(key));
+            nbt.remove(key);
+        }
+        stack.setTag(nbt);
+    }
+
+    @Override
+    public Item getToolHeadItem() {
+        return toolHead.get();
+    }
 
     @Override
     public ActionResultType onItemUse(ItemUseContext context) {
@@ -84,29 +106,5 @@ public class MythriaHammerItem extends ToolItem implements IModularTool {
             }
 
         }
-    }
-
-    @Override
-    public Item getToolHeadItem() {
-        return toolHead.get();
-    }
-
-    @Nullable
-    @Override
-    public CompoundNBT getShareTag(ItemStack stack) {
-        CompoundNBT tag = stack.getOrCreateTag();
-        tag.put(Mythria.MODID + ".tool_sync", ToolProvider.getTool(stack).toNBT());
-        return tag;
-    }
-
-    @Override
-    public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
-        if(nbt == null) return;
-        String key = Mythria.MODID + ".tool_sync";
-        if(nbt.contains(key)) {
-            ToolProvider.getTool(stack).fromNBT(nbt.getCompound(key));
-            nbt.remove(key);
-        }
-        stack.setTag(nbt);
     }
 }

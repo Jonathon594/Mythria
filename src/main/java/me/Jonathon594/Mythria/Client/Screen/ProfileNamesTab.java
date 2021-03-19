@@ -20,7 +20,7 @@ public class ProfileNamesTab extends ProfileCreationTab {
         int textWidth = 95;
         firstName = addWidget(new TextFieldWidget(font, left + 169 - 100, y, textWidth, 16,
                 StringTextComponent.EMPTY));
-        middleName = addWidget(new TextFieldWidget(font, left + 169 - 100, y+= 22, textWidth, 16,
+        middleName = addWidget(new TextFieldWidget(font, left + 169 - 100, y += 22, textWidth, 16,
                 StringTextComponent.EMPTY));
         lastName = addWidget(new TextFieldWidget(font, left + 169 - 100, y += 22, textWidth, 16,
                 StringTextComponent.EMPTY));
@@ -34,8 +34,8 @@ public class ProfileNamesTab extends ProfileCreationTab {
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         int x = left + 6;
         int y = top + 11;
-        drawString(matrixStack, font, "First Name:" , x + 5, y, 0xFFFFFFFF);
-        drawString(matrixStack, font, "Middle Name:" , x, y += 22, 0xFFFFFFFF);
-        drawString(matrixStack, font, "Last Name:" , x + 7, y + 22, 0xFFFFFFFF);
+        drawString(matrixStack, font, "First Name:", x + 5, y, 0xFFFFFFFF);
+        drawString(matrixStack, font, "Middle Name:", x, y += 22, 0xFFFFFFFF);
+        drawString(matrixStack, font, "Last Name:", x + 7, y + 22, 0xFFFFFFFF);
     }
 }

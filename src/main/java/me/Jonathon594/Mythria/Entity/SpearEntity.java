@@ -44,6 +44,28 @@ public class SpearEntity extends AbstractArrowEntity {
         this.dataManager.set(ENCHANTED, thrownStackIn.hasEffect());
     }
 
+    public boolean func_226572_w_() {
+        return this.dataManager.get(ENCHANTED);
+    }
+
+    public ResourceLocation getTexture() {
+        SpearItem spearItem = (SpearItem) getArrowStack().getItem();
+        return spearItem.getThrownEntityTexture();
+    }
+
+    public boolean isInRangeToRender3d(double x, double y, double z) {
+        return true;
+    }
+
+    private boolean shouldReturnToThrower() {
+        Entity entity = this.func_234616_v_();
+        if (entity != null && entity.isAlive()) {
+            return !(entity instanceof ServerPlayerEntity) || !entity.isSpectator();
+        } else {
+            return false;
+        }
+    }
+
     protected void registerData() {
         super.registerData();
         this.dataManager.register(LOYALTY_LEVEL, (byte) 0);
@@ -89,30 +111,12 @@ public class SpearEntity extends AbstractArrowEntity {
         super.tick();
     }
 
-    private boolean shouldReturnToThrower() {
-        Entity entity = this.func_234616_v_();
-        if (entity != null && entity.isAlive()) {
-            return !(entity instanceof ServerPlayerEntity) || !entity.isSpectator();
-        } else {
-            return false;
+    public void func_225516_i_() {
+        int i = this.dataManager.get(LOYALTY_LEVEL);
+        if (this.pickupStatus != AbstractArrowEntity.PickupStatus.ALLOWED || i <= 0) {
+            super.func_225516_i_();
         }
-    }
 
-    protected ItemStack getArrowStack() {
-        return this.dataManager.get(THROWN_STACK);
-    }
-
-
-    public boolean func_226572_w_() {
-        return this.dataManager.get(ENCHANTED);
-    }
-
-    /**
-     * Gets the EntityRayTraceResult representing the entity hit
-     */
-    @Nullable
-    protected EntityRayTraceResult rayTraceEntities(Vector3d startVec, Vector3d endVec) {
-        return this.dealtDamage ? null : super.rayTraceEntities(startVec, endVec);
     }
 
     /**
@@ -160,13 +164,17 @@ public class SpearEntity extends AbstractArrowEntity {
     }
 
     /**
-     * Called by a player entity when they collide with an entity
+     * Gets the EntityRayTraceResult representing the entity hit
      */
-    public void onCollideWithPlayer(PlayerEntity entityIn) {
-        Entity entity = this.func_234616_v_();
-        if (entity == null || entity.getUniqueID() == entityIn.getUniqueID()) {
-            super.onCollideWithPlayer(entityIn);
-        }
+    @Nullable
+    protected EntityRayTraceResult rayTraceEntities(Vector3d startVec, Vector3d endVec) {
+        return this.dealtDamage ? null : super.rayTraceEntities(startVec, endVec);
+    }
+
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        compound.put("Spear", getArrowStack().write(new CompoundNBT()));
+        compound.putBoolean("DealtDamage", this.dealtDamage);
     }
 
     /**
@@ -182,32 +190,22 @@ public class SpearEntity extends AbstractArrowEntity {
         this.dataManager.set(LOYALTY_LEVEL, (byte) EnchantmentHelper.getLoyaltyModifier(getArrowStack()));
     }
 
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
-        compound.put("Spear", getArrowStack().write(new CompoundNBT()));
-        compound.putBoolean("DealtDamage", this.dealtDamage);
+    /**
+     * Called by a player entity when they collide with an entity
+     */
+    public void onCollideWithPlayer(PlayerEntity entityIn) {
+        Entity entity = this.func_234616_v_();
+        if (entity == null || entity.getUniqueID() == entityIn.getUniqueID()) {
+            super.onCollideWithPlayer(entityIn);
+        }
     }
 
-    public void func_225516_i_() {
-        int i = this.dataManager.get(LOYALTY_LEVEL);
-        if (this.pickupStatus != AbstractArrowEntity.PickupStatus.ALLOWED || i <= 0) {
-            super.func_225516_i_();
-        }
-
+    protected ItemStack getArrowStack() {
+        return this.dataManager.get(THROWN_STACK);
     }
 
     protected float getWaterDrag() {
         return 0.5F;
-    }
-
-
-    public boolean isInRangeToRender3d(double x, double y, double z) {
-        return true;
-    }
-
-    public ResourceLocation getTexture() {
-        SpearItem spearItem = (SpearItem) getArrowStack().getItem();
-        return spearItem.getThrownEntityTexture();
     }
 
     @Override

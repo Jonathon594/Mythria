@@ -8,6 +8,11 @@ import java.util.ArrayList;
 public class CooldownManager {
     public static final ArrayList<Cooldown> cooldowns = new ArrayList<>();
 
+    public static void addCooldown(PlayerEntity player, String type, long ms) {
+        Cooldown c = new Cooldown(type, ms + System.currentTimeMillis(), player);
+        cooldowns.add(c);
+    }
+
     public static void checkCooldowns() {
         if (System.currentTimeMillis() % 1000L < 50) {
             ArrayList<Cooldown> removeQue = new ArrayList<>();
@@ -34,10 +39,5 @@ public class CooldownManager {
                 return c;
         }
         return null;
-    }
-
-    public static void addCooldown(PlayerEntity player, String type, long ms) {
-        Cooldown c = new Cooldown(type, ms + System.currentTimeMillis(), player);
-        cooldowns.add(c);
     }
 }

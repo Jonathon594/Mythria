@@ -14,6 +14,9 @@ public class CPacketOpenInventory {
     public CPacketOpenInventory(PacketBuffer packetBuffer) {
     }
 
+    public void encode(PacketBuffer packetBuffer) {
+
+    }
 
     public static void handle(CPacketOpenInventory msg, Supplier<NetworkEvent.Context> contextSupplier) {
         contextSupplier.get().enqueueWork(() -> {
@@ -21,9 +24,5 @@ public class CPacketOpenInventory {
             FoodManager.updatePlayerInventory(sender, false);
         });
         contextSupplier.get().setPacketHandled(true);
-    }
-
-    public void encode(PacketBuffer packetBuffer) {
-
     }
 }

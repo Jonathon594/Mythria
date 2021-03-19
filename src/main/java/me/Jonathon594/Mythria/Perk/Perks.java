@@ -72,8 +72,24 @@ public class Perks {
         addPerk(player, pa, p);
     }
 
+    public static void addItemRequiringPerk(Item item) {
+        perkCraftingItems.add(item);
+    }
+
     public static void addPerk(PlayerEntity player, Perk pa, Profile p) {
         p.addAttribute(pa);
+    }
+
+    public static Perk getPerk(final String s) {
+        return MythriaRegistries.PERKS.getValue(new ResourceLocation(s));
+    }
+
+    public static List<Perk> getPerksByType(PerkType type) {
+        List<Perk> perks = new ArrayList<>();
+        for (Perk perk : MythriaRegistries.PERKS.getValues()) {
+            if (perk.getType().equals(type)) perks.add(perk);
+        }
+        return perks;
     }
 
     @SubscribeEvent
@@ -85,29 +101,13 @@ public class Perks {
         }
     }
 
-    public static Perk getPerk(final String s) {
-        return MythriaRegistries.PERKS.getValue(new ResourceLocation(s));
-    }
-
-    public static void addItemRequiringPerk(Item item) {
-        perkCraftingItems.add(item);
-    }
-
-    public static boolean requiresPerk(Item i) {
-        return perkCraftingItems.contains(i);
-    }
-
-    public static List<Perk> getPerksByType(PerkType type) {
-        List<Perk> perks = new ArrayList<>();
-        for (Perk perk : MythriaRegistries.PERKS.getValues()) {
-            if (perk.getType().equals(type)) perks.add(perk);
-        }
-        return perks;
-    }
-
     public static void onTagsUpdated() {
         for (Perk perk : MythriaRegistries.PERKS.getValues()) {
             perk.onTagsUpdated();
         }
+    }
+
+    public static boolean requiresPerk(Item i) {
+        return perkCraftingItems.contains(i);
     }
 }

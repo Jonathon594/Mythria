@@ -20,6 +20,12 @@ public class BowProvider implements ICapabilitySerializable<INBT> {
         return (Bow) itemStack.getCapability(BOW_CAP, null).orElse(null);
     }
 
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        return BOW_CAP.orEmpty(cap, LazyOptional.of(() -> instance));
+    }
+
     @Override
     public INBT serializeNBT() {
         return BOW_CAP.getStorage().writeNBT(BOW_CAP, instance, null);
@@ -28,11 +34,5 @@ public class BowProvider implements ICapabilitySerializable<INBT> {
     @Override
     public void deserializeNBT(INBT nbt) {
         BOW_CAP.getStorage().readNBT(BOW_CAP, instance, null, nbt);
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return BOW_CAP.orEmpty(cap, LazyOptional.of(() -> instance));
     }
 }

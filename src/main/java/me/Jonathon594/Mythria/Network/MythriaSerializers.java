@@ -1,8 +1,8 @@
 package me.Jonathon594.Mythria.Network;
 
-import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Enum.Gender;
 import me.Jonathon594.Mythria.MythriaRegistries;
+import me.Jonathon594.Mythria.Skin.SkinPart;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.IDataSerializer;

@@ -1,8 +1,8 @@
 package me.Jonathon594.Mythria.Genetic.Gene;
 
-import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Genetic.Serializers.GeneSerializer;
 import me.Jonathon594.Mythria.Managers.GeneSerializers;
+import me.Jonathon594.Mythria.Skin.SkinPart;
 import net.minecraft.nbt.CompoundNBT;
 
 public class SkinPartGene extends Gene implements ISkinPartGene {
@@ -14,13 +14,8 @@ public class SkinPartGene extends Gene implements ISkinPartGene {
     }
 
     @Override
-    public SkinPart getSkinPart() {
-        return skinPart;
-    }
-
-    @Override
-    public void setSkinPart(SkinPart skinPart) {
-        this.skinPart = skinPart;
+    public GeneSerializer<SkinPartGene> getSerializer() {
+        return GeneSerializers.SKIN_PART;
     }
 
     @Override
@@ -29,7 +24,12 @@ public class SkinPartGene extends Gene implements ISkinPartGene {
     }
 
     @Override
-    public GeneSerializer<SkinPartGene> getSerializer() {
-        return GeneSerializers.SKIN_PART;
+    public SkinPart getSkinPart() {
+        return skinPart;
+    }
+
+    @Override
+    public void setSkinPart(SkinPart skinPart) {
+        this.skinPart = skinPart;
     }
 }

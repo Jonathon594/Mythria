@@ -9,12 +9,12 @@ public class ProfileDaySlider extends IntSlider {
     }
 
     @Override
-    protected void valueChanged() {
-
+    protected void func_230979_b_() {
+        setMessage(new StringTextComponent("Birth Day: " + getValueInt()));
     }
 
     @Override
-    protected void func_230979_b_() {
-        setMessage(new StringTextComponent("Birth Day: " + getValueInt()));
+    protected void valueChanged() {
+
     }
 }

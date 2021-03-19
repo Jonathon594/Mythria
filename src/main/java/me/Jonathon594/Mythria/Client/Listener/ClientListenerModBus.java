@@ -16,6 +16,15 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientListenerModBus {
     @SubscribeEvent
+    public static void onModelRegistry(ModelRegistryEvent event) {
+//        for (ResourceLocation resourceLocation : ClientManager.getSpecialModels()) {
+//            ModelLoader.addSpecialModel(resourceLocation);
+//        }
+
+        ModelLoaderRegistry.registerLoader(new MythriaResourceLocation("bow"), BowModelLoader.Loader.INSTANCE);
+    }
+
+    @SubscribeEvent
     public static void onTextureStitchPre(TextureStitchEvent.Pre event) {
         if (event.getMap().getTextureLocation().equals(AtlasTexture.LOCATION_BLOCKS_TEXTURE)) {
             for (MythriaMaterial material : new MythriaMaterial[]{MythriaMaterial.TIN, MythriaMaterial.COPPER, MythriaMaterial.BRONZE,
@@ -28,14 +37,5 @@ public class ClientListenerModBus {
                 event.addSprite(location);
             }
         }
-    }
-
-    @SubscribeEvent
-    public static void onModelRegistry(ModelRegistryEvent event) {
-//        for (ResourceLocation resourceLocation : ClientManager.getSpecialModels()) {
-//            ModelLoader.addSpecialModel(resourceLocation);
-//        }
-
-        ModelLoaderRegistry.registerLoader(new MythriaResourceLocation("bow"), BowModelLoader.Loader.INSTANCE);
     }
 }

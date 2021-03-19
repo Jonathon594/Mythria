@@ -12,28 +12,6 @@ public class Crucible implements ICrucible {
     private MythriaMaterial material = null;
     private int amount = 0;
 
-    @Override
-    public CompoundNBT toNBT() {
-        CompoundNBT nbt = new CompoundNBT();
-        nbt.put("inventory", oreInventory.serializeNBT());
-        nbt.putString("material", material == null ? "" : material.toString());
-        nbt.putInt("amount", amount);
-        return nbt;
-    }
-
-    @Override
-    public void fromNBT(CompoundNBT nbt) {
-        oreInventory.deserializeNBT(nbt.getCompound("inventory"));
-        String material = nbt.getString("material");
-        if (!material.isEmpty()) this.material = MythriaMaterial.valueOf(material);
-        amount = nbt.getInt("amount");
-    }
-
-    @Override
-    public ItemStackHandler getOreInventory() {
-        return oreInventory;
-    }
-
     public void createMetal() {
         if (hasMeltingContents()) return;
         for (MetallurgyRecipe r : SmeltingManager.getMetalRecipes()) {
@@ -53,8 +31,26 @@ public class Crucible implements ICrucible {
         }
     }
 
-    public MythriaMaterial getMaterial() {
-        return material;
+    @Override
+    public void fromNBT(CompoundNBT nbt) {
+        oreInventory.deserializeNBT(nbt.getCompound("inventory"));
+        String material = nbt.getString("material");
+        if (!material.isEmpty()) this.material = MythriaMaterial.valueOf(material);
+        amount = nbt.getInt("amount");
+    }
+
+    @Override
+    public ItemStackHandler getOreInventory() {
+        return oreInventory;
+    }
+
+    @Override
+    public CompoundNBT toNBT() {
+        CompoundNBT nbt = new CompoundNBT();
+        nbt.put("inventory", oreInventory.serializeNBT());
+        nbt.putString("material", material == null ? "" : material.toString());
+        nbt.putInt("amount", amount);
+        return nbt;
     }
 
     public int getAmount() {
@@ -63,6 +59,10 @@ public class Crucible implements ICrucible {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public MythriaMaterial getMaterial() {
+        return material;
     }
 
     public boolean hasMeltingContents() {

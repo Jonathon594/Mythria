@@ -85,6 +85,26 @@ public class BowModelLoader implements IModelGeometry<BowModelLoader> {
         }
 
         @Override
+        public boolean doesHandlePerspectives() {
+            return true;
+        }
+
+        @Override
+        public IBakedModel handlePerspective(ItemCameraTransforms.TransformType cameraTransformType, MatrixStack mat) {
+            switch (cameraTransformType) {
+                case FIRST_PERSON_LEFT_HAND:
+                case THIRD_PERSON_LEFT_HAND:
+                    hand = Hand.OFF_HAND;
+                    break;
+                case FIRST_PERSON_RIGHT_HAND:
+                case THIRD_PERSON_RIGHT_HAND:
+                    hand = Hand.MAIN_HAND;
+                    break;
+            }
+            return PerspectiveMapWrapper.handlePerspective(this, cameraTransforms, cameraTransformType, mat);
+        }
+
+        @Override
         public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, Random rand) {
             List<BakedQuad> quads = new ArrayList<>(ItemLayerModel.getQuadsForSprite(5, textures.get(pullState).getSprite(), TransformationMatrix.identity(), false));
             if (bowstring != null) {
@@ -134,36 +154,16 @@ public class BowModelLoader implements IModelGeometry<BowModelLoader> {
             return overrides;
         }
 
-        @Override
-        public boolean doesHandlePerspectives() {
-            return true;
-        }
-
-        @Override
-        public IBakedModel handlePerspective(ItemCameraTransforms.TransformType cameraTransformType, MatrixStack mat) {
-            switch (cameraTransformType) {
-                case FIRST_PERSON_LEFT_HAND:
-                case THIRD_PERSON_LEFT_HAND:
-                    hand = Hand.OFF_HAND;
-                    break;
-                case FIRST_PERSON_RIGHT_HAND:
-                case THIRD_PERSON_RIGHT_HAND:
-                    hand = Hand.MAIN_HAND;
-                    break;
-            }
-            return PerspectiveMapWrapper.handlePerspective(this, cameraTransforms, cameraTransformType, mat);
-        }
-
-        public void setPullState(int pullState) {
-            this.pullState = pullState;
-        }
-
         public void setArrow(String name) {
             this.arrow = (name.isEmpty() || name.equalsIgnoreCase("air")) ? null : ForgeHooksClient.getBlockMaterial(new MythriaResourceLocation("items/arrows/" + name));
         }
 
         public void setBowstring(String name, int pullState) {
             this.bowstring = (name.isEmpty() || name.equalsIgnoreCase("air")) ? null : ForgeHooksClient.getBlockMaterial(new MythriaResourceLocation("items/bows/string/" + name + "_" + pullState));
+        }
+
+        public void setPullState(int pullState) {
+            this.pullState = pullState;
         }
     }
 
@@ -201,7 +201,7 @@ public class BowModelLoader implements IModelGeometry<BowModelLoader> {
             float pull = flag ? 0F : pulling ? (float) (stack.getUseDuration() - livingEntity.getItemInUseCount()) / 20f : 0f;
             int pullState = pulling ? getPullState(pull) : 0;
             bakedModel.setPullState(pullState);
-            if(bow != null) {
+            if (bow != null) {
                 bakedModel.setArrow(bow.getArrow().getItem().getRegistryName().getPath());
                 bakedModel.setBowstring(bow.getBowstring().getItem().getRegistryName().getPath(), pullState);
             }

@@ -20,6 +20,39 @@ public class GuiButtonSelector extends Button {
         updateIndex();
     }
 
+    public String getCurrentOption() {
+        return optionFactory.get().get(index);
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public String getSelectedName() {
+        return selectedName;
+    }
+
+    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+        if (this.active && this.visible) {
+            if (this.isValidClickButton(mouseButton)) {
+                boolean clicked = this.clicked(mouseX, mouseY);
+                if (clicked) {
+                    this.playDownSound(Minecraft.getInstance().getSoundHandler());
+                    cycleOptions(mouseButton);
+                    onPress();
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
+    @Override
+    protected boolean isValidClickButton(int p_isValidClickButton_1_) {
+        return p_isValidClickButton_1_ == 0 || p_isValidClickButton_1_ == 1;
+    }
+
     public void setFormat(String format) {
         this.format = format;
     }
@@ -47,30 +80,6 @@ public class GuiButtonSelector extends Button {
         selectedName = name;
     }
 
-    protected String modifyMessage(String string) {
-        return string;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-        if (this.active && this.visible) {
-            if (this.isValidClickButton(mouseButton)) {
-                boolean clicked = this.clicked(mouseX, mouseY);
-                if (clicked) {
-                    this.playDownSound(Minecraft.getInstance().getSoundHandler());
-                    cycleOptions(mouseButton);
-                    onPress();
-                    return true;
-                }
-            }
-
-        }
-        return false;
-    }
-
     private void cycleOptions(int mouseButton) {
         if (mouseButton == 0) {
             index++;
@@ -86,16 +95,7 @@ public class GuiButtonSelector extends Button {
         updateText();
     }
 
-    @Override
-    protected boolean isValidClickButton(int p_isValidClickButton_1_) {
-        return p_isValidClickButton_1_ == 0 || p_isValidClickButton_1_ == 1;
-    }
-
-    public String getCurrentOption() {
-        return optionFactory.get().get(index);
-    }
-
-    public String getSelectedName() {
-        return selectedName;
+    protected String modifyMessage(String string) {
+        return string;
     }
 }

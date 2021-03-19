@@ -24,6 +24,10 @@ public abstract class HealthCondition {
         this.type = type;
     }
 
+    public void applyTreatment(CureCondition cureCondition) {
+        appliedTreatments.add(cureCondition);
+    }
+
     public void fromNBT(CompoundNBT compoundTag) {
         if (compoundTag == null) return;
 
@@ -36,6 +40,47 @@ public abstract class HealthCondition {
             if (treatment != null) appliedTreatments.add(treatment);
         }
         slot = AnatomySlot.valueOf(compoundTag.getString("Slot"));
+    }
+
+    public HealthConditionType getConditionType() {
+        return type;
+    }
+
+    public double getCureProgress() {
+        return cureProgress;
+    }
+
+    public CureCondition getNextCureCondition() {
+        HealthConditionType type = getConditionType();
+        int count = appliedTreatments.size();
+        if (count >= type.getRequiredTreatments().length) {
+            return null;
+        } else {
+            return type.getRequiredTreatments()[count];
+        }
+    }
+
+    public AnatomySlot getSlot() {
+        return slot;
+    }
+
+    public HealthCondition setSlot(AnatomySlot slot) {
+        this.slot = slot;
+        return this;
+    }
+
+    public boolean isTreated() {
+        for (CureCondition treatment : type.getRequiredTreatments()) {
+            if (!appliedTreatments.contains(treatment)) return false;
+        }
+        return true;
+    }
+
+    public void onUpdate(ServerPlayerEntity player) {
+        painTimer++;
+        cureProgress += 1.0 / (getDuration() * 20 * 60 * 20);
+
+        uniqueUpdate(player);
     }
 
     public CompoundNBT toNBT() {
@@ -55,56 +100,11 @@ public abstract class HealthCondition {
         return compound;
     }
 
-    public double getCureProgress() {
-        return cureProgress;
-    }
-
-    public void onUpdate(ServerPlayerEntity player) {
-        painTimer++;
-        cureProgress += 1.0 / (getDuration() * 20 * 60 * 20);
-
-        uniqueUpdate(player);
-    }
-
     private double getDuration() {
         return isTreated() ? type.getCureDuration() : type.getNaturalDuration();
     }
 
     protected abstract void uniqueUpdate(ServerPlayerEntity player);
-
-    public boolean isTreated() {
-        for (CureCondition treatment : type.getRequiredTreatments()) {
-            if (!appliedTreatments.contains(treatment)) return false;
-        }
-        return true;
-    }
-
-    public AnatomySlot getSlot() {
-        return slot;
-    }
-
-    public HealthCondition setSlot(AnatomySlot slot) {
-        this.slot = slot;
-        return this;
-    }
-
-    public CureCondition getNextCureCondition() {
-        HealthConditionType type = getConditionType();
-        int count = appliedTreatments.size();
-        if (count >= type.getRequiredTreatments().length) {
-            return null;
-        } else {
-            return type.getRequiredTreatments()[count];
-        }
-    }
-
-    public HealthConditionType getConditionType() {
-        return type;
-    }
-
-    public void applyTreatment(CureCondition cureCondition) {
-        appliedTreatments.add(cureCondition);
-    }
 
     protected void sendConditionMessage(ServerPlayerEntity player, String message) {
         String prefix = ColorConst.CONT_COLOR + "[" + TextFormatting.GOLD + type.getDisplayName() + ColorConst.CONT_COLOR + "] ";

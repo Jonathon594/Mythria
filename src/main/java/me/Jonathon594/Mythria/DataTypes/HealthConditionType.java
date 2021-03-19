@@ -35,12 +35,9 @@ public class HealthConditionType {
         return this;
     }
 
-    public ArrayList<AnatomySlot> getValidSlots() {
-        return validSlots;
-    }
-
-    public ArrayList<ObtainCondition> getObtainConditions() {
-        return obtainConditions;
+    public HealthConditionType addObtainCondition(ObtainCondition condition) {
+        this.obtainConditions.add(condition);
+        return this;
     }
 
     public HealthConditionType addValidSlot(AnatomySlot slot) {
@@ -48,36 +45,39 @@ public class HealthConditionType {
         return this;
     }
 
-    public HealthConditionType addObtainCondition(ObtainCondition condition) {
-        this.obtainConditions.add(condition);
-        return this;
-    }
-
-    public double getNaturalDuration() {
-        return naturalDuration;
+    public HealthCondition createNewInstance() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        return conditionClass.getConstructor(HealthConditionType.class).newInstance(this);
     }
 
     public double getCureDuration() {
         return cureDuration;
     }
 
-    public CureCondition[] getRequiredTreatments() {
-        return requiredTreatments;
+    public String getDisplayName() {
+        return displayName;
     }
 
     public String getName() {
         return name;
     }
 
-    public HealthCondition createNewInstance() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        return conditionClass.getConstructor(HealthConditionType.class).newInstance(this);
+    public double getNaturalDuration() {
+        return naturalDuration;
+    }
+
+    public ArrayList<ObtainCondition> getObtainConditions() {
+        return obtainConditions;
+    }
+
+    public CureCondition[] getRequiredTreatments() {
+        return requiredTreatments;
     }
 
     public HashMap<StatType, Double> getStatModifiers() {
         return modifiers;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public ArrayList<AnatomySlot> getValidSlots() {
+        return validSlots;
     }
 }

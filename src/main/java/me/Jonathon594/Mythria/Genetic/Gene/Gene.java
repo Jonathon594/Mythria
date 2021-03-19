@@ -10,11 +10,11 @@ public abstract class Gene {
         this.type = type;
     }
 
+    public abstract GeneSerializer<? extends Gene> getSerializer();
+
     public GeneType getType() {
         return type;
     }
-
-    public abstract GeneSerializer<? extends Gene> getSerializer();
 
     public abstract CompoundNBT toNBT(boolean writeSerializer);
 

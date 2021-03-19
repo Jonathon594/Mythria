@@ -29,9 +29,28 @@ import javax.annotation.Nullable;
 public class ClientUtil {
     private static final Minecraft instance = Minecraft.getInstance();
 
+    public static void drawLockedInventorySlots(final GuiScreenEvent.InitGuiEvent.Post event) {
+        final Minecraft mc = Minecraft.getInstance();
+        if (event.getGui() instanceof ContainerScreen) {
+            final Screen screen = event.getGui();
+            final ContainerScreen containerScreen = (ContainerScreen) screen;
+            if (mc.player != null) {
+                final PlayerEntity player = mc.player;
+                if (!player.isCreative() && !player.isSpectator() && !LimitedInventoryManager.isAtMaxSlots(player))
+                    event.addWidget(new LockedSlotWidget(containerScreen));
+            }
+        }
+    }
+
     public static void handleUpdateConsumables(SPacketUpdateConsumables msg) {
         final Profile profile = ProfileProvider.getProfile(Minecraft.getInstance().player);
         profile.setConsumable(msg.getConsumable(), msg.getValue());
+    }
+
+    public static void handleUpdateExperience(SPacketUpdateExperience msg) {
+        final Profile profile = ProfileProvider.getProfile(Minecraft.getInstance().player);
+        profile.getSkillLevels().put(msg.getSkill(), msg.getValue());
+        profile.calculateProgressTowardPlayerLevel();
     }
 
     public static void handleUpdateNutrition(SPacketUpdateNutrition msg) {
@@ -43,27 +62,6 @@ public class ClientUtil {
         final Profile p = ProfileProvider.getProfile(Minecraft.getInstance().player);
         p.fromNBT(msg.getNbt());
         updadeGuiScreens();
-    }
-
-    public static void handleUpdateExperience(SPacketUpdateExperience msg) {
-        final Profile profile = ProfileProvider.getProfile(Minecraft.getInstance().player);
-        profile.getSkillLevels().put(msg.getSkill(), msg.getValue());
-        profile.calculateProgressTowardPlayerLevel();
-    }
-
-    public static void updadeGuiScreens() {
-        Minecraft mc = Minecraft.getInstance();
-//        if (mc.currentScreen instanceof GuiAttribute) {
-//            final GuiAttribute gui = (GuiAttribute) mc.currentScreen;
-//            final Container c = gui.getInventory();
-//            if (c instanceof ContainerAttribute) {
-//                final ContainerAttribute pmc = (ContainerAttribute) c;
-//                pmc.setContents();
-//            }
-//        }
-        if (mc.currentScreen instanceof ScreenPerks) {
-            ((ScreenPerks) mc.currentScreen).refreshTabs();
-        }
     }
 
     public static void registerBowProperty(MythriaBowItem bowItem) {
@@ -93,16 +91,18 @@ public class ClientUtil {
         });
     }
 
-    public static void drawLockedInventorySlots(final GuiScreenEvent.InitGuiEvent.Post event) {
-        final Minecraft mc = Minecraft.getInstance();
-        if (event.getGui() instanceof ContainerScreen) {
-            final Screen screen = event.getGui();
-            final ContainerScreen containerScreen = (ContainerScreen) screen;
-            if (mc.player != null) {
-                final PlayerEntity player = mc.player;
-                if (!player.isCreative() && !player.isSpectator() && !LimitedInventoryManager.isAtMaxSlots(player))
-                    event.addWidget(new LockedSlotWidget(containerScreen));
-            }
+    public static void updadeGuiScreens() {
+        Minecraft mc = Minecraft.getInstance();
+//        if (mc.currentScreen instanceof GuiAttribute) {
+//            final GuiAttribute gui = (GuiAttribute) mc.currentScreen;
+//            final Container c = gui.getInventory();
+//            if (c instanceof ContainerAttribute) {
+//                final ContainerAttribute pmc = (ContainerAttribute) c;
+//                pmc.setContents();
+//            }
+//        }
+        if (mc.currentScreen instanceof ScreenPerks) {
+            ((ScreenPerks) mc.currentScreen).refreshTabs();
         }
     }
 }

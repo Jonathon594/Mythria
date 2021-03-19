@@ -57,37 +57,6 @@ public class CrucibleContainerFull extends Container {
     }
 
     @Override
-    public void onCraftMatrixChanged(IInventory inventoryIn) {
-        ItemStack moldStack = containerInv.getStackInSlot(0);
-        if (moldStack.isEmpty()) return;
-        if (!(moldStack.getItem() instanceof EmptyMoldItem)) return;
-        EmptyMoldItem emptyMoldItem = (EmptyMoldItem) moldStack.getItem();
-        CastingRecipe recipe = CastingManager.getRecipe(emptyMoldItem.getShape(), crucible.getMaterial());
-        if (recipe == null) return;
-        Item result = recipe.getResult();
-        if (crucible.getAmount() < emptyMoldItem.getVolume()) return;
-        ItemStack closedMold = new ItemStack(MythriaItems.CERAMIC_MOLD_CLOSED, 1);
-        Mold mold = MoldProvider.getMold(closedMold);
-        mold.setOriginalMoldStack(moldStack.copy());
-        ItemStack resultStack = new ItemStack(result, 1);
-        //Todo Result Modifications
-        Profile profile = ProfileProvider.getProfile(player);
-        MythriaUtil.addLoreToItemStack(resultStack, false, ColorConst.CONT_COLOR + "Cast by " + profile.getFullName());
-        closedMold.setDisplayName(new StringTextComponent(closedMold.getDisplayName() + "(" + resultStack.getDisplayName() + ")"));
-        resultStack.setDisplayName(new StringTextComponent("Cast " + closedMold.getDisplayName()));
-        resultStack.setDamage(resultStack.getMaxDamage() / 3);
-        mold.setResultStack(resultStack);
-        HeatableProvider.getHeatable(closedMold).setTemperature(HeatableProvider.getHeatable(moldStack).getTemperature());
-        crucible.setAmount(crucible.getAmount() - emptyMoldItem.getVolume());
-        containerInv.setInventorySlotContents(0, closedMold);
-    }
-
-    @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
-        return true;
-    }
-
-    @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
@@ -123,5 +92,36 @@ public class CrucibleContainerFull extends Container {
         }
 
         return itemstack;
+    }
+
+    @Override
+    public void onCraftMatrixChanged(IInventory inventoryIn) {
+        ItemStack moldStack = containerInv.getStackInSlot(0);
+        if (moldStack.isEmpty()) return;
+        if (!(moldStack.getItem() instanceof EmptyMoldItem)) return;
+        EmptyMoldItem emptyMoldItem = (EmptyMoldItem) moldStack.getItem();
+        CastingRecipe recipe = CastingManager.getRecipe(emptyMoldItem.getShape(), crucible.getMaterial());
+        if (recipe == null) return;
+        Item result = recipe.getResult();
+        if (crucible.getAmount() < emptyMoldItem.getVolume()) return;
+        ItemStack closedMold = new ItemStack(MythriaItems.CERAMIC_MOLD_CLOSED, 1);
+        Mold mold = MoldProvider.getMold(closedMold);
+        mold.setOriginalMoldStack(moldStack.copy());
+        ItemStack resultStack = new ItemStack(result, 1);
+        //Todo Result Modifications
+        Profile profile = ProfileProvider.getProfile(player);
+        MythriaUtil.addLoreToItemStack(resultStack, false, ColorConst.CONT_COLOR + "Cast by " + profile.getFullName());
+        closedMold.setDisplayName(new StringTextComponent(closedMold.getDisplayName() + "(" + resultStack.getDisplayName() + ")"));
+        resultStack.setDisplayName(new StringTextComponent("Cast " + closedMold.getDisplayName()));
+        resultStack.setDamage(resultStack.getMaxDamage() / 3);
+        mold.setResultStack(resultStack);
+        HeatableProvider.getHeatable(closedMold).setTemperature(HeatableProvider.getHeatable(moldStack).getTemperature());
+        crucible.setAmount(crucible.getAmount() - emptyMoldItem.getVolume());
+        containerInv.setInventorySlotContents(0, closedMold);
+    }
+
+    @Override
+    public boolean canInteractWith(PlayerEntity playerIn) {
+        return true;
     }
 }

@@ -24,12 +24,12 @@ public class EntityAttitudeGene extends Gene {
         this.attitude = attitude;
     }
 
-    public List<EntityType<?>> getEntityTypes() {
-        return entityTypes;
-    }
-
     public Attitude getAttitude() {
         return attitude;
+    }
+
+    public List<EntityType<?>> getEntityTypes() {
+        return entityTypes;
     }
 
     @Override
@@ -45,4 +45,6 @@ public class EntityAttitudeGene extends Gene {
     public enum Attitude {
         LOVE, TRUCE, FEAR, HATE
     }
+
+
 }

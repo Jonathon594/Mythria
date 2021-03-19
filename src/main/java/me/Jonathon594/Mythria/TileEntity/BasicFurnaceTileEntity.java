@@ -1,6 +1,5 @@
 package me.Jonathon594.Mythria.TileEntity;
 
-import me.Jonathon594.Mythria.Blocks.CampfireBlock;
 import me.Jonathon594.Mythria.Capability.Crucible.Crucible;
 import me.Jonathon594.Mythria.Capability.Crucible.CrucibleProvider;
 import me.Jonathon594.Mythria.Capability.HeatableItem.HeatableProvider;
@@ -17,6 +16,7 @@ import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -47,6 +47,98 @@ public abstract class BasicFurnaceTileEntity extends TileEntity implements ILigh
         this.ticksLeft = maxTicks;
         this.criticalTemperature = criticalTemperature;
         inventory = NonNullList.withSize(size, ItemStack.EMPTY);
+    }
+
+    public boolean addItem(ItemStack itemStackIn) {
+        for (int i = 0; i < this.inventory.size(); ++i) {
+            ItemStack itemstack = this.inventory.get(i);
+            if (itemstack.isEmpty() && itemStackIn.getItem() instanceof HeatableItem) {
+                this.inventory.set(i, itemStackIn.split(1));
+                this.inventoryChanged();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void clear() {
+        this.inventory.clear();
+    }
+
+    public void dropAllItems() {
+        if (!this.getWorld().isRemote) {
+            InventoryHelper.dropItems(this.getWorld(), this.getPos(), this.getInventory());
+        }
+
+        this.inventoryChanged();
+    }
+
+    /**
+     * Returns a NonNullList<ItemStack> of items currently held in the campfire.
+     */
+    public NonNullList<ItemStack> getInventory() {
+        return this.inventory;
+    }
+
+    @Override
+    public double getMaxTemperature() {
+        return maxTemperature;
+    }
+
+    @Override
+    public double getTemp() {
+        return temperature;
+    }
+
+    @Override
+    public double getTemperatureForHeating() {
+        return temperature;
+    }
+
+    @Override
+    public boolean isLit() {
+        return lit;
+    }
+
+    @Override
+    public boolean tryLight(double friction) {
+        this.friction += Math.random() * 20;
+        if (this.friction > 100) {
+            light();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+        read(world.getBlockState(pos), pkt.getNbtCompound());
+    }
+
+    @Override
+    public void read(BlockState state, CompoundNBT nbt) {
+        super.read(state, nbt);
+        this.inventory.clear();
+        ItemStackHelper.loadAllItems(nbt.getCompound("inventory"), this.inventory);
+    }
+
+    public CompoundNBT write(CompoundNBT compound) {
+        writeItems(compound);
+        return compound;
+    }
+
+    /**
+     * Retrieves packet to send to the client whenever this Tile Entity is resynced via World.notifyBlockUpdate. For
+     * modded TE's, this packet comes back to you clientside in {@link #onDataPacket}
+     */
+    @Nullable
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        return new SUpdateTileEntityPacket(this.pos, 13, this.getUpdateTag());
+    }
+
+    public CompoundNBT getUpdateTag() {
+        return this.writeItems(new CompoundNBT());
     }
 
     @Override
@@ -86,6 +178,23 @@ public abstract class BasicFurnaceTileEntity extends TileEntity implements ILigh
         }
     }
 
+    private void explode() {
+
+    }
+
+    protected void inventoryChanged() {
+        this.markDirty();
+        this.getWorld().notifyBlockUpdate(this.getPos(), this.getBlockState(), this.getBlockState(), 3);
+    }
+
+    protected CompoundNBT writeItems(CompoundNBT compound) {
+        super.write(compound);
+        CompoundNBT inventory = new CompoundNBT();
+        ItemStackHelper.saveAllItems(inventory, this.inventory, true);
+        compound.put("inventory", inventory);
+        return compound;
+    }
+
     protected void processItems() {
         NonNullList<ItemStack> inventory = this.getInventory();
         for (int i = 0; i < inventory.size(); ++i) {
@@ -116,20 +225,16 @@ public abstract class BasicFurnaceTileEntity extends TileEntity implements ILigh
         }
     }
 
-    protected double getHeatingRate(double objectTemp, double furnaceTemp) {
-        return MythriaUtil.thermalConduction(getHeatingEfficiency(), objectTemp, furnaceTemp);
-    }
-
-    protected abstract double getHeatingEfficiency();
-
     protected void addParticles() {
+        if (!hasFlameParticles()) return;
         World world = this.getWorld();
         if (world != null) {
             BlockPos blockpos = this.getPos();
             Random random = world.rand;
             if (random.nextFloat() < 0.11F) {
                 for (int i = 0; i < random.nextInt(2) + 2; ++i) {
-                    CampfireBlock.spawnSmokeParticles(world, blockpos, false, false);
+                    if (canSpawnSmokeParticles())
+                        MythriaUtil.spawnSmokeParticles(world, blockpos, shouldSpawnSignalSmoke(), false);
                 }
             }
 
@@ -157,105 +262,19 @@ public abstract class BasicFurnaceTileEntity extends TileEntity implements ILigh
         }
     }
 
-    /**
-     * Returns a NonNullList<ItemStack> of items currently held in the campfire.
-     */
-    public NonNullList<ItemStack> getInventory() {
-        return this.inventory;
-    }
+    protected abstract boolean shouldSpawnSignalSmoke();
 
-    private void explode() {
-
-    }
+    protected abstract boolean canSpawnSmokeParticles();
 
     protected void onFinishBurning() {
 
     }
 
-    @Override
-    public boolean tryLight(double friction) {
-        this.friction += Math.random() * 20;
-        if (this.friction > 100) {
-            light();
-            return true;
-        }
-        return false;
+    protected double getHeatingRate(double objectTemp, double furnaceTemp) {
+        return MythriaUtil.thermalConduction(getHeatingEfficiency(), objectTemp, furnaceTemp);
     }
 
-    @Override
-    public boolean isLit() {
-        return lit;
-    }
+    protected abstract boolean hasFlameParticles();
 
-    @Override
-    public double getMaxTemperature() {
-        return maxTemperature;
-    }
-
-    @Override
-    public double getTemp() {
-        return temperature;
-    }
-
-    @Override
-    public double getTemperatureForHeating() {
-        return temperature;
-    }
-
-    public void clear() {
-        this.inventory.clear();
-    }
-
-    protected void inventoryChanged() {
-        this.markDirty();
-        this.getWorld().notifyBlockUpdate(this.getPos(), this.getBlockState(), this.getBlockState(), 3);
-    }
-
-    public void dropAllItems() {
-        if (!this.getWorld().isRemote) {
-            InventoryHelper.dropItems(this.getWorld(), this.getPos(), this.getInventory());
-        }
-
-        this.inventoryChanged();
-    }
-
-    public boolean addItem(ItemStack itemStackIn) {
-        for (int i = 0; i < this.inventory.size(); ++i) {
-            ItemStack itemstack = this.inventory.get(i);
-            if (itemstack.isEmpty() && itemStackIn.getItem() instanceof HeatableItem) {
-                this.inventory.set(i, itemStackIn.split(1));
-                this.inventoryChanged();
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    @Override
-    public void read(BlockState state, CompoundNBT nbt) {
-        super.read(state, nbt);
-        this.inventory.clear();
-        ItemStackHelper.loadAllItems(nbt, this.inventory);
-    }
-
-    public CompoundNBT write(CompoundNBT compound) {
-        this.writeItems(compound);
-        return compound;
-    }
-
-    protected CompoundNBT writeItems(CompoundNBT compound) {
-        super.write(compound);
-        ItemStackHelper.saveAllItems(compound, this.inventory, true);
-        return compound;
-    }
-
-    /**
-     * Retrieves packet to send to the client whenever this Tile Entity is resynced via World.notifyBlockUpdate. For
-     * modded TE's, this packet comes back to you clientside in {@link #onDataPacket}
-     */
-    @Nullable
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.pos, 13, this.getUpdateTag());
-    }
+    protected abstract double getHeatingEfficiency();
 }

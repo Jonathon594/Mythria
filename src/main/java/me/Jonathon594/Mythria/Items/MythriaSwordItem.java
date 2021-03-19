@@ -8,7 +8,6 @@ import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
@@ -28,6 +27,10 @@ public class MythriaSwordItem extends SwordItem implements IModularTool {
         this.toolHead = toolHead;
     }
 
+    @Override
+    public Item getDefaultHandle() {
+        return MythriaItems.OAK_BLADE_HANDLE;
+    }
 
     @Override
     public Item getToolHeadItem() {
@@ -37,11 +40,6 @@ public class MythriaSwordItem extends SwordItem implements IModularTool {
     @Override
     public Item[] getValidHandles() {
         return MythriaUtil.getItemsFromTag(new MythriaResourceLocation("blade_handles"));
-    }
-
-    @Override
-    public Item getDefaultHandle() {
-        return MythriaItems.OAK_BLADE_HANDLE;
     }
 
     @Nullable
@@ -54,9 +52,9 @@ public class MythriaSwordItem extends SwordItem implements IModularTool {
 
     @Override
     public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
-        if(nbt == null) return;
+        if (nbt == null) return;
         String key = Mythria.MODID + ".tool_sync";
-        if(nbt.contains(key)) {
+        if (nbt.contains(key)) {
             ToolProvider.getTool(stack).fromNBT(nbt.getCompound(key));
             nbt.remove(key);
         }

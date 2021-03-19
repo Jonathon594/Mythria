@@ -1,9 +1,9 @@
 package me.Jonathon594.Mythria.Genetic.Serializers;
 
-import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Genetic.Gene.Gene;
 import me.Jonathon594.Mythria.Genetic.Gene.SkinPartGene;
 import me.Jonathon594.Mythria.MythriaRegistries;
+import me.Jonathon594.Mythria.Skin.SkinPart;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 

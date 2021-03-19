@@ -4,15 +4,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 
 public interface IBow {
+    void fromNBT(CompoundNBT nbt);
+
     ItemStack getArrow();
 
     void setArrow(ItemStack arrow);
 
-    CompoundNBT toNBT();
-
-    void fromNBT(CompoundNBT nbt);
-
     ItemStack getBowstring();
 
     void setBowstring(ItemStack bowstring);
+
+    CompoundNBT toNBT();
 }

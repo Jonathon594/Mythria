@@ -1,0 +1,6 @@
+{
+  "parent": "mythria:block/campfire_fire_template",
+  "textures": {
+    "fire": "mythria:blocks/campfire_fire"
+  }
+}

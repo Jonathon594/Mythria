@@ -42,15 +42,6 @@ public class MythriaPacketHandler {
         HANDLER.registerMessage(disc++, CPacketAction.class, CPacketAction::encode, CPacketAction::new, CPacketAction::handle);
     }
 
-    public static <MSG> void sendToServer(MSG msg) {
-        HANDLER.sendToServer(msg);
-    }
-
-    public static <MSG> void sendToAll(MSG msg) {
-        for (ServerPlayerEntity playerEntity : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers())
-            sendTo(msg, playerEntity);
-    }
-
     /**
      * Send a packet to a specific player.<br>
      * Must be called Server side.
@@ -59,5 +50,14 @@ public class MythriaPacketHandler {
         if (!(player instanceof FakePlayer)) {
             HANDLER.sendTo(msg, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
         }
+    }
+
+    public static <MSG> void sendToAll(MSG msg) {
+        for (ServerPlayerEntity playerEntity : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers())
+            sendTo(msg, playerEntity);
+    }
+
+    public static <MSG> void sendToServer(MSG msg) {
+        HANDLER.sendToServer(msg);
     }
 }

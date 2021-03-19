@@ -55,7 +55,7 @@ public class CharacterRenderer extends LivingRenderer<LivingEntity, CharacterMod
     public static ResourceLocation getCharacterLayeredTexture(LivingEntity entity, SkinPart.Type skin) {
         MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(entity);
         SkinPart skinPart = mythriaPlayer.getSkinPart(skin);
-        if(skinPart == null) return null;
+        if (skinPart == null) return null;
         return skinPart.getTextureLocation(mythriaPlayer.getGender());
     }
 
@@ -67,6 +67,20 @@ public class CharacterRenderer extends LivingRenderer<LivingEntity, CharacterMod
     @Override
     protected void renderName(LivingEntity entityIn, ITextComponent displayNameIn, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 
+    }
+
+    public void renderArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, LivingEntity entityIn, HandSide side) {
+        CharacterModel<LivingEntity> model = this.getEntityModel();
+        model.swingProgress = 0.0F;
+        model.isSneak = false;
+        model.swimAnimation = 0.0F;
+        model.setRotationAngles(entityIn, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        ModelRenderer rendererArmIn = side == HandSide.RIGHT ? model.bipedRightArm : model.bipedLeftArm;
+        ModelRenderer rendererArmwearIn = side == HandSide.RIGHT ? model.bipedRightArmwear : model.bipedLeftArmwear;
+        rendererArmIn.rotateAngleX = 0.0F;
+        rendererArmIn.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntitySolid(getEntityTexture(entityIn))), combinedLightIn, OverlayTexture.NO_OVERLAY);
+        rendererArmwearIn.rotateAngleX = 0.0F;
+        rendererArmwearIn.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntityTranslucent(getEntityTexture(entityIn))), combinedLightIn, OverlayTexture.NO_OVERLAY);
     }
 
     protected void applyRotations(LivingEntity entityLiving, MatrixStack matrixStackIn, float ageInTicks, float rotationYaw, float partialTicks) {
@@ -133,19 +147,5 @@ public class CharacterRenderer extends LivingRenderer<LivingEntity, CharacterMod
         }
 
         return bipedmodel$armpose;
-    }
-
-    public void renderArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, LivingEntity entityIn, HandSide side) {
-        CharacterModel<LivingEntity> model = this.getEntityModel();
-        model.swingProgress = 0.0F;
-        model.isSneak = false;
-        model.swimAnimation = 0.0F;
-        model.setRotationAngles(entityIn, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        ModelRenderer rendererArmIn = side == HandSide.RIGHT ? model.bipedRightArm : model.bipedLeftArm;
-        ModelRenderer rendererArmwearIn = side == HandSide.RIGHT ? model.bipedRightArmwear : model.bipedLeftArmwear;
-        rendererArmIn.rotateAngleX = 0.0F;
-        rendererArmIn.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntitySolid(getEntityTexture(entityIn))), combinedLightIn, OverlayTexture.NO_OVERLAY);
-        rendererArmwearIn.rotateAngleX = 0.0F;
-        rendererArmwearIn.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntityTranslucent(getEntityTexture(entityIn))), combinedLightIn, OverlayTexture.NO_OVERLAY);
     }
 }

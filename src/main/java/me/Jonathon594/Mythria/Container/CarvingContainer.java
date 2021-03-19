@@ -22,6 +22,16 @@ public abstract class CarvingContainer extends ToolCrafterContainer {
     }
 
     @Override
+    protected boolean isValidTool(ItemStack tool) {
+        return tool.getItem() instanceof CuttingStone;
+    }
+
+    @Override
+    protected IRecipeType<WoodCarvingRecipe> getRecipeType() {
+        return WoodCarvingRecipe.WOOD_CARVING_RECIPE;
+    }
+
+    @Override
     protected Collection<Item> getValidItems() {
         Collection<Item> collection = new ArrayList<>();
         collection.addAll(MythriaUtil.getItemCollectionFromTag(ItemTags.LOGS.getName()));
@@ -34,15 +44,5 @@ public abstract class CarvingContainer extends ToolCrafterContainer {
     @Override
     protected SoundEvent getCraftSound() {
         return SoundEvents.ENTITY_SHEEP_SHEAR;
-    }
-
-    @Override
-    protected boolean isValidTool(ItemStack tool) {
-        return tool.getItem() instanceof CuttingStone;
-    }
-
-    @Override
-    protected IRecipeType<WoodCarvingRecipe> getRecipeType() {
-        return WoodCarvingRecipe.WOOD_CARVING_RECIPE;
     }
 }

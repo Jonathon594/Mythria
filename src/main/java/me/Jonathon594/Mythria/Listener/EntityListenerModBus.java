@@ -3,7 +3,6 @@ package me.Jonathon594.Mythria.Listener;
 import me.Jonathon594.Mythria.Entity.MythriaEntityType;
 import me.Jonathon594.Mythria.Entity.MythriaStriderEntity;
 import me.Jonathon594.Mythria.Entity.NetherChickenEntity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

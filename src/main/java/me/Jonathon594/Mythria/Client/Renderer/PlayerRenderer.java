@@ -28,6 +28,11 @@ public class PlayerRenderer extends CharacterRenderer {
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
+    public void renderArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, AbstractClientPlayerEntity playerIn, HandSide side) {
+        this.setModelVisibilities(playerIn);
+        super.renderArm(matrixStackIn, bufferIn, combinedLightIn, playerIn, side);
+    }
+
     private void setModelVisibilities(LivingEntity entityIn) {
         AbstractClientPlayerEntity clientPlayer = (AbstractClientPlayerEntity) entityIn;
         CharacterModel<LivingEntity> playermodel = this.getEntityModel();
@@ -56,10 +61,5 @@ public class PlayerRenderer extends CharacterRenderer {
                 playermodel.leftArmPose = bipedmodel$armpose;
             }
         }
-    }
-
-    public void renderArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, AbstractClientPlayerEntity playerIn, HandSide side) {
-        this.setModelVisibilities(playerIn);
-        super.renderArm(matrixStackIn, bufferIn, combinedLightIn, playerIn, side);
     }
 }

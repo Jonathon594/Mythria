@@ -1,14 +1,14 @@
 package me.Jonathon594.Mythria.Genetic.Types;
 
 import com.google.common.collect.ImmutableList;
-import me.Jonathon594.Mythria.Enum.Consumable;
-import me.Jonathon594.Mythria.Skin.SkinPart;
-import me.Jonathon594.Mythria.SpawnGifts.SpawnGift;
 import me.Jonathon594.Mythria.DataTypes.SpawnPos;
+import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Genetic.Genetic;
 import me.Jonathon594.Mythria.Genetic.GeneticType;
 import me.Jonathon594.Mythria.Genetic.GeneticTypes;
+import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Skin.SkinParts;
+import me.Jonathon594.Mythria.SpawnGifts.SpawnGift;
 import me.Jonathon594.Mythria.SpawnGifts.SpawnGifts;
 
 import java.util.AbstractMap;
@@ -33,17 +33,17 @@ public class OrcType extends GeneticType {
     }
 
     @Override
+    public List<SkinPart> getAllowedClothes() {
+        return ImmutableList.of(SkinParts.CLOTHES_PRIMITIVE);
+    }
+
+    @Override
     public List<SkinPart> getAllowedSkins() {
         return ImmutableList.of(
                 SkinParts.ORC_SKIN_LIGHT,
                 SkinParts.ORC_SKIN_TAN,
                 SkinParts.ORC_SKIN_MEDIUM,
                 SkinParts.ORC_SKIN_DARK);
-    }
-
-    @Override
-    public List<SkinPart> getAllowedClothes() {
-        return ImmutableList.of(SkinParts.CLOTHES_PRIMITIVE);
     }
 
     @Override

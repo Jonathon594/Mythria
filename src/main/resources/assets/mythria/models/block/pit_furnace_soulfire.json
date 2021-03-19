@@ -1,0 +1,6 @@
+{
+  "parent": "mythria:block/pit_furnace_fire_template",
+  "textures": {
+    "fire": "mythria:blocks/campfire_soulfire"
+  }
+}

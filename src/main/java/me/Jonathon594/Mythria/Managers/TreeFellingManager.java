@@ -1,11 +1,9 @@
 package me.Jonathon594.Mythria.Managers;
 
-import com.google.common.collect.ImmutableList;
 import me.Jonathon594.Mythria.Tags.MythriaBlockTags;
 import me.Jonathon594.Mythria.Util.BlockUtils;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.BlockTags;

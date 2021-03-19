@@ -20,6 +20,21 @@ public class SawhorseContainer extends BlockCrafterContainer {
     }
 
     @Override
+    protected boolean isValidTool(ItemStack tool) {
+        return tool.getItem() instanceof MythriaSawItem;
+    }
+
+    @Override
+    protected IRecipeType<CarpentryRecipe> getRecipeType() {
+        return CarpentryRecipe.CARPENTRY;
+    }
+
+    @Override
+    protected int getCraftingTier() {
+        return 1;
+    }
+
+    @Override
     protected Collection<Item> getValidItems() {
         Collection<Item> collection = MythriaUtil.getItemCollectionFromTag(ItemTags.LOGS.getName());
         collection.addAll(MythriaUtil.getItemCollectionFromTag(new MythriaResourceLocation("logs")));
@@ -30,20 +45,5 @@ public class SawhorseContainer extends BlockCrafterContainer {
     @Override
     protected SoundEvent getCraftSound() {
         return SoundEvents.ENTITY_SHEEP_SHEAR;
-    }
-
-    @Override
-    protected boolean isValidTool(ItemStack tool) {
-        return tool.getItem() instanceof MythriaSawItem;
-    }
-
-    @Override
-    protected int getCraftingTier() {
-        return 1;
-    }
-
-    @Override
-    protected IRecipeType<CarpentryRecipe> getRecipeType() {
-        return CarpentryRecipe.CARPENTRY;
     }
 }

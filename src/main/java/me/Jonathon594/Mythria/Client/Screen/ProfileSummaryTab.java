@@ -16,6 +16,11 @@ public class ProfileSummaryTab extends ProfileCreationTab {
                 new StringTextComponent("Begin Adventure!"), this::onCreate));
     }
 
+    @Override
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+    }
+
     private void onCreate(Button button) {
         if (parent.canCreate()) {
             ProfileNamesTab profileNamesTab = parent.profileNamesTab;
@@ -27,10 +32,5 @@ public class ProfileSummaryTab extends ProfileCreationTab {
                             profileLooksTab.getSelectedEyes(), profileLooksTab.getSelectedClothing(), profileLooksTab.getSelectedSkin(),
                             profileLooksTab.getSelectedUnique(), parent.profileGiftTab.getSelectedGift()));
         }
-    }
-
-    @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
     }
 }

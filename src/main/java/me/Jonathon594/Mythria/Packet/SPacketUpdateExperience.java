@@ -22,12 +22,6 @@ public class SPacketUpdateExperience {
         value = packetBuffer.readDouble();
     }
 
-
-    public static void handle(SPacketUpdateExperience msg, Supplier<NetworkEvent.Context> contextSupplier) {
-        contextSupplier.get().enqueueWork(() -> ClientUtil.handleUpdateExperience(msg));
-        contextSupplier.get().setPacketHandled(true);
-    }
-
     public void encode(ByteBuf buf) {
         buf.writeInt(skill.ordinal());
         buf.writeDouble(value);
@@ -39,5 +33,10 @@ public class SPacketUpdateExperience {
 
     public double getValue() {
         return value;
+    }
+
+    public static void handle(SPacketUpdateExperience msg, Supplier<NetworkEvent.Context> contextSupplier) {
+        contextSupplier.get().enqueueWork(() -> ClientUtil.handleUpdateExperience(msg));
+        contextSupplier.get().setPacketHandled(true);
     }
 }

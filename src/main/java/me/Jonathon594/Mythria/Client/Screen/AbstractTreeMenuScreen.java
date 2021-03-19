@@ -25,6 +25,17 @@ public abstract class AbstractTreeMenuScreen extends Screen {
 
     }
 
+    public void advancementsCleared() {
+        this.tabs.clear();
+        this.selectedTab = null;
+    }
+
+    @Nullable
+    public TreeMenuEntryGui getEntryGui(TreeMenuOption option) {
+        TreeMenuTabGui tab = this.getTab(option);
+        return tab == null ? null : tab.getAdvancementGui(option);
+    }
+
     public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
         int i = (this.width - 252) / 2;
         int j = (this.height - 140) / 2;
@@ -46,8 +57,6 @@ public abstract class AbstractTreeMenuScreen extends Screen {
         return super.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
     }
 
-    protected abstract void onOptionClicked(TreeMenuOption clicked);
-
     public boolean mouseDragged(double p_mouseDragged_1_, double p_mouseDragged_3_, int p_mouseDragged_5_, double p_mouseDragged_6_, double p_mouseDragged_8_) {
         if (p_mouseDragged_5_ != 0) {
             this.isScrolling = false;
@@ -63,6 +72,7 @@ public abstract class AbstractTreeMenuScreen extends Screen {
         }
     }
 
+    public abstract void refreshTabs();
 
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
@@ -116,30 +126,6 @@ public abstract class AbstractTreeMenuScreen extends Screen {
         }
     }
 
-    protected abstract void populateTabs() throws Exception;
-
-    public void setSelectedTab(@Nullable TreeMenuOption advancementIn) {
-        this.selectedTab = this.tabs.get(advancementIn);
-    }
-
-    private void renderInside(MatrixStack matrixStack, int p_191936_1_, int p_191936_2_, int p_191936_3_, int p_191936_4_) {
-        TreeMenuTabGui tab = this.selectedTab;
-        if (tab == null) {
-            fill(matrixStack, p_191936_3_ + 9, p_191936_4_ + 18, p_191936_3_ + 9 + 234, p_191936_4_ + 18 + 113, -16777216);
-            String s = I18n.format("perks.empty");
-            int i = this.font.getStringWidth(s);
-            this.font.drawString(matrixStack, s, (float) (p_191936_3_ + 9 + 117 - i / 2), (float) (p_191936_4_ + 18 + 56 - 9 / 2), -1);
-            this.font.drawString(matrixStack, ":(", (float) (p_191936_3_ + 9 + 117 - this.font.getStringWidth(":(") / 2), (float) (p_191936_4_ + 18 + 113 - 9), -1);
-        } else {
-            RenderSystem.pushMatrix();
-            RenderSystem.translatef((float) (p_191936_3_ + 9), (float) (p_191936_4_ + 18), 0.0F);
-            tab.drawContents(matrixStack);
-            RenderSystem.popMatrix();
-            RenderSystem.depthFunc(515);
-            RenderSystem.disableDepthTest();
-        }
-    }
-
     public void renderWindow(MatrixStack matrixStack, int x, int y) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.enableBlend();
@@ -167,6 +153,37 @@ public abstract class AbstractTreeMenuScreen extends Screen {
         this.font.drawString(matrixStack, "Perks", (float) (x + 8), (float) (y + 6), 4210752);
     }
 
+    public void setSelectedTab(@Nullable TreeMenuOption advancementIn) {
+        this.selectedTab = this.tabs.get(advancementIn);
+    }
+
+    @Nullable
+    private TreeMenuTabGui getTab(TreeMenuOption option) {
+        while (option.getParent() != null) {
+            option = option.getParent();
+        }
+
+        return this.tabs.get(option);
+    }
+
+    private void renderInside(MatrixStack matrixStack, int p_191936_1_, int p_191936_2_, int p_191936_3_, int p_191936_4_) {
+        TreeMenuTabGui tab = this.selectedTab;
+        if (tab == null) {
+            fill(matrixStack, p_191936_3_ + 9, p_191936_4_ + 18, p_191936_3_ + 9 + 234, p_191936_4_ + 18 + 113, -16777216);
+            String s = I18n.format("perks.empty");
+            int i = this.font.getStringWidth(s);
+            this.font.drawString(matrixStack, s, (float) (p_191936_3_ + 9 + 117 - i / 2), (float) (p_191936_4_ + 18 + 56 - 9 / 2), -1);
+            this.font.drawString(matrixStack, ":(", (float) (p_191936_3_ + 9 + 117 - this.font.getStringWidth(":(") / 2), (float) (p_191936_4_ + 18 + 113 - 9), -1);
+        } else {
+            RenderSystem.pushMatrix();
+            RenderSystem.translatef((float) (p_191936_3_ + 9), (float) (p_191936_4_ + 18), 0.0F);
+            tab.drawContents(matrixStack);
+            RenderSystem.popMatrix();
+            RenderSystem.depthFunc(515);
+            RenderSystem.disableDepthTest();
+        }
+    }
+
     private void renderToolTips(MatrixStack matrixStack, int p_191937_1_, int p_191937_2_, int p_191937_3_, int p_191937_4_) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         if (this.selectedTab != null) {
@@ -188,26 +205,8 @@ public abstract class AbstractTreeMenuScreen extends Screen {
 
     }
 
-    @Nullable
-    private TreeMenuTabGui getTab(TreeMenuOption option) {
-        while (option.getParent() != null) {
-            option = option.getParent();
-        }
+    protected abstract void onOptionClicked(TreeMenuOption clicked);
 
-        return this.tabs.get(option);
-    }
-
-    public void advancementsCleared() {
-        this.tabs.clear();
-        this.selectedTab = null;
-    }
-
-    @Nullable
-    public TreeMenuEntryGui getEntryGui(TreeMenuOption option) {
-        TreeMenuTabGui tab = this.getTab(option);
-        return tab == null ? null : tab.getAdvancementGui(option);
-    }
-
-    public abstract void refreshTabs();
+    protected abstract void populateTabs() throws Exception;
 }
 

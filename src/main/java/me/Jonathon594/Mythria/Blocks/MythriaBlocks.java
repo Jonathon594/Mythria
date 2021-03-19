@@ -160,7 +160,7 @@ public class MythriaBlocks {
                 new BlockCharcoalKiln(Material.ROCK, "charcoal_kiln", 50, SoundType.STONE),
                 new BlockForge("forge"),
                 new BlockBookshelf("bookshelf", 50),
-                new CampfireBlock("campfire", 20),
+                new CampfireBlock("campfire"),
                 new TanningRackBlock("tanning_rack", 20),
                 new MythriaBarrelBlock("thatch_basket", 3)
         );

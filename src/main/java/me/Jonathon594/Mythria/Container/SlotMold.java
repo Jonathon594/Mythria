@@ -17,6 +17,11 @@ public class SlotMold extends Slot {
     }
 
     @Override
+    public int getSlotStackLimit() {
+        return 1;
+    }
+
+    @Override
     public boolean canTakeStack(PlayerEntity playerIn) {
         return true;
     }
@@ -24,10 +29,5 @@ public class SlotMold extends Slot {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public int getSlotStackLimit() {
-        return 1;
     }
 }

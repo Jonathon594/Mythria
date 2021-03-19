@@ -14,8 +14,6 @@ import java.util.List;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 @ObjectHolder(Mythria.MODID)
 public class SkinParts {
-    private static final ArrayList<SkinPart> skinParts = new ArrayList<>();
-
     public static final SkinPart CLOTHES_PRIMITIVE = null;
     public static final SkinPart SKAEREN_CLOTHES_PRIMITIVE = null;
     public static final SkinPart CLOTHES_NUDE = null;
@@ -39,6 +37,23 @@ public class SkinParts {
     public static final SkinPart FAE_WINGS_RED = null;
     public static final SkinPart FAE_WINGS_GREEN = null;
     public static final SkinPart DRYAD_VINES_OAK = null;
+    private static final ArrayList<SkinPart> skinParts = new ArrayList<>();
+
+    public static List<String> getSkinPartNamesFor(List<SkinPart> parts) {
+        List<String> names = new ArrayList<>();
+        for (SkinPart part : parts) {
+            names.add(part.getRegistryName().toString());
+        }
+        return names;
+    }
+
+    public static List<SkinPart> getSkinPartsFor(SkinPart.Type type) {
+        List<SkinPart> parts = new ArrayList<>();
+        MythriaRegistries.SKIN_PARTS.getValues().forEach((skinPart -> {
+            if (skinPart.getType().equals(type)) parts.add(skinPart);
+        }));
+        return parts;
+    }
 
     @SubscribeEvent
     public static void onRegisterSkinParts(RegistryEvent.Register<SkinPart> event) {
@@ -112,21 +127,5 @@ public class SkinParts {
 
                 new SkinPart("Vines", "dryad_vines_oak", SkinPart.Type.DRYAD_VINES)
         );
-    }
-
-    public static List<SkinPart> getSkinPartsFor(SkinPart.Type type) {
-        List<SkinPart> parts = new ArrayList<>();
-        MythriaRegistries.SKIN_PARTS.getValues().forEach((skinPart -> {
-            if (skinPart.getType().equals(type)) parts.add(skinPart);
-        }));
-        return parts;
-    }
-
-    public static List<String> getSkinPartNamesFor(List<SkinPart> parts) {
-        List<String> names = new ArrayList<>();
-        for (SkinPart part : parts) {
-            names.add(part.getRegistryName().toString());
-        }
-        return names;
     }
 }

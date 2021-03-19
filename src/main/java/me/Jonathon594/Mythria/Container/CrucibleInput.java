@@ -12,22 +12,22 @@ public class CrucibleInput extends SlotItemHandler {
     }
 
     @Override
-    public boolean isItemValid(ItemStack stack) {
-        return stack.getItem() instanceof OreItem;
-    }
-
-    @Override
-    public boolean canTakeStack(PlayerEntity playerIn) {
-        return true;
-    }
-
-    @Override
     public boolean isEnabled() {
         return true;
     }
 
     @Override
+    public boolean isItemValid(ItemStack stack) {
+        return stack.getItem() instanceof OreItem;
+    }
+
+    @Override
     public int getSlotStackLimit() {
         return 1;
+    }
+
+    @Override
+    public boolean canTakeStack(PlayerEntity playerIn) {
+        return true;
     }
 }

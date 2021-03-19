@@ -2,10 +2,10 @@ package me.Jonathon594.Mythria.Listener;
 
 import me.Jonathon594.Mythria.Ability.Ability;
 import me.Jonathon594.Mythria.DataTypes.Perk;
-import me.Jonathon594.Mythria.Skin.SkinPart;
-import me.Jonathon594.Mythria.SpawnGifts.SpawnGift;
 import me.Jonathon594.Mythria.Genetic.GeneticType;
 import me.Jonathon594.Mythria.Genetic.Serializers.GeneSerializer;
+import me.Jonathon594.Mythria.Skin.SkinPart;
+import me.Jonathon594.Mythria.SpawnGifts.SpawnGift;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

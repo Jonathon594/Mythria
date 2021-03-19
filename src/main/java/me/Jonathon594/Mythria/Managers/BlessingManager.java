@@ -30,45 +30,6 @@ import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 public class BlessingManager {
-    public static void onLivingHurt(PlayerEntity player, Profile profile, LivingAttackEvent event) {
-        DamageSource ds = event.getSource();
-
-        if (ds.equals(DamageSource.DROWN)) {
-            if (player.isInWater()) {
-                if (BlessingManager.hasBlessing(profile, BlessingType.MELINIAS_WATER_BREATHING, player)) {
-                    event.setCanceled(true);
-                }
-            } else if (BlessingManager.hasBlessing(profile, BlessingType.ELIANA_BREATHING, player)) {
-                event.setCanceled(true);
-            }
-        }
-        if (ds.equals(DamageSource.WITHER)) {
-            if (BlessingManager.hasBlessing(profile, BlessingType.FELIXIA_NO_WITHER, player)) {
-                event.setCanceled(true);
-            }
-        }
-        if (ds.equals(DamageSource.FALL)) {
-            if (BlessingManager.hasBlessing(profile, BlessingType.ELIANA_NO_FALL, player)) {
-                event.setCanceled(true);
-            }
-        }
-        if (ds.equals(DamageSource.LIGHTNING_BOLT)) {
-            if (BlessingManager.hasBlessing(profile, BlessingType.RAIKA_SMITE, player)) {
-                event.setCanceled(true);
-            }
-        }
-        if (ds.equals(DamageSource.LAVA) || ds.equals(DamageSource.IN_FIRE) || ds.equals(DamageSource.ON_FIRE) || ds.equals(DamageSource.HOT_FLOOR)) {
-            if (BlessingManager.hasBlessing(profile, BlessingType.KASAI_NO_FIRE, player)) {
-                event.setCanceled(true);
-            }
-        }
-        if (ds.damageType.contains("explosion")) {
-            if (BlessingManager.hasBlessing(profile, BlessingType.ASANA_NO_EXLODE, player)) {
-                event.setCanceled(true);
-            }
-        }
-    }
-
     public static boolean hasBlessing(Profile profile, BlessingType blessingType, PlayerEntity player) {
         if (profile == null) return false;
         if (!blessingType.equals(BlessingType.MAL_NULLIFY)) {
@@ -159,6 +120,76 @@ public class BlessingManager {
         return false;
     }
 
+    public static void onEntityTarget(LivingSetAttackTargetEvent event) {
+        LivingEntity e = event.getEntityLiving();
+        LivingEntity t = event.getTarget();
+
+        if (t instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) t;
+            Profile profile = ProfileProvider.getProfile(player);
+
+            //todo blessings
+        }
+    }
+
+    public static void onJumpServer(PlayerEntity player) {
+        if (player == null) return;
+        Profile profile = ProfileProvider.getProfile(player);
+        if (profile == null) return;
+        if (BlessingManager.hasBlessing(profile, BlessingType.ELIANA_FLIGHT, player)) {
+            if (player.isSneaking()) {
+                player.addVelocity(player.getLookVec().x, 1, player.getLookVec().z);
+                player.velocityChanged = true;
+            }
+        }
+    }
+
+    public static void onLivingHurt(PlayerEntity player, Profile profile, LivingAttackEvent event) {
+        DamageSource ds = event.getSource();
+
+        if (ds.equals(DamageSource.DROWN)) {
+            if (player.isInWater()) {
+                if (BlessingManager.hasBlessing(profile, BlessingType.MELINIAS_WATER_BREATHING, player)) {
+                    event.setCanceled(true);
+                }
+            } else if (BlessingManager.hasBlessing(profile, BlessingType.ELIANA_BREATHING, player)) {
+                event.setCanceled(true);
+            }
+        }
+        if (ds.equals(DamageSource.WITHER)) {
+            if (BlessingManager.hasBlessing(profile, BlessingType.FELIXIA_NO_WITHER, player)) {
+                event.setCanceled(true);
+            }
+        }
+        if (ds.equals(DamageSource.FALL)) {
+            if (BlessingManager.hasBlessing(profile, BlessingType.ELIANA_NO_FALL, player)) {
+                event.setCanceled(true);
+            }
+        }
+        if (ds.equals(DamageSource.LIGHTNING_BOLT)) {
+            if (BlessingManager.hasBlessing(profile, BlessingType.RAIKA_SMITE, player)) {
+                event.setCanceled(true);
+            }
+        }
+        if (ds.equals(DamageSource.LAVA) || ds.equals(DamageSource.IN_FIRE) || ds.equals(DamageSource.ON_FIRE) || ds.equals(DamageSource.HOT_FLOOR)) {
+            if (BlessingManager.hasBlessing(profile, BlessingType.KASAI_NO_FIRE, player)) {
+                event.setCanceled(true);
+            }
+        }
+        if (ds.damageType.contains("explosion")) {
+            if (BlessingManager.hasBlessing(profile, BlessingType.ASANA_NO_EXLODE, player)) {
+                event.setCanceled(true);
+            }
+        }
+    }
+
+    public static void onPlayerAttackEntity(Profile profile, LivingHurtEvent event, PlayerEntity player) {
+        LivingEntity target = event.getEntityLiving();
+        if (BlessingManager.hasBlessing(profile, BlessingType.RAIKA_SMITE, player)) {
+            spawnLightningBolt(target.getPositionVec(), target.world);
+        }
+    }
+
     public static void onPlayerTick(TickEvent.PlayerTickEvent event, Profile profile) {
         PlayerEntity player = event.player;
         if (!player.isAlive()) return;
@@ -231,30 +262,32 @@ public class BlessingManager {
         }
     }
 
-    private static void spawnLightningBolt(Vector3d vector3d, World world) {
-        LightningBoltEntity lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(world);
-        lightningBoltEntity.moveForced(vector3d);
-        world.addEntity(lightningBoltEntity);
-    }
-
-    private static void handleWaterJet(PlayerEntity player, Profile profile) {
-        if (BlessingManager.hasBlessing(profile, BlessingType.MELINIAS_WATER_JET, player)) {
-            if (player.isInWater() && player.isSprinting()) {
-                Vector3d vec = player.getLookVec().scale(0.2);
-                player.addVelocity(vec.x, vec.y, vec.z);
-                player.velocityChanged = true;
+    public static void onPunchBlock(PlayerInteractEvent.LeftClickBlock event) {
+        PlayerEntity player = event.getPlayer();
+        if (!player.isSneaking()) return;
+        if (CooldownManager.hasCooldown("earth_crumple", player)) return;
+        Profile profile = ProfileProvider.getProfile(player);
+        if (BlessingManager.hasBlessing(profile, BlessingType.ASANA_EARTH_CRUMPLE, player)) {
+            BlockPos pos = event.getPos();
+            BlockState state = player.world.getBlockState(pos);
+            if (state.getMaterial().equals(Material.ROCK) || state.getBlock().equals(Blocks.GRASS_BLOCK) || state.getBlock().equals(Blocks.GRASS_PATH) ||
+                    state.getMaterial().equals(Material.SAND)) {
+                player.world.destroyBlock(pos, true);
+                CooldownManager.addCooldown(player, "earth_crumple", 1000);
             }
         }
     }
 
-    private static void handleLavaJet(PlayerEntity player, Profile profile) {
-        if (BlessingManager.hasBlessing(profile, BlessingType.KASAI_LAVA_JET, player)) {
-            if (player.isInLava() && player.isSprinting()) {
-                Vector3d vec = player.getLookVec().scale(0.2);
-                player.addVelocity(vec.x, vec.y, vec.z);
-                player.velocityChanged = true;
-            }
-        }
+    private static ItemStack getElianaElytra() {
+        ItemStack elytra = new ItemStack(Items.ELYTRA, 1);
+        CompoundNBT tag = new CompoundNBT();
+        tag.putInt("Unbreakable", 1);
+        elytra.setTag(tag);
+        elytra.addEnchantment(Enchantments.PROTECTION, 2);
+        elytra.addEnchantment(Enchantments.BINDING_CURSE, 1);
+        elytra.addEnchantment(Enchantments.VANISHING_CURSE, 1);
+        elytra.setDisplayName(new StringTextComponent(TextFormatting.GRAY + "Blessed Wings"));
+        return elytra.copy();
     }
 
     private static void handleElytra(PlayerEntity player, Profile profile) {
@@ -286,66 +319,33 @@ public class BlessingManager {
         }
     }
 
-    private static ItemStack getElianaElytra() {
-        ItemStack elytra = new ItemStack(Items.ELYTRA, 1);
-        CompoundNBT tag = new CompoundNBT();
-        tag.putInt("Unbreakable", 1);
-        elytra.setTag(tag);
-        elytra.addEnchantment(Enchantments.PROTECTION, 2);
-        elytra.addEnchantment(Enchantments.BINDING_CURSE, 1);
-        elytra.addEnchantment(Enchantments.VANISHING_CURSE, 1);
-        elytra.setDisplayName(new StringTextComponent(TextFormatting.GRAY + "Blessed Wings"));
-        return elytra.copy();
+    private static void handleLavaJet(PlayerEntity player, Profile profile) {
+        if (BlessingManager.hasBlessing(profile, BlessingType.KASAI_LAVA_JET, player)) {
+            if (player.isInLava() && player.isSprinting()) {
+                Vector3d vec = player.getLookVec().scale(0.2);
+                player.addVelocity(vec.x, vec.y, vec.z);
+                player.velocityChanged = true;
+            }
+        }
+    }
+
+    private static void handleWaterJet(PlayerEntity player, Profile profile) {
+        if (BlessingManager.hasBlessing(profile, BlessingType.MELINIAS_WATER_JET, player)) {
+            if (player.isInWater() && player.isSprinting()) {
+                Vector3d vec = player.getLookVec().scale(0.2);
+                player.addVelocity(vec.x, vec.y, vec.z);
+                player.velocityChanged = true;
+            }
+        }
     }
 
     private static boolean isStone(BlockState blockState) {
         return blockState.getMaterial().equals(Material.ROCK);
     }
 
-    public static void onEntityTarget(LivingSetAttackTargetEvent event) {
-        LivingEntity e = event.getEntityLiving();
-        LivingEntity t = event.getTarget();
-
-        if (t instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) t;
-            Profile profile = ProfileProvider.getProfile(player);
-
-            //todo blessings
-        }
-    }
-
-    public static void onPlayerAttackEntity(Profile profile, LivingHurtEvent event, PlayerEntity player) {
-        LivingEntity target = event.getEntityLiving();
-        if (BlessingManager.hasBlessing(profile, BlessingType.RAIKA_SMITE, player)) {
-            spawnLightningBolt(target.getPositionVec(), target.world);
-        }
-    }
-
-    public static void onPunchBlock(PlayerInteractEvent.LeftClickBlock event) {
-        PlayerEntity player = event.getPlayer();
-        if (!player.isSneaking()) return;
-        if (CooldownManager.hasCooldown("earth_crumple", player)) return;
-        Profile profile = ProfileProvider.getProfile(player);
-        if (BlessingManager.hasBlessing(profile, BlessingType.ASANA_EARTH_CRUMPLE, player)) {
-            BlockPos pos = event.getPos();
-            BlockState state = player.world.getBlockState(pos);
-            if (state.getMaterial().equals(Material.ROCK) || state.getBlock().equals(Blocks.GRASS_BLOCK) || state.getBlock().equals(Blocks.GRASS_PATH) ||
-                    state.getMaterial().equals(Material.SAND)) {
-                player.world.destroyBlock(pos, true);
-                CooldownManager.addCooldown(player, "earth_crumple", 1000);
-            }
-        }
-    }
-
-    public static void onJumpServer(PlayerEntity player) {
-        if (player == null) return;
-        Profile profile = ProfileProvider.getProfile(player);
-        if (profile == null) return;
-        if (BlessingManager.hasBlessing(profile, BlessingType.ELIANA_FLIGHT, player)) {
-            if (player.isSneaking()) {
-                player.addVelocity(player.getLookVec().x, 1, player.getLookVec().z);
-                player.velocityChanged = true;
-            }
-        }
+    private static void spawnLightningBolt(Vector3d vector3d, World world) {
+        LightningBoltEntity lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(world);
+        lightningBoltEntity.moveForced(vector3d);
+        world.addEntity(lightningBoltEntity);
     }
 }

@@ -61,43 +61,35 @@ public class Genetic {
         skin = new SkinPartGene(SkinParts.HUMAN_SKIN_WHITE, Gene.GeneType.SKIN);
     }
 
-    public Genetic withExtraGene(Gene gene) {
-        if (!gene.getType().canStack())
-            extraGenes.removeIf((g) -> !g.getType().canStack() && g.getType().equals(gene.getType()));
-        this.extraGenes.add(gene);
-        return this;
-    }
+    public void fromNBT(CompoundNBT compound) {
+        type = MythriaRegistries.GENETICS.getValue(new ResourceLocation(compound.getString("Type")));
+        healthGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Health"));
+        staminaGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Stamina"));
+        speedGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Speed"));
+        weightGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Weight"));
+        intelligenceGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Intelligence"));
+        manaGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Mana"));
+        manaRegenGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("ManaRegen"));
+        temperature = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Temperature"));
+        genderBias = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("GenderBias"));
+        lifespanGene = GeneSerializers.INT_STAT.deserialize(compound.getCompound("Lifespan"));
+        nutrition = GeneSerializers.NUTRITION.deserialize(compound.getCompound("Nutrition"));
 
-    public List<Gene> getExtraGenes() {
-        return extraGenes;
-    }
+        hair = GeneSerializers.SKIN_PART.deserialize(compound.getCompound("Hair"));
+        eyes = GeneSerializers.SKIN_PART.deserialize(compound.getCompound("Eyes"));
+        skin = GeneSerializers.SKIN_PART.deserialize(compound.getCompound("Skin"));
 
-    public double getGenderBias() {
-        return genderBias.getValue();
-    }
-
-    public int getLifeExpectancy() {
-        return lifespanGene.getValue();
-    }
-
-    public double getBaseStamina() {
-        return staminaGene.getValue();
-    }
-
-    public double getBaseSpeed() {
-        return speedGene.getValue();
-    }
-
-    public double getBaseWeight() {
-        return weightGene.getValue();
+        ListNBT list = compound.getList("ExtraGenes", 10);
+        for (INBT inbt : list) {
+            CompoundNBT compoundNBT = (CompoundNBT) inbt;
+            GeneSerializer serializer = MythriaRegistries.GENE_SERIALIZERS
+                    .getValue(new ResourceLocation(compoundNBT.getString("Serializer")));
+            extraGenes.add(serializer.deserialize(compoundNBT));
+        }
     }
 
     public double getBaseHealth() {
         return healthGene.getValue();
-    }
-
-    public double getBaseXP() {
-        return intelligenceGene.getValue();
     }
 
     public double getBaseMana() {
@@ -108,8 +100,52 @@ public class Genetic {
         return manaRegenGene.getValue();
     }
 
-    public double getIdealTemperature() {
-        return temperature.getValue();
+    public double getBaseSpeed() {
+        return speedGene.getValue();
+    }
+
+    public double getBaseStamina() {
+        return staminaGene.getValue();
+    }
+
+    public double getBaseWeight() {
+        return weightGene.getValue();
+    }
+
+    public double getBaseXP() {
+        return intelligenceGene.getValue();
+    }
+
+    public List<EntityType> getEntityRelationships(EntityAttitudeGene.Attitude attitude) {
+        List<EntityType> relations = new ArrayList<>();
+        getExtraGenes().forEach(gene -> {
+            if (gene instanceof EntityAttitudeGene) {
+                EntityAttitudeGene entityAttitudeGene = (EntityAttitudeGene) gene;
+                if (entityAttitudeGene.getAttitude().equals(attitude)) {
+                    entityAttitudeGene.getEntityTypes().forEach(entityType -> {
+                        relations.add(entityType);
+                    });
+                }
+            }
+        });
+        return relations;
+    }
+
+    public List<Gene> getExtraGenes() {
+        return extraGenes;
+    }
+
+    public SkinPartGene getEyes() {
+        return eyes;
+    }
+
+    public Genetic setEyes(SkinPartGene eyes) {
+        this.eyes = eyes;
+        return this;
+    }
+
+    public double getGenderBias() {
+        return genderBias.getValue();
     }
 
     public Genetic setGenderBias(double value) {
@@ -128,29 +164,33 @@ public class Genetic {
         return abilities;
     }
 
-    public boolean isImmune(DamageSource damageSource) {
-        for (Gene gene : getExtraGenes()) {
-            if (!(gene instanceof ImmunityGene)) continue;
-            for (String immunity : ((ImmunityGene) gene).getDamageSources()) {
-                if (immunity.equals(damageSource.damageType)) return true;
-            }
-        }
-        return false;
+    public SkinPartGene getHair() {
+        return hair;
     }
 
-    public List<EntityType> getEntityRelationships(EntityAttitudeGene.Attitude attitude) {
-        List<EntityType> relations = new ArrayList<>();
-        getExtraGenes().forEach(gene -> {
-            if (gene instanceof EntityAttitudeGene) {
-                EntityAttitudeGene entityAttitudeGene = (EntityAttitudeGene) gene;
-                if (entityAttitudeGene.getAttitude().equals(attitude)) {
-                    entityAttitudeGene.getEntityTypes().forEach(entityType -> {
-                        relations.add(entityType);
-                    });
-                }
-            }
-        });
-        return relations;
+    public void setHair(SkinPartGene hair) {
+        this.hair = hair;
+    }
+
+    public double getIdealTemperature() {
+        return temperature.getValue();
+    }
+
+    public int getLifeExpectancy() {
+        return lifespanGene.getValue();
+    }
+
+    public NutritionGene getNutrition() {
+        return nutrition;
+    }
+
+    public SkinPartGene getSkin() {
+        return skin;
+    }
+
+    public Genetic setSkin(SkinPartGene skin) {
+        this.skin = skin;
+        return this;
     }
 
     public List<SpecialAbility> getSpecialAbilities() {
@@ -164,6 +204,20 @@ public class Genetic {
             }
         }));
         return abilities;
+    }
+
+    public GeneticType getType() {
+        return type;
+    }
+
+    public boolean isImmune(DamageSource damageSource) {
+        for (Gene gene : getExtraGenes()) {
+            if (!(gene instanceof ImmunityGene)) continue;
+            for (String immunity : ((ImmunityGene) gene).getDamageSources()) {
+                if (immunity.equals(damageSource.damageType)) return true;
+            }
+        }
+        return false;
     }
 
     public boolean isSlotLocked(EquipmentSlotType slotType) {
@@ -201,64 +255,10 @@ public class Genetic {
         return compoundNBT;
     }
 
-    public void fromNBT(CompoundNBT compound) {
-        type = MythriaRegistries.GENETICS.getValue(new ResourceLocation(compound.getString("Type")));
-        healthGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Health"));
-        staminaGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Stamina"));
-        speedGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Speed"));
-        weightGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Weight"));
-        intelligenceGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Intelligence"));
-        manaGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Mana"));
-        manaRegenGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("ManaRegen"));
-        temperature = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Temperature"));
-        genderBias = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("GenderBias"));
-        lifespanGene = GeneSerializers.INT_STAT.deserialize(compound.getCompound("Lifespan"));
-        nutrition = GeneSerializers.NUTRITION.deserialize(compound.getCompound("Nutrition"));
-
-        hair = GeneSerializers.SKIN_PART.deserialize(compound.getCompound("Hair"));
-        eyes = GeneSerializers.SKIN_PART.deserialize(compound.getCompound("Eyes"));
-        skin = GeneSerializers.SKIN_PART.deserialize(compound.getCompound("Skin"));
-
-        ListNBT list = compound.getList("ExtraGenes", 10);
-        for (INBT inbt : list) {
-            CompoundNBT compoundNBT = (CompoundNBT) inbt;
-            GeneSerializer serializer = MythriaRegistries.GENE_SERIALIZERS
-                    .getValue(new ResourceLocation(compoundNBT.getString("Serializer")));
-            extraGenes.add(serializer.deserialize(compoundNBT));
-        }
-    }
-
-    public void setHair(SkinPartGene hair) {
-        this.hair = hair;
-    }
-
-    public SkinPartGene getEyes() {
-        return eyes;
-    }
-
-    public Genetic setEyes(SkinPartGene eyes) {
-        this.eyes = eyes;
+    public Genetic withExtraGene(Gene gene) {
+        if (!gene.getType().canStack())
+            extraGenes.removeIf((g) -> !g.getType().canStack() && g.getType().equals(gene.getType()));
+        this.extraGenes.add(gene);
         return this;
-    }
-
-    public SkinPartGene getSkin() {
-        return skin;
-    }
-
-    public Genetic setSkin(SkinPartGene skin) {
-        this.skin = skin;
-        return this;
-    }
-
-    public SkinPartGene getHair() {
-        return hair;
-    }
-
-    public GeneticType getType() {
-        return type;
-    }
-
-    public NutritionGene getNutrition() {
-        return nutrition;
     }
 }

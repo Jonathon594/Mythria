@@ -21,6 +21,12 @@ public class ToolProvider implements ICapabilitySerializable<INBT> {
         instance.getInventory().setStackInSlot(0, new ItemStack(item.getDefaultHandle(), 1));
     }
 
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        return TOOL_CAP.orEmpty(cap, LazyOptional.of(() -> instance));
+    }
+
     public static Tool getTool(ItemStack itemStack) {
         return (Tool) itemStack.getCapability(TOOL_CAP, null).orElse(null);
     }
@@ -33,11 +39,5 @@ public class ToolProvider implements ICapabilitySerializable<INBT> {
     @Override
     public void deserializeNBT(INBT nbt) {
         TOOL_CAP.getStorage().readNBT(TOOL_CAP, instance, null, nbt);
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return TOOL_CAP.orEmpty(cap, LazyOptional.of(() -> instance));
     }
 }

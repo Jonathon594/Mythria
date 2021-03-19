@@ -29,25 +29,6 @@ public class OreVein {
         }
     }
 
-    public BlockPos getStartPosition() {
-        return startPosition;
-    }
-
-    public OreSpawnData getSpawnData() {
-        return spawnData;
-    }
-
-    public Random getRand() {
-        return rand;
-    }
-
-    public boolean isInRange(int x, int z) {
-        double dx = Math.pow(x - startPosition.getX(), 2);
-        double dz = Math.pow(z - startPosition.getZ(), 2);
-        double dr = Math.pow(spawnData.getHorizontalSize(), 2);
-        return dx + dz <= dr;
-    }
-
     public double getGenerationChance(BlockPos current) {
         double shortestDistance = -1;
 
@@ -64,6 +45,25 @@ public class OreVein {
         return 0.005 * spawnData.getDensity() * (1.0 - shortestDistance);
     }
 
+    public Random getRand() {
+        return rand;
+    }
+
+    public OreSpawnData getSpawnData() {
+        return spawnData;
+    }
+
+    public BlockPos getStartPosition() {
+        return startPosition;
+    }
+
+    public boolean isInRange(int x, int z) {
+        double dx = Math.pow(x - startPosition.getX(), 2);
+        double dz = Math.pow(z - startPosition.getZ(), 2);
+        double dr = Math.pow(spawnData.getHorizontalSize(), 2);
+        return dx + dz <= dr;
+    }
+
     private static class OreSpawnPoint {
         private final BlockPos pos;
         private final double size;
@@ -73,12 +73,12 @@ public class OreVein {
             this.size = size;
         }
 
-        public double getSize() {
-            return size;
-        }
-
         public BlockPos getPos() {
             return pos;
+        }
+
+        public double getSize() {
+            return size;
         }
     }
 }

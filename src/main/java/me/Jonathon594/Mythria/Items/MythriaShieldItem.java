@@ -25,13 +25,12 @@ public class MythriaShieldItem extends ShieldItem {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientUtil.registerShieldProperty(this));
     }
 
+    public String getMetalName() {
+        return tier.toString().toLowerCase();
+    }
+
     @Override
     public boolean isShield(ItemStack stack, @Nullable LivingEntity entity) {
         return true;
-    }
-
-
-    public String getMetalName() {
-        return tier.toString().toLowerCase();
     }
 }

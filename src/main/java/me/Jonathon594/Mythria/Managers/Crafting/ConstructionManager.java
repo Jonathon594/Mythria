@@ -14,8 +14,22 @@ public class ConstructionManager {
     private final static ArrayList<Block> reinforcedBlocks = new ArrayList<>();
     private static final ArrayList<RecentlyPlacedBlock> recentlyPlacedBlocks = new ArrayList<>();
 
-    public static boolean isReinforced(Block block) {
-        return reinforcedBlocks.contains(block);
+    public static void addRecentlyPlacedBlock(PlayerEntity p, Block block, BlockPos pos) {
+        RecentlyPlacedBlock current = getRecentlyPlacedBlock(pos, p.world.getDimensionKey());
+        if (current != null) recentlyPlacedBlocks.remove(current);
+
+        RecentlyPlacedBlock recentlyPlacedBlock = new RecentlyPlacedBlock(p, pos, p.world.getDimensionKey(), block);
+        recentlyPlacedBlocks.add(recentlyPlacedBlock);
+    }
+
+    public static boolean canBlockBeDemolishedBy(PlayerEntity player, BlockPos pos, RegistryKey<World> dimension, Block block) {
+        RecentlyPlacedBlock recentlyPlacedBlock = getRecentlyPlacedBlock(pos, dimension);
+        if (recentlyPlacedBlock == null) return false;
+        if (!recentlyPlacedBlock.getPlacer().equals(player)) return false;
+        if (!recentlyPlacedBlock.getBlock().equals(block)) return false;
+        if (System.currentTimeMillis() > recentlyPlacedBlock.getExpiration()) return false;
+        recentlyPlacedBlocks.remove(recentlyPlacedBlock);
+        return true;
     }
 
     public static void init() {
@@ -67,12 +81,13 @@ public class ConstructionManager {
         //reinforcedBlocks.addAll(MythriaUtil.getBlockCollectionFromTag(BlockTags.WOODEN_TRAPDOORS.getName()));
     }
 
-    public static void addRecentlyPlacedBlock(PlayerEntity p, Block block, BlockPos pos) {
-        RecentlyPlacedBlock current = getRecentlyPlacedBlock(pos, p.world.getDimensionKey());
-        if (current != null) recentlyPlacedBlocks.remove(current);
+    public static boolean isReinforced(Block block) {
+        return reinforcedBlocks.contains(block);
+    }
 
-        RecentlyPlacedBlock recentlyPlacedBlock = new RecentlyPlacedBlock(p, pos, p.world.getDimensionKey(), block);
-        recentlyPlacedBlocks.add(recentlyPlacedBlock);
+    public static void removeRecentlyPlaced(BlockPos pos, RegistryKey<World> dimension) {
+        RecentlyPlacedBlock recentlyPlacedBlock = getRecentlyPlacedBlock(pos, dimension);
+        if (recentlyPlacedBlock != null) recentlyPlacedBlocks.remove(recentlyPlacedBlock);
     }
 
     private static RecentlyPlacedBlock getRecentlyPlacedBlock(BlockPos pos, RegistryKey<World> dimension) {
@@ -82,21 +97,6 @@ public class ConstructionManager {
             return recentlyPlacedBlock;
         }
         return null;
-    }
-
-    public static void removeRecentlyPlaced(BlockPos pos, RegistryKey<World> dimension) {
-        RecentlyPlacedBlock recentlyPlacedBlock = getRecentlyPlacedBlock(pos, dimension);
-        if (recentlyPlacedBlock != null) recentlyPlacedBlocks.remove(recentlyPlacedBlock);
-    }
-
-    public static boolean canBlockBeDemolishedBy(PlayerEntity player, BlockPos pos, RegistryKey<World> dimension, Block block) {
-        RecentlyPlacedBlock recentlyPlacedBlock = getRecentlyPlacedBlock(pos, dimension);
-        if (recentlyPlacedBlock == null) return false;
-        if (!recentlyPlacedBlock.getPlacer().equals(player)) return false;
-        if (!recentlyPlacedBlock.getBlock().equals(block)) return false;
-        if (System.currentTimeMillis() > recentlyPlacedBlock.getExpiration()) return false;
-        recentlyPlacedBlocks.remove(recentlyPlacedBlock);
-        return true;
     }
 
     public static class RecentlyPlacedBlock {
@@ -114,12 +114,16 @@ public class ConstructionManager {
             expiration = System.currentTimeMillis() + 1000 * 60 * 5;
         }
 
-        public long getExpiration() {
-            return expiration;
+        public Block getBlock() {
+            return block;
         }
 
         public RegistryKey<World> getDimension() {
             return dimension;
+        }
+
+        public long getExpiration() {
+            return expiration;
         }
 
         public BlockPos getLocation() {
@@ -128,10 +132,6 @@ public class ConstructionManager {
 
         public PlayerEntity getPlacer() {
             return placer;
-        }
-
-        public Block getBlock() {
-            return block;
         }
     }
 }

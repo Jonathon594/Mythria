@@ -16,6 +16,12 @@ public class MoldProvider implements ICapabilitySerializable<INBT> {
     public static final Capability<IMold> MOLD_CAP = null;
     private final IMold instance = new Mold();
 
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        return MOLD_CAP.orEmpty(cap, LazyOptional.of(() -> instance));
+    }
+
     public static Mold getMold(ItemStack itemStack) {
         return (Mold) itemStack.getCapability(MOLD_CAP, null).orElse(null);
     }
@@ -28,11 +34,5 @@ public class MoldProvider implements ICapabilitySerializable<INBT> {
     @Override
     public void deserializeNBT(INBT nbt) {
         MOLD_CAP.getStorage().readNBT(MOLD_CAP, instance, null, nbt);
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return MOLD_CAP.orEmpty(cap, LazyOptional.of(() -> instance));
     }
 }

@@ -39,18 +39,23 @@ public class HeatableItem extends MythriaItem implements IHeatableItem, ITickabl
         return lines;
     }
 
+    @Nullable
     @Override
-    public void tick(PlayerEntity player, ItemStack is) {
-        if (is.getItem() instanceof IHeatableItem) {
-            me.Jonathon594.Mythria.Capability.HeatableItem.HeatableItem heatableItem = HeatableProvider.getHeatable(is);
-            if (heatableItem == null) return;
-            float ambient = player.world.getBiome(player.getPosition()).getTemperature(player.getPosition());
-            heatableItem.update(MythriaUtil.celciusFromBiomeTemperature(ambient), is);
-        }
+    public CompoundNBT getShareTag(ItemStack stack) {
+        CompoundNBT tag = stack.getOrCreateTag();
+        tag.put(Mythria.MODID + ".heatable_sync", HeatableProvider.getHeatable(stack).toNBT());
+        return tag;
     }
 
-    public boolean shouldBreakWhenRapidlyCooled() {
-        return false;
+    @Override
+    public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
+        if (nbt != null) return;
+        String key = Mythria.MODID + ".heatable_sync";
+        if (nbt.contains(key)) {
+            HeatableProvider.getHeatable(stack).fromNBT(nbt.getCompound(key));
+            nbt.remove(key);
+        }
+        stack.setTag(nbt);
     }
 
     @Override
@@ -70,22 +75,17 @@ public class HeatableItem extends MythriaItem implements IHeatableItem, ITickabl
         return false;
     }
 
-    @Nullable
-    @Override
-    public CompoundNBT getShareTag(ItemStack stack) {
-        CompoundNBT tag = stack.getOrCreateTag();
-        tag.put(Mythria.MODID + ".heatable_sync", HeatableProvider.getHeatable(stack).toNBT());
-        return tag;
+    public boolean shouldBreakWhenRapidlyCooled() {
+        return false;
     }
 
     @Override
-    public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
-        if (nbt != null) return;
-        String key = Mythria.MODID + ".heatable_sync";
-        if (nbt.contains(key)) {
-            HeatableProvider.getHeatable(stack).fromNBT(nbt.getCompound(key));
-            nbt.remove(key);
+    public void tick(PlayerEntity player, ItemStack is) {
+        if (is.getItem() instanceof IHeatableItem) {
+            me.Jonathon594.Mythria.Capability.HeatableItem.HeatableItem heatableItem = HeatableProvider.getHeatable(is);
+            if (heatableItem == null) return;
+            float ambient = player.world.getBiome(player.getPosition()).getTemperature(player.getPosition());
+            heatableItem.update(MythriaUtil.celciusFromBiomeTemperature(ambient), is);
         }
-        stack.setTag(nbt);
     }
 }

@@ -12,10 +12,6 @@ public class DoubleStatGene extends Gene {
         this.value = value;
     }
 
-    public double getValue() {
-        return value;
-    }
-
     @Override
     public GeneSerializer<DoubleStatGene> getSerializer() {
         return GeneSerializers.DOUBLE_STAT;
@@ -24,5 +20,9 @@ public class DoubleStatGene extends Gene {
     @Override
     public CompoundNBT toNBT(boolean writeSerializer) {
         return getSerializer().serialize(this, writeSerializer);
+    }
+
+    public double getValue() {
+        return value;
     }
 }

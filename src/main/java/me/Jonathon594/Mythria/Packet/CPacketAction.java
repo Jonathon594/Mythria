@@ -21,6 +21,9 @@ public class CPacketAction {
         action = Action.values()[packetBuffer.readByte()];
     }
 
+    public void encode(PacketBuffer packetBuffer) {
+        packetBuffer.writeByte(action.ordinal());
+    }
 
     public static void handle(CPacketAction msg, Supplier<NetworkEvent.Context> contextSupplier) {
         contextSupplier.get().enqueueWork(() -> {
@@ -34,10 +37,6 @@ public class CPacketAction {
             }
         });
         contextSupplier.get().setPacketHandled(true);
-    }
-
-    public void encode(PacketBuffer packetBuffer) {
-        packetBuffer.writeByte(action.ordinal());
     }
 
     public enum Action {

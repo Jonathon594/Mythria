@@ -20,6 +20,21 @@ public class HeatableItem implements IHeatable {
     }
 
     @Override
+    public long getLastUpdate() {
+        return lastUpdate;
+    }
+
+    @Override
+    public double getTemperature() {
+        return temperature;
+    }
+
+    @Override
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+
+    @Override
     public CompoundNBT toNBT() {
         final CompoundNBT comp = new CompoundNBT();
         comp.putDouble("Temperature", temperature);
@@ -44,21 +59,6 @@ public class HeatableItem implements IHeatable {
     @Override
     public void updateTime() {
         lastUpdate = System.currentTimeMillis();
-    }
-
-    @Override
-    public double getTemperature() {
-        return temperature;
-    }
-
-    @Override
-    public void setTemperature(double temperature) {
-        this.temperature = temperature;
-    }
-
-    @Override
-    public long getLastUpdate() {
-        return lastUpdate;
     }
 }
 

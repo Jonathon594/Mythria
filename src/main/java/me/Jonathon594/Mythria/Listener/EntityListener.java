@@ -3,15 +3,12 @@ package me.Jonathon594.Mythria.Listener;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
-import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Entity.AI.AvoidGeneticGoal;
 import me.Jonathon594.Mythria.Entity.NPCEntity;
-import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Enum.Gender;
-import me.Jonathon594.Mythria.Enum.StatType;
 import me.Jonathon594.Mythria.Managers.*;
+import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Skin.SkinParts;
-import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -28,18 +25,6 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class EntityListener {
     @SubscribeEvent
-    public static void onJump(final LivingEvent.LivingJumpEvent event) {
-        if (!event.getEntity().world.isRemote) {
-            if (event.getEntity() instanceof PlayerEntity) {
-                final PlayerEntity player = (PlayerEntity) event.getEntity();
-                BlessingManager.onJumpServer(player);
-                final Profile p = ProfileProvider.getProfile(player);
-                StatManager.onJump(player, p);
-            }
-        }
-    }
-
-    @SubscribeEvent
     public static void onEntityConstructing(EntityEvent.EntityConstructing event) {
         Entity entity = event.getEntity();
         if (entity instanceof PlayerEntity || entity instanceof NPCEntity) {
@@ -53,6 +38,34 @@ public class EntityListener {
             player.getDataManager().register(MythriaPlayer.VINES, null);
             player.getDataManager().register(MythriaPlayer.SCALES, null);
             player.getDataManager().register(MythriaPlayer.GENDER, Gender.MALE);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityConsumeItemFinish(LivingEntityUseItemEvent.Finish event) {
+        if (event.getEntity() instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) event.getEntity();
+            Profile profile = ProfileProvider.getProfile(player);
+            profile.getHealthData().onConsumeItem(event, player, profile);
+            NutritionManager.onConsume(event, player, profile);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
+        Entity entity = event.getEntity();
+        if (entity instanceof CreatureEntity) {
+            CreatureEntity creatureEntity = (CreatureEntity) entity;
+            creatureEntity.goalSelector.addGoal(-1, new AvoidGeneticGoal(creatureEntity));
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityPickupItem(final EntityItemPickupEvent event) {
+        if (event.getPlayer() != null) {
+            LimitedInventoryManager.onPlayerPickupItem(event);
+            FoodManager.onPlayerPickupItem(event);
+            //PickupManager.onPlayerPickupItem(event);
         }
     }
 
@@ -73,20 +86,14 @@ public class EntityListener {
     }
 
     @SubscribeEvent
-    public static void onLivingHurt(final LivingHurtEvent event) {
-        //Todo AbilityManager.handleCombatSkills(event);
-        if (event.getEntity().getEntityWorld().isRemote)
-            return;
-
-        final Entity trueSource = event.getSource().getTrueSource();
-        if (trueSource instanceof PlayerEntity && event.getSource().damageType.equalsIgnoreCase("player") ||
-                event.getSource().damageType.equalsIgnoreCase("playeroffhand")) {
-            final PlayerEntity source = (PlayerEntity) trueSource;
-            final Profile sourceProfile = ProfileProvider.getProfile(source);
-            //Todo AbilityManager.onLivingHurt(sourceProfile, event, source);
-            BlessingManager.onPlayerAttackEntity(sourceProfile, event, source);
-
-            event.getEntityLiving().hurtResistantTime = 0;
+    public static void onJump(final LivingEvent.LivingJumpEvent event) {
+        if (!event.getEntity().world.isRemote) {
+            if (event.getEntity() instanceof PlayerEntity) {
+                final PlayerEntity player = (PlayerEntity) event.getEntity();
+                BlessingManager.onJumpServer(player);
+                final Profile p = ProfileProvider.getProfile(player);
+                StatManager.onJump(player, p);
+            }
         }
     }
 
@@ -122,30 +129,20 @@ public class EntityListener {
     }
 
     @SubscribeEvent
-    public static void onEntityConsumeItemFinish(LivingEntityUseItemEvent.Finish event) {
-        if (event.getEntity() instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) event.getEntity();
-            Profile profile = ProfileProvider.getProfile(player);
-            profile.getHealthData().onConsumeItem(event, player, profile);
-            NutritionManager.onConsume(event, player, profile);
-        }
-    }
+    public static void onLivingHurt(final LivingHurtEvent event) {
+        //Todo AbilityManager.handleCombatSkills(event);
+        if (event.getEntity().getEntityWorld().isRemote)
+            return;
 
-    @SubscribeEvent
-    public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
-        Entity entity = event.getEntity();
-        if (entity instanceof CreatureEntity) {
-            CreatureEntity creatureEntity = (CreatureEntity) entity;
-            creatureEntity.goalSelector.addGoal(-1, new AvoidGeneticGoal(creatureEntity));
-        }
-    }
+        final Entity trueSource = event.getSource().getTrueSource();
+        if (trueSource instanceof PlayerEntity && event.getSource().damageType.equalsIgnoreCase("player") ||
+                event.getSource().damageType.equalsIgnoreCase("playeroffhand")) {
+            final PlayerEntity source = (PlayerEntity) trueSource;
+            final Profile sourceProfile = ProfileProvider.getProfile(source);
+            //Todo AbilityManager.onLivingHurt(sourceProfile, event, source);
+            BlessingManager.onPlayerAttackEntity(sourceProfile, event, source);
 
-    @SubscribeEvent
-    public static void onEntityPickupItem(final EntityItemPickupEvent event) {
-        if (event.getPlayer() != null) {
-            LimitedInventoryManager.onPlayerPickupItem(event);
-            FoodManager.onPlayerPickupItem(event);
-            //PickupManager.onPlayerPickupItem(event);
+            event.getEntityLiving().hurtResistantTime = 0;
         }
     }
 

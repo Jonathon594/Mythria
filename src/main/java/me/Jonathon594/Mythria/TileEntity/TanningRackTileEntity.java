@@ -29,33 +29,31 @@ public class TanningRackTileEntity extends TileEntity implements IClearable, ITi
         super(MythriaTileEntities.TANNING_RACK.get());
     }
 
-    public void tick() {
-        boolean flag1 = this.world.isRemote;
-        if (flag1) {
-        } else {
-            this.tan();
-        }
-    }
-
-    /**
-     * Individually tracks the cooking of each item, then spawns the finished product in-world and clears the
-     * corresponding held item.
-     */
-    private void tan() {
-        if (world.isNightTime()) return;
-        if (!world.canBlockSeeSky(pos)) {
-            dropAllItems();
-            return;
-        }
+    public boolean addItem(ItemStack itemStackIn, int tanningTime) {
         ItemStack itemstack = this.inventory.get(0);
-        if (!itemstack.isEmpty()) {
-            ++this.tanningTime;
-            if (this.tanningTime >= this.tanningTotalTime) {
-                ItemStack itemstack1 = new ItemStack(Items.LEATHER, 1);
-                this.inventory.set(0, itemstack1);
+        if (itemStackIn.getItem().equals(MythriaItems.ANIMAL_HIDE)) {
+            if (itemstack.isEmpty()) {
+                this.tanningTotalTime = tanningTime;
+                this.tanningTime = 0;
+                this.inventory.set(0, itemStackIn.split(1));
+                playSound();
                 this.inventoryChanged();
+                return true;
             }
         }
+        return false;
+    }
+
+    public void clear() {
+        this.inventory.clear();
+    }
+
+    public void dropAllItems() {
+        if (!this.getWorld().isRemote) {
+            InventoryHelper.dropItems(this.getWorld(), this.getPos().add(0.5D, 0.5D, 0.5D), this.getInventory());
+        }
+
+        this.inventoryChanged();
     }
 
     /**
@@ -63,6 +61,11 @@ public class TanningRackTileEntity extends TileEntity implements IClearable, ITi
      */
     public NonNullList<ItemStack> getInventory() {
         return this.inventory;
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+        read(world.getBlockState(pos), pkt.getNbtCompound());
     }
 
     @Override
@@ -86,12 +89,6 @@ public class TanningRackTileEntity extends TileEntity implements IClearable, ITi
         return compound;
     }
 
-    private CompoundNBT writeItems(CompoundNBT compound) {
-        super.write(compound);
-        ItemStackHelper.saveAllItems(compound, this.inventory, true);
-        return compound;
-    }
-
     /**
      * Retrieves packet to send to the client whenever this Tile Entity is resynced via World.notifyBlockUpdate. For
      * modded TE's, this packet comes back to you clientside in {@link #onDataPacket}
@@ -103,26 +100,6 @@ public class TanningRackTileEntity extends TileEntity implements IClearable, ITi
 
     public CompoundNBT getUpdateTag() {
         return this.writeItems(new CompoundNBT());
-    }
-
-    public boolean addItem(ItemStack itemStackIn, int tanningTime) {
-        ItemStack itemstack = this.inventory.get(0);
-        if (itemStackIn.getItem().equals(MythriaItems.ANIMAL_HIDE)) {
-            if (itemstack.isEmpty()) {
-                this.tanningTotalTime = tanningTime;
-                this.tanningTime = 0;
-                this.inventory.set(0, itemStackIn.split(1));
-                playSound();
-                this.inventoryChanged();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        read(world.getBlockState(pos), pkt.getNbtCompound());
     }
 
     public boolean takeItem(PlayerEntity player) {
@@ -140,8 +117,12 @@ public class TanningRackTileEntity extends TileEntity implements IClearable, ITi
         return false;
     }
 
-    private void playSound() {
-        world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, SoundCategory.BLOCKS, 1.0F, 1.0F);
+    public void tick() {
+        boolean flag1 = this.world.isRemote;
+        if (flag1) {
+        } else {
+            this.tan();
+        }
     }
 
     private void inventoryChanged() {
@@ -149,15 +130,34 @@ public class TanningRackTileEntity extends TileEntity implements IClearable, ITi
         this.getWorld().notifyBlockUpdate(this.getPos(), this.getBlockState(), this.getBlockState(), 3);
     }
 
-    public void clear() {
-        this.inventory.clear();
+    private void playSound() {
+        world.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, SoundCategory.BLOCKS, 1.0F, 1.0F);
     }
 
-    public void dropAllItems() {
-        if (!this.getWorld().isRemote) {
-            InventoryHelper.dropItems(this.getWorld(), this.getPos().add(0.5D, 0.5D, 0.5D), this.getInventory());
+    /**
+     * Individually tracks the cooking of each item, then spawns the finished product in-world and clears the
+     * corresponding held item.
+     */
+    private void tan() {
+        if (world.isNightTime()) return;
+        if (!world.canBlockSeeSky(pos)) {
+            dropAllItems();
+            return;
         }
+        ItemStack itemstack = this.inventory.get(0);
+        if (!itemstack.isEmpty()) {
+            ++this.tanningTime;
+            if (this.tanningTime >= this.tanningTotalTime) {
+                ItemStack itemstack1 = new ItemStack(Items.LEATHER, 1);
+                this.inventory.set(0, itemstack1);
+                this.inventoryChanged();
+            }
+        }
+    }
 
-        this.inventoryChanged();
+    private CompoundNBT writeItems(CompoundNBT compound) {
+        super.write(compound);
+        ItemStackHelper.saveAllItems(compound, this.inventory, true);
+        return compound;
     }
 }

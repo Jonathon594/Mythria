@@ -45,8 +45,20 @@ public class ScreenProfile extends Screen {
     }
 
     @Override
-    protected void init() {
-        super.init();
+    public boolean mouseClicked(final double mouseX, final double mouseY, final int button) {
+        int left = width / 2 - xSize / 2;
+        int top = height / 2 - ySize / 2;
+
+        for (AttributeDisplay attributeDisplay : AttributeDisplay.values()) {
+            int x = left + attributeDisplay.getOffsetX();
+            int y = top + attributeDisplay.getOffsetY();
+
+            if (isAttributeHovered(mouseX, mouseY, x, y)) {
+                MythriaPacketHandler.sendToServer(new CPacketSpendAttribute(attributeDisplay.getAttribute()));
+            }
+        }
+
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
@@ -65,6 +77,46 @@ public class ScreenProfile extends Screen {
         renderAttributes(matrixStack, left, top, mouseX, mouseY);
 
         super.render(matrixStack, mouseX, mouseY, partialTicks);
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+    }
+
+    private boolean isAttributeHovered(final double mouseX, final double mouseY, final int x, final int y) {
+        return mouseX >= x && mouseX <= x + 16 && mouseY >= y && mouseY <= y + 16;
+    }
+
+    private void renderAttributes(MatrixStack matrixStack, final int left, final int top, int mouseX, int mouseY) {
+        Profile profile = ProfileProvider.getProfile(minecraft.player);
+
+        for (AttributeDisplay attributeDisplay : AttributeDisplay.values()) {
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.enableBlend();
+            DisplayInfo displayInfo = attributeDisplay.getDisplayInfo();
+            RenderHelper.enableStandardItemLighting();
+            int x = left + attributeDisplay.getOffsetX();
+            int y = top + attributeDisplay.getOffsetY();
+            this.minecraft.getItemRenderer().renderItemAndEffectIntoGUI(null, displayInfo.getIcon(), x, y);
+        }
+
+        for (AttributeDisplay attributeDisplay : AttributeDisplay.values()) {
+            int x = left + attributeDisplay.getOffsetX();
+            int y = top + attributeDisplay.getOffsetY();
+
+            if (isAttributeHovered(mouseX, mouseY, x, y)) {
+                ArrayList<ITextComponent> lines = new ArrayList<>();
+                lines.add(new StringTextComponent(TextFormatting.GREEN + attributeDisplay.getDisplayInfo().getTitle().getString()));
+                lines.add(new StringTextComponent(ColorConst.CONT_COLOR + "Current Value: " + profile.getAttributeLevel(attributeDisplay.getAttribute()) + " / 25"));
+                lines.add(new StringTextComponent(ColorConst.HIGH_COLOR + "Spendable Points: " + profile.getSpendableAttributePoints()));
+                lines.add(new StringTextComponent(ColorConst.MAIN_COLOR + attributeDisplay.getDisplayInfo().getDescription().getString()));
+
+                renderWrappedToolTip(matrixStack, lines, mouseX, mouseY, font);
+            }
+        }
+
+        RenderHelper.disableStandardItemLighting();
     }
 
     private void renderText(MatrixStack matrixStack, final int left, final int top) {
@@ -124,58 +176,6 @@ public class ScreenProfile extends Screen {
         }
     }
 
-    private void renderAttributes(MatrixStack matrixStack, final int left, final int top, int mouseX, int mouseY) {
-        Profile profile = ProfileProvider.getProfile(minecraft.player);
-
-        for (AttributeDisplay attributeDisplay : AttributeDisplay.values()) {
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.enableBlend();
-            DisplayInfo displayInfo = attributeDisplay.getDisplayInfo();
-            RenderHelper.enableStandardItemLighting();
-            int x = left + attributeDisplay.getOffsetX();
-            int y = top + attributeDisplay.getOffsetY();
-            this.minecraft.getItemRenderer().renderItemAndEffectIntoGUI(null, displayInfo.getIcon(), x, y);
-        }
-
-        for (AttributeDisplay attributeDisplay : AttributeDisplay.values()) {
-            int x = left + attributeDisplay.getOffsetX();
-            int y = top + attributeDisplay.getOffsetY();
-
-            if (isAttributeHovered(mouseX, mouseY, x, y)) {
-                ArrayList<ITextComponent> lines = new ArrayList<>();
-                lines.add(new StringTextComponent(TextFormatting.GREEN + attributeDisplay.getDisplayInfo().getTitle().getString()));
-                lines.add(new StringTextComponent(ColorConst.CONT_COLOR + "Current Value: " + profile.getAttributeLevel(attributeDisplay.getAttribute()) + " / 25"));
-                lines.add(new StringTextComponent(ColorConst.HIGH_COLOR + "Spendable Points: " + profile.getSpendableAttributePoints()));
-                lines.add(new StringTextComponent(ColorConst.MAIN_COLOR + attributeDisplay.getDisplayInfo().getDescription().getString()));
-
-                renderWrappedToolTip(matrixStack, lines, mouseX, mouseY, font);
-            }
-        }
-
-        RenderHelper.disableStandardItemLighting();
-    }
-
-    @Override
-    public boolean mouseClicked(final double mouseX, final double mouseY, final int button) {
-        int left = width / 2 - xSize / 2;
-        int top = height / 2 - ySize / 2;
-
-        for (AttributeDisplay attributeDisplay : AttributeDisplay.values()) {
-            int x = left + attributeDisplay.getOffsetX();
-            int y = top + attributeDisplay.getOffsetY();
-
-            if (isAttributeHovered(mouseX, mouseY, x, y)) {
-                MythriaPacketHandler.sendToServer(new CPacketSpendAttribute(attributeDisplay.getAttribute()));
-            }
-        }
-
-        return super.mouseClicked(mouseX, mouseY, button);
-    }
-
-    private boolean isAttributeHovered(final double mouseX, final double mouseY, final int x, final int y) {
-        return mouseX >= x && mouseX <= x + 16 && mouseY >= y && mouseY <= y + 16;
-    }
-
     private enum AttributeDisplay {
         VIGOR(new DisplayInfo(new ItemStack(Items.GOLDEN_APPLE, 1), new StringTextComponent("Vigor"),
                 new StringTextComponent("Vigor shows how physically tough one is."), null, FrameType.TASK, false, false, false), Attribute.VIGOR, 8, 90),
@@ -214,16 +214,16 @@ public class ScreenProfile extends Screen {
             return attribute;
         }
 
+        public DisplayInfo getDisplayInfo() {
+            return displayInfo;
+        }
+
         public int getOffsetX() {
             return offsetX;
         }
 
         public int getOffsetY() {
             return offsetY;
-        }
-
-        public DisplayInfo getDisplayInfo() {
-            return displayInfo;
         }
     }
 }

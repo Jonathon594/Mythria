@@ -15,6 +15,42 @@ import java.util.Map;
 public class ChatManager {
     private static final Map<ServerPlayerEntity, ChatChannel> selectedChannels = new HashMap<>();
 
+    public static ChatChannel getChatChannel(final ServerPlayerEntity player) {
+        return selectedChannels.get(player);
+    }
+
+    public static TextFormatting getColor(final ChatChannel channel) {
+        switch (channel) {
+            case OOC:
+                return TextFormatting.WHITE;
+            case WHISPER:
+                return TextFormatting.BLUE;
+            case YELL:
+                return TextFormatting.RED;
+            case PRAY:
+                return TextFormatting.YELLOW;
+            case EVENT:
+                return TextFormatting.GOLD;
+            default:
+                return TextFormatting.GREEN;
+        }
+    }
+
+    public static int getRange(final ChatChannel channel) {
+        switch (channel) {
+            case OOC:
+                return 0;
+            case WHISPER:
+                return 5;
+            case YELL:
+                return 40;
+            case EVENT:
+                return 200;
+            default:
+                return 20;
+        }
+    }
+
     public static void handleForgeChat(ServerChatEvent event, ServerPlayerEntity sender, Profile p) {
         final List<ServerPlayerEntity> players = ServerLifecycleHooks.getCurrentServer().getPlayerList()
                 .getPlayers();
@@ -53,42 +89,6 @@ public class ChatManager {
 //                        event.getMessage() + " " + sender.getPosition().toString()).queue();
 //            }
 //        }
-    }
-
-    public static ChatChannel getChatChannel(final ServerPlayerEntity player) {
-        return selectedChannels.get(player);
-    }
-
-    public static int getRange(final ChatChannel channel) {
-        switch (channel) {
-            case OOC:
-                return 0;
-            case WHISPER:
-                return 5;
-            case YELL:
-                return 40;
-            case EVENT:
-                return 200;
-            default:
-                return 20;
-        }
-    }
-
-    public static TextFormatting getColor(final ChatChannel channel) {
-        switch (channel) {
-            case OOC:
-                return TextFormatting.WHITE;
-            case WHISPER:
-                return TextFormatting.BLUE;
-            case YELL:
-                return TextFormatting.RED;
-            case PRAY:
-                return TextFormatting.YELLOW;
-            case EVENT:
-                return TextFormatting.GOLD;
-            default:
-                return TextFormatting.GREEN;
-        }
     }
 
     public static void sendMessage(ServerChatEvent event, ServerPlayerEntity sender, Profile p, ServerPlayerEntity player, TextFormatting tf, boolean isInRange, boolean showName) {

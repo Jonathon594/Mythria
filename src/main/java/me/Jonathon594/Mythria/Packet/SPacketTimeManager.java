@@ -18,12 +18,12 @@ public class SPacketTimeManager {
         day = packetBuffer.readInt();
     }
 
+    public void encode(ByteBuf buf) {
+        buf.writeInt(day);
+    }
+
     public static void handle(SPacketTimeManager msg, Supplier<NetworkEvent.Context> contextSupplier) {
         TimeManager.getCurrentDate().setMGD(msg.day);
         contextSupplier.get().setPacketHandled(true);
-    }
-
-    public void encode(ByteBuf buf) {
-        buf.writeInt(day);
     }
 }

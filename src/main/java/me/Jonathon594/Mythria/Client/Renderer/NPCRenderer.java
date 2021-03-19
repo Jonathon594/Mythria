@@ -25,6 +25,11 @@ public class NPCRenderer extends CharacterRenderer {
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
+    public void renderArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, NPCEntity npcIn, HandSide side) {
+        this.setModelVisibilities(npcIn);
+        super.renderArm(matrixStackIn, bufferIn, combinedLightIn, npcIn, side);
+    }
+
     private void setModelVisibilities(LivingEntity npc) {
         CharacterModel<LivingEntity> playermodel = this.getEntityModel();
         if (npc.isSpectator()) {
@@ -46,10 +51,5 @@ public class NPCRenderer extends CharacterRenderer {
                 playermodel.leftArmPose = bipedmodel$armpose;
             }
         }
-    }
-
-    public void renderArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, NPCEntity npcIn, HandSide side) {
-        this.setModelVisibilities(npcIn);
-        super.renderArm(matrixStackIn, bufferIn, combinedLightIn, npcIn, side);
     }
 }

@@ -49,6 +49,20 @@ public class TreeMenuTabGui extends AbstractGui {
         setDisplayData(display);
     }
 
+    public void addOption(TreeMenuOption option) {
+        if (option.getDisplay() != null) {
+            TreeMenuEntryGui treeMenuGui = new TreeMenuEntryGui(this, this.minecraft, option, option.getDisplay());
+            treeMenuGui.setHighlight(option.isHighlight());
+
+            if (option.getParent() == null) {
+                rootOption = option;
+                root = treeMenuGui;
+            }
+
+            this.addGuiAdvancement(treeMenuGui, option);
+        }
+    }
+
     @Nullable
     public static TreeMenuTabGui create(Minecraft mc, AbstractTreeMenuScreen screen, int index, DisplayInfo display) {
         for (TreeTabType advancementtabtype : TreeTabType.values()) {
@@ -60,61 +74,6 @@ public class TreeMenuTabGui extends AbstractGui {
         }
 
         return null;
-    }
-
-    public TreeMenuEntryGui getRoot() {
-        return root;
-    }
-
-    public void setDisplayData(DisplayInfo display) {
-        this.display = display;
-        this.icon = display.getIcon();
-        this.title = display.getTitle().getString();
-    }
-
-    private void addGuiAdvancement(TreeMenuEntryGui p_193937_1_, TreeMenuOption p_193937_2_) {
-        this.guis.put(p_193937_2_, p_193937_1_);
-        int i = p_193937_1_.getX();
-        int j = i + 28;
-        int k = p_193937_1_.getY();
-        int l = k + 27;
-        this.minX = Math.min(this.minX, i);
-        this.maxX = Math.max(this.maxX, j);
-        this.minY = Math.min(this.minY, k);
-        this.maxY = Math.max(this.maxY, l);
-
-        for (TreeMenuEntryGui treeMenuEntry : this.guis.values()) {
-            treeMenuEntry.attachToParent();
-        }
-
-    }
-
-    public double getScrollX() {
-        return scrollX;
-    }
-
-    public double getScrollY() {
-        return scrollY;
-    }
-
-    public int getPage() {
-        return page;
-    }
-
-    public TreeMenuOption getRootOption() {
-        return this.rootOption;
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public void drawTab(MatrixStack matrixStack, int p_191798_1_, int p_191798_2_, boolean p_191798_3_) {
-        this.type.draw(matrixStack, this, p_191798_1_, p_191798_2_, p_191798_3_, this.index);
-    }
-
-    public void drawIcon(int p_191796_1_, int p_191796_2_, ItemRenderer p_191796_3_) {
-        this.type.drawIcon(p_191796_1_, p_191796_2_, this.index, p_191796_3_, this.icon);
     }
 
     public void drawContents(MatrixStack matrixStack) {
@@ -165,6 +124,14 @@ public class TreeMenuTabGui extends AbstractGui {
         RenderSystem.popMatrix();
     }
 
+    public void drawIcon(int p_191796_1_, int p_191796_2_, ItemRenderer p_191796_3_) {
+        this.type.drawIcon(p_191796_1_, p_191796_2_, this.index, p_191796_3_, this.icon);
+    }
+
+    public void drawTab(MatrixStack matrixStack, int p_191798_1_, int p_191798_2_, boolean p_191798_3_) {
+        this.type.draw(matrixStack, this, p_191798_1_, p_191798_2_, p_191798_3_, this.index);
+    }
+
     public void drawToolTips(MatrixStack matrixStack, int p_192991_1_, int p_192991_2_, int p_192991_3_, int p_192991_4_) {
         RenderSystem.pushMatrix();
         RenderSystem.translatef(0.0F, 0.0F, 200.0F);
@@ -191,10 +158,6 @@ public class TreeMenuTabGui extends AbstractGui {
 
     }
 
-    public boolean func_195627_a(int p_195627_1_, int p_195627_2_, double p_195627_3_, double p_195627_5_) {
-        return this.type.func_198891_a(p_195627_1_, p_195627_2_, this.index, p_195627_3_, p_195627_5_);
-    }
-
     public void func_195626_a(double p_195626_1_, double p_195626_3_) {
         if (this.maxX - this.minX > 234) {
             this.scrollX = MathHelper.clamp(this.scrollX + p_195626_1_, -(this.maxX - 234), 0.0D);
@@ -206,18 +169,8 @@ public class TreeMenuTabGui extends AbstractGui {
 
     }
 
-    public void addOption(TreeMenuOption option) {
-        if (option.getDisplay() != null) {
-            TreeMenuEntryGui treeMenuGui = new TreeMenuEntryGui(this, this.minecraft, option, option.getDisplay());
-            treeMenuGui.setHighlight(option.isHighlight());
-
-            if (option.getParent() == null) {
-                rootOption = option;
-                root = treeMenuGui;
-            }
-
-            this.addGuiAdvancement(treeMenuGui, option);
-        }
+    public boolean func_195627_a(int p_195627_1_, int p_195627_2_, double p_195627_3_, double p_195627_5_) {
+        return this.type.func_198891_a(p_195627_1_, p_195627_2_, this.index, p_195627_3_, p_195627_5_);
     }
 
     @Nullable
@@ -225,8 +178,36 @@ public class TreeMenuTabGui extends AbstractGui {
         return this.guis.get(p_191794_1_);
     }
 
+    public Map<me.Jonathon594.Mythria.Client.Screen.TreeMenuOption, TreeMenuEntryGui> getGuis() {
+        return guis;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public TreeMenuEntryGui getRoot() {
+        return root;
+    }
+
+    public TreeMenuOption getRootOption() {
+        return this.rootOption;
+    }
+
     public AbstractTreeMenuScreen getScreen() {
         return this.screen;
+    }
+
+    public double getScrollX() {
+        return scrollX;
+    }
+
+    public double getScrollY() {
+        return scrollY;
+    }
+
+    public String getTitle() {
+        return this.title;
     }
 
     public TreeMenuOption getTreeMenuOption(ResourceLocation id) {
@@ -246,7 +227,26 @@ public class TreeMenuTabGui extends AbstractGui {
         return null;
     }
 
-    public Map<me.Jonathon594.Mythria.Client.Screen.TreeMenuOption, TreeMenuEntryGui> getGuis() {
-        return guis;
+    public void setDisplayData(DisplayInfo display) {
+        this.display = display;
+        this.icon = display.getIcon();
+        this.title = display.getTitle().getString();
+    }
+
+    private void addGuiAdvancement(TreeMenuEntryGui p_193937_1_, TreeMenuOption p_193937_2_) {
+        this.guis.put(p_193937_2_, p_193937_1_);
+        int i = p_193937_1_.getX();
+        int j = i + 28;
+        int k = p_193937_1_.getY();
+        int l = k + 27;
+        this.minX = Math.min(this.minX, i);
+        this.maxX = Math.max(this.maxX, j);
+        this.minY = Math.min(this.minY, k);
+        this.maxY = Math.max(this.maxY, l);
+
+        for (TreeMenuEntryGui treeMenuEntry : this.guis.values()) {
+            treeMenuEntry.attachToParent();
+        }
+
     }
 }

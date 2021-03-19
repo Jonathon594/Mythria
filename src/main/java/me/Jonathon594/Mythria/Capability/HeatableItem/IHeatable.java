@@ -7,15 +7,15 @@ public interface IHeatable {
 
     void fromNBT(CompoundNBT comp);
 
-    CompoundNBT toNBT();
-
-    void update(double ambientTemp, ItemStack is);
-
-    void updateTime();
+    long getLastUpdate();
 
     double getTemperature();
 
     void setTemperature(double temperature);
 
-    long getLastUpdate();
+    CompoundNBT toNBT();
+
+    void update(double ambientTemp, ItemStack is);
+
+    void updateTime();
 }

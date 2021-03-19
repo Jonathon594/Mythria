@@ -2,11 +2,11 @@ package me.Jonathon594.Mythria;
 
 import me.Jonathon594.Mythria.Ability.Ability;
 import me.Jonathon594.Mythria.DataTypes.Perk;
-import me.Jonathon594.Mythria.Skin.SkinPart;
-import me.Jonathon594.Mythria.SpawnGifts.SpawnGift;
 import me.Jonathon594.Mythria.Genetic.Gene.Gene;
 import me.Jonathon594.Mythria.Genetic.GeneticType;
 import me.Jonathon594.Mythria.Genetic.Serializers.GeneSerializer;
+import me.Jonathon594.Mythria.Skin.SkinPart;
+import me.Jonathon594.Mythria.SpawnGifts.SpawnGift;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryManager;
 

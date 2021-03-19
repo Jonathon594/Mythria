@@ -21,11 +21,10 @@ public class MaterialManager {
         return blockState.getBlockHardness(world, pos);
     }
 
-    public static void registerCraftable(List<Item> items, Perk perk) {
-        for (Item item : items) {
-            PERKS_FOR_CRAFTING.computeIfAbsent(item, k -> new ArrayList<>());
-            PERKS_FOR_CRAFTING.get(item).add(perk);
-        }
+    public static void onTagsUpdated() {
+        MaterialManager.PERKS_FOR_BREAKING.clear();
+        MaterialManager.PERKS_FOR_CRAFTING.clear();
+        MaterialManager.PERKS_FOR_PLACING.clear();
     }
 
     public static void registerBreakable(List<Block> blocks, Perk perk) {
@@ -35,16 +34,17 @@ public class MaterialManager {
         }
     }
 
+    public static void registerCraftable(List<Item> items, Perk perk) {
+        for (Item item : items) {
+            PERKS_FOR_CRAFTING.computeIfAbsent(item, k -> new ArrayList<>());
+            PERKS_FOR_CRAFTING.get(item).add(perk);
+        }
+    }
+
     public static void registerPlaceable(List<Block> blocks, Perk perk) {
         for (Block block : blocks) {
             PERKS_FOR_PLACING.computeIfAbsent(block, k -> new ArrayList<>());
             PERKS_FOR_PLACING.get(block).add(perk);
         }
-    }
-
-    public static void onTagsUpdated() {
-        MaterialManager.PERKS_FOR_BREAKING.clear();
-        MaterialManager.PERKS_FOR_CRAFTING.clear();
-        MaterialManager.PERKS_FOR_PLACING.clear();
     }
 }

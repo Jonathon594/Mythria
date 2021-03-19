@@ -23,21 +23,17 @@ import java.util.List;
 
 public class LimitedInventoryManager {
 
-    private static boolean doStackMatch(final ItemStack iStack, final ItemStack item) {
-        boolean flag = false;
-        if (!iStack.isEmpty() && !item.isEmpty())
-            flag = iStack.isItemEqual(item) && ItemStack.areItemsEqual(iStack, item);
-        return flag;
+    public static boolean isArmorSlotOpen(PlayerEntity p, int i) {
+        if (p.isCreative() || p.isSpectator()) return true;
+        return !ProfileProvider.getProfile(p).getGenetic().isSlotLocked(EquipmentSlotType.fromSlotTypeAndIndex(EquipmentSlotType.Group.ARMOR, i));
     }
 
-    private static int findNextEmptySlot(final PlayerEntity p) {
-        final NonNullList<ItemStack> items = p.inventory.mainInventory;
-        for (int i = 0; i < items.size(); i++) {
-            final ItemStack current = p.inventory.getStackInSlot(i);
-            if (current.isEmpty() && isSlotOpen(p, i))
-                return i;
-        }
-        return -1;
+    public static boolean isAtMaxSlots(final PlayerEntity p) {
+        return getOpenSlots(p).size() == 36 || p.isCreative() || p.isSpectator();
+    }
+
+    public static boolean isSameInventory(IInventory inventory, Slot slot) {
+        return slot.inventory == inventory;
     }
 
     public static boolean isSlotOpen(final PlayerEntity p, final int i) {
@@ -48,11 +44,6 @@ public class LimitedInventoryManager {
         if (i > 35 && i < 40)
             if (isArmorSlotOpen(p, i - 36)) return true;
         return i > 39;
-    }
-
-    public static boolean isArmorSlotOpen(PlayerEntity p, int i) {
-        if (p.isCreative() || p.isSpectator()) return true;
-        return !ProfileProvider.getProfile(p).getGenetic().isSlotLocked(EquipmentSlotType.fromSlotTypeAndIndex(EquipmentSlotType.Group.ARMOR, i));
     }
 
     public static void onOpenContainer(PlayerEntity player, Container container) {
@@ -93,10 +84,6 @@ public class LimitedInventoryManager {
                     }
                 }
             }
-    }
-
-    public static boolean isSameInventory(IInventory inventory, Slot slot) {
-        return slot.inventory == inventory;
     }
 
     public static void onPlayerPickupItem(final EntityItemPickupEvent event) {
@@ -143,29 +130,21 @@ public class LimitedInventoryManager {
         }
     }
 
-
-    public static boolean isAtMaxSlots(final PlayerEntity p) {
-        return getOpenSlots(p).size() == 36 || p.isCreative() || p.isSpectator();
+    private static boolean doStackMatch(final ItemStack iStack, final ItemStack item) {
+        boolean flag = false;
+        if (!iStack.isEmpty() && !item.isEmpty())
+            flag = iStack.isItemEqual(item) && ItemStack.areItemsEqual(iStack, item);
+        return flag;
     }
 
-    private static ArrayList<Integer> getOpenSlots(final PlayerEntity p) {
-        final ArrayList<Integer> slots = new ArrayList<>();
-        final int openSlotsHotbar = 1 + getSlotAmounts(p, false);
-        for (int i = 0; i < openSlotsHotbar; i++)
-            slots.add(i);
-        final int openSlotsBody = 2 + getSlotAmounts(p, true);
-        for (int i = 9; i < openSlotsBody + 9; i++)
-            slots.add(i);
-        return slots;
-    }
-
-    private static int getSlotAmounts(PlayerEntity p, boolean backpack) {
-        int i = 0;
-        for (ItemStack is : p.getArmorInventoryList()) {
-            if (is == null || is.isEmpty()) continue;
-            i += getEquipSlotsGrantedFromItem(is)[backpack ? 0 : 1];
+    private static int findNextEmptySlot(final PlayerEntity p) {
+        final NonNullList<ItemStack> items = p.inventory.mainInventory;
+        for (int i = 0; i < items.size(); i++) {
+            final ItemStack current = p.inventory.getStackInSlot(i);
+            if (current.isEmpty() && isSlotOpen(p, i))
+                return i;
         }
-        return i;
+        return -1;
     }
 
     private static int[] getEquipSlotsGrantedFromItem(final ItemStack item) {
@@ -197,6 +176,26 @@ public class LimitedInventoryManager {
             return new int[]{data.getAdditionalBackpackSlots(), data.getAdditionalHotbarSlots()};
         }
         return new int[]{0, 0};
+    }
+
+    private static ArrayList<Integer> getOpenSlots(final PlayerEntity p) {
+        final ArrayList<Integer> slots = new ArrayList<>();
+        final int openSlotsHotbar = 1 + getSlotAmounts(p, false);
+        for (int i = 0; i < openSlotsHotbar; i++)
+            slots.add(i);
+        final int openSlotsBody = 2 + getSlotAmounts(p, true);
+        for (int i = 9; i < openSlotsBody + 9; i++)
+            slots.add(i);
+        return slots;
+    }
+
+    private static int getSlotAmounts(PlayerEntity p, boolean backpack) {
+        int i = 0;
+        for (ItemStack is : p.getArmorInventoryList()) {
+            if (is == null || is.isEmpty()) continue;
+            i += getEquipSlotsGrantedFromItem(is)[backpack ? 0 : 1];
+        }
+        return i;
     }
 
     private static int searchForPossibleSlot(final ItemStack iStack, final PlayerEntity p) {

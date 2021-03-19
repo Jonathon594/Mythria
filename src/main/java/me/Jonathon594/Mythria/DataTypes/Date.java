@@ -16,6 +16,10 @@ public class Date {
         MGD = integer;
     }
 
+    public void IncDay() {
+        MGD += 1;
+    }
+
     public String getDateString() {
         final TextFormatting mc = ColorConst.MAIN_COLOR;
         final TextFormatting cc = ColorConst.CONT_COLOR;
@@ -32,8 +36,16 @@ public class Date {
         return cc + dayName + mc + ", " + cc + monthDay + mc + "-" + cc + monthName + mc + "-" + cc + yearString;
     }
 
-    public int getYear() {
-        return Math.floorDiv(MGD, TimeManager.getDaysPerYear());
+    public int getDayInMonth() {
+        return getYearDay() - getDaysToMonthX(getMonth());
+    }
+
+    public int getMGD() {
+        return MGD;
+    }
+
+    public void setMGD(final int mGD) {
+        MGD = mGD;
     }
 
     public int getMonth() {
@@ -46,20 +58,16 @@ public class Date {
         return monthIndex;
     }
 
-    public int getDayInMonth() {
-        return getYearDay() - getDaysToMonthX(getMonth());
+    public Season getSeason() {
+        int dayInYear = getYearDay();
+        if (dayInYear > TimeManager.getDaysPerYear() * 0.75) return Season.FALL;
+        else if (dayInYear > TimeManager.getDaysPerYear() * 0.5) return Season.SUMMER;
+        else if (dayInYear > TimeManager.getDaysPerYear() * 0.25) return Season.SPRING;
+        else return Season.WINTER;
     }
 
-    private String getDayName() {
-        final int index = MythriaUtil.wrapInt(MGD, 1, TimeManager.getDayNames().size());
-        return TimeManager.getDayNames().get(index - 1);
-    }
-
-    private int getDaysToMonthX(final int x) {
-        int daysToMonthX = 0;
-        for (int i = 0; i < x; i++)
-            daysToMonthX += TimeManager.getMonths().get(i).getLength();
-        return daysToMonthX;
+    public int getYear() {
+        return Math.floorDiv(MGD, TimeManager.getDaysPerYear());
     }
 
     public int getYearDay() {
@@ -73,18 +81,6 @@ public class Date {
         return newDate.getYear();
     }
 
-    public int getMGD() {
-        return MGD;
-    }
-
-    public void setMGD(final int mGD) {
-        MGD = mGD;
-    }
-
-    public void IncDay() {
-        MGD += 1;
-    }
-
     public void setMGDFromDayMonthYear(final int day, final int month, final int year) {
         int mGD = 0;
         mGD += TimeManager.getDaysPerYear() * (year - 1);
@@ -93,11 +89,15 @@ public class Date {
         setMGD(mGD);
     }
 
-    public Season getSeason() {
-        int dayInYear = getYearDay();
-        if (dayInYear > TimeManager.getDaysPerYear() * 0.75) return Season.FALL;
-        else if (dayInYear > TimeManager.getDaysPerYear() * 0.5) return Season.SUMMER;
-        else if (dayInYear > TimeManager.getDaysPerYear() * 0.25) return Season.SPRING;
-        else return Season.WINTER;
+    private String getDayName() {
+        final int index = MythriaUtil.wrapInt(MGD, 1, TimeManager.getDayNames().size());
+        return TimeManager.getDayNames().get(index - 1);
+    }
+
+    private int getDaysToMonthX(final int x) {
+        int daysToMonthX = 0;
+        for (int i = 0; i < x; i++)
+            daysToMonthX += TimeManager.getMonths().get(i).getLength();
+        return daysToMonthX;
     }
 }

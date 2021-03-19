@@ -15,6 +15,10 @@ public class NutritionGene extends Gene {
         this.requiredNutrition = requiredNutrition;
     }
 
+    public HashMap<Consumable.Nutrition, Integer> getRequiredNutrition() {
+        return requiredNutrition;
+    }
+
     @Override
     public GeneSerializer<NutritionGene> getSerializer() {
         return GeneSerializers.NUTRITION;
@@ -25,7 +29,5 @@ public class NutritionGene extends Gene {
         return getSerializer().serialize(this, writeSerializer);
     }
 
-    public HashMap<Consumable.Nutrition, Integer> getRequiredNutrition() {
-        return requiredNutrition;
-    }
+
 }

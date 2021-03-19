@@ -14,7 +14,8 @@ public class PotteryItem extends HeatableItem implements IHeatChangingItem {
         this.result = result;
     }
 
-    public Item getResult() {
+    @Override
+    public Item getChangeItem() {
         return result.get();
     }
 
@@ -23,8 +24,7 @@ public class PotteryItem extends HeatableItem implements IHeatChangingItem {
         return 540.0;
     }
 
-    @Override
-    public Item getChangeItem() {
+    public Item getResult() {
         return result.get();
     }
 }

@@ -61,6 +61,10 @@ public class MythriaStriderEntity extends StriderEntity {
                 (this.func_234315_eI_() ? 0.23F : (this.isHorseSaddled() ? 0.55F : 0.33F));
     }
 
+    public StriderEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
+        return MythriaEntityType.STRIDER.create(p_241840_1_);
+    }
+
     public ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
         boolean flag = this.isBreedingItem(p_230254_1_.getHeldItem(p_230254_2_));
         if (!flag && !this.isBeingRidden() && !p_230254_1_.isSecondaryUseActive()) {
@@ -82,9 +86,5 @@ public class MythriaStriderEntity extends StriderEntity {
                 return actionresulttype;
             }
         }
-    }
-
-    public StriderEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
-        return MythriaEntityType.STRIDER.create(p_241840_1_);
     }
 }

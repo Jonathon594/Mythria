@@ -13,15 +13,15 @@ public class Cooldown {
         this.player = player;
     }
 
-    public String getType() {
-        return type;
-    }
-
     public long getEndTime() {
         return endTime;
     }
 
     public PlayerEntity getPlayer() {
         return player;
+    }
+
+    public String getType() {
+        return type;
     }
 }

@@ -16,12 +16,6 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class TickListener {
     @SubscribeEvent
-    public static void onServerTick(TickEvent.ServerTickEvent event) {
-        TimeManager.onTick(event);
-        StatManager.onTick(event);
-    }
-
-    @SubscribeEvent
     public static void onPlayerTick(final TickEvent.PlayerTickEvent event) {
         final PlayerEntity player = event.player;
         if (event.phase.equals(TickEvent.Phase.END)) {
@@ -46,5 +40,11 @@ public class TickListener {
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onServerTick(TickEvent.ServerTickEvent event) {
+        TimeManager.onTick(event);
+        StatManager.onTick(event);
     }
 }

@@ -21,6 +21,10 @@ public class CharacterLayerRenderer extends LayerRenderer<LivingEntity, Characte
         this.eyes = skinPart;
     }
 
+    public ResourceLocation getTextureLocation(LivingEntity entity) {
+        return CharacterRenderer.getCharacterLayeredTexture(entity, eyes);
+    }
+
     @Override
     public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, LivingEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         ResourceLocation resourcelocation = getTextureLocation(entitylivingbaseIn);
@@ -28,9 +32,5 @@ public class CharacterLayerRenderer extends LayerRenderer<LivingEntity, Characte
             IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEntityTranslucent(resourcelocation));
             this.getEntityModel().render(matrixStackIn, ivertexbuilder, packedLightIn, LivingRenderer.getPackedOverlay(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
         }
-    }
-
-    public ResourceLocation getTextureLocation(LivingEntity entity) {
-        return CharacterRenderer.getCharacterLayeredTexture(entity, eyes);
     }
 }

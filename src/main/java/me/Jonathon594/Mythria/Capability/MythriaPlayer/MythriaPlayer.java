@@ -1,8 +1,8 @@
 package me.Jonathon594.Mythria.Capability.MythriaPlayer;
 
-import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Enum.Gender;
 import me.Jonathon594.Mythria.Network.MythriaSerializers;
+import me.Jonathon594.Mythria.Skin.SkinPart;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -31,13 +31,32 @@ public class MythriaPlayer implements IMythriaPlayer {
     }
 
     @Override
-    public boolean isParrying() {
-        return entity.getDataManager().get(PARRYING);
+    public Gender getGender() {
+        return entity.getDataManager().get(GENDER);
     }
 
     @Override
-    public void setParrying(boolean parrying) {
-        entity.getDataManager().set(PARRYING, parrying);
+    public void setGender(Gender gender) {
+        entity.getDataManager().set(GENDER, gender);
+    }
+
+    @Override
+    public SkinPart getSkinPart(SkinPart.Type skinPart) {
+        switch (skinPart) {
+            case SKIN:
+                return entity.getDataManager().get(SKIN);
+            case EYES:
+                return entity.getDataManager().get(EYES);
+            case HAIR:
+                return entity.getDataManager().get(HAIR);
+            case CLOTHING:
+                return entity.getDataManager().get(CLOTHES);
+            case WINGS:
+                return entity.getDataManager().get(WINGS);
+            case DRYAD_VINES:
+                return entity.getDataManager().get(VINES);
+        }
+        return null;
     }
 
     @Override
@@ -48,6 +67,16 @@ public class MythriaPlayer implements IMythriaPlayer {
     @Override
     public void setTicksParrying(int ticksParrying) {
         this.ticksParrying = ticksParrying;
+    }
+
+    @Override
+    public boolean isParrying() {
+        return entity.getDataManager().get(PARRYING);
+    }
+
+    @Override
+    public void setParrying(boolean parrying) {
+        entity.getDataManager().set(PARRYING, parrying);
     }
 
     @Override
@@ -74,35 +103,6 @@ public class MythriaPlayer implements IMythriaPlayer {
         }
     }
 
-    @Override
-    public SkinPart getSkinPart(SkinPart.Type skinPart) {
-        switch (skinPart) {
-            case SKIN:
-                return entity.getDataManager().get(SKIN);
-            case EYES:
-                return entity.getDataManager().get(EYES);
-            case HAIR:
-                return entity.getDataManager().get(HAIR);
-            case CLOTHING:
-                return entity.getDataManager().get(CLOTHES);
-            case WINGS:
-                return entity.getDataManager().get(WINGS);
-            case DRYAD_VINES:
-                return entity.getDataManager().get(VINES);
-        }
-        return null;
-    }
-
-    @Override
-    public void setGender(Gender gender) {
-        entity.getDataManager().set(GENDER, gender);
-    }
-
-    @Override
-    public Gender getGender() {
-        return entity.getDataManager().get(GENDER);
-    }
-
     public int getWingFlightFlapAngle() {
         return wingFlightFlapAngle;
     }
@@ -114,4 +114,6 @@ public class MythriaPlayer implements IMythriaPlayer {
     public void onTick() {
 
     }
+
+
 }

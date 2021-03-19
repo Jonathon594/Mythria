@@ -32,19 +32,6 @@ public class ItemReplacementModifier extends LootModifier {
         this.with = with;
     }
 
-    @Nonnull
-    @Override
-    protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
-        List<ItemStack> toAdd = new ArrayList<>();
-        for (ItemStack is : generatedLoot) {
-            if (is.getItem() == replace)
-                toAdd.add(new ItemStack(with, is.getCount()));
-        }
-        generatedLoot.removeIf(x -> x.getItem() == replace);
-        generatedLoot.addAll(toAdd);
-        return generatedLoot;
-    }
-
     public static class Serializer extends GlobalLootModifierSerializer<ItemReplacementModifier> {
         @Override
         public ItemReplacementModifier read(ResourceLocation name, JsonObject object, ILootCondition[] conditionsIn) {
@@ -57,5 +44,18 @@ public class ItemReplacementModifier extends LootModifier {
         public JsonObject write(ItemReplacementModifier instance) {
             return makeConditions(instance.conditions);
         }
+    }
+
+    @Nonnull
+    @Override
+    protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
+        List<ItemStack> toAdd = new ArrayList<>();
+        for (ItemStack is : generatedLoot) {
+            if (is.getItem() == replace)
+                toAdd.add(new ItemStack(with, is.getCount()));
+        }
+        generatedLoot.removeIf(x -> x.getItem() == replace);
+        generatedLoot.addAll(toAdd);
+        return generatedLoot;
     }
 }

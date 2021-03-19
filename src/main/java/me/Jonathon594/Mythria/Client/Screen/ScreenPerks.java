@@ -29,51 +29,6 @@ public class ScreenPerks extends AbstractTreeMenuScreen {
         super(new StringTextComponent("Perks"));
     }
 
-    @Override
-    public void populateTabs() throws Exception {
-        int i = 0;
-        Profile p = ProfileProvider.getProfile(minecraft.player);
-        for (PerkType type : PerkType.values()) {
-            List<TreeMenuOption> optionList = new ArrayList<>();
-            TreeMenuOption root = null;
-            List<Perk> validPerks = new ArrayList<>();
-            for (Perk perk : Perks.getPerksByType(type)) {
-                addPerk(validPerks, perk);
-            }
-            if (validPerks.isEmpty()) return;
-            for (Perk perk : validPerks) {
-                DisplayInfo displayInfo = getDisplayInfo(p, perk);
-
-
-                boolean isRoot = perk instanceof RootPerk;
-                if (!isRoot && perk.getParent() == null)
-                    throw new Exception("Perk " + perk.getRegistryName() + " has null parent.");
-                TreeMenuOption option = TreeMenuOption.Builder.builder().withDisplay(displayInfo)
-                        .withParentId(isRoot ? null : perk.getParent().getRegistryName())
-                        .build(perk.getRegistryName(), optionList);
-                if (p.hasPerk(perk)) option.setHighlight(true);
-
-                if (isRoot) {
-                    root = option;
-                }
-                optionList.add(option);
-            }
-            TreeMenuNode.layout(root);
-            TreeMenuTabGui gui = TreeMenuTabGui.create(minecraft, this, i, root.getDisplay());
-            for (TreeMenuOption option : optionList) {
-                gui.addOption(option);
-            }
-            tabs.put(root, gui);
-            i++;
-        }
-    }
-
-    protected void addPerk(List<Perk> validPerks, Perk perk) {
-        if (!(perk instanceof RootPerk) && !validPerks.contains(perk.getParent()))
-            addPerk(validPerks, perk.getParent());
-        if (!validPerks.contains(perk)) validPerks.add(perk);
-    }
-
     private DisplayInfo getDisplayInfo(Profile p, Perk perk) {
         boolean hidden = false;
         if (!minecraft.player.isCreative()) {
@@ -110,6 +65,12 @@ public class ScreenPerks extends AbstractTreeMenuScreen {
                 background, FrameType.TASK, false, false, hidden);
     }
 
+    protected void addPerk(List<Perk> validPerks, Perk perk) {
+        if (!(perk instanceof RootPerk) && !validPerks.contains(perk.getParent()))
+            addPerk(validPerks, perk.getParent());
+        if (!validPerks.contains(perk)) validPerks.add(perk);
+    }
+
     @Override
     protected void onOptionClicked(TreeMenuOption clicked) {
         CompoundNBT compound = new CompoundNBT();
@@ -137,6 +98,45 @@ public class ScreenPerks extends AbstractTreeMenuScreen {
                     treeMenuEntryGui.setHighlight(true);
                 }
             }
+        }
+    }
+
+    @Override
+    public void populateTabs() throws Exception {
+        int i = 0;
+        Profile p = ProfileProvider.getProfile(minecraft.player);
+        for (PerkType type : PerkType.values()) {
+            List<TreeMenuOption> optionList = new ArrayList<>();
+            TreeMenuOption root = null;
+            List<Perk> validPerks = new ArrayList<>();
+            for (Perk perk : Perks.getPerksByType(type)) {
+                addPerk(validPerks, perk);
+            }
+            if (validPerks.isEmpty()) return;
+            for (Perk perk : validPerks) {
+                DisplayInfo displayInfo = getDisplayInfo(p, perk);
+
+
+                boolean isRoot = perk instanceof RootPerk;
+                if (!isRoot && perk.getParent() == null)
+                    throw new Exception("Perk " + perk.getRegistryName() + " has null parent.");
+                TreeMenuOption option = TreeMenuOption.Builder.builder().withDisplay(displayInfo)
+                        .withParentId(isRoot ? null : perk.getParent().getRegistryName())
+                        .build(perk.getRegistryName(), optionList);
+                if (p.hasPerk(perk)) option.setHighlight(true);
+
+                if (isRoot) {
+                    root = option;
+                }
+                optionList.add(option);
+            }
+            TreeMenuNode.layout(root);
+            TreeMenuTabGui gui = TreeMenuTabGui.create(minecraft, this, i, root.getDisplay());
+            for (TreeMenuOption option : optionList) {
+                gui.addOption(option);
+            }
+            tabs.put(root, gui);
+            i++;
         }
     }
 }

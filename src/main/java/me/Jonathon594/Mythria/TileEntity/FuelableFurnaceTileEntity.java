@@ -8,6 +8,24 @@ public abstract class FuelableFurnaceTileEntity extends BasicFurnaceTileEntity {
         super(tileEntityTypeIn, 0, criticalTemperature, size);
     }
 
+    private void consumeFuel() {
+
+    }
+
+    protected abstract ItemStack getFuelStack();
+
+    protected abstract void setLit(boolean lit);
+
+    @Override
+    protected boolean shouldSpawnSignalSmoke() {
+        return false;
+    }
+
+    @Override
+    protected boolean canSpawnSmokeParticles() {
+        return true;
+    }
+
     @Override
     protected void onFinishBurning() {
         if (world.isRemote) return;
@@ -19,11 +37,8 @@ public abstract class FuelableFurnaceTileEntity extends BasicFurnaceTileEntity {
         consumeFuel();
     }
 
-    private void consumeFuel() {
-
+    @Override
+    protected boolean hasFlameParticles() {
+        return true;
     }
-
-    protected abstract void setLit(boolean lit);
-
-    protected abstract ItemStack getFuelStack();
 }

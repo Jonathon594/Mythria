@@ -29,6 +29,13 @@ public class Food implements IFood {
     }
 
     @Override
+    public double getAgeProportion(ItemStack is) {
+        final long age = getAge();
+        final long maxAge = FoodManager.getFoodLifeTime(is.getItem());
+        return ((double) age / maxAge);
+    }
+
+    @Override
     public double getCooked() {
         return cooked;
     }
@@ -55,13 +62,6 @@ public class Food implements IFood {
         comp.putDouble("Cooked", cooked);
         comp.putLong("Age", age);
         return comp;
-    }
-
-    @Override
-    public double getAgeProportion(ItemStack is) {
-        final long age = getAge();
-        final long maxAge = FoodManager.getFoodLifeTime(is.getItem());
-        return ((double) age / maxAge);
     }
 
 }

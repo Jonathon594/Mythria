@@ -12,10 +12,6 @@ public class IntStatGene extends Gene {
         this.value = value;
     }
 
-    public int getValue() {
-        return value;
-    }
-
     @Override
     public GeneSerializer<IntStatGene> getSerializer() {
         return GeneSerializers.INT_STAT;
@@ -24,5 +20,9 @@ public class IntStatGene extends Gene {
     @Override
     public CompoundNBT toNBT(boolean writeSerializer) {
         return getSerializer().serialize(this, writeSerializer);
+    }
+
+    public int getValue() {
+        return value;
     }
 }

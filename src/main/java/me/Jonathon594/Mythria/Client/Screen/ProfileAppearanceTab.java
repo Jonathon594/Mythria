@@ -5,12 +5,12 @@ import com.google.common.collect.Lists;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
-import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Enum.Gender;
-import me.Jonathon594.Mythria.Genetic.GeneticType;
 import me.Jonathon594.Mythria.Genetic.Gene.ISkinPartGene;
-import me.Jonathon594.Mythria.Skin.SkinParts;
+import me.Jonathon594.Mythria.Genetic.GeneticType;
 import me.Jonathon594.Mythria.MythriaRegistries;
+import me.Jonathon594.Mythria.Skin.SkinPart;
+import me.Jonathon594.Mythria.Skin.SkinParts;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -76,8 +76,38 @@ public class ProfileAppearanceTab extends ProfileCreationTab {
         updateProfileSkin();
     }
 
+    public SkinPart getSelectedClothing() {
+        return MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(clothes.getSelectedName()));
+    }
+
+    public SkinPart getSelectedEyes() {
+        return MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(eyes.getSelectedName()));
+    }
+
     public Gender getSelectedGender() {
         return Gender.valueOf(gender.selectedName);
+    }
+
+    public GeneticType getSelectedGeneticType() {
+        return MythriaRegistries.GENETICS.getValue(new ResourceLocation(race.getSelectedName()));
+    }
+
+    public SkinPart getSelectedHair() {
+        return MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(hair.getSelectedName()));
+    }
+
+    public SkinPart getSelectedSkin() {
+        return MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(skin.getSelectedName()));
+    }
+
+    public SkinPart getSelectedUnique() {
+        return MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(unique.getSelectedName()));
+    }
+
+    private List<String> getRaceNames() {
+        List<String> races = Lists.newArrayList();
+        MythriaRegistries.GENETICS.getValues().forEach((genetic -> races.add(genetic.getRegistryName().toString())));
+        return races;
     }
 
     private List<String> getValidGenders() {
@@ -88,25 +118,14 @@ public class ProfileAppearanceTab extends ProfileCreationTab {
         return genders;
     }
 
-
-    public GeneticType getSelectedGeneticType() {
-        return MythriaRegistries.GENETICS.getValue(new ResourceLocation(race.getSelectedName()));
-    }
-
-    private List<String> getRaceNames() {
-        List<String> races = Lists.newArrayList();
-        MythriaRegistries.GENETICS.getValues().forEach((genetic -> races.add(genetic.getRegistryName().toString())));
-        return races;
+    private void onGenderClicked(Button button) {
+        updateSkinPartIndices();
     }
 
     private void onRaceClicked(Button button) {
         gender.updateIndex();
         updateSkinPartIndices();
         parent.profileGiftTab.giftSelectorButton.updateIndex();
-    }
-
-    private void onGenderClicked(Button button) {
-        updateSkinPartIndices();
     }
 
     private void onSkinPartChanged(Button button) {
@@ -134,26 +153,6 @@ public class ProfileAppearanceTab extends ProfileCreationTab {
         });
 
         profile.copySkinToMythriaPlayer(MythriaPlayerProvider.getMythriaPlayer(playerEntity));
-    }
-
-    public SkinPart getSelectedUnique() {
-        return MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(unique.getSelectedName()));
-    }
-
-    public SkinPart getSelectedClothing() {
-        return MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(clothes.getSelectedName()));
-    }
-
-    public SkinPart getSelectedSkin() {
-        return MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(skin.getSelectedName()));
-    }
-
-    public SkinPart getSelectedEyes() {
-        return MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(eyes.getSelectedName()));
-    }
-
-    public SkinPart getSelectedHair() {
-        return MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(hair.getSelectedName()));
     }
 
     private void updateSkinPartIndices() {

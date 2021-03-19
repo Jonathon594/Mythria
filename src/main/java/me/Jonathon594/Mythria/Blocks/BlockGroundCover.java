@@ -59,8 +59,19 @@ public class BlockGroundCover extends MythriaBlock implements IWaterLoggable {
     }
 
     @Override
-    public boolean isValidPosition(final BlockState state, final IWorldReader worldIn, final BlockPos pos) {
-        return super.isValidPosition(state, worldIn, pos);
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return new GroundCoverTileEntity();
+    }
+
+    @Override
+    public boolean canHarvestBlock(BlockState state, IBlockReader world, BlockPos pos, PlayerEntity player) {
+        return true;
     }
 
     public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
@@ -74,23 +85,11 @@ public class BlockGroundCover extends MythriaBlock implements IWaterLoggable {
         }
     }
 
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return SHAPE;
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new GroundCoverTileEntity();
-    }
-
-    @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
-    }
-
-    @Override
-    public boolean canHarvestBlock(BlockState state, IBlockReader world, BlockPos pos, PlayerEntity player) {
+    public boolean isTransparent(BlockState state) {
         return true;
     }
 
@@ -98,11 +97,12 @@ public class BlockGroundCover extends MythriaBlock implements IWaterLoggable {
         return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 
-    public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.ENTITYBLOCK_ANIMATED;
+    @Override
+    public boolean isValidPosition(final BlockState state, final IWorldReader worldIn, final BlockPos pos) {
+        return super.isValidPosition(state, worldIn, pos);
     }
 
-    public boolean isTransparent(BlockState state) {
-        return true;
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return SHAPE;
     }
 }

@@ -13,12 +13,13 @@ public abstract class MythriaFeature<FC extends IFeatureConfig> extends Feature<
         super(codec);
     }
 
-    protected boolean isSand(Block block) {
-        return BlockTags.SAND.contains(block);
-    }
-
     protected boolean isGravel(Block block) {
         return Tags.Blocks.GRAVEL.contains(block);
+    }
+
+    protected boolean isNetherStone(Block block) {
+        //todo Tag
+        return block.equals(Blocks.BASALT) || block.equals(Blocks.BLACKSTONE);
     }
 
     protected boolean isNetherrack(Block block) {
@@ -30,8 +31,7 @@ public abstract class MythriaFeature<FC extends IFeatureConfig> extends Feature<
         return block.equals(Blocks.CRIMSON_NYLIUM) || block.equals(Blocks.WARPED_NYLIUM);
     }
 
-    protected boolean isNetherStone(Block block) {
-        //todo Tag
-        return block.equals(Blocks.BASALT) || block.equals(Blocks.BLACKSTONE);
+    protected boolean isSand(Block block) {
+        return BlockTags.SAND.contains(block);
     }
 }

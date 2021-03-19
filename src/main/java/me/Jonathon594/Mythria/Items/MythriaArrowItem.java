@@ -19,10 +19,6 @@ public class MythriaArrowItem extends ArrowItem {
         this.weight = weight;
     }
 
-    public double getWeight() {
-        return weight;
-    }
-
     @Override
     public AbstractArrowEntity createArrow(World worldIn, ItemStack stack, LivingEntity shooter) {
         MythriaArrowEntity arrowentity = new MythriaArrowEntity(worldIn, shooter);
@@ -30,5 +26,9 @@ public class MythriaArrowItem extends ArrowItem {
         copy.setCount(1);
         arrowentity.setArrowStack(copy);
         return arrowentity;
+    }
+
+    public double getWeight() {
+        return weight;
     }
 }

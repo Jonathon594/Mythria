@@ -6,6 +6,10 @@ import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Const.MythriaConst;
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
+import me.Jonathon594.Mythria.Interface.IPitFurnaceFilling;
+import me.Jonathon594.Mythria.TileEntity.PitFurnaceTileEntity;
+import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,9 +22,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
-public class ThatchItem extends MythriaItem {
+public class ThatchItem extends MythriaItem implements IPitFurnaceFilling {
     public ThatchItem(String name) {
         super(name, new Properties().group(ItemGroup.MATERIALS).maxStackSize(16));
+    }
+
+    @Override
+    public ResourceLocation getFillingTexture() {
+        return new MythriaResourceLocation("blocks/thatch_block_side");
     }
 
     @Override
@@ -50,10 +59,11 @@ public class ThatchItem extends MythriaItem {
                     return ActionResultType.PASS;
                 }
 
-                world.setBlockState(pos, pitKiln.getDefaultState());
+                world.setBlockState(pos, Block.getValidBlockForPosition(pitKiln.getDefaultState(), world, pos));
                 SoundType soundtype = world.getBlockState(pos).getBlock().getSoundType(world.getBlockState(pos), world, pos, player);
                 world.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-                itemstack.shrink(1);
+                PitFurnaceTileEntity tile = (PitFurnaceTileEntity) world.getTileEntity(pos);
+                tile.addItem(itemstack);
                 return ActionResultType.SUCCESS;
             } else {
                 return ActionResultType.PASS;

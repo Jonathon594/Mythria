@@ -26,13 +26,13 @@ public class MythriaToolSpawnGift extends SpawnGift {
         random = new Random();
     }
 
-    public MythriaToolSpawnGift withNameFactory(Function<ItemStack, ITextComponent> nameFactory) {
-        this.nameFactory = nameFactory;
+    public MythriaToolSpawnGift withDamageFactory(Function<ItemStack, Integer> damageFactory) {
+        this.damageFactory = damageFactory;
         return this;
     }
 
-    public MythriaToolSpawnGift withDamageFactory(Function<ItemStack, Integer> damageFactory) {
-        this.damageFactory = damageFactory;
+    public MythriaToolSpawnGift withNameFactory(Function<ItemStack, ITextComponent> nameFactory) {
+        this.nameFactory = nameFactory;
         return this;
     }
 

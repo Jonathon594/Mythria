@@ -22,6 +22,12 @@ public class ProfileProvider implements ICapabilitySerializable<INBT> {
         instance.setPlayer(player);
     }
 
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        return PROFILE_CAP.orEmpty(cap, LazyOptional.of(() -> instance));
+    }
+
     public static Profile getProfile(PlayerEntity playerEntity) {
         return (Profile) playerEntity.getCapability(PROFILE_CAP, null).orElse(new Profile());
     }
@@ -34,11 +40,5 @@ public class ProfileProvider implements ICapabilitySerializable<INBT> {
     @Override
     public void deserializeNBT(INBT nbt) {
         PROFILE_CAP.getStorage().readNBT(PROFILE_CAP, instance, null, nbt);
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return PROFILE_CAP.orEmpty(cap, LazyOptional.of(() -> instance));
     }
 }

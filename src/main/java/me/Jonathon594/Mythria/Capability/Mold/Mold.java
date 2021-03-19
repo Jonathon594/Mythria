@@ -8,13 +8,6 @@ public class Mold implements IMold {
     final ItemStackHandler inventory = new ItemStackHandler(2);
 
     @Override
-    public CompoundNBT toNBT() {
-        CompoundNBT nbt = new CompoundNBT();
-        nbt.put("inventory", inventory.serializeNBT());
-        return nbt;
-    }
-
-    @Override
     public void fromNBT(CompoundNBT nbt) {
         inventory.deserializeNBT(nbt.getCompound("inventory"));
     }
@@ -24,12 +17,11 @@ public class Mold implements IMold {
         return inventory;
     }
 
-    public ItemStack getResultStack() {
-        return getInventory().getStackInSlot(0);
-    }
-
-    public void setResultStack(ItemStack resultStack) {
-        inventory.setStackInSlot(0, resultStack);
+    @Override
+    public CompoundNBT toNBT() {
+        CompoundNBT nbt = new CompoundNBT();
+        nbt.put("inventory", inventory.serializeNBT());
+        return nbt;
     }
 
     public ItemStack getOriginalMoldStack() {
@@ -38,5 +30,13 @@ public class Mold implements IMold {
 
     public void setOriginalMoldStack(ItemStack moldStack) {
         inventory.setStackInSlot(1, moldStack);
+    }
+
+    public ItemStack getResultStack() {
+        return getInventory().getStackInSlot(0);
+    }
+
+    public void setResultStack(ItemStack resultStack) {
+        inventory.setStackInSlot(0, resultStack);
     }
 }

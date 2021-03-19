@@ -23,6 +23,19 @@ public class LockedSlotWidget extends Widget {
         minecraft = Minecraft.getInstance();
     }
 
+    public final void drawLockedSlot(MatrixStack matrixStack, final int slotX, final int slotY) {
+        RenderSystem.disableTexture();
+        RenderSystem.enableBlend();
+        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
+                GlStateManager.DestFactor.ZERO);
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        RenderSystem.color4f(0.0f, 0.0f, 0.0f, 0.5f);
+        this.blit(matrixStack, gui.getGuiLeft() + slotX, gui.getGuiTop() + slotY, 0, 0, 16, 16);
+        RenderSystem.disableBlend();
+        RenderSystem.enableTexture();
+    }
+
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         if (visible) {
@@ -37,19 +50,6 @@ public class LockedSlotWidget extends Widget {
                     }
                 }
         }
-    }
-
-    public final void drawLockedSlot(MatrixStack matrixStack, final int slotX, final int slotY) {
-        RenderSystem.disableTexture();
-        RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
-                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
-                GlStateManager.DestFactor.ZERO);
-        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        RenderSystem.color4f(0.0f, 0.0f, 0.0f, 0.5f);
-        this.blit(matrixStack, gui.getGuiLeft() + slotX, gui.getGuiTop() + slotY, 0, 0, 16, 16);
-        RenderSystem.disableBlend();
-        RenderSystem.enableTexture();
     }
 
 }

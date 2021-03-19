@@ -29,6 +29,10 @@ public class MythriaSawItem extends ToolItem implements IModularTool {
         this.toolHead = toolHead;
     }
 
+    @Override
+    public Item getDefaultHandle() {
+        return MythriaItems.OAK_SAW_HANDLE;
+    }
 
     @Override
     public Item getToolHeadItem() {
@@ -38,11 +42,6 @@ public class MythriaSawItem extends ToolItem implements IModularTool {
     @Override
     public Item[] getValidHandles() {
         return MythriaUtil.getItemsFromTag(new MythriaResourceLocation("saw_handles"));
-    }
-
-    @Override
-    public Item getDefaultHandle() {
-        return MythriaItems.OAK_SAW_HANDLE;
     }
 
     @Nullable

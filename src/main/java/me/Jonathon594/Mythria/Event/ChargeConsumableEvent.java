@@ -18,10 +18,6 @@ public class ChargeConsumableEvent extends Event {
         this.consumable = consumable;
     }
 
-    public PlayerEntity getPlayer() {
-        return player;
-    }
-
     public double getAmount() {
         return amount;
     }
@@ -32,6 +28,10 @@ public class ChargeConsumableEvent extends Event {
 
     public Consumable getConsumable() {
         return consumable;
+    }
+
+    public PlayerEntity getPlayer() {
+        return player;
     }
 
     public Profile getProfile() {

@@ -40,19 +40,13 @@ public class ClientManager {
     private static final HashMap<Item, Collection<MythriaPropertyGetter>> propertyOverrideMap = new HashMap<>();
     private static final HashMap<Ability, KeyBinding> keyAbilityTriggers = new HashMap<>();
 
-    public static ArrayList<ResourceLocation> getSpecialModels() {
-        return specialModels;
-    }
-
     public static void addSpecialModel(ResourceLocation resourceLocation) {
         if (specialModels.contains(resourceLocation)) throw new IllegalArgumentException();
         specialModels.add(resourceLocation);
     }
 
-    public static void registerOverride(Item item, MythriaPropertyGetter property) {
-        if (!propertyOverrideMap.containsKey(item)) propertyOverrideMap.put(item, new ArrayList<>());
-        Collection<MythriaPropertyGetter> list = propertyOverrideMap.get(item);
-        if (!list.contains(property)) list.add(property);
+    public static void addTextureToStitch(ResourceLocation location) {
+        if (!texturesToStitch.contains(location)) texturesToStitch.add(location);
     }
 
     public static void clientSetup() {
@@ -83,6 +77,14 @@ public class ClientManager {
         }
     }
 
+    public static ArrayList<ResourceLocation> getSpecialModels() {
+        return specialModels;
+    }
+
+    public static Collection<ResourceLocation> getTexturesToStitch() {
+        return texturesToStitch;
+    }
+
     public static void onPlayerTickClient() {
         ClientPlayerEntity player = minecraft.player;
         Profile profile = ProfileProvider.getProfile(player);
@@ -110,11 +112,9 @@ public class ClientManager {
         }
     }
 
-    public static Collection<ResourceLocation> getTexturesToStitch() {
-        return texturesToStitch;
-    }
-
-    public static void addTextureToStitch(ResourceLocation location) {
-        if (!texturesToStitch.contains(location)) texturesToStitch.add(location);
+    public static void registerOverride(Item item, MythriaPropertyGetter property) {
+        if (!propertyOverrideMap.containsKey(item)) propertyOverrideMap.put(item, new ArrayList<>());
+        Collection<MythriaPropertyGetter> list = propertyOverrideMap.get(item);
+        if (!list.contains(property)) list.add(property);
     }
 }

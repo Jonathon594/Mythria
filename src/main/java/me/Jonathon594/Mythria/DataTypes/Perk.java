@@ -60,73 +60,6 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         if (relatedSkill != null) requiredSkills.put(relatedSkill, requiredLevel);
     }
 
-    public void onTagsUpdated() {
-        List<Item> craftableTagItems = new ArrayList<>();
-        for (ResourceLocation resourceLocation : craftableItemTags) {
-            ITag<Item> itemITag = ItemTags.getCollection().get(resourceLocation);
-            if (itemITag == null) continue;
-            craftableTagItems.addAll(itemITag.getAllElements());
-        }
-        for (ResourceLocation resourceLocation : craftableBlockTags) {
-            ITag<Block> blockITag = BlockTags.getCollection().get(resourceLocation);
-            if (blockITag == null) continue;
-            for (Block block : blockITag.getAllElements()) {
-                craftableTagItems.add(block.asItem());
-            }
-        }
-        for (Item item : craftableTagItems) {
-            if (!craftable.contains(item)) craftable.add(item);
-        }
-
-        for (ResourceLocation resourceLocation : placeableTags) {
-            ITag<Block> blockITag = BlockTags.getCollection().get(resourceLocation);
-            if (blockITag == null) continue;
-            for (Block block : blockITag.getAllElements()) {
-                if (!placable.contains(block)) placable.add(block);
-            }
-        }
-
-        for (ResourceLocation resourceLocation : breakableTags) {
-            ITag<Block> blockITag = BlockTags.getCollection().get(resourceLocation);
-            if (blockITag == null) continue;
-            for (Block block : blockITag.getAllElements()) {
-                if (!breakable.contains(block)) breakable.add(block);
-            }
-        }
-
-        MaterialManager.registerCraftable(craftable, this);
-        MaterialManager.registerBreakable(breakable, this);
-        MaterialManager.registerPlaceable(placable, this);
-    }
-
-    public List<PerkType> getPerkTypeUnlocks() {
-        return perkTypeUnlocks;
-    }
-
-    public Perk addPerkTypeUnlock(PerkType type) {
-        if (!perkTypeUnlocks.contains(type)) perkTypeUnlocks.add(type);
-        return this;
-    }
-
-    public Perk addExcludedPerk(String perk) {
-        excludedPerks.add(perk);
-        return this;
-    }
-
-    public HashMap<Attribute, Integer> getRequiredAttributes() {
-        return requiredAttributes;
-    }
-
-    public Perk addRequiredAttribute(Attribute attribute, Integer value) {
-        requiredAttributes.put(attribute, value);
-        return this;
-    }
-
-    public Perk addRequiredFavor(Deity deity, int favor) {
-        requiredFavor.put(deity, favor);
-        return this;
-    }
-
     public Perk addAttributeFlag(final AttributeFlag dodge) {
         attributeFlags.add(dodge);
         return this;
@@ -139,6 +72,11 @@ public class Perk extends ForgeRegistryEntry<Perk> {
 
     public Perk addBreakable(Collection<Block> blocks) {
         breakable.addAll(blocks);
+        return this;
+    }
+
+    public Perk addBreakableBlockTag(ResourceLocation resourceLocation) {
+        breakableTags.add(resourceLocation);
         return this;
     }
 
@@ -157,19 +95,24 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         return this;
     }
 
-    public Perk addCraftableItemTag(ResourceLocation resourceLocation) {
-        craftableItemTags.add(resourceLocation);
-        return this;
-    }
-
     public Perk addCraftableBlockTag(ResourceLocation resourceLocation) {
         craftableBlockTags.add(resourceLocation);
         return this;
     }
 
-    @Override
-    public String toString() {
-        return getRegistryName().toString();
+    public Perk addCraftableItemTag(ResourceLocation resourceLocation) {
+        craftableItemTags.add(resourceLocation);
+        return this;
+    }
+
+    public Perk addExcludedPerk(String perk) {
+        excludedPerks.add(perk);
+        return this;
+    }
+
+    public Perk addPerkTypeUnlock(PerkType type) {
+        if (!perkTypeUnlocks.contains(type)) perkTypeUnlocks.add(type);
+        return this;
     }
 
     public Perk addPlaceable(final Block... blocks) {
@@ -182,8 +125,13 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         return this;
     }
 
-    public Perk addBreakableBlockTag(ResourceLocation resourceLocation) {
-        breakableTags.add(resourceLocation);
+    public Perk addRequiredAttribute(Attribute attribute, Integer value) {
+        requiredAttributes.put(attribute, value);
+        return this;
+    }
+
+    public Perk addRequiredFavor(Deity deity, int favor) {
+        requiredFavor.put(deity, favor);
         return this;
     }
 
@@ -195,15 +143,12 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         return attributeFlags;
     }
 
-    public HashMap<MythicSkills, Integer> getRequiredSkills() {
-        return requiredSkills;
+    public List<Block> getBreakable() {
+        return breakable;
     }
 
-    public boolean hasRequiredSkills(final Profile p) {
-        for (final Entry<MythicSkills, Integer> e : requiredSkills.entrySet())
-            if (p.getSkillLevel(e.getKey()) < e.getValue())
-                return false;
-        return true;
+    public List<Item> getCraftable() {
+        return craftable;
     }
 
     public ArrayList<String> getDataLines(Profile p) {
@@ -271,15 +216,6 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         return lines;
     }
 
-    private String getDescription() {
-        return description == null ? "" : description;
-    }
-
-    public Perk setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
     public String getDisplayName() {
         return displayName == null ? getRegistryName().getPath() : displayName;
     }
@@ -289,20 +225,8 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         return this;
     }
 
-    public HashMap<StatType, Double> getStatModifiers() {
-        return statModifiers;
-    }
-
-    public List<Item> getCraftable() {
-        return craftable;
-    }
-
-    public List<Block> getPlacable() {
-        return placable;
-    }
-
-    public List<Block> getBreakable() {
-        return breakable;
+    public List<String> getExcludedPerks() {
+        return excludedPerks;
     }
 
     public double getFatigueMitigation() {
@@ -337,8 +261,40 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         return this;
     }
 
+    public Perk getParent() {
+        if (requiredPerk == null) {
+            return null;
+        }
+
+        return requiredPerk.get();
+    }
+
+    public List<PerkType> getPerkTypeUnlocks() {
+        return perkTypeUnlocks;
+    }
+
+    public List<Block> getPlacable() {
+        return placable;
+    }
+
+    public HashMap<Attribute, Integer> getRequiredAttributes() {
+        return requiredAttributes;
+    }
+
     public Perk getRequiredPerk() {
         return requiredPerk.get();
+    }
+
+    public HashMap<MythicSkills, Integer> getRequiredSkills() {
+        return requiredSkills;
+    }
+
+    public HashMap<StatType, Double> getStatModifiers() {
+        return statModifiers;
+    }
+
+    public PerkType getType() {
+        return type;
     }
 
     public boolean hasRequiredAttribute(final Profile p) {
@@ -356,17 +312,11 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         return true;
     }
 
-    public Perk setBonusFatigueMitigation(final double d) {
-        bonusFatigueMitigation = d;
-        return this;
-    }
-
-    public Perk getParent() {
-        if (requiredPerk == null) {
-            return null;
-        }
-
-        return requiredPerk.get();
+    public boolean hasRequiredSkills(final Profile p) {
+        for (final Entry<MythicSkills, Integer> e : requiredSkills.entrySet())
+            if (p.getSkillLevel(e.getKey()) < e.getValue())
+                return false;
+        return true;
     }
 
     public boolean isExcluded(Profile p) {
@@ -380,11 +330,61 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         return false;
     }
 
-    public List<String> getExcludedPerks() {
-        return excludedPerks;
+    public void onTagsUpdated() {
+        List<Item> craftableTagItems = new ArrayList<>();
+        for (ResourceLocation resourceLocation : craftableItemTags) {
+            ITag<Item> itemITag = ItemTags.getCollection().get(resourceLocation);
+            if (itemITag == null) continue;
+            craftableTagItems.addAll(itemITag.getAllElements());
+        }
+        for (ResourceLocation resourceLocation : craftableBlockTags) {
+            ITag<Block> blockITag = BlockTags.getCollection().get(resourceLocation);
+            if (blockITag == null) continue;
+            for (Block block : blockITag.getAllElements()) {
+                craftableTagItems.add(block.asItem());
+            }
+        }
+        for (Item item : craftableTagItems) {
+            if (!craftable.contains(item)) craftable.add(item);
+        }
+
+        for (ResourceLocation resourceLocation : placeableTags) {
+            ITag<Block> blockITag = BlockTags.getCollection().get(resourceLocation);
+            if (blockITag == null) continue;
+            for (Block block : blockITag.getAllElements()) {
+                if (!placable.contains(block)) placable.add(block);
+            }
+        }
+
+        for (ResourceLocation resourceLocation : breakableTags) {
+            ITag<Block> blockITag = BlockTags.getCollection().get(resourceLocation);
+            if (blockITag == null) continue;
+            for (Block block : blockITag.getAllElements()) {
+                if (!breakable.contains(block)) breakable.add(block);
+            }
+        }
+
+        MaterialManager.registerCraftable(craftable, this);
+        MaterialManager.registerBreakable(breakable, this);
+        MaterialManager.registerPlaceable(placable, this);
     }
 
-    public PerkType getType() {
-        return type;
+    public Perk setBonusFatigueMitigation(final double d) {
+        bonusFatigueMitigation = d;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return getRegistryName().toString();
+    }
+
+    private String getDescription() {
+        return description == null ? "" : description;
+    }
+
+    public Perk setDescription(String description) {
+        this.description = description;
+        return this;
     }
 }

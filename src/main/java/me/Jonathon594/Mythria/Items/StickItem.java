@@ -20,12 +20,12 @@ public class StickItem extends AbstractFireStarterItem {
     }
 
     @Override
-    protected int getRequiredLevel() {
-        return 0;
+    protected double getFriction() {
+        return 0.1;
     }
 
     @Override
-    protected double getFriction() {
-        return 0.1;
+    protected int getRequiredLevel() {
+        return 0;
     }
 }

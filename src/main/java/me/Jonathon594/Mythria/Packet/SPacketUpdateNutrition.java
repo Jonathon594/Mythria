@@ -22,10 +22,9 @@ public class SPacketUpdateNutrition {
         value = packetBuffer.readDouble();
     }
 
-
-    public static void handle(SPacketUpdateNutrition msg, Supplier<NetworkEvent.Context> contextSupplier) {
-        contextSupplier.get().enqueueWork(() -> ClientUtil.handleUpdateNutrition(msg));
-        contextSupplier.get().setPacketHandled(true);
+    public void encode(ByteBuf buf) {
+        buf.writeInt(nutrition.ordinal());
+        buf.writeDouble(value);
     }
 
     public Consumable.Nutrition getNutrition() {
@@ -36,8 +35,8 @@ public class SPacketUpdateNutrition {
         return value;
     }
 
-    public void encode(ByteBuf buf) {
-        buf.writeInt(nutrition.ordinal());
-        buf.writeDouble(value);
+    public static void handle(SPacketUpdateNutrition msg, Supplier<NetworkEvent.Context> contextSupplier) {
+        contextSupplier.get().enqueueWork(() -> ClientUtil.handleUpdateNutrition(msg));
+        contextSupplier.get().setPacketHandled(true);
     }
 }

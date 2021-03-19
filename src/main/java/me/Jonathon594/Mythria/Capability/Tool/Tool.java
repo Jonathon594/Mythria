@@ -7,13 +7,6 @@ public class Tool implements ITool {
     final ItemStackHandler inventory = new ItemStackHandler(1);
 
     @Override
-    public CompoundNBT toNBT() {
-        CompoundNBT nbt = new CompoundNBT();
-        nbt.put("inventory", inventory.serializeNBT());
-        return nbt;
-    }
-
-    @Override
     public void fromNBT(CompoundNBT nbt) {
         inventory.deserializeNBT(nbt.getCompound("inventory"));
     }
@@ -21,5 +14,12 @@ public class Tool implements ITool {
     @Override
     public ItemStackHandler getInventory() {
         return inventory;
+    }
+
+    @Override
+    public CompoundNBT toNBT() {
+        CompoundNBT nbt = new CompoundNBT();
+        nbt.put("inventory", inventory.serializeNBT());
+        return nbt;
     }
 }

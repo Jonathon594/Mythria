@@ -17,6 +17,9 @@ public class CPacketReloadWeapon {
     public CPacketReloadWeapon(PacketBuffer packetBuffer) {
     }
 
+    public void encode(PacketBuffer packetBuffer) {
+
+    }
 
     public static void handle(CPacketReloadWeapon msg, Supplier<NetworkEvent.Context> contextSupplier) {
         contextSupplier.get().enqueueWork(() -> {
@@ -36,9 +39,5 @@ public class CPacketReloadWeapon {
         }
 
         return false;
-    }
-
-    public void encode(PacketBuffer packetBuffer) {
-
     }
 }

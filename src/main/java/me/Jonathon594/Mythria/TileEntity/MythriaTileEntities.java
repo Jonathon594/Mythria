@@ -4,6 +4,7 @@ import me.Jonathon594.Mythria.Blocks.BlockGroundCover;
 import me.Jonathon594.Mythria.Blocks.MythriaBlocks;
 import me.Jonathon594.Mythria.Client.Renderer.TileEntity.CampfireTileEntityRenderer;
 import me.Jonathon594.Mythria.Client.Renderer.TileEntity.GroundCoverTileEntityRenderer;
+import me.Jonathon594.Mythria.Client.Renderer.TileEntity.PitFurnaceTileEntityRenderer;
 import me.Jonathon594.Mythria.Client.Renderer.TileEntity.TanningRackTileEntityRenderer;
 import me.Jonathon594.Mythria.Mythria;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
@@ -38,5 +39,6 @@ public class MythriaTileEntities {
         ClientRegistry.bindTileEntityRenderer(GROUND_COVER.get(), GroundCoverTileEntityRenderer::new);
         ClientRegistry.bindTileEntityRenderer(CAMPFIRE.get(), CampfireTileEntityRenderer::new);
         ClientRegistry.bindTileEntityRenderer(TANNING_RACK.get(), TanningRackTileEntityRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(PIT_FURNACE.get(), PitFurnaceTileEntityRenderer::new);
     }
 }

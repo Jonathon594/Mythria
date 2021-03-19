@@ -11,11 +11,11 @@ public enum CookType {
         this.requiredLevel = requiredLevel;
     }
 
-    public int getRequiredLevel() {
-        return requiredLevel;
-    }
-
     public AttributeFlag getRequiredFlag() {
         return requiredFlag;
+    }
+
+    public int getRequiredLevel() {
+        return requiredLevel;
     }
 }

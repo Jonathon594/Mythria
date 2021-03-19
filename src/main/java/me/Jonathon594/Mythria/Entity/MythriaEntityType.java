@@ -25,14 +25,6 @@ public class MythriaEntityType {
     public static final EntityType<NetherChickenEntity> NETHER_CHICKEN = null;
     public static final EntityType<MythriaStriderEntity> STRIDER = null;
 
-    public static void registerRendersClient() {
-        RenderingRegistry.registerEntityRenderingHandler(NPC, NPCRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(SPEAR, SpearRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(ARROW, MythriaArrorRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(NETHER_CHICKEN, NetherChickenRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(STRIDER, StriderRenderer::new);
-    }
-
     @SubscribeEvent
     public static void onRegisterEntity(RegistryEvent.Register<EntityType<?>> event) {
         event.getRegistry().registerAll(
@@ -47,6 +39,14 @@ public class MythriaEntityType {
                 buildEntityType(EntityType.Builder.create(MythriaStriderEntity::new, EntityClassification.CREATURE)
                         .immuneToFire().size(0.9F, 1.7F).trackingRange(10), Mythria.MODID + ":strider")
         );
+    }
+
+    public static void registerRendersClient() {
+        RenderingRegistry.registerEntityRenderingHandler(NPC, NPCRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(SPEAR, SpearRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ARROW, MythriaArrorRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(NETHER_CHICKEN, NetherChickenRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(STRIDER, StriderRenderer::new);
     }
 
     protected static EntityType<?> buildEntityType(EntityType.Builder<?> builder, String id) {

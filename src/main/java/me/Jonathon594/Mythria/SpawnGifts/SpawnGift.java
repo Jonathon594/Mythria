@@ -22,20 +22,6 @@ public class SpawnGift extends ForgeRegistryEntry<SpawnGift> {
         this.displayName = name;
     }
 
-    public SpawnGift withDisplayName(String displayName) {
-        this.displayName = displayName;
-        return this;
-    }
-
-    public SpawnGift withPerkType(PerkType perkType) {
-        giftPerkTypes.add(perkType);
-        return this;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
     public void apply(ServerPlayerEntity serverPlayer, Profile profile) {
         for (ItemStack itemStack : getGiftItems()) {
             if (!serverPlayer.addItemStackToInventory(itemStack.copy())) {
@@ -47,15 +33,29 @@ public class SpawnGift extends ForgeRegistryEntry<SpawnGift> {
         }
     }
 
+    public ITextComponent getDescription() {
+        return new TranslationTextComponent("gifts." + getRegistryName().getPath() + ".description");
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public SpawnGift withDisplayName(String displayName) {
+        this.displayName = displayName;
+        return this;
+    }
+
+    public SpawnGift withPerkType(PerkType perkType) {
+        giftPerkTypes.add(perkType);
+        return this;
+    }
+
     private List<PerkType> getGiftPerkTypes() {
         return giftPerkTypes;
     }
 
     protected List<ItemStack> getGiftItems() {
         return ImmutableList.of();
-    }
-
-    public ITextComponent getDescription() {
-        return new TranslationTextComponent("gifts." + getRegistryName().getPath() + ".description");
     }
 }

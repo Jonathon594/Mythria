@@ -38,12 +38,12 @@ public class BlockSawhorse extends MythriaBlockHorizontal {
         return ActionResultType.SUCCESS;
     }
 
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return SHAPE[state.get(FACING).getHorizontalIndex() % 2];
-    }
-
     @Nullable
     public INamedContainerProvider getContainer(BlockState state, World worldIn, BlockPos pos) {
         return new SimpleNamedContainerProvider((windowID, invPlayer, p_220283_4_) -> new SawhorseContainer(windowID, invPlayer), CONTAINER_NAME);
+    }
+
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        return SHAPE[state.get(FACING).getHorizontalIndex() % 2];
     }
 }

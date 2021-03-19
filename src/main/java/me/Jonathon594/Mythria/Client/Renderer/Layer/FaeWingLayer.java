@@ -45,14 +45,14 @@ public class FaeWingLayer extends LayerRenderer<LivingEntity, CharacterModel<Liv
         matrixStackIn.pop();
     }
 
-    private boolean shouldRenderWings(LivingEntity entityIn) {
-        return getWingTexture(entityIn) != null;
-    }
-
     private ResourceLocation getWingTexture(LivingEntity entityIn) {
         MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(entityIn);
         SkinPart skinPart = mythriaPlayer.getSkinPart(SkinPart.Type.WINGS);
-        if(skinPart == null) return null;
+        if (skinPart == null) return null;
         return skinPart.getTextureLocation(mythriaPlayer.getGender());
+    }
+
+    private boolean shouldRenderWings(LivingEntity entityIn) {
+        return getWingTexture(entityIn) != null;
     }
 }

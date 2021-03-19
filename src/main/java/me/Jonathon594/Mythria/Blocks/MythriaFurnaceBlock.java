@@ -27,15 +27,6 @@ public class MythriaFurnaceBlock extends MythriaBlockHorizontal {
         super(name, weight, Block.Properties.create(material).hardnessAndResistance(30f, 30f).sound(sound));
     }
 
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
-    }
-
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(LIT, FACING);
-    }
-
-
     public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
         if (stateIn.get(LIT)) {
             double d0 = (double) pos.getX() + 0.5D;
@@ -59,5 +50,13 @@ public class MythriaFurnaceBlock extends MythriaBlockHorizontal {
 
     public TileEntity createNewTileEntity(IBlockReader worldIn) {
         return new FurnaceTileEntity();
+    }
+
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+    }
+
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(LIT, FACING);
     }
 }

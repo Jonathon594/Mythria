@@ -1,0 +1,20 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"charcoal": "mythria:blocks/campfire_charcoal",
+		"burning": "mythria:blocks/campfire_burning_soul"
+	},
+	"elements": [
+		{
+			"from": [5, 0, 0],
+			"to": [11, 1, 16],
+			"faces": {
+				"north": {"uv": [0, 15, 6, 16], "texture": "#charcoal", "cullface": "north"},
+				"south": {"uv": [10, 15, 16, 16], "texture": "#charcoal", "cullface": "south"},
+				"up": {"uv": [0, 8, 16, 14], "rotation": 90, "texture": "#burning"},
+				"down": {"uv": [0, 8, 16, 14], "rotation": 90, "texture": "#charcoal", "cullface": "down"}
+			}
+		}
+	]
+}

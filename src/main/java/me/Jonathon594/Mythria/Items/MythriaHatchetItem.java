@@ -7,12 +7,9 @@ import me.Jonathon594.Mythria.DataTypes.MythriaToolType;
 import me.Jonathon594.Mythria.Interface.IModularTool;
 import me.Jonathon594.Mythria.Mythria;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraftforge.common.ToolType;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import javax.annotation.Nullable;
 import java.util.Set;
@@ -33,11 +30,6 @@ public class MythriaHatchetItem extends ToolItem implements IModularTool {
         this.toolHead = toolHead;
     }
 
-    @Override
-    public Item getToolHeadItem() {
-        return toolHead.get();
-    }
-
     @Nullable
     @Override
     public CompoundNBT getShareTag(ItemStack stack) {
@@ -48,12 +40,17 @@ public class MythriaHatchetItem extends ToolItem implements IModularTool {
 
     @Override
     public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
-        if(nbt == null) return;
+        if (nbt == null) return;
         String key = Mythria.MODID + ".tool_sync";
-        if(nbt.contains(key)) {
+        if (nbt.contains(key)) {
             ToolProvider.getTool(stack).fromNBT(nbt.getCompound(key));
             nbt.remove(key);
         }
         stack.setTag(nbt);
+    }
+
+    @Override
+    public Item getToolHeadItem() {
+        return toolHead.get();
     }
 }

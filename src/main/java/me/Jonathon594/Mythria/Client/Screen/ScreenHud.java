@@ -87,6 +87,33 @@ public class ScreenHud extends IngameGui {
             blit(matrixStack, left, top, 0, 85, MathHelper.clamp(filled, 0, barWidth), 5);
     }
 
+    private void drawStatBar(MatrixStack matrixStack, int x, int y, int weight, int txBack, int txFront, int txFrontHalf, int ty, boolean renderBackground, int backValue, boolean reverse, boolean showWobble) {
+        RenderSystem.enableBlend();
+
+        for (int i = 0; i < 10; i++) {
+            int idx = i * 2 + 1;
+            int offset = reverse ? 72 - (i * 8) : i * 8;
+
+            if (renderBackground) {
+                if (idx <= backValue) blit(matrixStack, x + offset, y, txBack, ty, 9, 9);
+            }
+
+            if (idx < weight) {
+                blit(matrixStack, x + offset, y, txFront, ty, 9, 9);
+            }
+
+            if (idx == weight) {
+                blit(matrixStack, x + offset, y, txFrontHalf, ty, 9, 9);
+            }
+        }
+
+        RenderSystem.disableBlend();
+    }
+
+    private void drawStatBar(MatrixStack matrixStack, int x, int y, int weight, int txBack, int txFront, int txFrontHalf, int ty, boolean back, int backValue) {
+        drawStatBar(matrixStack, x, y, weight, txBack, txFront, txFrontHalf, ty, back, backValue, false, false);
+    }
+
     private void drawStats(MatrixStack matrixStack) {
         final int width = mc.getMainWindow().getScaledWidth();
         final int height = mc.getMainWindow().getScaledHeight();
@@ -140,32 +167,5 @@ public class ScreenHud extends IngameGui {
 //            drawStatBar(matrixStack, x, y + yOff, please, 0, 9, 18, 63, false, 20, true, false);
 //            yOff += 10;
         }
-    }
-
-    private void drawStatBar(MatrixStack matrixStack, int x, int y, int weight, int txBack, int txFront, int txFrontHalf, int ty, boolean back, int backValue) {
-        drawStatBar(matrixStack, x, y, weight, txBack, txFront, txFrontHalf, ty, back, backValue, false, false);
-    }
-
-    private void drawStatBar(MatrixStack matrixStack, int x, int y, int weight, int txBack, int txFront, int txFrontHalf, int ty, boolean renderBackground, int backValue, boolean reverse, boolean showWobble) {
-        RenderSystem.enableBlend();
-
-        for (int i = 0; i < 10; i++) {
-            int idx = i * 2 + 1;
-            int offset = reverse ? 72 - (i * 8) : i * 8;
-
-            if (renderBackground) {
-                if (idx <= backValue) blit(matrixStack, x + offset, y, txBack, ty, 9, 9);
-            }
-
-            if (idx < weight) {
-                blit(matrixStack, x + offset, y, txFront, ty, 9, 9);
-            }
-
-            if (idx == weight) {
-                blit(matrixStack, x + offset, y, txFrontHalf, ty, 9, 9);
-            }
-        }
-
-        RenderSystem.disableBlend();
     }
 }

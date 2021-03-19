@@ -45,16 +45,16 @@ public class MythriaBarrelBlock extends BarrelBlock {
         }
     }
 
-    @Nullable
-    public TileEntity createNewTileEntity(IBlockReader worldIn) {
-        return new MythriaBarrelTileEntity();
-    }
-
     @Override
     public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
         TileEntity tileentity = worldIn.getTileEntity(pos);
         if (tileentity instanceof MythriaBarrelTileEntity) {
             ((MythriaBarrelTileEntity) tileentity).barrelTick();
         }
+    }
+
+    @Nullable
+    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+        return new MythriaBarrelTileEntity();
     }
 }

@@ -17,15 +17,15 @@ public class CastingRecipe {
         CastingManager.addRecipe(this);
     }
 
-    public EnumMetalShape getShape() {
-        return shape;
-    }
-
     public MythriaMaterial getMaterial() {
         return material;
     }
 
     public Item getResult() {
         return result;
+    }
+
+    public EnumMetalShape getShape() {
+        return shape;
     }
 }

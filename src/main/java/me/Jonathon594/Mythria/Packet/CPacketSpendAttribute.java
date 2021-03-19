@@ -19,11 +19,11 @@ public class CPacketSpendAttribute {
         ordinal = packetBuffer.readInt();
     }
 
-    public static void handle(CPacketSpendAttribute msg, Supplier<NetworkEvent.Context> contextSupplier) {
-        AttributeManager.spendAttribute(contextSupplier.get().getSender(), Attribute.values()[msg.ordinal]);
-    }
-
     public void encode(ByteBuf buf) {
         buf.writeInt(ordinal);
+    }
+
+    public static void handle(CPacketSpendAttribute msg, Supplier<NetworkEvent.Context> contextSupplier) {
+        AttributeManager.spendAttribute(contextSupplier.get().getSender(), Attribute.values()[msg.ordinal]);
     }
 }

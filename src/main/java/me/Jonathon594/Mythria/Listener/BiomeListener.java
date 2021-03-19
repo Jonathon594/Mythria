@@ -15,6 +15,10 @@ import java.util.List;
 public class BiomeListener {
     private static ArrayList<Pair<EntityType, EntityType>> entitySpawnReplacements = new ArrayList<>();
 
+    public static void addEntityReplacement(EntityType replace, EntityType with) {
+        entitySpawnReplacements.add(new Pair<>(replace, with));
+    }
+
     @SubscribeEvent
     public static void onBiomeLoading(BiomeLoadingEvent event) {
         for (EntityClassification classification : EntityClassification.values()) {
@@ -32,9 +36,5 @@ public class BiomeListener {
             }
             spawns.addAll(replacements);
         }
-    }
-
-    public static void addEntityReplacement(EntityType replace, EntityType with) {
-        entitySpawnReplacements.add(new Pair<>(replace, with));
     }
 }

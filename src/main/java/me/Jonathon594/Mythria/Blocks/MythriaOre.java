@@ -1,14 +1,11 @@
 package me.Jonathon594.Mythria.Blocks;
 
-import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.DataTypes.StoneProperty;
 import me.Jonathon594.Mythria.Enum.EnumStone;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.StateContainer;
-import net.minecraftforge.event.world.BlockEvent;
 
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -23,12 +20,12 @@ public class MythriaOre extends MythriaBlock {
         setDefaultState(this.stateContainer.getBaseState().with(STONE_TYPE, EnumStone.STONE));
     }
 
+    public Block getSurfaceBlock() {
+        return surfaceBlockSupplier == null ? null : surfaceBlockSupplier.get();
+    }
+
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(STONE_TYPE);
-    }
-
-    public Block getSurfaceBlock() {
-        return surfaceBlockSupplier == null ? null : surfaceBlockSupplier.get();
     }
 }

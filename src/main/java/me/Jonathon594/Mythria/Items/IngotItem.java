@@ -28,6 +28,16 @@ public class IngotItem extends MythriaItem implements IWorkable {
     }
 
     @Override
+    public EnumMetalShape getMetalShape() {
+        return metalShape;
+    }
+
+    @Override
+    public MythriaMaterial getMetalType() {
+        return type;
+    }
+
+    @Override
     public ActionResultType onItemUse(ItemUseContext context) {
         World world = context.getWorld();
         Hand hand = context.getHand();
@@ -47,15 +57,5 @@ public class IngotItem extends MythriaItem implements IWorkable {
         //tep.getInventory().setStackInSlot(0, new ItemStack(this, 1));
         // if (!player.isCreative()) player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
         return ActionResultType.SUCCESS;
-    }
-
-    @Override
-    public MythriaMaterial getMetalType() {
-        return type;
-    }
-
-    @Override
-    public EnumMetalShape getMetalShape() {
-        return metalShape;
     }
 }

@@ -26,76 +26,12 @@ public class MythriaBarrelTileEntity extends LockableLootTileEntity {
     private NonNullList<ItemStack> barrelContents = NonNullList.withSize(9, ItemStack.EMPTY);
     private int numPlayersUsing;
 
-    private MythriaBarrelTileEntity(TileEntityType<?> barrelType) {
-        super(barrelType);
-    }
-
     public MythriaBarrelTileEntity() {
         this(MythriaTileEntities.THATCH_BASKET.get());
     }
 
-    public CompoundNBT write(CompoundNBT compound) {
-        super.write(compound);
-        if (!this.checkLootAndWrite(compound)) {
-            ItemStackHelper.saveAllItems(compound, this.barrelContents);
-        }
-
-        return compound;
-    }
-
-    public void read(BlockState state, CompoundNBT nbt) {
-        super.read(state, nbt);
-        this.barrelContents = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
-        if (!this.checkLootAndRead(nbt)) {
-            ItemStackHelper.loadAllItems(nbt, this.barrelContents);
-        }
-
-    }
-
-    /**
-     * Returns the number of slots in the inventory.
-     */
-    public int getSizeInventory() {
-        return 9;
-    }
-
-    protected NonNullList<ItemStack> getItems() {
-        return this.barrelContents;
-    }
-
-    protected void setItems(NonNullList<ItemStack> itemsIn) {
-        this.barrelContents = itemsIn;
-    }
-
-    protected ITextComponent getDefaultName() {
-        return new TranslationTextComponent("container.thatch_basket");
-    }
-
-    protected Container createMenu(int id, PlayerInventory player) {
-        return new ChestContainer(ContainerType.GENERIC_9X1, id, player, this, 1);
-    }
-
-    public void openInventory(PlayerEntity player) {
-        if (!player.isSpectator()) {
-            if (this.numPlayersUsing < 0) {
-                this.numPlayersUsing = 0;
-            }
-
-            ++this.numPlayersUsing;
-            BlockState blockstate = this.getBlockState();
-            boolean flag = blockstate.get(BarrelBlock.PROPERTY_OPEN);
-            if (!flag) {
-                this.playSound(blockstate, SoundEvents.BLOCK_BARREL_OPEN);
-                this.setOpenProperty(blockstate, true);
-            }
-
-            this.scheduleTick();
-        }
-
-    }
-
-    private void scheduleTick() {
-        this.world.getPendingBlockTicks().scheduleTick(this.getPos(), this.getBlockState().getBlock(), 5);
+    private MythriaBarrelTileEntity(TileEntityType<?> barrelType) {
+        super(barrelType);
     }
 
     public void barrelTick() {
@@ -121,6 +57,32 @@ public class MythriaBarrelTileEntity extends LockableLootTileEntity {
 
     }
 
+    /**
+     * Returns the number of slots in the inventory.
+     */
+    public int getSizeInventory() {
+        return 9;
+    }
+
+    public void openInventory(PlayerEntity player) {
+        if (!player.isSpectator()) {
+            if (this.numPlayersUsing < 0) {
+                this.numPlayersUsing = 0;
+            }
+
+            ++this.numPlayersUsing;
+            BlockState blockstate = this.getBlockState();
+            boolean flag = blockstate.get(BarrelBlock.PROPERTY_OPEN);
+            if (!flag) {
+                this.playSound(blockstate, SoundEvents.BLOCK_BARREL_OPEN);
+                this.setOpenProperty(blockstate, true);
+            }
+
+            this.scheduleTick();
+        }
+
+    }
+
     public void closeInventory(PlayerEntity player) {
         if (!player.isSpectator()) {
             --this.numPlayersUsing;
@@ -128,8 +90,30 @@ public class MythriaBarrelTileEntity extends LockableLootTileEntity {
 
     }
 
-    private void setOpenProperty(BlockState state, boolean open) {
-        this.world.setBlockState(this.getPos(), state.with(MythriaBarrelBlock.PROPERTY_OPEN, open), 3);
+    public void read(BlockState state, CompoundNBT nbt) {
+        super.read(state, nbt);
+        this.barrelContents = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
+        if (!this.checkLootAndRead(nbt)) {
+            ItemStackHelper.loadAllItems(nbt, this.barrelContents);
+        }
+
+    }
+
+    public CompoundNBT write(CompoundNBT compound) {
+        super.write(compound);
+        if (!this.checkLootAndWrite(compound)) {
+            ItemStackHelper.saveAllItems(compound, this.barrelContents);
+        }
+
+        return compound;
+    }
+
+    protected ITextComponent getDefaultName() {
+        return new TranslationTextComponent("container.thatch_basket");
+    }
+
+    protected Container createMenu(int id, PlayerInventory player) {
+        return new ChestContainer(ContainerType.GENERIC_9X1, id, player, this, 1);
     }
 
     private void playSound(BlockState state, SoundEvent sound) {
@@ -138,6 +122,22 @@ public class MythriaBarrelTileEntity extends LockableLootTileEntity {
         double d1 = (double) this.pos.getY() + 0.5D + (double) vector3i.getY() / 2.0D;
         double d2 = (double) this.pos.getZ() + 0.5D + (double) vector3i.getZ() / 2.0D;
         this.world.playSound(null, d0, d1, d2, sound, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+    }
+
+    private void scheduleTick() {
+        this.world.getPendingBlockTicks().scheduleTick(this.getPos(), this.getBlockState().getBlock(), 5);
+    }
+
+    private void setOpenProperty(BlockState state, boolean open) {
+        this.world.setBlockState(this.getPos(), state.with(MythriaBarrelBlock.PROPERTY_OPEN, open), 3);
+    }
+
+    protected NonNullList<ItemStack> getItems() {
+        return this.barrelContents;
+    }
+
+    protected void setItems(NonNullList<ItemStack> itemsIn) {
+        this.barrelContents = itemsIn;
     }
 }
 

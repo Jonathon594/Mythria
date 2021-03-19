@@ -13,12 +13,12 @@ public class FuelData {
         this.temperature = temperature;
     }
 
-    public Item getItem() {
-        return item;
-    }
-
     public int getBurnTime() {
         return burnTime;
+    }
+
+    public Item getItem() {
+        return item;
     }
 
     public double getTemperature() {

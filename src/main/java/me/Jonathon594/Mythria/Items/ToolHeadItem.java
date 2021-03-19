@@ -16,12 +16,12 @@ public class ToolHeadItem extends MythriaItem {
         this.result = result;
     }
 
-    public Item getResult() {
-        return result.get();
-    }
-
     public ToolHeadItem createCastingRecipe(EnumMetalShape shape, MythriaMaterial material) {
         new CastingRecipe(shape, material, this);
         return this;
+    }
+
+    public Item getResult() {
+        return result.get();
     }
 }

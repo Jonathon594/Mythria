@@ -29,6 +29,11 @@ public class NetherChickenEntity extends ChickenEntity {
         super(type, worldIn);
     }
 
+    public static boolean canNetherChickenSpawn(EntityType<? extends AnimalEntity> animal, IWorld worldIn, SpawnReason reason, BlockPos pos, Random random) {
+        BlockState blockState = worldIn.getBlockState(pos.down());
+        return blockState.isIn(Blocks.CRIMSON_NYLIUM) || blockState.isIn(Blocks.WARPED_NYLIUM);
+    }
+
     public static AttributeModifierMap.MutableAttribute registerAttributes() {
         return MonsterEntity.func_234295_eP_()
                 .createMutableAttribute(Attributes.MAX_HEALTH, 8.0D)
@@ -58,10 +63,5 @@ public class NetherChickenEntity extends ChickenEntity {
 
     public boolean isBreedingItem(ItemStack stack) {
         return TEMPTATION_ITEMS.test(stack);
-    }
-
-    public static boolean canNetherChickenSpawn(EntityType<? extends AnimalEntity> animal, IWorld worldIn, SpawnReason reason, BlockPos pos, Random random) {
-        BlockState blockState = worldIn.getBlockState(pos.down());
-        return blockState.isIn(Blocks.CRIMSON_NYLIUM) || blockState.isIn(Blocks.WARPED_NYLIUM);
     }
 }

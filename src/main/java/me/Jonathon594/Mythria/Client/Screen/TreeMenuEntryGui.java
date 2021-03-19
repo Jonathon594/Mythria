@@ -44,47 +44,34 @@ public class TreeMenuEntryGui extends AbstractGui {
         setDisplayData(displayInfo);
     }
 
-    private static float getTextWidth(CharacterManager manager, List<ITextProperties> text) {
-        return (float) text.stream().mapToDouble(manager::func_238356_a_).max().orElse(0.0D);
+    public void addGuiEntry(TreeMenuEntryGui gui) {
+        this.children.add(gui);
     }
 
-    private void setDisplayData(DisplayInfo displayInfo) {
-        this.displayInfo = displayInfo;
-        this.title = LanguageMap.getInstance().func_241870_a(minecraft.fontRenderer.func_238417_a_(displayInfo.getTitle(), 163));
-        int l = 29 + minecraft.fontRenderer.func_243245_a(this.title) + 16;
-        this.description = LanguageMap.getInstance().func_244260_a(getDescriptionLines(TextComponentUtils.func_240648_a_(displayInfo.getDescription().deepCopy(), Style.EMPTY.setFormatting(displayInfo.getFrame().getFormat())), l));
-
-        for (IReorderingProcessor ireorderingprocessor : this.description) {
-            l = Math.max(l, minecraft.fontRenderer.func_243245_a(ireorderingprocessor));
-        }
-
-        this.width = l + 16;
-    }
-
-    private List<ITextProperties> getDescriptionLines(ITextComponent component, int maxWidth) {
-        CharacterManager charactermanager = this.minecraft.fontRenderer.getCharacterManager();
-        List<ITextProperties> list = null;
-        float f = Float.MAX_VALUE;
-
-        for (int i : LINE_BREAK_VALUES) {
-            List<ITextProperties> list1 = charactermanager.func_238362_b_(component, maxWidth - i, Style.EMPTY);
-            float f1 = Math.abs(getTextWidth(charactermanager, list1) - (float) maxWidth);
-            if (f1 <= 10.0F) {
-                return list1;
-            }
-
-            if (f1 < f) {
-                f = f1;
-                list = list1;
+    public void attachToParent() {
+        if (this.parent == null && this.advancement.getParent() != null) {
+            this.parent = this.getFirstVisibleParent(this.advancement);
+            if (this.parent != null) {
+                this.parent.addGuiEntry(this);
             }
         }
 
-        return list;
     }
 
-    public void setDisplayInfo(DisplayInfo displayInfo) {
-        this.displayInfo = displayInfo;
-        setDisplayData(displayInfo);
+    public void draw(MatrixStack matrixStack, int p_191817_1_, int p_191817_2_) {
+        if (!this.displayInfo.isHidden()) {
+            this.minecraft.getTextureManager().bindTexture(WIDGETS);
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.enableBlend();
+            this.blit(matrixStack, p_191817_1_ + this.x + 3, p_191817_2_ + this.y, this.displayInfo.getFrame().getIcon(), 128 + (highlight ? 0 : 26), 26, 26);
+            RenderHelper.enableStandardItemLighting();
+            this.minecraft.getItemRenderer().renderItemAndEffectIntoGUI(null, this.displayInfo.getIcon(), p_191817_1_ + this.x + 8, p_191817_2_ + this.y + 5);
+        }
+
+        for (TreeMenuEntryGui gui : this.children) {
+            gui.draw(matrixStack, p_191817_1_, p_191817_2_);
+        }
+
     }
 
     public void drawConnectionLineToParent(MatrixStack matrixStack, int x, int y, boolean dropShadow) {
@@ -115,22 +102,6 @@ public class TreeMenuEntryGui extends AbstractGui {
 
         for (TreeMenuEntryGui option : this.children) {
             option.drawConnectionLineToParent(matrixStack, x, y, dropShadow);
-        }
-
-    }
-
-    public void draw(MatrixStack matrixStack, int p_191817_1_, int p_191817_2_) {
-        if (!this.displayInfo.isHidden()) {
-            this.minecraft.getTextureManager().bindTexture(WIDGETS);
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.enableBlend();
-            this.blit(matrixStack, p_191817_1_ + this.x + 3, p_191817_2_ + this.y, this.displayInfo.getFrame().getIcon(), 128 + (highlight ? 0 : 26), 26, 26);
-            RenderHelper.enableStandardItemLighting();
-            this.minecraft.getItemRenderer().renderItemAndEffectIntoGUI(null, this.displayInfo.getIcon(), p_191817_1_ + this.x + 8, p_191817_2_ + this.y + 5);
-        }
-
-        for (TreeMenuEntryGui gui : this.children) {
-            gui.draw(matrixStack, p_191817_1_, p_191817_2_);
         }
 
     }
@@ -215,6 +186,90 @@ public class TreeMenuEntryGui extends AbstractGui {
         this.minecraft.getItemRenderer().renderItemAndEffectIntoGuiWithoutEntity(this.displayInfo.getIcon(), p_191821_1_ + this.x + 8, p_191821_2_ + this.y + 5);
     }
 
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
+
+    public boolean isHighlight() {
+        return highlight;
+    }
+
+    public void setHighlight(boolean highlight) {
+        this.highlight = highlight;
+    }
+
+    public boolean isMouseOver(int p_191816_1_, int p_191816_2_, int p_191816_3_, int p_191816_4_) {
+        if (!this.displayInfo.isHidden()) {
+            int i = p_191816_1_ + this.x;
+            int j = i + 26;
+            int k = p_191816_2_ + this.y;
+            int l = k + 26;
+            return p_191816_3_ >= i && p_191816_3_ <= j && p_191816_4_ >= k && p_191816_4_ <= l;
+        } else {
+            return false;
+        }
+    }
+
+    public void setDisplayInfo(DisplayInfo displayInfo) {
+        this.displayInfo = displayInfo;
+        setDisplayData(displayInfo);
+    }
+
+    private List<ITextProperties> getDescriptionLines(ITextComponent component, int maxWidth) {
+        CharacterManager charactermanager = this.minecraft.fontRenderer.getCharacterManager();
+        List<ITextProperties> list = null;
+        float f = Float.MAX_VALUE;
+
+        for (int i : LINE_BREAK_VALUES) {
+            List<ITextProperties> list1 = charactermanager.func_238362_b_(component, maxWidth - i, Style.EMPTY);
+            float f1 = Math.abs(getTextWidth(charactermanager, list1) - (float) maxWidth);
+            if (f1 <= 10.0F) {
+                return list1;
+            }
+
+            if (f1 < f) {
+                f = f1;
+                list = list1;
+            }
+        }
+
+        return list;
+    }
+
+    @Nullable
+    private TreeMenuEntryGui getFirstVisibleParent(TreeMenuOption advancementIn) {
+        do {
+            advancementIn = advancementIn.getParent();
+        } while (advancementIn != null && advancementIn.getDisplay() == null);
+
+        if (advancementIn != null && advancementIn.getDisplay() != null) {
+            return this.treeMenuTabGui.getAdvancementGui(advancementIn);
+        } else {
+            return null;
+        }
+    }
+
+    private static float getTextWidth(CharacterManager manager, List<ITextProperties> text) {
+        return (float) text.stream().mapToDouble(manager::func_238356_a_).max().orElse(0.0D);
+    }
+
+    private void setDisplayData(DisplayInfo displayInfo) {
+        this.displayInfo = displayInfo;
+        this.title = LanguageMap.getInstance().func_241870_a(minecraft.fontRenderer.func_238417_a_(displayInfo.getTitle(), 163));
+        int l = 29 + minecraft.fontRenderer.func_243245_a(this.title) + 16;
+        this.description = LanguageMap.getInstance().func_244260_a(getDescriptionLines(TextComponentUtils.func_240648_a_(displayInfo.getDescription().deepCopy(), Style.EMPTY.setFormatting(displayInfo.getFrame().getFormat())), l));
+
+        for (IReorderingProcessor ireorderingprocessor : this.description) {
+            l = Math.max(l, minecraft.fontRenderer.func_243245_a(ireorderingprocessor));
+        }
+
+        this.width = l + 16;
+    }
+
     protected void drawDescriptionBox(MatrixStack matrixStack, int x, int y, int width, int height, int padding, int uWidth, int vHeight, int uOffset, int vOffset) {
         this.blit(matrixStack, x, y, uOffset, vOffset, padding, padding);
         this.drawDescriptionBoxBorder(matrixStack, x + padding, y, width - padding - padding, padding, uOffset + padding, vOffset, uWidth - padding - padding, vHeight);
@@ -239,60 +294,5 @@ public class TreeMenuEntryGui extends AbstractGui {
             }
         }
 
-    }
-
-    public boolean isMouseOver(int p_191816_1_, int p_191816_2_, int p_191816_3_, int p_191816_4_) {
-        if (!this.displayInfo.isHidden()) {
-            int i = p_191816_1_ + this.x;
-            int j = i + 26;
-            int k = p_191816_2_ + this.y;
-            int l = k + 26;
-            return p_191816_3_ >= i && p_191816_3_ <= j && p_191816_4_ >= k && p_191816_4_ <= l;
-        } else {
-            return false;
-        }
-    }
-
-    public void attachToParent() {
-        if (this.parent == null && this.advancement.getParent() != null) {
-            this.parent = this.getFirstVisibleParent(this.advancement);
-            if (this.parent != null) {
-                this.parent.addGuiEntry(this);
-            }
-        }
-
-    }
-
-    @Nullable
-    private TreeMenuEntryGui getFirstVisibleParent(TreeMenuOption advancementIn) {
-        do {
-            advancementIn = advancementIn.getParent();
-        } while (advancementIn != null && advancementIn.getDisplay() == null);
-
-        if (advancementIn != null && advancementIn.getDisplay() != null) {
-            return this.treeMenuTabGui.getAdvancementGui(advancementIn);
-        } else {
-            return null;
-        }
-    }
-
-    public void addGuiEntry(TreeMenuEntryGui gui) {
-        this.children.add(gui);
-    }
-
-    public int getY() {
-        return this.y;
-    }
-
-    public int getX() {
-        return this.x;
-    }
-
-    public boolean isHighlight() {
-        return highlight;
-    }
-
-    public void setHighlight(boolean highlight) {
-        this.highlight = highlight;
     }
 }

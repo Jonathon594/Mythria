@@ -69,7 +69,136 @@ public abstract class CrafterContainer extends Container {
         }
     }
 
+    public boolean canSelectRecipe(PlayerEntity playerIn, CrafterRecipe recipe) {
+        return hasRequiredQuantity(recipe) && hasRequiredPerk(playerIn, recipe);
+    }
+
+    public boolean enchantItem(PlayerEntity playerIn, int id) {
+        if (id >= 0 && id < this.recipes.size()) {
+            CrafterRecipe recipe = this.recipes.get(id);
+            if (!canSelectRecipe(playerIn, recipe)) {
+                return false;
+            } else {
+                this.selectedRecipe = id;
+            }
+            this.updateResult();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean canMergeSlot(ItemStack stack, Slot slotIn) {
+        return false;
+    }
+
+    @Override
+    public void onContainerClosed(PlayerEntity playerIn) {
+        super.onContainerClosed(playerIn);
+        CraftResultInventory.removeStackFromSlot(1);
+        clearContainer(playerIn, world, inventory);
+    }
+
+    public void onCraftMatrixChanged(IInventory inventoryIn) {
+        ItemStack itemstack = this.input.getStack();
+        if (itemstack.getItem() != this.stack.getItem()) {
+            this.stack = itemstack.copy();
+            this.updateRecipes(inventoryIn, itemstack);
+        }
+
+        if (!hasRequiredQuantity(getRecipe())) {
+            selectedRecipe = -1;
+            this.output.putStack(ItemStack.EMPTY);
+        }
+    }
+
+    public int getRecipeCount() {
+        return this.recipes.size();
+    }
+
+    public List<? extends CrafterRecipe> getRecipes() {
+        return this.recipes;
+    }
+
+    public int getSelectedIndex() {
+        return this.selectedRecipe;
+    }
+
+    public ItemStack getTool() {
+        return tool;
+    }
+
+    public boolean hasRecipes() {
+        return this.input.getHasStack() && !this.recipes.isEmpty();
+    }
+
+    public boolean hasRequiredQuantity(IRecipe recipe) {
+        if (recipe == null) return false;
+        if (!(recipe instanceof CrafterRecipe)) return false;
+        CrafterRecipe crafterRecipe = (CrafterRecipe) recipe;
+        return crafterRecipe.getCost() <= this.input.getStack().getCount();
+    }
+
+    public void setRunnable(Runnable runnable) {
+        this.runnable = runnable;
+    }
+
+    private boolean hasRequiredPerk(PlayerEntity playerIn, CrafterRecipe recipe) {
+        Map<Item, List<Perk>> attributesForCrafting = MaterialManager.PERKS_FOR_CRAFTING;
+        Item item = recipe.getRecipeOutput().getItem();
+        if (attributesForCrafting.containsKey(item)) {
+            Profile profile = ProfileProvider.getProfile(playerIn);
+            for (Perk perk : attributesForCrafting.get(item)) {
+                if (profile.hasPerk(perk)) return true;
+            }
+            return false;
+        }
+        return true;
+    }
+
+    private boolean hasTool() {
+        return tool != null && isValidTool(tool);
+    }
+
+    private void updateRecipes(IInventory craftingInventory, ItemStack stack) {
+        this.recipes.clear();
+        this.selectedRecipe = -1;
+        this.output.putStack(ItemStack.EMPTY);
+        if (!stack.isEmpty()) {
+            List<? extends IRecipe> matching = this.world.getRecipeManager().getRecipes(getRecipeType(), craftingInventory, this.world);
+            for (IRecipe recipe : matching) {
+                if (!(recipe instanceof CrafterRecipe)) continue;
+                CrafterRecipe crafterRecipe = (CrafterRecipe) recipe;
+                if (crafterRecipe.getTier() > getCraftingTier()) continue;
+                recipes.add(crafterRecipe);
+            }
+        }
+    }
+
+    protected abstract Slot createInputSlot();
+
     protected abstract Slot createOutputSlot();
+
+    protected boolean canCraft() {
+        if (!hasRecipes()) return false;
+        if (!hasTool() && needsTool()) return false;
+        IRecipe recipe = getRecipe();
+        if (recipe == null) return false;
+
+        if (!needsTool()) return true;
+
+        ItemStack tool = getTool();
+        int damageRemaining = tool.getMaxDamage() - tool.getDamage();
+        int count = recipe.getRecipeOutput().getCount();
+        return count <= damageRemaining;
+    }
+
+    protected abstract boolean isValidTool(ItemStack tool);
+
+    protected abstract IRecipeType getRecipeType();
+
+    protected abstract int getCraftingTier();
+
+    protected abstract Collection<Item> getValidItems();
 
     protected void onOutputTakeStack(PlayerEntity player, ItemStack stack) {
         if (needsTool()) damageTool(player);
@@ -90,60 +219,8 @@ public abstract class CrafterContainer extends Container {
         if (!stack.isEmpty()) addExperience(player, stack, recipe);
     }
 
-    protected abstract Slot createInputSlot();
-
-    protected void addExperience(PlayerEntity player, ItemStack stack, CrafterRecipe recipe) {
-        Map<Item, List<Perk>> attributesForCrafting = MaterialManager.PERKS_FOR_CRAFTING;
-        Item item = recipe.getRecipeOutput().getItem();
-        if (attributesForCrafting.containsKey(item) && !player.world.isRemote) {
-            Profile profile = ProfileProvider.getProfile(player);
-            for (Perk perk : attributesForCrafting.get(item)) {
-                if (profile.hasPerk(perk)) {
-                    for (final Map.Entry<MythicSkills, Integer> s : perk.getRequiredSkills().entrySet())
-                        profile.addSkillExperience(s.getKey(), EXPConst.ITEM_CRAFT * stack.getCount(), (ServerPlayerEntity) player, s.getValue());
-                }
-            }
-        }
-    }
-
-    protected abstract SoundEvent getCraftSound();
-
-    public boolean enchantItem(PlayerEntity playerIn, int id) {
-        if (id >= 0 && id < this.recipes.size()) {
-            CrafterRecipe recipe = this.recipes.get(id);
-            if (!canSelectRecipe(playerIn, recipe)) {
-                return false;
-            } else {
-                this.selectedRecipe = id;
-            }
-            this.updateResult();
-            return true;
-        }
-        return false;
-    }
-
-    public boolean canSelectRecipe(PlayerEntity playerIn, CrafterRecipe recipe) {
-        return hasRequiredQuantity(recipe) && hasRequiredPerk(playerIn, recipe);
-    }
-
-    private boolean hasRequiredPerk(PlayerEntity playerIn, CrafterRecipe recipe) {
-        Map<Item, List<Perk>> attributesForCrafting = MaterialManager.PERKS_FOR_CRAFTING;
-        Item item = recipe.getRecipeOutput().getItem();
-        if (attributesForCrafting.containsKey(item)) {
-            Profile profile = ProfileProvider.getProfile(playerIn);
-            for (Perk perk : attributesForCrafting.get(item)) {
-                if (profile.hasPerk(perk)) return true;
-            }
-            return false;
-        }
+    protected boolean needsTool() {
         return true;
-    }
-
-    public boolean hasRequiredQuantity(IRecipe recipe) {
-        if (recipe == null) return false;
-        if (!(recipe instanceof CrafterRecipe)) return false;
-        CrafterRecipe crafterRecipe = (CrafterRecipe) recipe;
-        return crafterRecipe.getCost() <= this.input.getStack().getCount();
     }
 
     protected void damageTool(final PlayerEntity player) {
@@ -151,26 +228,6 @@ public abstract class CrafterContainer extends Container {
         IRecipe recipe = getRecipe();
         int count = recipe.getRecipeOutput().getCount();
         tool.damageItem(count, player, (playerEntity) -> playerEntity.sendBreakAnimation(new ItemUseContext(player, Hand.MAIN_HAND, null).getHand()));
-    }
-
-    public int getRecipeCount() {
-        return this.recipes.size();
-    }
-
-    public int getSelectedIndex() {
-        return this.selectedRecipe;
-    }
-
-    public List<? extends CrafterRecipe> getRecipes() {
-        return this.recipes;
-    }
-
-    public boolean hasRecipes() {
-        return this.input.getHasStack() && !this.recipes.isEmpty();
-    }
-
-    public ItemStack getTool() {
-        return tool;
     }
 
     protected CrafterRecipe getRecipe() {
@@ -189,77 +246,19 @@ public abstract class CrafterContainer extends Container {
         this.detectAndSendChanges();
     }
 
-    protected boolean canCraft() {
-        if (!hasRecipes()) return false;
-        if (!hasTool() && needsTool()) return false;
-        IRecipe recipe = getRecipe();
-        if (recipe == null) return false;
+    protected abstract SoundEvent getCraftSound();
 
-        if (!needsTool()) return true;
-
-        ItemStack tool = getTool();
-        int damageRemaining = tool.getMaxDamage() - tool.getDamage();
-        int count = recipe.getRecipeOutput().getCount();
-        return count <= damageRemaining;
-    }
-
-    protected boolean needsTool() {
-        return true;
-    }
-
-    private boolean hasTool() {
-        return tool != null && isValidTool(tool);
-    }
-
-    protected abstract boolean isValidTool(ItemStack tool);
-
-    public void onCraftMatrixChanged(IInventory inventoryIn) {
-        ItemStack itemstack = this.input.getStack();
-        if (itemstack.getItem() != this.stack.getItem()) {
-            this.stack = itemstack.copy();
-            this.updateRecipes(inventoryIn, itemstack);
-        }
-
-        if (!hasRequiredQuantity(getRecipe())) {
-            selectedRecipe = -1;
-            this.output.putStack(ItemStack.EMPTY);
-        }
-    }
-
-    private void updateRecipes(IInventory craftingInventory, ItemStack stack) {
-        this.recipes.clear();
-        this.selectedRecipe = -1;
-        this.output.putStack(ItemStack.EMPTY);
-        if (!stack.isEmpty()) {
-            List<? extends IRecipe> matching = this.world.getRecipeManager().getRecipes(getRecipeType(), craftingInventory, this.world);
-            for (IRecipe recipe : matching) {
-                if (!(recipe instanceof CrafterRecipe)) continue;
-                CrafterRecipe crafterRecipe = (CrafterRecipe) recipe;
-                if (crafterRecipe.getTier() > getCraftingTier()) continue;
-                recipes.add(crafterRecipe);
+    protected void addExperience(PlayerEntity player, ItemStack stack, CrafterRecipe recipe) {
+        Map<Item, List<Perk>> attributesForCrafting = MaterialManager.PERKS_FOR_CRAFTING;
+        Item item = recipe.getRecipeOutput().getItem();
+        if (attributesForCrafting.containsKey(item) && !player.world.isRemote) {
+            Profile profile = ProfileProvider.getProfile(player);
+            for (Perk perk : attributesForCrafting.get(item)) {
+                if (profile.hasPerk(perk)) {
+                    for (final Map.Entry<MythicSkills, Integer> s : perk.getRequiredSkills().entrySet())
+                        profile.addSkillExperience(s.getKey(), EXPConst.ITEM_CRAFT * stack.getCount(), (ServerPlayerEntity) player, s.getValue());
+                }
             }
         }
-    }
-
-    protected abstract int getCraftingTier();
-
-    protected abstract IRecipeType getRecipeType();
-
-
-    public void setRunnable(Runnable runnable) {
-        this.runnable = runnable;
-    }
-
-    protected abstract Collection<Item> getValidItems();
-
-    @Override
-    public void onContainerClosed(PlayerEntity playerIn) {
-        super.onContainerClosed(playerIn);
-        CraftResultInventory.removeStackFromSlot(1);
-        clearContainer(playerIn, world, inventory);
-    }
-
-    public boolean canMergeSlot(ItemStack stack, Slot slotIn) {
-        return false;
     }
 }

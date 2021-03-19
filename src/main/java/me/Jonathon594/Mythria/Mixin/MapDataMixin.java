@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MapData.class)
 public class MapDataMixin {
     @Inject(method = "Lnet/minecraft/world/storage/MapData;updateDecorations(Lnet/minecraft/world/storage/MapDecoration$Type;Lnet/minecraft/world/IWorld;Ljava/lang/String;DDDLnet/minecraft/util/text/ITextComponent;)V",
-    at = @At(value = "HEAD"), cancellable = true)
+            at = @At(value = "HEAD"), cancellable = true)
     public void onUpdateDecoration(MapDecoration.Type type, IWorld worldIn, String decorationName, double worldX, double worldZ, double rotationIn, ITextComponent name, CallbackInfo ci) {
-        if(type.equals(MapDecoration.Type.PLAYER)) ci.cancel();
+        if (type.equals(MapDecoration.Type.PLAYER)) ci.cancel();
     }
 }

@@ -42,105 +42,43 @@ import java.util.Map;
 
 @Mod.EventBusSubscriber
 public class PlayerListener {
-    @SubscribeEvent()
-    public static void playerLoggedOut(final PlayerEvent.PlayerLoggedOutEvent event) {
-        if (event.getPlayer().getEntityWorld().isRemote)
-            return;
-        final ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
-        Profile profile = ProfileProvider.getProfile(player);
-        //NPCManager.onPlayerLoggedOut(player);
-        profile.setLastDisconnect(System.currentTimeMillis());
-    }
-
     @SubscribeEvent
-    public static void playerRespawnEvent(final PlayerEvent.PlayerRespawnEvent event) {
-        final ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
-        player.getCapability(ProfileProvider.PROFILE_CAP, null);
-    }
-
-    @SubscribeEvent
-    public static void playerLoggedIn(final PlayerEvent.PlayerLoggedInEvent event) {
-        final ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
-        player.func_242111_a(MythriaWorlds.SPAWN_KEY, new BlockPos(0, 64, 0), 0.0f, true, false);
-        MythriaUtil.grantRecipeAdvancements(player);
-        player.resetRecipes(Lists.newArrayList(player.server.getRecipeManager().getRecipes()));
-        ChatManager.setChatChannel(player, ChatChannel.LOCAL);
-        final Profile p = ProfileProvider.getProfile(player);
-        //MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(player);
-        //mythriaPlayer.setPlayer(player);
-        MythriaUtil.unlockDefaultRecipes(player);
-
-        if (p.getCreated()) {
-            //CompoundNBT renderData = MythriaRenderManager.createRenderData(p, player);
-            //MythriaRenderManager.setRenderData(player.getUniqueID(), renderData);
-            //MythriaRenderManager.sendSingleRenderDataToAll(player.getUniqueID());
-
-            MythriaPacketHandler.sendTo(new SPacketProfileCache(p.toNBT()), player);
+    public static void onBlockBreak(final BlockEvent.BreakEvent event) {
+        final PlayerEntity p = event.getPlayer();
+        final Profile profile = ProfileProvider.getProfile(p);
+        Block block = event.getState().getBlock();
+        double cost = MaterialManager.getStaminaCostForBreaking(event.getState(), p.world, event.getPos());
+        StatManager.chargeConsumable(event.getPlayer(), cost, Consumable.STAMINA);
+        ArrayList<Block> treeBlocks = TreeFellingManager.HandleTreeChop(p, event.getPos());
+        if (treeBlocks.size() > 0) {
+            for (Block b : treeBlocks) {
+                addExperienceForBreaking((ServerPlayerEntity) p, profile, b);
+            }
         } else {
-            MythriaUtil.teleportPlayerToSpawnDimension(player);
-        }
-        //MythriaRenderManager.sendAllRenderDataToSingle(player);
-        //SexManager.sendSexData(player);
-        //NPCManager.onPlayerLoggedIn(player, p);
-        //NPCManager.onPlayerLoggedOut(player);
-        //SurvivalManager.onLoggedIn(player, p);
-
-        p.copySkinToMythriaPlayer(MythriaPlayerProvider.getMythriaPlayer(player));
-
-        updatePlayerCapabilities(p, player);
-    }
-
-    private static void updatePlayerCapabilities(Profile profile, ServerPlayerEntity player) {
-        boolean canFly = false;
-        if (profile.hasFlag(AttributeFlag.FAE_FLIGHT) || player.isCreative() || player.isSpectator()) {
-            canFly = true;
-        }
-
-        player.abilities.allowFlying = canFly;
-        player.sendPlayerAbilities();
-    }
-
-    @SubscribeEvent
-    public static void onPlayerOpenContainer(PlayerContainerEvent.Open event) {
-        PlayerEntity player = event.getPlayer();
-        LimitedInventoryManager.onOpenContainer(player, event.getContainer());
-        FoodManager.updateFoodItems(event);
-    }
-
-    @SubscribeEvent
-    public static void onCloseContainer(final PlayerContainerEvent.Close event) {
-        PlayerEntity player = event.getPlayer();
-        if (player.getEntityWorld().isRemote) {
+            addExperienceForBreaking((ServerPlayerEntity) p, profile, block);
         }
     }
 
     @SubscribeEvent
-    public static void onItemPickup(final PlayerEvent.ItemPickupEvent event) {
-        PlayerEntity player = event.getPlayer();
-        if (player.getEntityWorld().isRemote) {
-        }
-    }
-
-    @SubscribeEvent
-    public static void onPlayerInteract(final PlayerInteractEvent.LeftClickBlock event) {
-        if (event.getWorld().isRemote) return;
-        BlessingManager.onPunchBlock(event);
-    }
-
-    @SubscribeEvent
-    public static void onCraftItem(final PlayerEvent.ItemCraftedEvent event) {
-        // If client, return;
-        PlayerEntity player = event.getPlayer();
-        if (player.getEntityWorld().isRemote)
-            return;
-        final Profile p = ProfileProvider.getProfile(player);
-        final List<Perk> list = MaterialManager.PERKS_FOR_CRAFTING
-                .get(event.getCrafting().getItem());
-        if (list != null)
-            for (final Perk pa : list)
-                if (p.getPlayerSkills().contains(pa))
+    public static void onBlockPlace(final BlockEvent.EntityPlaceEvent event) {
+        Entity entity = event.getEntity();
+        if (!(entity instanceof PlayerEntity)) return;
+        final PlayerEntity p = (PlayerEntity) entity;
+        double cost = MaterialManager.getStaminaCostForBreaking(event.getPlacedBlock(), event.getWorld(), event.getPos());
+        if (!(entity instanceof PlayerEntity)) return;
+        final Profile profile = ProfileProvider.getProfile(p);
+        final List<Perk> list = MaterialManager.PERKS_FOR_PLACING.get(event.getPlacedBlock().getBlock());
+        if (list != null) {
+            for (final Perk pa : list) {
+                if (profile.getPlayerSkills().contains(pa)) {
                     for (final Map.Entry<MythicSkills, Integer> s : pa.getRequiredSkills().entrySet())
-                        p.addSkillExperience(s.getKey(), EXPConst.ITEM_CRAFT * (s.getValue() / 10.0 + 1), (ServerPlayerEntity) player, s.getValue());
+                        profile.addSkillExperience(s.getKey(), EXPConst.BLOCK_PLACE * (s.getValue() / 10.0 + 1), (ServerPlayerEntity) p, s.getValue());
+                }
+            }
+        }
+        StatManager.chargeConsumable(p, cost, Consumable.STAMINA);
+        if (ConstructionManager.isReinforced(event.getPlacedBlock().getBlock()))
+            ConstructionManager.addRecentlyPlacedBlock(p, event.getPlacedBlock().getBlock(), event.getPos());
     }
 
     @SubscribeEvent
@@ -190,42 +128,46 @@ public class PlayerListener {
     }
 
     @SubscribeEvent
-    public static void onBlockPlace(final BlockEvent.EntityPlaceEvent event) {
-        Entity entity = event.getEntity();
-        if (!(entity instanceof PlayerEntity)) return;
-        final PlayerEntity p = (PlayerEntity) entity;
-        double cost = MaterialManager.getStaminaCostForBreaking(event.getPlacedBlock(), event.getWorld(), event.getPos());
-        if (!(entity instanceof PlayerEntity)) return;
-        final Profile profile = ProfileProvider.getProfile(p);
-        final List<Perk> list = MaterialManager.PERKS_FOR_PLACING.get(event.getPlacedBlock().getBlock());
-        if (list != null) {
-            for (final Perk pa : list) {
-                if (profile.getPlayerSkills().contains(pa)) {
-                    for (final Map.Entry<MythicSkills, Integer> s : pa.getRequiredSkills().entrySet())
-                        profile.addSkillExperience(s.getKey(), EXPConst.BLOCK_PLACE * (s.getValue() / 10.0 + 1), (ServerPlayerEntity) p, s.getValue());
-                }
-            }
+    public static void onCloseContainer(final PlayerContainerEvent.Close event) {
+        PlayerEntity player = event.getPlayer();
+        if (player.getEntityWorld().isRemote) {
         }
-        StatManager.chargeConsumable(p, cost, Consumable.STAMINA);
-        if (ConstructionManager.isReinforced(event.getPlacedBlock().getBlock()))
-            ConstructionManager.addRecentlyPlacedBlock(p, event.getPlacedBlock().getBlock(), event.getPos());
     }
 
     @SubscribeEvent
-    public static void onBlockBreak(final BlockEvent.BreakEvent event) {
-        final PlayerEntity p = event.getPlayer();
-        final Profile profile = ProfileProvider.getProfile(p);
-        Block block = event.getState().getBlock();
-        double cost = MaterialManager.getStaminaCostForBreaking(event.getState(), p.world, event.getPos());
-        StatManager.chargeConsumable(event.getPlayer(), cost, Consumable.STAMINA);
-        ArrayList<Block> treeBlocks = TreeFellingManager.HandleTreeChop(p, event.getPos());
-        if (treeBlocks.size() > 0) {
-            for (Block b : treeBlocks) {
-                addExperienceForBreaking((ServerPlayerEntity) p, profile, b);
-            }
-        } else {
-            addExperienceForBreaking((ServerPlayerEntity) p, profile, block);
+    public static void onCraftItem(final PlayerEvent.ItemCraftedEvent event) {
+        // If client, return;
+        PlayerEntity player = event.getPlayer();
+        if (player.getEntityWorld().isRemote)
+            return;
+        final Profile p = ProfileProvider.getProfile(player);
+        final List<Perk> list = MaterialManager.PERKS_FOR_CRAFTING
+                .get(event.getCrafting().getItem());
+        if (list != null)
+            for (final Perk pa : list)
+                if (p.getPlayerSkills().contains(pa))
+                    for (final Map.Entry<MythicSkills, Integer> s : pa.getRequiredSkills().entrySet())
+                        p.addSkillExperience(s.getKey(), EXPConst.ITEM_CRAFT * (s.getValue() / 10.0 + 1), (ServerPlayerEntity) player, s.getValue());
+    }
+
+    @SubscribeEvent
+    public static void onItemPickup(final PlayerEvent.ItemPickupEvent event) {
+        PlayerEntity player = event.getPlayer();
+        if (player.getEntityWorld().isRemote) {
         }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerInteract(final PlayerInteractEvent.LeftClickBlock event) {
+        if (event.getWorld().isRemote) return;
+        BlessingManager.onPunchBlock(event);
+    }
+
+    @SubscribeEvent
+    public static void onPlayerOpenContainer(PlayerContainerEvent.Open event) {
+        PlayerEntity player = event.getPlayer();
+        LimitedInventoryManager.onOpenContainer(player, event.getContainer());
+        FoodManager.updateFoodItems(event);
     }
 
     @SubscribeEvent
@@ -252,6 +194,64 @@ public class PlayerListener {
             if (!player.world.isRemote)
                 player.sendMessage(new StringTextComponent(MythriaConst.CANT_PLACE), Util.DUMMY_UUID);
         }
+    }
+
+    @SubscribeEvent
+    public static void playerLoggedIn(final PlayerEvent.PlayerLoggedInEvent event) {
+        final ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
+        player.func_242111_a(MythriaWorlds.SPAWN_KEY, new BlockPos(0, 64, 0), 0.0f, true, false);
+        MythriaUtil.grantRecipeAdvancements(player);
+        player.resetRecipes(Lists.newArrayList(player.server.getRecipeManager().getRecipes()));
+        ChatManager.setChatChannel(player, ChatChannel.LOCAL);
+        final Profile p = ProfileProvider.getProfile(player);
+        //MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(player);
+        //mythriaPlayer.setPlayer(player);
+        MythriaUtil.unlockDefaultRecipes(player);
+
+        if (p.getCreated()) {
+            //CompoundNBT renderData = MythriaRenderManager.createRenderData(p, player);
+            //MythriaRenderManager.setRenderData(player.getUniqueID(), renderData);
+            //MythriaRenderManager.sendSingleRenderDataToAll(player.getUniqueID());
+
+            MythriaPacketHandler.sendTo(new SPacketProfileCache(p.toNBT()), player);
+        } else {
+            MythriaUtil.teleportPlayerToSpawnDimension(player);
+        }
+        //MythriaRenderManager.sendAllRenderDataToSingle(player);
+        //SexManager.sendSexData(player);
+        //NPCManager.onPlayerLoggedIn(player, p);
+        //NPCManager.onPlayerLoggedOut(player);
+        //SurvivalManager.onLoggedIn(player, p);
+
+        p.copySkinToMythriaPlayer(MythriaPlayerProvider.getMythriaPlayer(player));
+
+        updatePlayerCapabilities(p, player);
+    }
+
+    @SubscribeEvent()
+    public static void playerLoggedOut(final PlayerEvent.PlayerLoggedOutEvent event) {
+        if (event.getPlayer().getEntityWorld().isRemote)
+            return;
+        final ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
+        Profile profile = ProfileProvider.getProfile(player);
+        //NPCManager.onPlayerLoggedOut(player);
+        profile.setLastDisconnect(System.currentTimeMillis());
+    }
+
+    @SubscribeEvent
+    public static void playerRespawnEvent(final PlayerEvent.PlayerRespawnEvent event) {
+        final ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
+        player.getCapability(ProfileProvider.PROFILE_CAP, null);
+    }
+
+    private static void updatePlayerCapabilities(Profile profile, ServerPlayerEntity player) {
+        boolean canFly = false;
+        if (profile.hasFlag(AttributeFlag.FAE_FLIGHT) || player.isCreative() || player.isSpectator()) {
+            canFly = true;
+        }
+
+        player.abilities.allowFlying = canFly;
+        player.sendPlayerAbilities();
     }
 
     protected static void addExperienceForBreaking(ServerPlayerEntity p, Profile profile, Block block) {

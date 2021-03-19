@@ -16,8 +16,8 @@ public class BowstringContainer extends ToolComponentContainer {
     }
 
     @Override
-    protected boolean isValidTool(ItemStack stack) {
-        return stack.getItem() instanceof MythriaBowItem && BowProvider.getBow(stack).getBowstring().isEmpty();
+    protected SoundEvent getCraftSound() {
+        return SoundEvents.ENTITY_SHEEP_SHEAR;
     }
 
     @Override
@@ -26,8 +26,8 @@ public class BowstringContainer extends ToolComponentContainer {
     }
 
     @Override
-    protected SoundEvent getCraftSound() {
-        return SoundEvents.ENTITY_SHEEP_SHEAR;
+    protected boolean isValidTool(ItemStack stack) {
+        return stack.getItem() instanceof MythriaBowItem && BowProvider.getBow(stack).getBowstring().isEmpty();
     }
 
     @Override

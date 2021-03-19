@@ -8,7 +8,6 @@ import me.Jonathon594.Mythria.WorldGen.Feature.MythriaFeatures;
 import me.Jonathon594.Mythria.WorldGen.Feature.Placement.MythriaPlacements;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.biome.MobSpawnInfo;
@@ -23,7 +22,6 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 

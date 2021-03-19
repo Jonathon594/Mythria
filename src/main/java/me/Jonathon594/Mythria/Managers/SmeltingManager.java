@@ -9,6 +9,19 @@ import java.util.ArrayList;
 public class SmeltingManager {
     private static final ArrayList<MetallurgyRecipe> metalRecipes = new ArrayList<>();
 
+    public static void addRecipe(MetallurgyRecipe metallurgyRecipe) {
+        MetallurgyRecipe recipe = getMetalRecipe(metallurgyRecipe.getMaterial());
+        if (recipe != null) return;
+        metalRecipes.add(metallurgyRecipe);
+    }
+
+    public static MetallurgyRecipe getMetalRecipe(MythriaMaterial material) {
+        for (MetallurgyRecipe recipe : metalRecipes) {
+            if (recipe.getMaterial().equals(material)) return recipe;
+        }
+        return null;
+    }
+
     public static ArrayList<MetallurgyRecipe> getMetalRecipes() {
         return metalRecipes;
     }
@@ -26,19 +39,6 @@ public class SmeltingManager {
         new MetallurgyRecipe(4, MythriaMaterial.PLATINUM, 1765, new MetallurgyRecipe.MetallurgyRecipePair(() -> MythriaItems.PLATINUM_INGOT, 1.0));
         new MetallurgyRecipe(4, MythriaMaterial.TUNGSTEN, 3422, new MetallurgyRecipe.MetallurgyRecipePair(() -> MythriaItems.TUNGSTEN_ORE_ITEM, 1.0));
         new MetallurgyRecipe(0, MythriaMaterial.GLASS, 1200, new MetallurgyRecipe.MetallurgyRecipePair(() -> MythriaItems.SAND, 1.0));
-    }
-
-    public static void addRecipe(MetallurgyRecipe metallurgyRecipe) {
-        MetallurgyRecipe recipe = getMetalRecipe(metallurgyRecipe.getMaterial());
-        if (recipe != null) return;
-        metalRecipes.add(metallurgyRecipe);
-    }
-
-    public static MetallurgyRecipe getMetalRecipe(MythriaMaterial material) {
-        for (MetallurgyRecipe recipe : metalRecipes) {
-            if (recipe.getMaterial().equals(material)) return recipe;
-        }
-        return null;
     }
 
     public enum Temperature {

@@ -1,7 +1,7 @@
 package me.Jonathon594.Mythria.Entity;
 
-import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Enum.Gender;
+import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Skin.SkinParts;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -40,6 +40,11 @@ public class NPCEntity extends LivingEntity {
     }
 
     @Override
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+    }
+
+    @Override
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
     }
@@ -62,10 +67,5 @@ public class NPCEntity extends LivingEntity {
     @Override
     public HandSide getPrimaryHand() {
         return HandSide.RIGHT;
-    }
-
-    @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
     }
 }

@@ -36,9 +36,9 @@ public abstract class PassiveElytraPropulsionAbility extends PassiveTickAbility 
         }
     }
 
-    protected abstract float getSpeed(PlayerEntity player, Profile profile);
-
     protected abstract Consumable getConsumable();
 
     protected abstract double getCost();
+
+    protected abstract float getSpeed(PlayerEntity player, Profile profile);
 }

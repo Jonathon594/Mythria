@@ -42,6 +42,41 @@ public class SpearItem extends TieredItem {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientUtil.registerSpearProperty(this));
     }
 
+    public boolean canPlayerBreakBlockWhileHolding(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
+        return !player.isCreative();
+    }
+
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
+        if (itemstack.getDamage() >= itemstack.getMaxDamage() - 1) {
+            return ActionResult.resultFail(itemstack);
+        } else {
+            playerIn.setActiveHand(handIn);
+            return ActionResult.resultConsume(itemstack);
+        }
+    }
+
+    public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        stack.damageItem(1, attacker, (p_220048_0_) -> p_220048_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND));
+        return true;
+    }
+
+    public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
+        if ((double) state.getBlockHardness(worldIn, pos) != 0.0D) {
+            stack.damageItem(2, entityLiving, (p_220046_0_) -> p_220046_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND));
+        }
+
+        return true;
+    }
+
+    public UseAction getUseAction(ItemStack stack) {
+        return UseAction.SPEAR;
+    }
+
+    public int getUseDuration(ItemStack stack) {
+        return 72000;
+    }
+
     public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
         if (entityLiving instanceof PlayerEntity) {
             PlayerEntity playerentity = (PlayerEntity) entityLiving;
@@ -67,43 +102,8 @@ public class SpearItem extends TieredItem {
         }
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
-        if (itemstack.getDamage() >= itemstack.getMaxDamage() - 1) {
-            return ActionResult.resultFail(itemstack);
-        } else {
-            playerIn.setActiveHand(handIn);
-            return ActionResult.resultConsume(itemstack);
-        }
-    }
-
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
         return equipmentSlot.equals(EquipmentSlotType.MAINHAND) ? attributes : super.getAttributeModifiers(equipmentSlot);
-    }
-
-    public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
-        if ((double) state.getBlockHardness(worldIn, pos) != 0.0D) {
-            stack.damageItem(2, entityLiving, (p_220046_0_) -> p_220046_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND));
-        }
-
-        return true;
-    }
-
-    public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        stack.damageItem(1, attacker, (p_220048_0_) -> p_220048_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND));
-        return true;
-    }
-
-    public int getUseDuration(ItemStack stack) {
-        return 72000;
-    }
-
-    public UseAction getUseAction(ItemStack stack) {
-        return UseAction.SPEAR;
-    }
-
-    public boolean canPlayerBreakBlockWhileHolding(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
-        return !player.isCreative();
     }
 
     public ResourceLocation getThrownEntityTexture() {

@@ -11,14 +11,6 @@ public class BlockLocation {
         this.dimension = dimension;
     }
 
-    public int getDimension() {
-        return dimension;
-    }
-
-    public BlockPos getPosition() {
-        return position;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof BlockLocation) {
@@ -26,5 +18,13 @@ public class BlockLocation {
             return other.position.equals(position) && other.dimension == dimension;
         }
         return false;
+    }
+
+    public int getDimension() {
+        return dimension;
+    }
+
+    public BlockPos getPosition() {
+        return position;
     }
 }

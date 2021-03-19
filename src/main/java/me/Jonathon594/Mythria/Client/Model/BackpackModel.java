@@ -13,16 +13,6 @@ public class BackpackModel extends AgeableModel {
     }
 
     @Override
-    protected Iterable<ModelRenderer> getHeadParts() {
-        return ImmutableList.of();
-    }
-
-    @Override
-    protected Iterable<ModelRenderer> getBodyParts() {
-        return ImmutableList.of(backpack);
-    }
-
-    @Override
     public void setRotationAngles(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.backpack.setRotationPoint(0.0F, 4.5F, 2.0F);
         if (entityIn.isSneaking()) {
@@ -30,5 +20,15 @@ public class BackpackModel extends AgeableModel {
         } else {
             this.backpack.rotateAngleX = 0.0f;
         }
+    }
+
+    @Override
+    protected Iterable<ModelRenderer> getHeadParts() {
+        return ImmutableList.of();
+    }
+
+    @Override
+    protected Iterable<ModelRenderer> getBodyParts() {
+        return ImmutableList.of(backpack);
     }
 }

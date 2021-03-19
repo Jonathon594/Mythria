@@ -3,8 +3,6 @@ package me.Jonathon594.Mythria.Packet;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
-import me.Jonathon594.Mythria.Skin.SkinPart;
-import me.Jonathon594.Mythria.SpawnGifts.SpawnGift;
 import me.Jonathon594.Mythria.Enum.Gender;
 import me.Jonathon594.Mythria.Enum.PerkType;
 import me.Jonathon594.Mythria.Genetic.Gene.Gene;
@@ -14,6 +12,8 @@ import me.Jonathon594.Mythria.Genetic.GeneticType;
 import me.Jonathon594.Mythria.Managers.SpawnManager;
 import me.Jonathon594.Mythria.Managers.StatManager;
 import me.Jonathon594.Mythria.MythriaRegistries;
+import me.Jonathon594.Mythria.Skin.SkinPart;
+import me.Jonathon594.Mythria.SpawnGifts.SpawnGift;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
@@ -83,6 +83,58 @@ public class CPacketProfileCreation {
         packetBuffer.writeString(msg.getUnique() == null ? "" : msg.getUnique().getRegistryName().toString());
     }
 
+    public SkinPart getClothes() {
+        return clothes;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public SkinPart getEyes() {
+        return eyes;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public GeneticType getGeneticType() {
+        return geneticType;
+    }
+
+    public SpawnGift getGift() {
+        return gift;
+    }
+
+    public SkinPart getHair() {
+        return hair;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public SkinPart getSkin() {
+        return skin;
+    }
+
+    public SkinPart getUnique() {
+        return unique;
+    }
+
     public static void handle(CPacketProfileCreation msg, Supplier<NetworkEvent.Context> contextSupplier) {
         contextSupplier.get().enqueueWork(() -> {
             final ServerPlayerEntity serverPlayer = contextSupplier.get().getSender();
@@ -122,57 +174,5 @@ public class CPacketProfileCreation {
             profile.copySkinToMythriaPlayer(MythriaPlayerProvider.getMythriaPlayer(serverPlayer));
         });
         contextSupplier.get().setPacketHandled(true);
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public int getDay() {
-        return day;
-    }
-
-    public GeneticType getGeneticType() {
-        return geneticType;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public SkinPart getHair() {
-        return hair;
-    }
-
-    public SkinPart getEyes() {
-        return eyes;
-    }
-
-    public SkinPart getClothes() {
-        return clothes;
-    }
-
-    public SkinPart getSkin() {
-        return skin;
-    }
-
-    public SkinPart getUnique() {
-        return unique;
-    }
-
-    public SpawnGift getGift() {
-        return gift;
     }
 }

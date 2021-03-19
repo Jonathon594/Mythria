@@ -14,26 +14,26 @@ public class Party {
         members.add(player);
     }
 
-    public ArrayList<PlayerEntity> getMembers() {
-        return members;
-    }
-
-    public PlayerEntity getOwner() {
-        return owner;
-    }
-
     public void addInvitation(PlayerEntity target) {
         if (invitations.contains(target)) return;
         invitations.add(target);
+    }
+
+    public void addMember(PlayerEntity player) {
+        if (members.contains(player)) return;
+        members.add(player);
     }
 
     public ArrayList<PlayerEntity> getInvitations() {
         return invitations;
     }
 
-    public void addMember(PlayerEntity player) {
-        if (members.contains(player)) return;
-        members.add(player);
+    public ArrayList<PlayerEntity> getMembers() {
+        return members;
+    }
+
+    public PlayerEntity getOwner() {
+        return owner;
     }
 
     public void removeMember(PlayerEntity player) {

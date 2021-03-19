@@ -54,103 +54,6 @@ public class TreeMenuNode {
         }
     }
 
-    @Nullable
-    private TreeMenuNode buildSubTree(TreeMenuOption advancementIn, @Nullable TreeMenuNode previous) {
-        if (advancementIn.getDisplay() != null) {
-            previous = new TreeMenuNode(advancementIn, this, previous, this.children.size() + 1, this.x + 1);
-            this.children.add(previous);
-        } else {
-            for (TreeMenuOption advancement : advancementIn.getChildren()) {
-                previous = this.buildSubTree(advancement, previous);
-            }
-        }
-
-        return previous;
-    }
-
-    private void firstWalk() {
-        if (this.children.isEmpty()) {
-            if (this.sibling != null) {
-                this.y = this.sibling.y + 1.0F;
-            } else {
-                this.y = 0.0F;
-            }
-
-        } else {
-            TreeMenuNode advancementtreenode = null;
-
-            for (TreeMenuNode advancementtreenode1 : this.children) {
-                advancementtreenode1.firstWalk();
-                advancementtreenode = advancementtreenode1.apportion(advancementtreenode == null ? advancementtreenode1 : advancementtreenode);
-            }
-
-            this.executeShifts();
-            float f = ((this.children.get(0)).y + (this.children.get(this.children.size() - 1)).y) / 2.0F;
-            if (this.sibling != null) {
-                this.y = this.sibling.y + 1.0F;
-                this.mod = this.y - f;
-            } else {
-                this.y = f;
-            }
-
-        }
-    }
-
-    private float secondWalk(float p_192319_1_, int p_192319_2_, float p_192319_3_) {
-        this.y += p_192319_1_;
-        this.x = p_192319_2_;
-        if (this.y < p_192319_3_) {
-            p_192319_3_ = this.y;
-        }
-
-        for (TreeMenuNode advancementtreenode : this.children) {
-            p_192319_3_ = advancementtreenode.secondWalk(p_192319_1_ + this.mod, p_192319_2_ + 1, p_192319_3_);
-        }
-
-        return p_192319_3_;
-    }
-
-    private void thirdWalk(float yIn) {
-        this.y += yIn;
-
-        for (TreeMenuNode advancementtreenode : this.children) {
-            advancementtreenode.thirdWalk(yIn);
-        }
-
-    }
-
-    private void executeShifts() {
-        float f = 0.0F;
-        float f1 = 0.0F;
-
-        for (int i = this.children.size() - 1; i >= 0; --i) {
-            TreeMenuNode advancementtreenode = this.children.get(i);
-            advancementtreenode.y += f;
-            advancementtreenode.mod += f;
-            f1 += advancementtreenode.change;
-            f += advancementtreenode.shift + f1;
-        }
-
-    }
-
-    @Nullable
-    private TreeMenuNode getFirstChild() {
-        if (this.thread != null) {
-            return this.thread;
-        } else {
-            return !this.children.isEmpty() ? this.children.get(0) : null;
-        }
-    }
-
-    @Nullable
-    private TreeMenuNode getLastChild() {
-        if (this.thread != null) {
-            return this.thread;
-        } else {
-            return !this.children.isEmpty() ? this.children.get(this.children.size() - 1) : null;
-        }
-    }
-
     private TreeMenuNode apportion(TreeMenuNode nodeIn) {
         if (this.sibling != null) {
             TreeMenuNode advancementtreenode = this;
@@ -196,6 +99,84 @@ public class TreeMenuNode {
         return nodeIn;
     }
 
+    @Nullable
+    private TreeMenuNode buildSubTree(TreeMenuOption advancementIn, @Nullable TreeMenuNode previous) {
+        if (advancementIn.getDisplay() != null) {
+            previous = new TreeMenuNode(advancementIn, this, previous, this.children.size() + 1, this.x + 1);
+            this.children.add(previous);
+        } else {
+            for (TreeMenuOption advancement : advancementIn.getChildren()) {
+                previous = this.buildSubTree(advancement, previous);
+            }
+        }
+
+        return previous;
+    }
+
+    private void executeShifts() {
+        float f = 0.0F;
+        float f1 = 0.0F;
+
+        for (int i = this.children.size() - 1; i >= 0; --i) {
+            TreeMenuNode advancementtreenode = this.children.get(i);
+            advancementtreenode.y += f;
+            advancementtreenode.mod += f;
+            f1 += advancementtreenode.change;
+            f += advancementtreenode.shift + f1;
+        }
+
+    }
+
+    private void firstWalk() {
+        if (this.children.isEmpty()) {
+            if (this.sibling != null) {
+                this.y = this.sibling.y + 1.0F;
+            } else {
+                this.y = 0.0F;
+            }
+
+        } else {
+            TreeMenuNode advancementtreenode = null;
+
+            for (TreeMenuNode advancementtreenode1 : this.children) {
+                advancementtreenode1.firstWalk();
+                advancementtreenode = advancementtreenode1.apportion(advancementtreenode == null ? advancementtreenode1 : advancementtreenode);
+            }
+
+            this.executeShifts();
+            float f = ((this.children.get(0)).y + (this.children.get(this.children.size() - 1)).y) / 2.0F;
+            if (this.sibling != null) {
+                this.y = this.sibling.y + 1.0F;
+                this.mod = this.y - f;
+            } else {
+                this.y = f;
+            }
+
+        }
+    }
+
+    private TreeMenuNode getAncestor(TreeMenuNode p_192326_1_, TreeMenuNode p_192326_2_) {
+        return this.ancestor != null && p_192326_1_.parent.children.contains(this.ancestor) ? this.ancestor : p_192326_2_;
+    }
+
+    @Nullable
+    private TreeMenuNode getFirstChild() {
+        if (this.thread != null) {
+            return this.thread;
+        } else {
+            return !this.children.isEmpty() ? this.children.get(0) : null;
+        }
+    }
+
+    @Nullable
+    private TreeMenuNode getLastChild() {
+        if (this.thread != null) {
+            return this.thread;
+        } else {
+            return !this.children.isEmpty() ? this.children.get(this.children.size() - 1) : null;
+        }
+    }
+
     private void moveSubtree(TreeMenuNode nodeIn, float p_192316_2_) {
         float f = (float) (nodeIn.index - this.index);
         if (f != 0.0F) {
@@ -208,8 +189,27 @@ public class TreeMenuNode {
         nodeIn.mod += p_192316_2_;
     }
 
-    private TreeMenuNode getAncestor(TreeMenuNode p_192326_1_, TreeMenuNode p_192326_2_) {
-        return this.ancestor != null && p_192326_1_.parent.children.contains(this.ancestor) ? this.ancestor : p_192326_2_;
+    private float secondWalk(float p_192319_1_, int p_192319_2_, float p_192319_3_) {
+        this.y += p_192319_1_;
+        this.x = p_192319_2_;
+        if (this.y < p_192319_3_) {
+            p_192319_3_ = this.y;
+        }
+
+        for (TreeMenuNode advancementtreenode : this.children) {
+            p_192319_3_ = advancementtreenode.secondWalk(p_192319_1_ + this.mod, p_192319_2_ + 1, p_192319_3_);
+        }
+
+        return p_192319_3_;
+    }
+
+    private void thirdWalk(float yIn) {
+        this.y += yIn;
+
+        for (TreeMenuNode advancementtreenode : this.children) {
+            advancementtreenode.thirdWalk(yIn);
+        }
+
     }
 
     private void updatePosition() {

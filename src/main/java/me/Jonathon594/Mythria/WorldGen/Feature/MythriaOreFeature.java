@@ -35,34 +35,88 @@ public class MythriaOreFeature extends MythriaFeature<NoFeatureConfig> {
         setRegistryName(Mythria.MODID, name);
     }
 
-    static void init() {
-        registerOverworldSpawnData();
-        registerTheNetherSpawnData();
+    @Override
+    public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config) {
+        int chunkX = pos.getX() >> 4;
+        int chunkZ = pos.getZ() >> 4;
+
+        int offsetX = pos.getX();
+        int offsetZ = pos.getZ();
+
+        List<OreVein> nearbyVeins = getNearbyVeins(chunkX, chunkZ, reader.getSeed(), reader.getWorld());
+        if (nearbyVeins.isEmpty()) return false;
+
+        for (OreVein vein : nearbyVeins) {
+            for (int x = 0; x < 16; x++) {
+                for (int z = 0; z < 16; z++) {
+                    if (!vein.isInRange(offsetX + x, offsetZ + z))
+                        continue;
+                    for (int y = Math.max(vein.getSpawnData().getMinY() - 16, 1); y <= Math.min(vein.getSpawnData().getMaxY() + 16, 255); y++) {
+                        final BlockPos current = new BlockPos(offsetX + x, y, offsetZ + z);
+                        BlockState inBlock = reader.getBlockState(current);
+                        EnumStone stone = EnumStone.getFromBlock(inBlock.getBlock());
+                        if (stone == null) continue;
+                        BlockState ore = vein.getSpawnData().getBlock().getDefaultState().with(MythriaOre.STONE_TYPE, stone);
+
+                        if (rand.nextDouble() < vein.getGenerationChance(current)) {
+                            reader.setBlockState(current, ore, 2);
+
+                            attemptSpawnSurfaceOre(reader, rand, current, ore);
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 
-    private static void registerTheNetherSpawnData() {
-        RegistryKey<World> world = World.THE_NETHER;
-        spawnDataMap.put("Copper Ore Nether", new OreSpawnData(ImmutableList.of(world), MythriaBlocks.COPPER_ORE,
-                OreSpawnData.OreSpawnType.VEIN, 60, 0,
-                128, 32, 14, 5, 400));
-        spawnDataMap.put("Iron Ore Nether", new OreSpawnData(ImmutableList.of(world), MythriaBlocks.IRON_ORE,
-                OreSpawnData.OreSpawnType.VEIN, 120, 0,
-                128, 32, 28, 9, 240));
-        spawnDataMap.put("Gold Ore Nether", new OreSpawnData(ImmutableList.of(world), MythriaBlocks.GOLD_ORE,
-                OreSpawnData.OreSpawnType.CLUSTER, 180, 0,
-                128, 19, 20, 9, 280));
-        spawnDataMap.put("Titanium Ore Nether", new OreSpawnData(ImmutableList.of(world), MythriaBlocks.TITANIUM_ORE,
-                OreSpawnData.OreSpawnType.VEIN, 220, 0,
-                128, 10, 32, 7, 290));
-        spawnDataMap.put("Tungsten Ore Nether", new OreSpawnData(ImmutableList.of(world), MythriaBlocks.TUNGSTEN_ORE,
-                OreSpawnData.OreSpawnType.VEIN, 405, 0,
-                128, 12, 24, 7, 280));
-        spawnDataMap.put("Redstone Ore Nether", new OreSpawnData(world, MythriaBlocks.REDSTONE_ORE,
-                OreSpawnData.OreSpawnType.CLUSTER, 360, 0,
-                128, 14, 14, 6, 285));
-        spawnDataMap.put("Violacium Ore Nether", new OreSpawnData(world, MythriaBlocks.VIOLACIUM_ORE,
-                OreSpawnData.OreSpawnType.CLUSTER, 5000, 0,
-                18, 6, 18, 6, 200));
+    private void attemptSpawnSurfaceOre(ISeedReader worldIn, Random rand, BlockPos current, BlockState ore) {
+        if (rand.nextInt(600) == 0) {
+            BlockPos pos = new BlockPos(current.getX(), 256, current.getZ());
+            Block surfaceBlock = ((MythriaOre) ore.getBlock()).getSurfaceBlock();
+            if (worldIn.getWorld().getDimensionKey().equals(World.THE_NETHER)) pos = pos.offset(Direction.DOWN, 128);
+            do {
+                BlockState state = worldIn.getBlockState(pos.down());
+                Block block = state.getBlock();
+                if (isDirt(block) || isStone(block) || isSand(block) || isGravel(block) || isNetherrack(block) || isNylium(block) || isNetherStone(block)) {
+                    int distanceY = Math.abs(pos.getY() - current.getY());
+                    float chance = 1f - ((float) distanceY / 64f);
+                    if (surfaceBlock != null && rand.nextDouble() < chance) {
+                        spawnSurfaceOre(worldIn, rand, pos, surfaceBlock);
+                    }
+                }
+                pos = pos.down();
+            } while (pos.getY() > 0);
+        }
+    }
+
+    private List<OreVein> getNearbyVeins(int chunkX, int chunkZ, long seed, World world) {
+        List<OreVein> veins = new ArrayList<>();
+
+        for (int x = -GEN_RADIUS_CHUNKS; x <= GEN_RADIUS_CHUNKS; x++) {
+            for (int z = -GEN_RADIUS_CHUNKS; z <= GEN_RADIUS_CHUNKS; z++) {
+                List<OreVein> localVeins = getVeinsAtChunk(chunkX + x, chunkZ + z, seed, world);
+                if (!localVeins.isEmpty()) veins.addAll(localVeins);
+            }
+        }
+        return veins;
+    }
+
+    private List<OreVein> getVeinsAtChunk(int chunkX, int chunkZ, long seed, World world) {
+        Random rand = new Random(seed + chunkX * 341873128712L + chunkZ * 132897987541L);
+        List<OreVein> veins = new ArrayList<>();
+
+        for (OreSpawnData data : spawnDataMap.values()) {
+            if (!data.getDimensions().contains(world.getDimensionKey())) continue;
+            if (rand.nextInt(data.getRarity()) == 0) {
+                int x = chunkX * 16 + rand.nextInt(16);
+                int y = data.getMinY() + rand.nextInt(data.getMaxY() - data.getMinY());
+                int z = chunkZ * 16 + rand.nextInt(16);
+                BlockPos startPos = new BlockPos(x, y, z);
+                veins.add(new OreVein(startPos, data, rand));
+            }
+        }
+        return veins;
     }
 
     private static void registerOverworldSpawnData() {
@@ -126,67 +180,29 @@ public class MythriaOreFeature extends MythriaFeature<NoFeatureConfig> {
                 18, 6, 18, 6, 200));
     }
 
-    @Override
-    public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config) {
-        int chunkX = pos.getX() >> 4;
-        int chunkZ = pos.getZ() >> 4;
-
-        int offsetX = pos.getX();
-        int offsetZ = pos.getZ();
-
-        List<OreVein> nearbyVeins = getNearbyVeins(chunkX, chunkZ, reader.getSeed(), reader.getWorld());
-        if (nearbyVeins.isEmpty()) return false;
-
-        for (OreVein vein : nearbyVeins) {
-            for (int x = 0; x < 16; x++) {
-                for (int z = 0; z < 16; z++) {
-                    if (!vein.isInRange(offsetX + x, offsetZ + z))
-                        continue;
-                    for (int y = Math.max(vein.getSpawnData().getMinY() - 16, 1); y <= Math.min(vein.getSpawnData().getMaxY() + 16, 255); y++) {
-                        final BlockPos current = new BlockPos(offsetX + x, y, offsetZ + z);
-                        BlockState inBlock = reader.getBlockState(current);
-                        EnumStone stone = EnumStone.getFromBlock(inBlock.getBlock());
-                        if (stone == null) continue;
-                        BlockState ore = vein.getSpawnData().getBlock().getDefaultState().with(MythriaOre.STONE_TYPE, stone);
-
-                        if (rand.nextDouble() < vein.getGenerationChance(current)) {
-                            reader.setBlockState(current, ore, 2);
-
-                            attemptSpawnSurfaceOre(reader, rand, current, ore);
-                        }
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
-    private void attemptSpawnSurfaceOre(ISeedReader worldIn, Random rand, BlockPos current, BlockState ore) {
-        if (rand.nextInt(600) == 0) {
-            BlockPos pos = new BlockPos(current.getX(), 256, current.getZ());
-            Block surfaceBlock = ((MythriaOre) ore.getBlock()).getSurfaceBlock();
-            if (worldIn.getWorld().getDimensionKey().equals(World.THE_NETHER)) pos = pos.offset(Direction.DOWN, 128);
-            do {
-                BlockState state = worldIn.getBlockState(pos.down());
-                Block block = state.getBlock();
-                if (isDirt(block) || isStone(block) || isSand(block) || isGravel(block) || isNetherrack(block) || isNylium(block) || isNetherStone(block)) {
-                    int distanceY = Math.abs(pos.getY() - current.getY());
-                    float chance = 1f - ((float) distanceY / 64f);
-                    if (surfaceBlock != null && rand.nextDouble() < chance) {
-                        spawnSurfaceOre(worldIn, rand, pos, surfaceBlock);
-                    }
-                }
-                pos = pos.down();
-            } while (pos.getY() > 0);
-        }
-    }
-
-    protected boolean isSand(Block block) {
-        return BlockTags.SAND.contains(block);
-    }
-
-    protected boolean isGravel(Block block) {
-        return Tags.Blocks.GRAVEL.contains(block);
+    private static void registerTheNetherSpawnData() {
+        RegistryKey<World> world = World.THE_NETHER;
+        spawnDataMap.put("Copper Ore Nether", new OreSpawnData(ImmutableList.of(world), MythriaBlocks.COPPER_ORE,
+                OreSpawnData.OreSpawnType.VEIN, 60, 0,
+                128, 32, 14, 5, 400));
+        spawnDataMap.put("Iron Ore Nether", new OreSpawnData(ImmutableList.of(world), MythriaBlocks.IRON_ORE,
+                OreSpawnData.OreSpawnType.VEIN, 120, 0,
+                128, 32, 28, 9, 240));
+        spawnDataMap.put("Gold Ore Nether", new OreSpawnData(ImmutableList.of(world), MythriaBlocks.GOLD_ORE,
+                OreSpawnData.OreSpawnType.CLUSTER, 180, 0,
+                128, 19, 20, 9, 280));
+        spawnDataMap.put("Titanium Ore Nether", new OreSpawnData(ImmutableList.of(world), MythriaBlocks.TITANIUM_ORE,
+                OreSpawnData.OreSpawnType.VEIN, 220, 0,
+                128, 10, 32, 7, 290));
+        spawnDataMap.put("Tungsten Ore Nether", new OreSpawnData(ImmutableList.of(world), MythriaBlocks.TUNGSTEN_ORE,
+                OreSpawnData.OreSpawnType.VEIN, 405, 0,
+                128, 12, 24, 7, 280));
+        spawnDataMap.put("Redstone Ore Nether", new OreSpawnData(world, MythriaBlocks.REDSTONE_ORE,
+                OreSpawnData.OreSpawnType.CLUSTER, 360, 0,
+                128, 14, 14, 6, 285));
+        spawnDataMap.put("Violacium Ore Nether", new OreSpawnData(world, MythriaBlocks.VIOLACIUM_ORE,
+                OreSpawnData.OreSpawnType.CLUSTER, 5000, 0,
+                18, 6, 18, 6, 200));
     }
 
     private void spawnSurfaceOre(IWorld worldIn, Random rand, BlockPos surfacePos, Block b) {
@@ -197,32 +213,16 @@ public class MythriaOreFeature extends MythriaFeature<NoFeatureConfig> {
         }
     }
 
-    private List<OreVein> getNearbyVeins(int chunkX, int chunkZ, long seed, World world) {
-        List<OreVein> veins = new ArrayList<>();
-
-        for (int x = -GEN_RADIUS_CHUNKS; x <= GEN_RADIUS_CHUNKS; x++) {
-            for (int z = -GEN_RADIUS_CHUNKS; z <= GEN_RADIUS_CHUNKS; z++) {
-                List<OreVein> localVeins = getVeinsAtChunk(chunkX + x, chunkZ + z, seed, world);
-                if (!localVeins.isEmpty()) veins.addAll(localVeins);
-            }
-        }
-        return veins;
+    static void init() {
+        registerOverworldSpawnData();
+        registerTheNetherSpawnData();
     }
 
-    private List<OreVein> getVeinsAtChunk(int chunkX, int chunkZ, long seed, World world) {
-        Random rand = new Random(seed + chunkX * 341873128712L + chunkZ * 132897987541L);
-        List<OreVein> veins = new ArrayList<>();
+    protected boolean isGravel(Block block) {
+        return Tags.Blocks.GRAVEL.contains(block);
+    }
 
-        for (OreSpawnData data : spawnDataMap.values()) {
-            if (!data.getDimensions().contains(world.getDimensionKey())) continue;
-            if (rand.nextInt(data.getRarity()) == 0) {
-                int x = chunkX * 16 + rand.nextInt(16);
-                int y = data.getMinY() + rand.nextInt(data.getMaxY() - data.getMinY());
-                int z = chunkZ * 16 + rand.nextInt(16);
-                BlockPos startPos = new BlockPos(x, y, z);
-                veins.add(new OreVein(startPos, data, rand));
-            }
-        }
-        return veins;
+    protected boolean isSand(Block block) {
+        return BlockTags.SAND.contains(block);
     }
 }

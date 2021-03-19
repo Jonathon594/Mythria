@@ -59,16 +59,6 @@ public abstract class ToolComponentContainer extends Container {
 
         output = addSlot(new Slot(CraftResultInventory, 1, 145, 39) {
             @Override
-            public boolean isItemValid(ItemStack stack) {
-                return false;
-            }
-
-            @Override
-            public boolean canTakeStack(PlayerEntity playerIn) {
-                return canCraft();
-            }
-
-            @Override
             public ItemStack onTake(PlayerEntity player, ItemStack stack) {
                 Map<Item, List<Perk>> attributesForCrafting = MaterialManager.PERKS_FOR_CRAFTING;
                 Item item = stack.getItem();
@@ -97,6 +87,16 @@ public abstract class ToolComponentContainer extends Container {
 
                 return super.onTake(player, stack);
             }
+
+            @Override
+            public boolean isItemValid(ItemStack stack) {
+                return false;
+            }
+
+            @Override
+            public boolean canTakeStack(PlayerEntity playerIn) {
+                return canCraft();
+            }
         });
 
         for (int row = 0; row < 3; ++row) {
@@ -109,10 +109,6 @@ public abstract class ToolComponentContainer extends Container {
             this.addSlot(new Slot(playerInventory, row, 8 + row * 18, 142));
         }
     }
-
-    protected abstract boolean isValidTool(ItemStack stack);
-
-    protected abstract boolean isValidComponent(ItemStack stack);
 
     public abstract ItemStack getResultStack(ItemStack head, ItemStack handle);
 
@@ -162,15 +158,20 @@ public abstract class ToolComponentContainer extends Container {
         return itemstack;
     }
 
+    @Override
+    public void onContainerClosed(PlayerEntity playerIn) {
+        super.onContainerClosed(playerIn);
+        CraftResultInventory.removeStackFromSlot(1);
+        clearContainer(playerIn, world, inventory);
+    }
+
     public void onCraftMatrixChanged(IInventory inventoryIn) {
         updateResult(inventory);
     }
 
-    protected abstract SoundEvent getCraftSound();
-
-    protected void updateResult(CraftingInventory inventory) {
-        this.output.putStack(getResultItem(inventory));
-        this.detectAndSendChanges();
+    @Override
+    public boolean canInteractWith(PlayerEntity playerIn) {
+        return true;
     }
 
     private ItemStack getResultItem(CraftingInventory inventory) {
@@ -183,15 +184,14 @@ public abstract class ToolComponentContainer extends Container {
         return !getResultItem(inventory).equals(ItemStack.EMPTY);
     }
 
-    @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
-        return true;
-    }
+    protected abstract SoundEvent getCraftSound();
 
-    @Override
-    public void onContainerClosed(PlayerEntity playerIn) {
-        super.onContainerClosed(playerIn);
-        CraftResultInventory.removeStackFromSlot(1);
-        clearContainer(playerIn, world, inventory);
+    protected abstract boolean isValidComponent(ItemStack stack);
+
+    protected abstract boolean isValidTool(ItemStack stack);
+
+    protected void updateResult(CraftingInventory inventory) {
+        this.output.putStack(getResultItem(inventory));
+        this.detectAndSendChanges();
     }
 }

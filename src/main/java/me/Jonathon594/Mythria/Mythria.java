@@ -31,6 +31,10 @@ public class Mythria {
         MythriaTileEntities.TILE_ENTITY_TYPES.register(modEventBus);
     }
 
+    public void onClientSetup(FMLClientSetupEvent event) {
+        ClientManager.clientSetup();
+    }
+
     public void onSetup(FMLCommonSetupEvent event) {
         MythriaPacketHandler.register();
         CapabilityHandler.init();
@@ -52,9 +56,5 @@ public class Mythria {
                 EntitySpawnPlacementRegistry.PlacementType.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
                 NetherChickenEntity::canNetherChickenSpawn);
-    }
-
-    public void onClientSetup(FMLClientSetupEvent event) {
-        ClientManager.clientSetup();
     }
 }

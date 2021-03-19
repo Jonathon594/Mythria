@@ -39,13 +39,6 @@ public class FoodManager {
 ////        return cooked;
 ////    }
 
-    public static FoodRecipe getFoodRecipe(final Item item) {
-        for (final FoodRecipe fr : RECIPES)
-            if (fr.getIngredient().equals(item))
-                return fr;
-        return null;
-    }
-
     public static void UpdateFood(final ItemStack is, double preservation, boolean softUpdate) {
         if (is.isEmpty())
             return;
@@ -63,17 +56,24 @@ public class FoodManager {
         }
     }
 
+    public static MythriaFoodData getFoodData(Item food) {
+        for (final MythriaFoodData mfd : FOOD_DATA)
+            if (mfd.getItem().equals(food))
+                return mfd;
+
+        return null;
+    }
+
     public static long getFoodLifeTime(final Item food) {
         MythriaFoodData mfd = getFoodData(food);
         if (mfd == null) return 0;
         return (long) (mfd.getMaxLife() * 20 * 60 * 1000);
     }
 
-    public static MythriaFoodData getFoodData(Item food) {
-        for (final MythriaFoodData mfd : FOOD_DATA)
-            if (mfd.getItem().equals(food))
-                return mfd;
-
+    public static FoodRecipe getFoodRecipe(final Item item) {
+        for (final FoodRecipe fr : RECIPES)
+            if (fr.getIngredient().equals(item))
+                return fr;
         return null;
     }
 
@@ -128,6 +128,29 @@ public class FoodManager {
         //RECIPES.add(new FoodRecipe(Items.PUMPKIN_PIE, MythriaItems.RAW_PUMPKIN_PIE, CookType.BAKE));
     }
 
+    public static boolean isRaw(ItemStack item) {
+        if (item == null) return false;
+        Item i = item.getItem();
+        if (i.equals(Items.BEEF)) return true;
+        if (i.equals(Items.CHICKEN)) return true;
+        if (i.equals(Items.PORKCHOP)) return true;
+        if (i.equals(Items.RABBIT)) return true;
+        if (i.equals(Items.MUTTON)) return true;
+        if (i.equals(Items.COD)) return true;
+        return i.equals(Items.EGG);
+    }
+
+    public static void onItemToolTip(ItemTooltipEvent event) {
+        ItemStack itemStack = event.getItemStack();
+        Food food = FoodProvider.getFood(itemStack);
+        if (food == null) return;
+        List<ITextComponent> toolTip = event.getToolTip();
+        double ageProp = food.getAgeProportion(itemStack);
+        int message = (int) Math.floor(ageProp * 4);
+        toolTip.add(new StringTextComponent(ColorConst.MAIN_COLOR + MythriaConst.FOOD_AGE[message]));
+        toolTip.add(new StringTextComponent(ColorConst.CONT_COLOR + "" + Math.round(food.getCooked() * 100) + "% Cooked."));
+    }
+
     public static void onPlayerPickupItem(final EntityItemPickupEvent event) {
         if (event.isCanceled())
             return;
@@ -155,28 +178,5 @@ public class FoodManager {
             UpdateFood(is, 1, softUpdate);
             player.inventory.setInventorySlotContents(i, is);
         }
-    }
-
-    public static boolean isRaw(ItemStack item) {
-        if (item == null) return false;
-        Item i = item.getItem();
-        if (i.equals(Items.BEEF)) return true;
-        if (i.equals(Items.CHICKEN)) return true;
-        if (i.equals(Items.PORKCHOP)) return true;
-        if (i.equals(Items.RABBIT)) return true;
-        if (i.equals(Items.MUTTON)) return true;
-        if (i.equals(Items.COD)) return true;
-        return i.equals(Items.EGG);
-    }
-
-    public static void onItemToolTip(ItemTooltipEvent event) {
-        ItemStack itemStack = event.getItemStack();
-        Food food = FoodProvider.getFood(itemStack);
-        if (food == null) return;
-        List<ITextComponent> toolTip = event.getToolTip();
-        double ageProp = food.getAgeProportion(itemStack);
-        int message = (int) Math.floor(ageProp * 4);
-        toolTip.add(new StringTextComponent(ColorConst.MAIN_COLOR + MythriaConst.FOOD_AGE[message]));
-        toolTip.add(new StringTextComponent(ColorConst.CONT_COLOR + "" + Math.round(food.getCooked() * 100) + "% Cooked."));
     }
 }

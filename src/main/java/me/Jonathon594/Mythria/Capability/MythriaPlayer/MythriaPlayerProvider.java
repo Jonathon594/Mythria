@@ -1,6 +1,5 @@
 package me.Jonathon594.Mythria.Capability.MythriaPlayer;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
@@ -20,14 +19,14 @@ public class MythriaPlayerProvider implements ICapabilityProvider {
         instance = new MythriaPlayer(entity);
     }
 
-    public static MythriaPlayer getMythriaPlayer(LivingEntity entity) {
-        MythriaPlayer mythriaPlayer = (MythriaPlayer) entity.getCapability(PLAYER_CAP, null).orElse(new MythriaPlayer(entity));
-        return mythriaPlayer;
-    }
-
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull final Capability<T> cap, @Nullable final Direction side) {
         return PLAYER_CAP.orEmpty(cap, LazyOptional.of(() -> instance));
+    }
+
+    public static MythriaPlayer getMythriaPlayer(LivingEntity entity) {
+        MythriaPlayer mythriaPlayer = (MythriaPlayer) entity.getCapability(PLAYER_CAP, null).orElse(new MythriaPlayer(entity));
+        return mythriaPlayer;
     }
 }

@@ -12,8 +12,8 @@ public abstract class ProfileCreationTab extends FocusableGui implements INested
     protected final FontRenderer font;
     protected final int left;
     protected final int top;
-    protected StringTextComponent title;
     protected final List<IGuiEventListener> children = Lists.newArrayList();
+    protected StringTextComponent title;
     protected List<Widget> widgets = Lists.newArrayList();
     protected ScreenProfileCreation parent;
 
@@ -28,18 +28,9 @@ public abstract class ProfileCreationTab extends FocusableGui implements INested
         this.top = top;
     }
 
-    public void renderTitle(MatrixStack matrixStack, FontRenderer fontRenderer, int color, int x, int y) {
-        drawCenteredString(matrixStack, fontRenderer, title, color, x, y);
-    }
-
     public <T extends Widget> T addWidget(T widget) {
         widgets.add(widget);
         return this.addListener(widget);
-    }
-
-    protected <T extends IGuiEventListener> T addListener(T listener) {
-        this.children.add(listener);
-        return listener;
     }
 
     public List<? extends IGuiEventListener> getEventListeners() {
@@ -47,15 +38,8 @@ public abstract class ProfileCreationTab extends FocusableGui implements INested
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        for(int i = 0; i < this.widgets.size(); ++i) {
-            this.widgets.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
-        }
-    }
-
-    @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if(selected) {
+        if (selected) {
             for (IGuiEventListener iguieventlistener : this.getEventListeners()) {
                 if (iguieventlistener.mouseClicked(mouseX, mouseY, button)) {
                     this.setListener(iguieventlistener);
@@ -78,4 +62,22 @@ public abstract class ProfileCreationTab extends FocusableGui implements INested
         this.selected = selected;
         return this;
     }
+
+    @Override
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        for (int i = 0; i < this.widgets.size(); ++i) {
+            this.widgets.get(i).render(matrixStack, mouseX, mouseY, partialTicks);
+        }
+    }
+
+    public void renderTitle(MatrixStack matrixStack, FontRenderer fontRenderer, int color, int x, int y) {
+        drawCenteredString(matrixStack, fontRenderer, title, color, x, y);
+    }
+
+    protected <T extends IGuiEventListener> T addListener(T listener) {
+        this.children.add(listener);
+        return listener;
+    }
+
+
 }

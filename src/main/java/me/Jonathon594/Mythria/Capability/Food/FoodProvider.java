@@ -16,6 +16,12 @@ public class FoodProvider implements ICapabilitySerializable<INBT> {
     public static final Capability<IFood> FOOD_CAP = null;
     private final IFood instance = FOOD_CAP.getDefaultInstance();
 
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        return FOOD_CAP.orEmpty(cap, LazyOptional.of(() -> instance));
+    }
+
     public static Food getFood(ItemStack itemStack) {
         return (Food) itemStack.getCapability(FOOD_CAP, null).orElse(null);
     }
@@ -28,11 +34,5 @@ public class FoodProvider implements ICapabilitySerializable<INBT> {
     @Override
     public void deserializeNBT(INBT nbt) {
         FOOD_CAP.getStorage().readNBT(FOOD_CAP, instance, null, nbt);
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return FOOD_CAP.orEmpty(cap, LazyOptional.of(() -> instance));
     }
 }

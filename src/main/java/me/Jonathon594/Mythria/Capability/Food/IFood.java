@@ -11,6 +11,8 @@ public interface IFood {
 
     void setAge(long age);
 
+    double getAgeProportion(ItemStack is);
+
     double getCooked();
 
     void setCooked(double cooked);
@@ -20,6 +22,4 @@ public interface IFood {
     void setOrigin(long origin);
 
     CompoundNBT toNBT();
-
-    double getAgeProportion(ItemStack is);
 }

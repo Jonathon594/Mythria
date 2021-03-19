@@ -14,6 +14,10 @@ public enum EnumStone implements IStringSerializable {
         this.block = block;
     }
 
+    public Block getBlock() {
+        return block;
+    }
+
     public static EnumStone getFromBlock(Block block) {
         for (EnumStone stone : values()) {
             if (stone.getBlock().equals(block)) return stone;
@@ -24,9 +28,5 @@ public enum EnumStone implements IStringSerializable {
     @Override
     public String getString() {
         return name().toLowerCase();
-    }
-
-    public Block getBlock() {
-        return block;
     }
 }

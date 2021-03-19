@@ -16,6 +16,12 @@ public class CrucibleProvider implements ICapabilitySerializable<INBT> {
     public static final Capability<ICrucible> CRUCIBLE_CAP = null;
     private final ICrucible instance = new Crucible();
 
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        return CRUCIBLE_CAP.orEmpty(cap, LazyOptional.of(() -> instance));
+    }
+
     public static Crucible getCrucible(ItemStack itemStack) {
         return (Crucible) itemStack.getCapability(CRUCIBLE_CAP, null).orElse(null);
     }
@@ -28,11 +34,5 @@ public class CrucibleProvider implements ICapabilitySerializable<INBT> {
     @Override
     public void deserializeNBT(INBT nbt) {
         CRUCIBLE_CAP.getStorage().readNBT(CRUCIBLE_CAP, instance, null, nbt);
-    }
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return CRUCIBLE_CAP.orEmpty(cap, LazyOptional.of(() -> instance));
     }
 }

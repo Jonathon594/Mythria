@@ -15,11 +15,11 @@ public abstract class NBTPacket {
         nbt = packetBuffer.readCompoundTag();
     }
 
-    public CompoundNBT getNbt() {
-        return nbt;
-    }
-
     public void encode(final ByteBuf buf) {
         new PacketBuffer(buf).writeCompoundTag(nbt);
+    }
+
+    public CompoundNBT getNbt() {
+        return nbt;
     }
 }

@@ -21,12 +21,12 @@ public class MythriaModelShield extends Model {
         this.handle.addBox(-1.0F, -3.0F, -1.0F, 2.0F, 6.0F, 6.0F, 0.0F);
     }
 
-    public ModelRenderer getPlate() {
-        return this.plate;
-    }
-
     public ModelRenderer getHandle() {
         return this.handle;
+    }
+
+    public ModelRenderer getPlate() {
+        return this.plate;
     }
 
     @Override

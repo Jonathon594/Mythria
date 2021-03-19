@@ -21,8 +21,8 @@ public class ToolHandleContainer extends ToolComponentContainer {
     }
 
     @Override
-    protected boolean isValidTool(ItemStack stack) {
-        return stack.getItem() instanceof ToolHeadItem;
+    protected SoundEvent getCraftSound() {
+        return SoundEvents.ENTITY_SHEEP_SHEAR;
     }
 
     @Override
@@ -31,8 +31,8 @@ public class ToolHandleContainer extends ToolComponentContainer {
     }
 
     @Override
-    protected SoundEvent getCraftSound() {
-        return SoundEvents.ENTITY_SHEEP_SHEAR;
+    protected boolean isValidTool(ItemStack stack) {
+        return stack.getItem() instanceof ToolHeadItem;
     }
 
     @Override

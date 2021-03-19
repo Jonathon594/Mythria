@@ -12,11 +12,6 @@ public class AbilityInstance {
         this.owner = owner;
     }
 
-    public void tick() {
-        ability.tick(this);
-        if (cooldown > 0) cooldown--;
-    }
-
     public Ability getAbility() {
         return ability;
     }
@@ -31,5 +26,10 @@ public class AbilityInstance {
 
     public void setCooldown(int cooldown) {
         this.cooldown = cooldown;
+    }
+
+    public void tick() {
+        ability.tick(this);
+        if (cooldown > 0) cooldown--;
     }
 }

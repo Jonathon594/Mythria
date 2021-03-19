@@ -30,13 +30,20 @@ public abstract class CrafterScreen<T extends CrafterContainer> extends Containe
         super(p_i51105_1_, p_i51105_2_, p_i51105_3_);
     }
 
+    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+        if (this.canScroll()) {
+            int i = this.getHiddenRows();
+            this.sliderProgress = (float) ((double) this.sliderProgress - delta / (double) i);
+            this.sliderProgress = MathHelper.clamp(this.sliderProgress, 0.0F, 1.0F);
+            this.recipeIndexOffset = (int) ((double) (this.sliderProgress * (float) i) + 0.5D) * 4;
+        }
+
+        return true;
+    }
+
     public void render(MatrixStack matrixStack, int p_render_1_, int p_render_2_, float p_render_3_) {
         super.render(matrixStack, p_render_1_, p_render_2_, p_render_3_);
         this.renderHoveredTooltip(matrixStack, p_render_1_, p_render_2_);
-    }
-
-    private boolean canScroll() {
-        return this.hasItemsInInputSlot && this.container.getRecipeCount() > 12;
     }
 
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
@@ -55,21 +62,6 @@ public abstract class CrafterScreen<T extends CrafterContainer> extends Containe
 
         this.drawRecipesItems(l, i1, j1);
     }
-
-    private void drawRecipesItems(int left, int top, int recipeIndexOffsetMax) {
-        List<? extends IRecipe> list = this.container.getRecipes();
-
-        for (int i = this.recipeIndexOffset; i < recipeIndexOffsetMax && i < this.container.getRecipeCount(); ++i) {
-            int j = i - this.recipeIndexOffset;
-            int k = left + j % 4 * 16;
-            int l = j / 4;
-            int i1 = top + l * 18 + 2;
-            this.minecraft.getItemRenderer().renderItemAndEffectIntoGUI(list.get(i).getRecipeOutput(), k, i1);
-        }
-
-    }
-
-    protected abstract ResourceLocation getBackground();
 
     public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
         this.selected = false;
@@ -99,6 +91,23 @@ public abstract class CrafterScreen<T extends CrafterContainer> extends Containe
         return super.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
     }
 
+    private boolean canScroll() {
+        return this.hasItemsInInputSlot && this.container.getRecipeCount() > 12;
+    }
+
+    private void drawRecipesItems(int left, int top, int recipeIndexOffsetMax) {
+        List<? extends IRecipe> list = this.container.getRecipes();
+
+        for (int i = this.recipeIndexOffset; i < recipeIndexOffsetMax && i < this.container.getRecipeCount(); ++i) {
+            int j = i - this.recipeIndexOffset;
+            int k = left + j % 4 * 16;
+            int l = j / 4;
+            int i1 = top + l * 18 + 2;
+            this.minecraft.getItemRenderer().renderItemAndEffectIntoGUI(list.get(i).getRecipeOutput(), k, i1);
+        }
+
+    }
+
     private void func_238853_b_(MatrixStack matrixStack, int x, int y, int p_238853_4_, int p_238853_5_, int p_238853_6_) {
         ArrayList<ITextComponent> tooltips = new ArrayList<>();
         for (int i = this.recipeIndexOffset; i < p_238853_6_ && i < this.container.getRecipeCount(); ++i) {
@@ -126,22 +135,9 @@ public abstract class CrafterScreen<T extends CrafterContainer> extends Containe
         if (tooltips.size() > 0) func_243308_b(matrixStack, tooltips, x, y);
     }
 
-    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-        if (this.canScroll()) {
-            int i = this.getHiddenRows();
-            this.sliderProgress = (float) ((double) this.sliderProgress - delta / (double) i);
-            this.sliderProgress = MathHelper.clamp(this.sliderProgress, 0.0F, 1.0F);
-            this.recipeIndexOffset = (int) ((double) (this.sliderProgress * (float) i) + 0.5D) * 4;
-        }
-
-        return true;
-    }
-
     protected int getHiddenRows() {
         return (this.container.getRecipeCount() + 4 - 1) / 4 - 3;
     }
-
-    protected abstract SoundEvent getCraftSound();
 
     protected void onInventoryUpdate() {
         this.hasItemsInInputSlot = !this.container.getInventory().get(0).isEmpty();
@@ -151,4 +147,8 @@ public abstract class CrafterScreen<T extends CrafterContainer> extends Containe
         }
         this.hasRecipes = this.container.getRecipeCount() > 0;
     }
+
+    protected abstract ResourceLocation getBackground();
+
+    protected abstract SoundEvent getCraftSound();
 }

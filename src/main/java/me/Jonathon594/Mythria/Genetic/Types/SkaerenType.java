@@ -41,17 +41,17 @@ public class SkaerenType extends GeneticType {
     }
 
     @Override
+    public List<SkinPart> getAllowedClothes() {
+        return ImmutableList.of(SkinParts.SKAEREN_CLOTHES_PRIMITIVE);
+    }
+
+    @Override
     public List<SkinPart> getAllowedSkins() {
         return ImmutableList.of(
                 SkinParts.HUMAN_SKIN_TAN,
                 SkinParts.HUMAN_SKIN_MEDIUM,
                 SkinParts.HUMAN_SKIN_DARK,
                 SkinParts.HUMAN_SKIN_BLACK);
-    }
-
-    @Override
-    public List<SkinPart> getAllowedClothes() {
-        return ImmutableList.of(SkinParts.SKAEREN_CLOTHES_PRIMITIVE);
     }
 
     @Override

@@ -14,17 +14,14 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class RenderListener {
     @SubscribeEvent
+    public static void guiPostScreenEvent(final GuiScreenEvent.InitGuiEvent.Post event) {
+        ClientUtil.drawLockedInventorySlots(event);
+    }
+
+    @SubscribeEvent
     public static void onRenderGameOverlay(RenderGameOverlayEvent event) {
         IngameGuiManager.renderOverlays(event);
     }
-
-
-    @SubscribeEvent
-    public static void renderHand(RenderHandEvent event) {
-        event.setCanceled(true);
-        PlayerRenderManager.renderHand(event);
-    }
-
 
     @SubscribeEvent
     public static void onRenderPlayer(final RenderPlayerEvent.Pre event) {
@@ -36,9 +33,9 @@ public class RenderListener {
         PlayerRenderManager.renderPlayer(event);
     }
 
-
     @SubscribeEvent
-    public static void guiPostScreenEvent(final GuiScreenEvent.InitGuiEvent.Post event) {
-        ClientUtil.drawLockedInventorySlots(event);
+    public static void renderHand(RenderHandEvent event) {
+        event.setCanceled(true);
+        PlayerRenderManager.renderHand(event);
     }
 }

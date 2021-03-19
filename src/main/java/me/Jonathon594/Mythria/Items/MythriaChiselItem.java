@@ -19,7 +19,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import javax.annotation.Nullable;
 import java.util.Set;
@@ -40,20 +39,8 @@ public class MythriaChiselItem extends ToolItem implements IModularTool {
     }
 
     @Override
-    public float getDestroySpeed(ItemStack stack, BlockState state) {
-        if (state.getMaterial().equals(Material.ROCK)) {
-            return this.efficiency;
-        }
-        return 0f;
-    }
-
-
-    @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        ItemStack chisel = playerIn.getHeldItem(handIn);
-        if (playerIn.world.isRemote) return new ActionResult<>(ActionResultType.PASS, chisel);
-        //todo playerIn.openGui(Mythria.instance, MythriaGui.CHISEL_GUI.ordinal(), worldIn, 0, 0, 0);
-        return new ActionResult<>(ActionResultType.SUCCESS, chisel);
+    public Item getDefaultHandle() {
+        return MythriaItems.OAK_BLADE_HANDLE;
     }
 
     @Override
@@ -67,8 +54,19 @@ public class MythriaChiselItem extends ToolItem implements IModularTool {
     }
 
     @Override
-    public Item getDefaultHandle() {
-        return MythriaItems.OAK_BLADE_HANDLE;
+    public float getDestroySpeed(ItemStack stack, BlockState state) {
+        if (state.getMaterial().equals(Material.ROCK)) {
+            return this.efficiency;
+        }
+        return 0f;
+    }
+
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        ItemStack chisel = playerIn.getHeldItem(handIn);
+        if (playerIn.world.isRemote) return new ActionResult<>(ActionResultType.PASS, chisel);
+        //todo playerIn.openGui(Mythria.instance, MythriaGui.CHISEL_GUI.ordinal(), worldIn, 0, 0, 0);
+        return new ActionResult<>(ActionResultType.SUCCESS, chisel);
     }
 
     @Override
@@ -86,9 +84,9 @@ public class MythriaChiselItem extends ToolItem implements IModularTool {
 
     @Override
     public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
-        if(nbt == null) return;
+        if (nbt == null) return;
         String key = Mythria.MODID + ".tool_sync";
-        if(nbt.contains(key)) {
+        if (nbt.contains(key)) {
             ToolProvider.getTool(stack).fromNBT(nbt.getCompound(key));
             nbt.remove(key);
         }

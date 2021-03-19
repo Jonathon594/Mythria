@@ -17,10 +17,6 @@ public class SkinPart extends ForgeRegistryEntry<SkinPart> {
         this.displayName = displayName;
     }
 
-    public Type getType() {
-        return type;
-    }
-
     public String getDisplayName() {
         return displayName;
     }
@@ -29,13 +25,17 @@ public class SkinPart extends ForgeRegistryEntry<SkinPart> {
         return new MythriaResourceLocation("textures/entity/player/" + getRegistryName().getPath() + ".png");
     }
 
-    public SkinPart setMakesPiglinsNeutral(boolean makesPiglinsNeutral) {
-        this.makesPiglinsNeutral = makesPiglinsNeutral;
-        return this;
+    public Type getType() {
+        return type;
     }
 
     public boolean makesPiglinsNeutral() {
         return makesPiglinsNeutral;
+    }
+
+    public SkinPart setMakesPiglinsNeutral(boolean makesPiglinsNeutral) {
+        this.makesPiglinsNeutral = makesPiglinsNeutral;
+        return this;
     }
 
     public enum Type {

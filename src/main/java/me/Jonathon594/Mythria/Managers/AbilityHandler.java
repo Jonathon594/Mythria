@@ -25,21 +25,21 @@ public class AbilityHandler {
         abilityInstances.add(new AbilityInstance(ability, player));
     }
 
-    public ArrayList<AbilityInstance> getAbilityInstances() {
-        return abilityInstances;
+    public boolean canWalkOnFluid(Fluid fluid) {
+        return false;
     }
 
-    public void tick() {
-        for (AbilityInstance instance : getAbilityInstances()) {
-            instance.tick();
-        }
+    public ArrayList<AbilityInstance> getAbilityInstances() {
+        return abilityInstances;
     }
 
     public void setFluidWalkingState(Fluid fluid, boolean state) {
         fluidWalkingMap.put(fluid, state);
     }
 
-    public boolean canWalkOnFluid(Fluid fluid) {
-        return false;
+    public void tick() {
+        for (AbilityInstance instance : getAbilityInstances()) {
+            instance.tick();
+        }
     }
 }
