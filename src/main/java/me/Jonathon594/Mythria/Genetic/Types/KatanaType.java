@@ -30,7 +30,7 @@ public class KatanaType extends GeneticType {
     ).collect(Collectors.toMap(simpleEntry -> simpleEntry.getKey(), simpleEntry -> simpleEntry.getValue()));
 
     public KatanaType() {
-        super("katana", "Ka'Tana", SpawnPos.ZERO, () -> new Genetic(GeneticTypes.KATANA, -4, 300, 0.02,
+        super("katana", "Ka'Tana", new SpawnPos(3119, -3909), () -> new Genetic(GeneticTypes.KATANA, -4, 300, 0.02,
                 60, 0.85, 20, 34, 14, 1, NUTRITION)
                 .withExtraGene(new EntityAttitudeGene(EntityAttitudeGene.Attitude.FEAR, EntityType.CREEPER)), 7);
     }

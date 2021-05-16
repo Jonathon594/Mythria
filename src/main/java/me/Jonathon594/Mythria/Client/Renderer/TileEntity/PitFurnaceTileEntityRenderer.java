@@ -19,10 +19,10 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.ForgeHooksClient;
 
 public class PitFurnaceTileEntityRenderer extends TileEntityRenderer<PitFurnaceTileEntity> {
-    private PitFurnaceFillingModel[] fillingModels = new PitFurnaceFillingModel[4];
-    private LogModel logModel;
-    private BurningLogOverlay burningOverlay = new BurningLogOverlay(true);
-    private PitFurnaceTopOverlay[] pitFurnaceTopOverlay = new PitFurnaceTopOverlay[4];
+    private final PitFurnaceFillingModel[] fillingModels = new PitFurnaceFillingModel[4];
+    private final LogModel logModel;
+    private final BurningLogOverlay burningOverlay = new BurningLogOverlay(true);
+    private final PitFurnaceTopOverlay[] pitFurnaceTopOverlay = new PitFurnaceTopOverlay[4];
 
     public PitFurnaceTileEntityRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
         super(rendererDispatcherIn);

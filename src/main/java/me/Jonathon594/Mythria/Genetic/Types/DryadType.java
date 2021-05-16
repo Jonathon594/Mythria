@@ -33,7 +33,7 @@ public class DryadType extends GeneticType {
     ).collect(Collectors.toMap(simpleEntry -> simpleEntry.getKey(), simpleEntry -> simpleEntry.getValue()));
 
     public DryadType() {
-        super("dryad", "Dryad", SpawnPos.ZERO, () -> new Genetic(GeneticTypes.DRYAD, 8, 120, 0.01,
+        super("dryad", "Dryad", new SpawnPos(3119, -3909), () -> new Genetic(GeneticTypes.DRYAD, 8, 120, 0.01,
                 80, 1.0, 200, 649, 14, -0.1, NUTRITION)
                 .setGenderBias(1.0).withExtraGene(new AbilityGene(Abilities.DRYAD_GROWTH))
                 .withExtraGene(new EntityAttitudeGene(EntityAttitudeGene.Attitude.TRUCE, EntityType.WOLF,

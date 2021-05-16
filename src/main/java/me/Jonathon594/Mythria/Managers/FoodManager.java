@@ -13,10 +13,9 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 
 import java.util.ArrayList;
@@ -51,9 +50,13 @@ public class FoodManager {
         long deltaAge = (long) ((realAge - food.getAge()) * preservation);
         food.setAge(food.getAge() + deltaAge);
         double ageProp = food.getAgeProportion(is);
+        int message = (int) Math.floor(ageProp * 4);
         if (ageProp > 1.25) {
             is.setCount(0);
+            return;
         }
+        is.setDisplayName(new StringTextComponent(ColorConst.MAIN_COLOR + MythriaConst.FOOD_AGE[message] +
+                new TranslationTextComponent(is.getItem().getTranslationKey()).getString()));
     }
 
     public static MythriaFoodData getFoodData(Item food) {
@@ -138,17 +141,6 @@ public class FoodManager {
         if (i.equals(Items.MUTTON)) return true;
         if (i.equals(Items.COD)) return true;
         return i.equals(Items.EGG);
-    }
-
-    public static void onItemToolTip(ItemTooltipEvent event) {
-        ItemStack itemStack = event.getItemStack();
-        Food food = FoodProvider.getFood(itemStack);
-        if (food == null) return;
-        List<ITextComponent> toolTip = event.getToolTip();
-        double ageProp = food.getAgeProportion(itemStack);
-        int message = (int) Math.floor(ageProp * 4);
-        toolTip.add(new StringTextComponent(ColorConst.MAIN_COLOR + MythriaConst.FOOD_AGE[message]));
-        toolTip.add(new StringTextComponent(ColorConst.CONT_COLOR + "" + Math.round(food.getCooked() * 100) + "% Cooked."));
     }
 
     public static void onPlayerPickupItem(final EntityItemPickupEvent event) {

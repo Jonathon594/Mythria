@@ -38,7 +38,7 @@ public class Genetic {
     private SkinPartGene eyes;
     private SkinPartGene skin;
 
-    private List<Gene> extraGenes = new ArrayList<>();
+    private final List<Gene> extraGenes = new ArrayList<>();
 
     public Genetic(GeneticType type, double health, double stamina, double speed,
                    double weight, double intelligence, double mana, int lifespan, double temperature, double manaRegen,

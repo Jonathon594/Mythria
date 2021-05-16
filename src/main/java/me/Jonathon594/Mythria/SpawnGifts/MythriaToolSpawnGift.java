@@ -12,9 +12,9 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class MythriaToolSpawnGift extends SpawnGift {
-    private Random random;
-    private Supplier<List<? extends IItemProvider>> validToolHeads;
-    private Supplier<List<? extends IItemProvider>> validToolHandles;
+    private final Random random;
+    private final Supplier<List<? extends IItemProvider>> validToolHeads;
+    private final Supplier<List<? extends IItemProvider>> validToolHandles;
     private Function<ItemStack, ITextComponent> nameFactory = (itemstack) -> itemstack.getDisplayName();
     private Function<ItemStack, Integer> damageFactory = (itemstack) -> 0;
 

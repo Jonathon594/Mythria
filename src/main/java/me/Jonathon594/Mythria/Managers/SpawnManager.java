@@ -5,6 +5,7 @@ import me.Jonathon594.Mythria.DataTypes.SpawnPos;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -19,7 +20,7 @@ public class SpawnManager {
         int spawnHeight;
         int recursion = 0;
         while (true) {
-            spawnPos = MythriaUtil.getRandomPositionAroundPoint(profile.getGenetic().getType().getSpawnPos(), 250 + recursion, world);
+            spawnPos = MythriaUtil.getRandomPositionAroundPoint(profile.getGenetic().getType().getSpawnPos(), 50 + recursion, world);
             blockPos = new BlockPos(spawnPos.getX(), 0, spawnPos.getZ());
             spawnHeight = getSpawnHeight(dimensionType, world, blockPos);
             if (spawnHeight > 0) break;

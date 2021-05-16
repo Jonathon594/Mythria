@@ -34,8 +34,8 @@ public class SpawnGifts {
         event.getRegistry().registerAll(
                 new RandomItemsSpawnGift("saplings", () -> BlockTags.SAPLINGS.getAllElements(), 3)
                         .withDisplayName("Saplings"),
-                new SingleItemSpawnGift("bandolier", () -> MythriaItems.PRIMITIVE_BANDOLIER)
-                        .withDisplayName("Bandolier"),
+                new SingleItemSpawnGift("old_bandolier", () -> MythriaItems.PRIMITIVE_BANDOLIER)
+                        .withDisplayName("Old Bandolier"),
                 new MythriaToolSpawnGift("old_axe", () -> ImmutableList.of(MythriaItems.TIN_AXE,
                         MythriaItems.COPPER_AXE, MythriaItems.BRONZE_AXE),
                         () -> MythriaItemTags.TOOL_HANDLES_OVERWORLD.getAllElements())

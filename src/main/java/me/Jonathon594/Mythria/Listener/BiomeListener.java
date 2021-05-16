@@ -13,7 +13,7 @@ import java.util.List;
 
 @Mod.EventBusSubscriber
 public class BiomeListener {
-    private static ArrayList<Pair<EntityType, EntityType>> entitySpawnReplacements = new ArrayList<>();
+    private static final ArrayList<Pair<EntityType, EntityType>> entitySpawnReplacements = new ArrayList<>();
 
     public static void addEntityReplacement(EntityType replace, EntityType with) {
         entitySpawnReplacements.add(new Pair<>(replace, with));

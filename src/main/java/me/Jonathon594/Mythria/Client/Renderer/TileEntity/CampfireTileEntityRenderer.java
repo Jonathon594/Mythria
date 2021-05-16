@@ -19,9 +19,9 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.ForgeHooksClient;
 
 public class CampfireTileEntityRenderer extends TileEntityRenderer<CampfireTileEntity> {
-    private LogModel logModel = new LogModel();
-    private BurningLogOverlay burningOverlayTop = new BurningLogOverlay(true);
-    private BurningLogOverlay burningOverlayBottom = new BurningLogOverlay(false);
+    private final LogModel logModel = new LogModel();
+    private final BurningLogOverlay burningOverlayTop = new BurningLogOverlay(true);
+    private final BurningLogOverlay burningOverlayBottom = new BurningLogOverlay(false);
 
     public CampfireTileEntityRenderer(TileEntityRendererDispatcher p_i226007_1_) {
         super(p_i226007_1_);

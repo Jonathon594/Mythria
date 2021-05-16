@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.model.Model;
 import net.minecraft.util.Direction;
 
 public class PitFurnaceTopOverlay extends Model {
-    private OptionalFaceCubeRenderer overlay;
+    private final OptionalFaceCubeRenderer overlay;
 
     public PitFurnaceTopOverlay(float vOffset, boolean vFlip) {
         super(RenderType::getEntityCutout);

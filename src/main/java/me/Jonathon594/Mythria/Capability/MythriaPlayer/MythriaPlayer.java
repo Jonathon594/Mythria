@@ -18,7 +18,7 @@ public class MythriaPlayer implements IMythriaPlayer {
     public static final DataParameter<SkinPart> SCALES = new DataParameter<>(247, MythriaSerializers.SKIN);
     public static final DataParameter<Gender> GENDER = new DataParameter<>(246, MythriaSerializers.GENDER);
 
-    private LivingEntity entity;
+    private final LivingEntity entity;
     private int ticksParrying;
     private int wingFlightFlapAngle;
 

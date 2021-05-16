@@ -39,7 +39,7 @@ public class CampfireTileEntity extends TileEntity implements IClearable, ITicka
     private float friction = 0;
     private int ticksLeft = maxTicks;
     private boolean charcoal = false;
-    private Random rand = new Random();
+    private final Random rand = new Random();
 
     public CampfireTileEntity() {
         super(MythriaTileEntities.CAMPFIRE.get());

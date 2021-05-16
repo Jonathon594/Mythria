@@ -84,7 +84,7 @@ public class MythriaBowItem extends BowItem {
                         SoundEvents.ITEM_CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + 0.5F);
                 stack.damageItem(3, playerentity, (p_220009_1_) -> p_220009_1_.sendBreakAnimation(playerentity.getActiveHand()));
                 return;
-            }
+            } else if (!(arrow.getItem() instanceof MythriaArrowItem)) return;
 
             int i = this.getUseDuration(stack) - timeLeft;
             i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn, playerentity, i, !arrow.isEmpty() || flag);

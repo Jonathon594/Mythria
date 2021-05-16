@@ -16,6 +16,15 @@ public class BowstringContainer extends ToolComponentContainer {
     }
 
     @Override
+    public ItemStack getResultStack(ItemStack bow, ItemStack component) {
+        if (!(bow.getItem() instanceof MythriaBowItem)) return ItemStack.EMPTY;
+        if (component.isEmpty()) return ItemStack.EMPTY;
+        Bow bowCap = BowProvider.getBow(bow);
+        bowCap.setBowstring(component.copy());
+        return bow;
+    }
+
+    @Override
     protected SoundEvent getCraftSound() {
         return SoundEvents.ENTITY_SHEEP_SHEAR;
     }
@@ -28,14 +37,5 @@ public class BowstringContainer extends ToolComponentContainer {
     @Override
     protected boolean isValidTool(ItemStack stack) {
         return stack.getItem() instanceof MythriaBowItem && BowProvider.getBow(stack).getBowstring().isEmpty();
-    }
-
-    @Override
-    public ItemStack getResultStack(ItemStack bow, ItemStack component) {
-        if (!(bow.getItem() instanceof MythriaBowItem)) return ItemStack.EMPTY;
-        if (component.isEmpty()) return ItemStack.EMPTY;
-        Bow bowCap = BowProvider.getBow(bow);
-        bowCap.setBowstring(component.copy());
-        return bow;
     }
 }

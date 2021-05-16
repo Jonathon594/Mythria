@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.model.Model;
 import net.minecraft.util.Direction;
 
 public class PitFurnaceFillingModel extends Model {
-    private OptionalFaceCubeRenderer thatch;
+    private final OptionalFaceCubeRenderer thatch;
 
     public PitFurnaceFillingModel(float vOffset) {
         super(RenderType::getEntityCutout);

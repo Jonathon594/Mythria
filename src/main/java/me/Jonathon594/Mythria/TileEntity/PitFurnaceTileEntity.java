@@ -13,7 +13,7 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.NonNullList;
 
 public class PitFurnaceTileEntity extends BasicFurnaceTileEntity implements IClearable {
-    private NonNullList<ItemStack> fuelInventory = NonNullList.withSize(8, ItemStack.EMPTY);
+    private final NonNullList<ItemStack> fuelInventory = NonNullList.withSize(8, ItemStack.EMPTY);
 
     public PitFurnaceTileEntity() {
         super(MythriaTileEntities.PIT_FURNACE.get(), 3000, -1, 4);
@@ -42,14 +42,6 @@ public class PitFurnaceTileEntity extends BasicFurnaceTileEntity implements ICle
         ItemStackHelper.loadAllItems(nbt.getCompound("fuelInventory"), fuelInventory);
     }
 
-    @Override
-    protected CompoundNBT writeItems(CompoundNBT compound) {
-        CompoundNBT fuelInventory = new CompoundNBT();
-        ItemStackHelper.saveAllItems(fuelInventory, this.fuelInventory);
-        compound.put("fuelInventory", fuelInventory);
-        return super.writeItems(compound);
-    }
-
     public CompoundNBT getUpdateTag() {
         return this.writeItems(new CompoundNBT());
     }
@@ -58,6 +50,14 @@ public class PitFurnaceTileEntity extends BasicFurnaceTileEntity implements ICle
         if (world.getBlockState(pos).get(PitFurnaceBlock.SOULFIRE)) maxTemperature = 900;
         else maxTemperature = 600;
         super.tick();
+    }
+
+    @Override
+    protected CompoundNBT writeItems(CompoundNBT compound) {
+        CompoundNBT fuelInventory = new CompoundNBT();
+        ItemStackHelper.saveAllItems(fuelInventory, this.fuelInventory);
+        compound.put("fuelInventory", fuelInventory);
+        return super.writeItems(compound);
     }
 
     @Override

@@ -28,7 +28,7 @@ public class HumanType extends GeneticType {
     ).collect(Collectors.toMap(simpleEntry -> simpleEntry.getKey(), simpleEntry -> simpleEntry.getValue()));
 
     public HumanType() {
-        super("human", "Human", SpawnPos.ZERO, () -> new Genetic(GeneticTypes.HUMAN, 4, 100, 0.0, 50,
+        super("human", "Human", new SpawnPos(3119, -3909), () -> new Genetic(GeneticTypes.HUMAN, 4, 100, 0.0, 50,
                 1.5, 10, 74, 14, 0, NUTRITION), 15);
     }
 

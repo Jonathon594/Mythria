@@ -21,21 +21,6 @@ public class ToolHandleContainer extends ToolComponentContainer {
     }
 
     @Override
-    protected SoundEvent getCraftSound() {
-        return SoundEvents.ENTITY_SHEEP_SHEAR;
-    }
-
-    @Override
-    protected boolean isValidComponent(ItemStack stack) {
-        return stack.getItem() instanceof ToolHandleItem;
-    }
-
-    @Override
-    protected boolean isValidTool(ItemStack stack) {
-        return stack.getItem() instanceof ToolHeadItem;
-    }
-
-    @Override
     public ItemStack getResultStack(ItemStack head, ItemStack handle) {
         if (!(head.getItem() instanceof ToolHeadItem)) return ItemStack.EMPTY;
         if (handle.isEmpty()) return ItemStack.EMPTY;
@@ -56,5 +41,20 @@ public class ToolHandleContainer extends ToolComponentContainer {
         }
         result.setDamage(head.getDamage());
         return result;
+    }
+
+    @Override
+    protected SoundEvent getCraftSound() {
+        return SoundEvents.ENTITY_SHEEP_SHEAR;
+    }
+
+    @Override
+    protected boolean isValidComponent(ItemStack stack) {
+        return stack.getItem() instanceof ToolHandleItem;
+    }
+
+    @Override
+    protected boolean isValidTool(ItemStack stack) {
+        return stack.getItem() instanceof ToolHeadItem;
     }
 }

@@ -2,6 +2,8 @@ package me.Jonathon594.Mythria.Managers;
 
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Enum.ChatChannel;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -75,20 +77,7 @@ public class ChatManager {
             }
         }
 
-//        JDA jda = DiscordManager.getJda();
-//        if (jda != null) {
-//            if (range == 0) {
-//
-//                List<TextChannel> channels = jda.getTextChannelsByName("general", true);
-//                channels.get(0).sendMessage(p.getFirstName() + " " + p.getLastName() + " (" + sender.getName() + "): " +
-//                        event.getMessage()).queue();
-//            }
-//            if (channel == ChatChannel.PRAY) {
-//                List<TextChannel> channels = jda.getTextChannelsByName("pray", true);
-//                channels.get(0).sendMessage(p.getFirstName() + " " + p.getLastName() + " (" + sender.getName() + "): " +
-//                        event.getMessage() + " " + sender.getPosition().toString()).queue();
-//            }
-//        }
+        DiscordManager.handleDiscordChat(event, sender, p, channel);
     }
 
     public static void sendMessage(ServerChatEvent event, ServerPlayerEntity sender, Profile p, ServerPlayerEntity player, TextFormatting tf, boolean isInRange, boolean showName) {

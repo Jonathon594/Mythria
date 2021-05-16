@@ -1,7 +1,10 @@
 package me.Jonathon594.Mythria.Client.Model;
 
 public class UVFace {
-    private float u1, u2, v1, v2;
+    private final float u1;
+    private final float u2;
+    private final float v1;
+    private final float v2;
 
     public UVFace(float u1, float u2, float v1, float v2) {
         this.u1 = u1;

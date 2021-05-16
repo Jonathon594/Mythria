@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.model.Model;
 import net.minecraft.util.Direction;
 
 public class BurningLogOverlay extends Model {
-    private OptionalFaceCubeRenderer overlay;
+    private final OptionalFaceCubeRenderer overlay;
 
     public BurningLogOverlay(boolean upperLog) {
         super(RenderType::getEntityCutout);

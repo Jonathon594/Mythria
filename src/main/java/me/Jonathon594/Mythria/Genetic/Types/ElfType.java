@@ -30,7 +30,7 @@ public class ElfType extends GeneticType {
     ).collect(Collectors.toMap(simpleEntry -> simpleEntry.getKey(), simpleEntry -> simpleEntry.getValue()));
 
     public ElfType() {
-        super("elf", "Elf", SpawnPos.ZERO, () -> new Genetic(GeneticTypes.ELF, -2, 80, 0.01, 45,
+        super("elf", "Elf", new SpawnPos(3119, -3909), () -> new Genetic(GeneticTypes.ELF, -2, 80, 0.01, 45,
                 1.0, 50, 0, 12, 0.5, NUTRITION)
                 .withExtraGene(new AbilityGene(Abilities.ELF_HEALING)), 14);
     }

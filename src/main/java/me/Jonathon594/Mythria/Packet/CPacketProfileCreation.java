@@ -24,12 +24,19 @@ import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 public class CPacketProfileCreation {
-    private String firstName, middleName, lastName;
-    private int month, day;
-    private GeneticType geneticType;
-    private Gender gender;
-    private SkinPart hair, eyes, clothes, skin, unique;
-    private SpawnGift gift;
+    private final String firstName;
+    private final String middleName;
+    private final String lastName;
+    private final int month;
+    private final int day;
+    private final GeneticType geneticType;
+    private final Gender gender;
+    private final SkinPart hair;
+    private final SkinPart eyes;
+    private final SkinPart clothes;
+    private final SkinPart skin;
+    private SkinPart unique;
+    private final SpawnGift gift;
 
     public CPacketProfileCreation(String firstName, String middleName, String lastName, int month,
                                   int day, GeneticType geneticType, Gender gender, SkinPart hair, SkinPart eyes, SkinPart clothes,

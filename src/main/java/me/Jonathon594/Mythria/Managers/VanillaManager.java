@@ -73,6 +73,6 @@ public class VanillaManager {
     }
 
     private static void setStackSize(final Block block, final int i) {
-        setStackSize(Item.BLOCK_TO_ITEM.get(block), i);
+        setStackSize(block.asItem(), i);
     }
 }

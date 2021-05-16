@@ -1,5 +1,10 @@
 package me.Jonathon594.Mythria.Const;
 
+import com.google.common.collect.ImmutableList;
+import net.minecraft.entity.EntityType;
+
+import java.util.List;
+
 public class MythriaConst {
     public static final String NAME_SHORT = ColorConst.MAIN_COLOR + "Please make sure all names are 3 characters or more.";
     public static final String NAMES_NO_SPACES = ColorConst.MAIN_COLOR + "Please make sure all your names have no spaces.";
@@ -46,9 +51,12 @@ public class MythriaConst {
     public static final String STILL_LEARNING_PERK = ColorConst.MAIN_COLOR + "You are still learning about this...";
     public static final String PROXIMITY_LEARN = ColorConst.MAIN_COLOR + "%s has helped you finish learning %s.";
     public static final String FINISH_LEARNING_PERK = ColorConst.MAIN_COLOR + "You have finished learning %s.";
-    public static final String[] FOOD_AGE = new String[]{"This food looks fresh.", "This food is still good.", "It's starting to turn a bit.", "I should probably eat this now before it goes bad.", "This food is spoiled, ew!"};
+    public static final String[] FOOD_AGE = new String[]{"Fresh ", "", "Old ", "Rancid ", "Spoiled "};
     public static final String NOT_ENOUGH_FAVOR = ColorConst.MAIN_COLOR + "You don't have enough connection with a Divine to learn this.";
     public static final String PERK_EXCLUDED = ColorConst.MAIN_COLOR + "A perk you have learned prevents you from ever learning this.";
     public static final String NAME_TOO_LONG = ColorConst.MAIN_COLOR + "Please make sure your name is no longer than 26 characters total. (Currently %s)";
     public static final String CANT_PLACE = ColorConst.MAIN_COLOR + "You do not know how to place this.";
+
+    public static final List<EntityType> LILASIA_ENTITIES = ImmutableList.of(EntityType.SPIDER, EntityType.SKELETON,
+            EntityType.WITCH, EntityType.CREEPER, EntityType.ZOMBIE, EntityType.ZOMBIE_VILLAGER, EntityType.ZOMBIE_HORSE);
 }

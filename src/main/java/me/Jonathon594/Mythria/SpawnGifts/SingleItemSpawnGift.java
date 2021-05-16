@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SingleItemSpawnGift extends SpawnGift {
 
-    private IItemProvider itemProvider;
+    private final IItemProvider itemProvider;
     private int count = 1;
 
     public SingleItemSpawnGift(String name, IItemProvider itemProvider) {

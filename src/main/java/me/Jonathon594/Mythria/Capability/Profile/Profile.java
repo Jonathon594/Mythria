@@ -238,8 +238,10 @@ public class Profile implements IProfile {
         for (INBT nbt : perkList) {
             String s = nbt.getString();
             final Perk pa = MythriaRegistries.PERKS.getValue(new ResourceLocation(s));
-            if (pa != null)
+            if (pa != null) {
                 perks.add(pa);
+                MythriaUtil.addRecipesFromPerk(player, pa);
+            }
         }
 
         final ListNBT abilityList = comp.getList("Abilities", 8);
@@ -545,10 +547,6 @@ public class Profile implements IProfile {
     public void setPlayer(final PlayerEntity player) {
         this.player = player;
         this.ownerName = player.getUniqueID().toString();
-
-        for (Perk perk : perks) {
-            MythriaUtil.addRecipesFromPerk(player, perk);
-        }
     }
 
     public int getPlayerLevel() {

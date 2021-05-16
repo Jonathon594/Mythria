@@ -4,7 +4,7 @@ import me.Jonathon594.Mythria.Genetic.Serializers.GeneSerializer;
 import net.minecraft.nbt.CompoundNBT;
 
 public abstract class Gene {
-    private GeneType type;
+    private final GeneType type;
 
     protected Gene(GeneType type) {
         this.type = type;

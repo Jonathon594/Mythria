@@ -8,7 +8,7 @@ import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class AvoidGeneticGoal extends AvoidEntityGoal<PlayerEntity> {
-    private CreatureEntity creatureEntity;
+    private final CreatureEntity creatureEntity;
 
     public AvoidGeneticGoal(CreatureEntity creatureEntity) {
         super(creatureEntity, PlayerEntity.class, 6.0f, 1.0, 1.2);

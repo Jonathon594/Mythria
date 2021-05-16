@@ -28,7 +28,7 @@ public class OrcType extends GeneticType {
     ).collect(Collectors.toMap(simpleEntry -> simpleEntry.getKey(), simpleEntry -> simpleEntry.getValue()));
 
     public OrcType() {
-        super("orc", "Orc", SpawnPos.ZERO, () -> new Genetic(GeneticTypes.ORC, 20, 140, -0.01,
+        super("orc", "Orc", new SpawnPos(3119, -3909), () -> new Genetic(GeneticTypes.ORC, 20, 140, -0.01,
                 120, 0.8, 5, 48, 16, 0, NUTRITION), 14);
     }
 

@@ -27,12 +27,9 @@ public class ScreenProfileCreation extends Screen {
     }
 
     public boolean canCreate() {
-        if (profileNamesTab.firstName.getText().length() < 3 ||
-                profileNamesTab.middleName.getText().length() < 3 ||
-                profileNamesTab.lastName.getText().length() < 3) {
-            return false;
-        }
-        return true;
+        return profileNamesTab.firstName.getText().length() >= 3 &&
+                profileNamesTab.middleName.getText().length() >= 3 &&
+                profileNamesTab.lastName.getText().length() >= 3;
     }
 
     @Override
@@ -72,7 +69,7 @@ public class ScreenProfileCreation extends Screen {
 
         float posX = left + 207.5f;
         int posY = top + 100;
-        ScreenUtils.drawEntityOnScreen(posX, posY, 42, (float) posX - mouseX,
+        ScreenUtils.drawEntityOnScreen(posX, posY, 42, posX - mouseX,
                 (float) posY - mouseY - 70, minecraft.player);
     }
 
@@ -98,8 +95,7 @@ public class ScreenProfileCreation extends Screen {
     protected void setSelectedTab(int index) {
         for (int i = 0; i < tabs.size(); i++) {
             ProfileCreationTab tab = tabs.get(i);
-            if (i == index) tab.selected = true;
-            else tab.selected = false;
+            tab.selected = i == index;
         }
         selectedTab = index;
     }

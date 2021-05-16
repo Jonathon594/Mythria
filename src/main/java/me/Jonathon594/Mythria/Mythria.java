@@ -2,6 +2,7 @@ package me.Jonathon594.Mythria;
 
 import me.Jonathon594.Mythria.Capability.CapabilityHandler;
 import me.Jonathon594.Mythria.Client.Manager.ClientManager;
+import me.Jonathon594.Mythria.Config.ServerGlobalConfig;
 import me.Jonathon594.Mythria.Entity.MythriaEntityType;
 import me.Jonathon594.Mythria.Entity.NetherChickenEntity;
 import me.Jonathon594.Mythria.Listener.BiomeListener;
@@ -16,6 +17,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.spongepowered.asm.launch.MixinBootstrap;
 
@@ -28,7 +30,13 @@ public class Mythria {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::onSetup);
         modEventBus.addListener(this::onClientSetup);
+        modEventBus.addListener(this::onServerSetup);
         MythriaTileEntities.TILE_ENTITY_TYPES.register(modEventBus);
+    }
+
+    public void onServerSetup(FMLDedicatedServerSetupEvent event) {
+        ServerGlobalConfig.init();
+        DiscordManager.init();
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {

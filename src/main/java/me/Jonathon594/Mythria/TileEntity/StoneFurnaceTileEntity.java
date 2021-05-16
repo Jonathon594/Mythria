@@ -41,13 +41,6 @@ public class StoneFurnaceTileEntity extends FuelableFurnaceTileEntity implements
     }
 
     @Override
-    protected void onFinishBurning() {
-        if (world.isRemote) return;
-        dropAllItems();
-        world.setBlockState(pos, Blocks.AIR.getDefaultState());
-    }
-
-    @Override
     protected ItemStack getFuelStack() {
         return inventory.get(4);
     }
@@ -55,5 +48,12 @@ public class StoneFurnaceTileEntity extends FuelableFurnaceTileEntity implements
     @Override
     protected void setLit(boolean lit) {
         world.setBlockState(pos, getBlockState().with(MythriaFurnaceBlock.LIT, false));
+    }
+
+    @Override
+    protected void onFinishBurning() {
+        if (world.isRemote) return;
+        dropAllItems();
+        world.setBlockState(pos, Blocks.AIR.getDefaultState());
     }
 }

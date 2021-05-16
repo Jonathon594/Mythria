@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class RandomItemsSpawnGift extends SpawnGift {
-    private Supplier<List<? extends IItemProvider>> validItems;
-    private int count;
+    private final Supplier<List<? extends IItemProvider>> validItems;
+    private final int count;
 
     public RandomItemsSpawnGift(String name, Supplier<List<? extends IItemProvider>> validItems, int count) {
         super(name);

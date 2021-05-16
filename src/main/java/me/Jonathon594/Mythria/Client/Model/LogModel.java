@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.model.Model;
 import net.minecraft.util.Direction;
 
 public class LogModel extends Model {
-    private OptionalFaceCubeRenderer log;
+    private final OptionalFaceCubeRenderer log;
 
     public LogModel() {
         super(RenderType::getEntityCutout);

@@ -29,7 +29,7 @@ public class FaeType extends GeneticType {
     ).collect(Collectors.toMap(simpleEntry -> simpleEntry.getKey(), simpleEntry -> simpleEntry.getValue()));
 
     public FaeType() {
-        super("fae", "Fae", SpawnPos.ZERO, () -> new Genetic(GeneticTypes.FAE, -10, 80, 0.02,
+        super("fae", "Fae", new SpawnPos(3119, -3909), () -> new Genetic(GeneticTypes.FAE, -10, 80, 0.02,
                 40, 1.0, 80, 284, 11, 1, NUTRITION)
                 .withExtraGene(new FaeWingsGene(SkinParts.FAE_WINGS_BLUE)), 14);
         setSpecialSkinPartType(SkinPart.Type.WINGS);

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class SpawnGift extends ForgeRegistryEntry<SpawnGift> {
     private String displayName;
-    private List<PerkType> giftPerkTypes = new ArrayList<>();
+    private final List<PerkType> giftPerkTypes = new ArrayList<>();
 
     public SpawnGift(String name) {
         setRegistryName(new MythriaResourceLocation(name));

@@ -103,8 +103,7 @@ public class PlayerListener {
             for (final Perk pa : list) {
                 if (profile.getPlayerSkills().contains(pa)) able = true;
                 for (MythicSkills skill : pa.getRequiredSkills().keySet()) {
-                    levelModifiers.computeIfAbsent(skill, mythicSkills ->
-                            levelModifiers.put(mythicSkills, profile.getSkillLevel(mythicSkills)));
+                    if (!levelModifiers.containsKey(skill)) levelModifiers.put(skill, profile.getSkillLevel(skill));
                 }
             }
             if (!able) {

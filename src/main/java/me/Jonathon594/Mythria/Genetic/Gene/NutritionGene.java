@@ -8,7 +8,7 @@ import net.minecraft.nbt.CompoundNBT;
 import java.util.HashMap;
 
 public class NutritionGene extends Gene {
-    private HashMap<Consumable.Nutrition, Integer> requiredNutrition;
+    private final HashMap<Consumable.Nutrition, Integer> requiredNutrition;
 
     public NutritionGene(HashMap<Consumable.Nutrition, Integer> requiredNutrition) {
         super(GeneType.NUTRITION);

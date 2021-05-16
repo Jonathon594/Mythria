@@ -40,7 +40,6 @@ public class ClientListener {
     @SubscribeEvent
     public static void onItemToolTip(ItemTooltipEvent event) {
         ItemStack itemStack = event.getItemStack();
-        FoodManager.onItemToolTip(event);
         Item item = itemStack.getItem();
         if (item instanceof HeatableItem) {
             HeatableItem heatableItem = (HeatableItem) item;
