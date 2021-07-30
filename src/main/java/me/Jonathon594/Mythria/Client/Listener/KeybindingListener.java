@@ -2,6 +2,7 @@ package me.Jonathon594.Mythria.Client.Listener;
 
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Client.Keybindings;
+import me.Jonathon594.Mythria.Client.Manager.InputManager;
 import me.Jonathon594.Mythria.Client.Screen.ScreenPerks;
 import me.Jonathon594.Mythria.Client.Screen.ScreenProfile;
 import me.Jonathon594.Mythria.Client.Screen.ScreenProfileCreation;
@@ -35,6 +36,12 @@ public class KeybindingListener {
         }
         if (Keybindings.CRAFTING.isPressed()) {
             MythriaPacketHandler.sendToServer(new CPacketAction(CPacketAction.Action.SIMPLE_CRAFTING));
+        }
+        if (Keybindings.TOGGLE_WIELDING_MODE.isPressed()) {
+            InputManager.onToggleCombatMode();
+        }
+        if (Keybindings.TOGGLE_ABILITY_MODE.isPressed()) {
+            InputManager.onToggleControlMode();
         }
     }
 }

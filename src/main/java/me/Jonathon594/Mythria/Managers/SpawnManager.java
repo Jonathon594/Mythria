@@ -5,7 +5,6 @@ import me.Jonathon594.Mythria.DataTypes.SpawnPos;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.Direction;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

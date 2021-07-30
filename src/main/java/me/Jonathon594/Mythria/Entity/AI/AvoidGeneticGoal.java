@@ -1,8 +1,8 @@
 package me.Jonathon594.Mythria.Entity.AI;
 
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
-import me.Jonathon594.Mythria.Genetic.Gene.EntityAttitudeGene;
-import me.Jonathon594.Mythria.Genetic.Gene.Gene;
+import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.EntityAttitudeGene;
+import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.Gene;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.player.PlayerEntity;

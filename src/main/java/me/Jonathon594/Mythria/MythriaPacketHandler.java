@@ -40,6 +40,7 @@ public class MythriaPacketHandler {
         HANDLER.registerMessage(disc++, CPacketReloadWeapon.class, CPacketReloadWeapon::encode, CPacketReloadWeapon::new,
                 CPacketReloadWeapon::handle);
         HANDLER.registerMessage(disc++, CPacketAction.class, CPacketAction::encode, CPacketAction::new, CPacketAction::handle);
+        HANDLER.registerMessage(disc++, CPacketAttack.class, CPacketAttack::encode, CPacketAttack::new, CPacketAttack::handle);
     }
 
     /**

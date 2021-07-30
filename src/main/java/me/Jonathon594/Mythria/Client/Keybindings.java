@@ -10,10 +10,15 @@ public class Keybindings {
     public static final KeyBinding RELOAD = new KeyBinding("Reload Ranged Weapon", GLFW.GLFW_KEY_R, "Mythria");
     public static final KeyBinding CRAFTING = new KeyBinding("Simple Crafting", GLFW.GLFW_KEY_C, "Mythria");
 
+    public static final KeyBinding TOGGLE_WIELDING_MODE = new KeyBinding("Toggle Wielding Mode", GLFW.GLFW_KEY_X, "Mythria");
+    public static final KeyBinding TOGGLE_ABILITY_MODE = new KeyBinding("Toggle Ability Mode", GLFW.GLFW_KEY_Z, "Mythria");
+
     public static void init() {
         ClientRegistry.registerKeyBinding(SHOW_PROFILE);
         ClientRegistry.registerKeyBinding(SHOW_SKILLS);
         ClientRegistry.registerKeyBinding(RELOAD);
         ClientRegistry.registerKeyBinding(CRAFTING);
+        ClientRegistry.registerKeyBinding(TOGGLE_WIELDING_MODE);
+        ClientRegistry.registerKeyBinding(TOGGLE_ABILITY_MODE);
     }
 }

@@ -1,7 +1,6 @@
 package me.Jonathon594.Mythria.Items;
 
 import com.google.common.collect.Sets;
-import me.Jonathon594.Mythria.Capability.Tool.ToolProvider;
 import me.Jonathon594.Mythria.Client.Renderer.Items.ChiselItemRenderer;
 import me.Jonathon594.Mythria.DataTypes.MythriaToolType;
 import me.Jonathon594.Mythria.Interface.IModularTool;
@@ -14,13 +13,11 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -74,22 +71,5 @@ public class MythriaChiselItem extends ToolItem implements IModularTool {
         return ActionResultType.SUCCESS;
     }
 
-    @Nullable
-    @Override
-    public CompoundNBT getShareTag(ItemStack stack) {
-        CompoundNBT tag = stack.getOrCreateTag();
-        tag.put(Mythria.MODID + ".tool_sync", ToolProvider.getTool(stack).toNBT());
-        return tag;
-    }
 
-    @Override
-    public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
-        if (nbt == null) return;
-        String key = Mythria.MODID + ".tool_sync";
-        if (nbt.contains(key)) {
-            ToolProvider.getTool(stack).fromNBT(nbt.getCompound(key));
-            nbt.remove(key);
-        }
-        stack.setTag(nbt);
-    }
 }

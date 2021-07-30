@@ -18,8 +18,8 @@ public class Tool implements ITool {
 
     @Override
     public CompoundNBT toNBT() {
-        CompoundNBT nbt = new CompoundNBT();
-        nbt.put("inventory", inventory.serializeNBT());
-        return nbt;
+        CompoundNBT compoundNBT = new CompoundNBT();
+        compoundNBT.put("inventory", inventory.serializeNBT());
+        return compoundNBT;
     }
 }

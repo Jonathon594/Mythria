@@ -1,5 +1,6 @@
 package me.Jonathon594.Mythria.Network;
 
+import me.Jonathon594.Mythria.Enum.ControlMode;
 import me.Jonathon594.Mythria.Enum.Gender;
 import me.Jonathon594.Mythria.MythriaRegistries;
 import me.Jonathon594.Mythria.Skin.SkinPart;
@@ -37,8 +38,23 @@ public class MythriaSerializers {
         }
     };
 
+    public static final IDataSerializer<ControlMode> CONTROL_MODE = new IDataSerializer<ControlMode>() {
+        public void write(PacketBuffer buf, ControlMode value) {
+            buf.writeString(value.name());
+        }
+
+        public ControlMode read(PacketBuffer buf) {
+            return ControlMode.valueOf(buf.readString());
+        }
+
+        public ControlMode copyValue(ControlMode value) {
+            return value;
+        }
+    };
+
     public static void init() {
         DataSerializers.registerSerializer(SKIN);
         DataSerializers.registerSerializer(GENDER);
+        DataSerializers.registerSerializer(CONTROL_MODE);
     }
 }

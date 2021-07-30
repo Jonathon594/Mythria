@@ -8,7 +8,8 @@
     "MapDataMixin"
   ],
   "client": [
-    "ClientPlayerEntityMixin"
+    "ClientPlayerEntityMixin",
+    "FirstPersonRendererMixin"
   ],
   "compatibilityLevel": "JAVA_8",
   "refmap": "mythria.refmap.json",

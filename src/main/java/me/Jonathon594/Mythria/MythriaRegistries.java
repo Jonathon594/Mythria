@@ -1,12 +1,12 @@
 package me.Jonathon594.Mythria;
 
 import me.Jonathon594.Mythria.Ability.Ability;
+import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.Gene;
+import me.Jonathon594.Mythria.DataTypes.Genetic.GeneticType;
+import me.Jonathon594.Mythria.DataTypes.Genetic.Serializers.GeneSerializer;
+import me.Jonathon594.Mythria.DataTypes.Origins.Origin;
 import me.Jonathon594.Mythria.DataTypes.Perk;
-import me.Jonathon594.Mythria.Genetic.Gene.Gene;
-import me.Jonathon594.Mythria.Genetic.GeneticType;
-import me.Jonathon594.Mythria.Genetic.Serializers.GeneSerializer;
 import me.Jonathon594.Mythria.Skin.SkinPart;
-import me.Jonathon594.Mythria.SpawnGifts.SpawnGift;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryManager;
 
@@ -17,5 +17,5 @@ public class MythriaRegistries {
     public static final IForgeRegistry<SkinPart> SKIN_PARTS = RegistryManager.ACTIVE.getRegistry(SkinPart.class);
     public static final IForgeRegistry<GeneSerializer<? extends Gene>> GENE_SERIALIZERS =
             RegistryManager.ACTIVE.getRegistry(GeneSerializer.class);
-    public static final IForgeRegistry<SpawnGift> SPAWN_GIFTS = RegistryManager.ACTIVE.getRegistry(SpawnGift.class);
+    public static final IForgeRegistry<Origin> SPAWN_GIFTS = RegistryManager.ACTIVE.getRegistry(Origin.class);
 }

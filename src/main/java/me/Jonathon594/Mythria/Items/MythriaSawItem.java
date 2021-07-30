@@ -1,7 +1,6 @@
 package me.Jonathon594.Mythria.Items;
 
 import com.google.common.collect.Sets;
-import me.Jonathon594.Mythria.Capability.Tool.ToolProvider;
 import me.Jonathon594.Mythria.Client.Renderer.Items.SawItemRenderer;
 import me.Jonathon594.Mythria.DataTypes.MythriaToolType;
 import me.Jonathon594.Mythria.Interface.IModularTool;
@@ -9,11 +8,11 @@ import me.Jonathon594.Mythria.Mythria;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.block.Block;
-import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraft.item.IItemTier;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ToolItem;
 
-import javax.annotation.Nullable;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -42,11 +41,5 @@ public class MythriaSawItem extends ToolItem implements IModularTool {
     @Override
     public Item[] getValidHandles() {
         return MythriaUtil.getItemsFromTag(new MythriaResourceLocation("saw_handles"));
-    }
-
-    @Nullable
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
-        return new ToolProvider(this);
     }
 }

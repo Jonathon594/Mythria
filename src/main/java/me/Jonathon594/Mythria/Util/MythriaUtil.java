@@ -5,6 +5,8 @@ import me.Jonathon594.Mythria.Const.ColorConst;
 import me.Jonathon594.Mythria.DataTypes.Date;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.SpawnPos;
+import me.Jonathon594.Mythria.Items.MythriaDaggerItem;
+import me.Jonathon594.Mythria.Items.MythriaHammerItem;
 import me.Jonathon594.Mythria.Managers.TimeManager;
 import me.Jonathon594.Mythria.Mythria;
 import me.Jonathon594.Mythria.Perk.Perks;
@@ -21,9 +23,7 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -48,6 +48,12 @@ import java.util.*;
 
 public class MythriaUtil {
     private static final Random RANDOM = new Random();
+
+    public static float getDeltaA(float a1, float a2) {
+        float deltaA = a1 - a2;
+        deltaA += deltaA > 180 ? -360 : deltaA < -180 ? 360 : 0;
+        return deltaA;
+    }
 
     public static void DropAllItems(final PlayerEntity player, final boolean armor, final boolean offhand) {
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
@@ -230,6 +236,10 @@ public class MythriaUtil {
         return 7500.0 * Math.pow(2, (double) level / 7) - 7500.0;
     }
 
+    public static double getExperienceForLevel(int level) {
+        return 750.0 * Math.pow(2, (double) level / 7) - 750.0;
+    }
+
     public static List<Item> getItemCollectionFromTag(ResourceLocation resourceLocation) {
         return ItemTags.getCollection().get(resourceLocation).getAllElements();
     }
@@ -276,6 +286,18 @@ public class MythriaUtil {
 
     public static boolean isAxe(final Item i) {
         return i instanceof AxeItem;
+    }
+
+    public static boolean isDagger(Item item) {
+        return item instanceof MythriaDaggerItem;
+    }
+
+    public static boolean isHammer(Item item) {
+        return item instanceof MythriaHammerItem;
+    }
+
+    public static boolean isMeleeWeapon(Item item) {
+        return item instanceof TieredItem || item == Items.AIR;
     }
 
     public static boolean isOre(Block block) {
@@ -359,5 +381,9 @@ public class MythriaUtil {
             toGrant.add(a);
             addChildren(a, toGrant);
         }
+    }
+
+    public static boolean isSword(Item item) {
+        return item instanceof SwordItem && !(item instanceof MythriaDaggerItem);
     }
 }

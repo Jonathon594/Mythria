@@ -22,4 +22,5 @@ public class ClientPlayerEntityMixin {
             clientPlayerEntity.connection.sendPacket(new CEntityActionPacket(clientPlayerEntity, CEntityActionPacket.Action.START_FALL_FLYING));
         }
     }
+
 }

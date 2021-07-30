@@ -43,8 +43,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -108,5 +110,40 @@ public class CapabilityHandler {
         CapabilityManager.INSTANCE.register(ITool.class, new ToolStorage(), Tool::new);
         CapabilityManager.INSTANCE.register(IMold.class, new MoldStorage(), Mold::new);
         CapabilityManager.INSTANCE.register(IBow.class, new BowStorage(), Bow::new);
+    }
+
+    public static void readFromShareTag(ItemStack stack, CompoundNBT nbt) {
+        if(nbt != null && nbt.contains("share_caps")) {
+            CompoundNBT capTags = nbt.getCompound("share_caps");
+
+            if(capTags.contains("tool")) {
+                stack.getCapability(ToolProvider.TOOL_CAP).ifPresent(iTool -> iTool.fromNBT(capTags.getCompound("tool")));
+            }
+            if(capTags.contains("bow")) {
+                stack.getCapability(BowProvider.BOW_CAP).ifPresent(iBow -> iBow.fromNBT(capTags.getCompound("bow")));
+            }
+            if(capTags.contains("heatable")) {
+                stack.getCapability(HeatableProvider.HEATABLE_CAP).ifPresent(iHeatable -> iHeatable.fromNBT(capTags.getCompound("heatable")));
+            }
+
+            nbt.remove("share_caps");
+        }
+    }
+
+    public static CompoundNBT writeToShareTag(ItemStack stack, CompoundNBT tag) {
+        CompoundNBT capTags = new CompoundNBT();
+
+        LazyOptional<ITool> tool = stack.getCapability(ToolProvider.TOOL_CAP);
+        tool.ifPresent((iTool) -> capTags.put("tool", iTool.toNBT()));
+        LazyOptional<IBow> bow = stack.getCapability(BowProvider.BOW_CAP);
+        bow.ifPresent((iBow) -> capTags.put("bow", iBow.toNBT()));
+        LazyOptional<IHeatable> heatable = stack.getCapability(HeatableProvider.HEATABLE_CAP);
+        heatable.ifPresent((iHeatable) -> capTags.put("heatable", iHeatable.toNBT()));
+
+        if(capTags.isEmpty()) return tag;
+        if(tag == null) return new CompoundNBT();
+        else tag = tag.copy();
+        tag.put("share_caps", capTags);
+        return tag;
     }
 }

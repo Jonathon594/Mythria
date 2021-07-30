@@ -21,10 +21,8 @@ import java.util.List;
 public class TimeManager {
     private final static List<String> DayNames = new ArrayList<>();
     private final static List<Month> Months = new ArrayList<>();
-    public static float ticks = 0;
     private static Date currentDate;
     private static int daysPerYear = 0;
-    private static int tick;
 
     public static Date getCurrentDate() {
         return currentDate;
@@ -71,21 +69,19 @@ public class TimeManager {
     }
 
     public static void onTick(final TickEvent.ServerTickEvent event) {
-        tick++;
-        if (tick == 200) {
-            tick = 1;
-            MinecraftServer currentServer = ServerLifecycleHooks.getCurrentServer();
-            final World w = currentServer.getWorld(World.OVERWORLD);
-            final long time = w.getDayTime() % 24000;
-            if (time < 200) {
-                currentDate.IncDay();
-                MythriaPacketHandler.sendToAll(new SPacketTimeManager(currentDate.getMGD()));
-                final NewDayEvent nde = new NewDayEvent();
-                MinecraftForge.EVENT_BUS.post(nde);
-                for (final PlayerEntity p : currentServer.getPlayerList()
-                        .getPlayers()) {
-                    p.sendMessage(new StringTextComponent(currentDate.getDateString()), Util.DUMMY_UUID);
-                }
+        if(event.phase.equals(TickEvent.Phase.START)) return;
+        MinecraftServer currentServer = ServerLifecycleHooks.getCurrentServer();
+        final World w = currentServer.getWorld(World.OVERWORLD);
+        final long time = w.getDayTime() % 24000;
+        if (time == 0) {
+            System.out.println(w.getDayTime());
+            currentDate.IncDay();
+            MythriaPacketHandler.sendToAll(new SPacketTimeManager(currentDate.getMGD()));
+            final NewDayEvent nde = new NewDayEvent();
+            MinecraftForge.EVENT_BUS.post(nde);
+            for (final PlayerEntity p : currentServer.getPlayerList()
+                    .getPlayers()) {
+                p.sendMessage(new StringTextComponent(currentDate.getDateString()), Util.DUMMY_UUID);
             }
         }
     }

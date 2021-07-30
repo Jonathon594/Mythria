@@ -11,7 +11,6 @@ import me.Jonathon594.Mythria.Client.Screen.*;
 import me.Jonathon594.Mythria.Container.MythriaContainerType;
 import me.Jonathon594.Mythria.Entity.MythriaEntityType;
 import me.Jonathon594.Mythria.Enum.Consumable;
-import me.Jonathon594.Mythria.Managers.IngameGuiManager;
 import me.Jonathon594.Mythria.TileEntity.MythriaTileEntities;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.block.Block;
@@ -53,7 +52,6 @@ public class ClientManager {
         Keybindings.init();
         MythriaEntityType.registerRendersClient();
         MythriaTileEntities.registerRendersClient();
-        IngameGuiManager.addOverlay(new ScreenHud(Minecraft.getInstance()));
 
         ScreenManager.registerFactory(MythriaContainerType.SAWHORSE, SawhorseScreen::new);
         ScreenManager.registerFactory(MythriaContainerType.WOOD_CARVING, WoodCarvingScreen::new);

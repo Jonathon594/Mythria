@@ -2,13 +2,13 @@ package me.Jonathon594.Mythria.Managers;
 
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
+import me.Jonathon594.Mythria.DataTypes.Genetic.Genetic;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.Enum.Attribute;
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Enum.StatType;
 import me.Jonathon594.Mythria.Event.ChargeConsumableEvent;
-import me.Jonathon594.Mythria.Genetic.Genetic;
 import me.Jonathon594.Mythria.Interface.IHeatProvider;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import me.Jonathon594.Mythria.Worlds.MythriaWorlds;
@@ -157,6 +157,7 @@ public class StatManager {
     }
 
     public static void onTick(final TickEvent.ServerTickEvent event) {
+        if(event.phase.equals(TickEvent.Phase.START)) return;
         final PlayerList players = ServerLifecycleHooks.getCurrentServer().getPlayerList();
         for (final ServerPlayerEntity p : players.getPlayers()) {
             int tickCounter = ServerLifecycleHooks.getCurrentServer().getTickCounter();

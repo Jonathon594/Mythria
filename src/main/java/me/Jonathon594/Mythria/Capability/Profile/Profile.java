@@ -4,12 +4,13 @@ import me.Jonathon594.Mythria.Ability.Ability;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
 import me.Jonathon594.Mythria.Const.MythriaConst;
 import me.Jonathon594.Mythria.DataTypes.Date;
+import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.ISkinPartGene;
+import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.LifeSpanGene;
+import me.Jonathon594.Mythria.DataTypes.Genetic.Genetic;
+import me.Jonathon594.Mythria.DataTypes.Genetic.GeneticTypes;
 import me.Jonathon594.Mythria.DataTypes.HealthData;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.Enum.*;
-import me.Jonathon594.Mythria.Genetic.Gene.ISkinPartGene;
-import me.Jonathon594.Mythria.Genetic.Genetic;
-import me.Jonathon594.Mythria.Genetic.GeneticTypes;
 import me.Jonathon594.Mythria.Managers.AbilityHandler;
 import me.Jonathon594.Mythria.Managers.StatManager;
 import me.Jonathon594.Mythria.Managers.TimeManager;
@@ -240,7 +241,7 @@ public class Profile implements IProfile {
             final Perk pa = MythriaRegistries.PERKS.getValue(new ResourceLocation(s));
             if (pa != null) {
                 perks.add(pa);
-                MythriaUtil.addRecipesFromPerk(player, pa);
+                MythriaUtil.addRecipesFromPerk(player, pa); //todo move later
             }
         }
 
@@ -882,11 +883,13 @@ public class Profile implements IProfile {
     private void handleDeathChance(LivingEntity LivingEntity) {
         if (!getCreated()) return;
         Genetic primaryGenetic = getGenetic();
-        if (primaryGenetic.getLifeExpectancy() == 0) return;
-        if (getBirthDay().getYearsFromCurrent() < primaryGenetic.getLifeExpectancy()) return;
+        LifeSpanGene lifeSpanGene = primaryGenetic.getLifeSpanGene();
+        if (lifeSpanGene.isImmortal()) return;
+        int lifeExpectancy = lifeSpanGene.getStage(LifeSpanGene.LifeStage.ELDERLY);
+        if (getBirthDay().getYearsFromCurrent() < lifeExpectancy) return;
         if (hasFlag(AttributeFlag.IMMORTALITY)) return;
         int ageMGD = TimeManager.getCurrentDate().getMGD() - getBirthDay().getMGD();
-        final double dpll = ageMGD - (primaryGenetic.getLifeExpectancy() * TimeManager.getDaysPerYear());
+        final double dpll = ageMGD - (lifeExpectancy * TimeManager.getDaysPerYear());
         final double deathChance = dpll / TimeManager.getDaysPerYear() / 300D;
         if (random.nextDouble() < deathChance) {
             LivingEntity.setHealth(0);

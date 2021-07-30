@@ -1,8 +1,8 @@
 package me.Jonathon594.Mythria.Client.Screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import me.Jonathon594.Mythria.DataTypes.Origins.Origin;
 import me.Jonathon594.Mythria.MythriaRegistries;
-import me.Jonathon594.Mythria.SpawnGifts.SpawnGift;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -24,7 +24,7 @@ public class ProfileGiftTab extends ProfileCreationTab {
         }, this::getValidGiftNames));
     }
 
-    public SpawnGift getSelectedGift() {
+    public Origin getSelectedGift() {
         return MythriaRegistries.SPAWN_GIFTS.getValue(new ResourceLocation(giftSelectorButton.getSelectedName()));
     }
 
@@ -43,7 +43,7 @@ public class ProfileGiftTab extends ProfileCreationTab {
 
     private List<String> getValidGiftNames() {
         List<String> list = new ArrayList<>();
-        for (SpawnGift gift : parent.profileLooksTab.getSelectedGeneticType().getAllowedSpawnGifts()) {
+        for (Origin gift : parent.profileLooksTab.getSelectedGeneticType().getAllowedSpawnGifts()) {
             list.add(gift.getRegistryName().toString());
         }
         return list;

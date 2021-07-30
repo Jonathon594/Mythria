@@ -4,9 +4,10 @@ import me.Jonathon594.Mythria.Capability.Crucible.Crucible;
 import me.Jonathon594.Mythria.Capability.Crucible.CrucibleProvider;
 import me.Jonathon594.Mythria.Capability.HeatableItem.HeatableProvider;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
+import me.Jonathon594.Mythria.Client.Manager.ClientCombatManager;
+import me.Jonathon594.Mythria.Client.Manager.InputManager;
 import me.Jonathon594.Mythria.Items.CrucibleItem;
 import me.Jonathon594.Mythria.Items.HeatableItem;
-import me.Jonathon594.Mythria.Managers.FoodManager;
 import me.Jonathon594.Mythria.Managers.LimitedInventoryManager;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.Packet.CPacketOpenInventory;
@@ -21,6 +22,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -73,4 +75,8 @@ public class ClientListener {
             event.setCanceled(true);
     }
 
+    @SubscribeEvent
+    public static void onClickMouse(InputEvent.ClickInputEvent event) {
+        InputManager.onClickMouse(event);
+    }
 }

@@ -2,7 +2,7 @@ package me.Jonathon594.Mythria.Mixin;
 
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
-import me.Jonathon594.Mythria.Genetic.Gene.EntityAttitudeGene;
+import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.EntityAttitudeGene;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.piglin.PiglinTasks;

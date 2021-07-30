@@ -4,11 +4,12 @@ import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Const.MythriaConst;
+import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.EntityAttitudeGene;
+import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.Gene;
 import me.Jonathon594.Mythria.Entity.AI.AvoidGeneticGoal;
 import me.Jonathon594.Mythria.Entity.NPCEntity;
+import me.Jonathon594.Mythria.Enum.ControlMode;
 import me.Jonathon594.Mythria.Enum.Gender;
-import me.Jonathon594.Mythria.Genetic.Gene.EntityAttitudeGene;
-import me.Jonathon594.Mythria.Genetic.Gene.Gene;
 import me.Jonathon594.Mythria.Managers.*;
 import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Skin.SkinParts;
@@ -32,7 +33,7 @@ public class EntityListener {
     @SubscribeEvent
     public static void onEntityConstructing(EntityEvent.EntityConstructing event) {
         Entity entity = event.getEntity();
-        if (entity instanceof PlayerEntity || entity instanceof NPCEntity) {
+        if (entity instanceof PlayerEntity || entity instanceof NPCEntity) { //todo
             LivingEntity player = (LivingEntity) entity;
             player.getDataManager().register(MythriaPlayer.PARRYING, false);
             player.getDataManager().register(MythriaPlayer.SKIN, SkinParts.getSkinPartsFor(SkinPart.Type.SKIN).get(0));
@@ -43,6 +44,7 @@ public class EntityListener {
             player.getDataManager().register(MythriaPlayer.VINES, null);
             player.getDataManager().register(MythriaPlayer.SCALES, null);
             player.getDataManager().register(MythriaPlayer.GENDER, Gender.MALE);
+            player.getDataManager().register(MythriaPlayer.CONTROL_MODE, ControlMode.NORMAL);
         }
     }
 
@@ -74,6 +76,10 @@ public class EntityListener {
                     entityWorld.getWorldInfo().getDayTime()) != 0) {
                 event.setResult(Event.Result.DENY);
             }
+        }
+
+        if(!(event.getEntityLiving() instanceof PlayerEntity)) {
+            event.setResult(Event.Result.DENY);
         }
     }
 

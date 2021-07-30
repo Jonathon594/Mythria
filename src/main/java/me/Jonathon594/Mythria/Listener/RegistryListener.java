@@ -1,11 +1,11 @@
 package me.Jonathon594.Mythria.Listener;
 
 import me.Jonathon594.Mythria.Ability.Ability;
+import me.Jonathon594.Mythria.DataTypes.Genetic.GeneticType;
+import me.Jonathon594.Mythria.DataTypes.Genetic.Serializers.GeneSerializer;
+import me.Jonathon594.Mythria.DataTypes.Origins.Origin;
 import me.Jonathon594.Mythria.DataTypes.Perk;
-import me.Jonathon594.Mythria.Genetic.GeneticType;
-import me.Jonathon594.Mythria.Genetic.Serializers.GeneSerializer;
 import me.Jonathon594.Mythria.Skin.SkinPart;
-import me.Jonathon594.Mythria.SpawnGifts.SpawnGift;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -31,8 +31,8 @@ public class RegistryListener {
         new RegistryBuilder<GeneSerializer<?>>().setName(new MythriaResourceLocation("gene_serializers"))
                 .setType(passTypedClass(GeneSerializer.class)).setMaxID(Integer.MAX_VALUE - 1).create();
 
-        new RegistryBuilder<SpawnGift>().setName(new MythriaResourceLocation("spawn_gifts"))
-                .setType(SpawnGift.class).setMaxID(Integer.MAX_VALUE - 1).create();
+        new RegistryBuilder<Origin>().setName(new MythriaResourceLocation("spawn_gifts"))
+                .setType(Origin.class).setMaxID(Integer.MAX_VALUE - 1).create();
     }
 
     private static <T> Class<T> passTypedClass(Class<?> clazz) {

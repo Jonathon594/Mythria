@@ -3,17 +3,17 @@ package me.Jonathon594.Mythria.Packet;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
+import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.Gene;
+import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.ISkinPartGene;
+import me.Jonathon594.Mythria.DataTypes.Genetic.Genetic;
+import me.Jonathon594.Mythria.DataTypes.Genetic.GeneticType;
+import me.Jonathon594.Mythria.DataTypes.Origins.Origin;
 import me.Jonathon594.Mythria.Enum.Gender;
 import me.Jonathon594.Mythria.Enum.PerkType;
-import me.Jonathon594.Mythria.Genetic.Gene.Gene;
-import me.Jonathon594.Mythria.Genetic.Gene.ISkinPartGene;
-import me.Jonathon594.Mythria.Genetic.Genetic;
-import me.Jonathon594.Mythria.Genetic.GeneticType;
 import me.Jonathon594.Mythria.Managers.SpawnManager;
 import me.Jonathon594.Mythria.Managers.StatManager;
 import me.Jonathon594.Mythria.MythriaRegistries;
 import me.Jonathon594.Mythria.Skin.SkinPart;
-import me.Jonathon594.Mythria.SpawnGifts.SpawnGift;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
@@ -36,11 +36,11 @@ public class CPacketProfileCreation {
     private final SkinPart clothes;
     private final SkinPart skin;
     private SkinPart unique;
-    private final SpawnGift gift;
+    private final Origin origin;
 
     public CPacketProfileCreation(String firstName, String middleName, String lastName, int month,
                                   int day, GeneticType geneticType, Gender gender, SkinPart hair, SkinPart eyes, SkinPart clothes,
-                                  SkinPart skin, @Nullable SkinPart unique, SpawnGift gift) {
+                                  SkinPart skin, @Nullable SkinPart unique, Origin origin) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -53,7 +53,7 @@ public class CPacketProfileCreation {
         this.clothes = clothes;
         this.skin = skin;
         this.unique = unique;
-        this.gift = gift;
+        this.origin = origin;
     }
 
     public CPacketProfileCreation(PacketBuffer packetBuffer) {
@@ -68,7 +68,7 @@ public class CPacketProfileCreation {
         eyes = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(packetBuffer.readString(32767)));
         clothes = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(packetBuffer.readString(32767)));
         skin = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(packetBuffer.readString(32767)));
-        gift = MythriaRegistries.SPAWN_GIFTS.getValue(new ResourceLocation(packetBuffer.readString(32767)));
+        origin = MythriaRegistries.SPAWN_GIFTS.getValue(new ResourceLocation(packetBuffer.readString(32767)));
 
         String s = packetBuffer.readString(32767);
         if (!s.isEmpty()) unique = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(s));
@@ -86,7 +86,7 @@ public class CPacketProfileCreation {
         packetBuffer.writeString(msg.getEyes().getRegistryName().toString());
         packetBuffer.writeString(msg.getClothes().getRegistryName().toString());
         packetBuffer.writeString(msg.getSkin().getRegistryName().toString());
-        packetBuffer.writeString(msg.getGift().getRegistryName().toString());
+        packetBuffer.writeString(msg.getOrigin().getRegistryName().toString());
         packetBuffer.writeString(msg.getUnique() == null ? "" : msg.getUnique().getRegistryName().toString());
     }
 
@@ -114,8 +114,8 @@ public class CPacketProfileCreation {
         return geneticType;
     }
 
-    public SpawnGift getGift() {
-        return gift;
+    public Origin getOrigin() {
+        return origin;
     }
 
     public SkinPart getHair() {
@@ -151,10 +151,10 @@ public class CPacketProfileCreation {
             profile.setFirstName(msg.getFirstName());
             profile.setMiddleName(msg.getMiddleName());
             profile.setLastName(msg.getLastName());
-            profile.setBirthDay(MythriaUtil.getDateFromAgeMonthDay(
-                    msg.getGeneticType().getStartingAge(), msg.getMonth(), msg.getDay()));
-            profile.setClothing(msg.getClothes());
             Genetic genetic = msg.getGeneticType().createGenetic();
+            profile.setBirthDay(MythriaUtil.getDateFromAgeMonthDay(
+                    msg.getOrigin().getStartingAge(genetic), msg.getMonth(), msg.getDay()));
+            profile.setClothing(msg.getClothes());
             genetic.getHair().setSkinPart(msg.getHair());
             genetic.getEyes().setSkinPart(msg.getEyes());
             genetic.getSkin().setSkinPart(msg.getSkin());
@@ -176,7 +176,7 @@ public class CPacketProfileCreation {
             serverPlayer.getFoodStats().setFoodLevel(20);
             profile.unlockPerkType(PerkType.SURVIVAL);
             SpawnManager.spawnInWorld(serverPlayer, profile);
-            msg.getGift().apply(serverPlayer, profile);
+            msg.getOrigin().apply(serverPlayer, profile);
             profile.sendDataPacket();
             profile.copySkinToMythriaPlayer(MythriaPlayerProvider.getMythriaPlayer(serverPlayer));
         });

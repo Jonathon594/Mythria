@@ -1,11 +1,15 @@
 package me.Jonathon594.Mythria.Capability.MythriaPlayer;
 
+import me.Jonathon594.Mythria.Enum.CombatMode;
+import me.Jonathon594.Mythria.Enum.ControlMode;
 import me.Jonathon594.Mythria.Enum.Gender;
+import me.Jonathon594.Mythria.Enum.InputIntent;
 import me.Jonathon594.Mythria.Network.MythriaSerializers;
 import me.Jonathon594.Mythria.Skin.SkinPart;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.util.Hand;
 
 public class MythriaPlayer implements IMythriaPlayer {
     public static final DataParameter<Boolean> PARRYING = new DataParameter<>(254, DataSerializers.BOOLEAN);
@@ -17,10 +21,15 @@ public class MythriaPlayer implements IMythriaPlayer {
     public static final DataParameter<SkinPart> VINES = new DataParameter<>(248, MythriaSerializers.SKIN);
     public static final DataParameter<SkinPart> SCALES = new DataParameter<>(247, MythriaSerializers.SKIN);
     public static final DataParameter<Gender> GENDER = new DataParameter<>(246, MythriaSerializers.GENDER);
+    public static final DataParameter<ControlMode> CONTROL_MODE = new DataParameter<>(245, MythriaSerializers.CONTROL_MODE);
 
     private final LivingEntity entity;
     private int ticksParrying;
     private int wingFlightFlapAngle;
+    private CombatMode combatMode = CombatMode.NORMAL;
+
+    private InputIntent mainhandIntent = InputIntent.NONE, offhandIntent = InputIntent.NONE;
+    private int attackingMainhand, attackingOffhand;
 
     public MythriaPlayer(LivingEntity entity) {
         this.entity = entity;
@@ -30,9 +39,39 @@ public class MythriaPlayer implements IMythriaPlayer {
         this.entity = null;
     }
 
+    public int getAttackingMainhand() {
+        return attackingMainhand;
+    }
+
+    public int getAttackingOffhand() {
+        return attackingOffhand;
+    }
+
     @Override
     public Gender getGender() {
         return entity.getDataManager().get(GENDER);
+    }
+
+    public CombatMode getCombatMode() {
+        return combatMode;
+    }
+
+    public InputIntent getInputIntent(Hand hand) {
+        return hand == Hand.MAIN_HAND ? mainhandIntent : offhandIntent;
+    }
+
+    public MythriaPlayer setAttackingMainhand(int attackingMainhand) {
+        this.attackingMainhand = attackingMainhand;
+        return this;
+    }
+
+    public MythriaPlayer setAttackingOffhand(int attackingOffhand) {
+        this.attackingOffhand = attackingOffhand;
+        return this;
+    }
+
+    public void setCombatMode(CombatMode combatMode) {
+        this.combatMode = combatMode;
     }
 
     @Override
@@ -62,6 +101,13 @@ public class MythriaPlayer implements IMythriaPlayer {
     @Override
     public int getTicksParrying() {
         return ticksParrying;
+    }
+
+    public MythriaPlayer setInputIntent(Hand hand, InputIntent inputIntent) {
+        if (hand == Hand.MAIN_HAND) {
+            mainhandIntent = inputIntent;
+        } else offhandIntent = inputIntent;
+        return this;
     }
 
     @Override
@@ -115,5 +161,11 @@ public class MythriaPlayer implements IMythriaPlayer {
 
     }
 
+    public void setControlMode(ControlMode controlMode) {
+        entity.getDataManager().set(CONTROL_MODE, controlMode);
+    }
 
+    public ControlMode getControlMode() {
+        return entity.getDataManager().get(CONTROL_MODE);
+    }
 }

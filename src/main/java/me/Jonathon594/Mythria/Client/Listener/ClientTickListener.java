@@ -1,7 +1,8 @@
 package me.Jonathon594.Mythria.Client.Listener;
 
 import me.Jonathon594.Mythria.Client.Manager.ClientManager;
-import me.Jonathon594.Mythria.Managers.IngameGuiManager;
+import me.Jonathon594.Mythria.Client.Manager.InputManager;
+import me.Jonathon594.Mythria.Client.Screen.ScreenHud;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
@@ -12,7 +13,10 @@ import net.minecraftforge.fml.common.Mod;
 public class ClientTickListener {
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
-        IngameGuiManager.onClientTick();
+        if(event.phase.equals(TickEvent.Phase.END)) {
+            InputManager.onClientTick();
+            ScreenHud.INSTANCE.tick();
+        }
     }
 
     @SubscribeEvent

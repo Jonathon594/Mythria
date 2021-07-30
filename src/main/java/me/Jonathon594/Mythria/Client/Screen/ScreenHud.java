@@ -1,45 +1,62 @@
 package me.Jonathon594.Mythria.Client.Screen;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
+import me.Jonathon594.Mythria.Client.Renderer.StatRenderer;
+import me.Jonathon594.Mythria.Enum.CombatMode;
 import me.Jonathon594.Mythria.Enum.Consumable;
+import me.Jonathon594.Mythria.Enum.ControlMode;
 import me.Jonathon594.Mythria.Enum.StatType;
 import me.Jonathon594.Mythria.Mythria;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.IngameGui;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
 
-public class ScreenHud extends IngameGui {
-    private final ResourceLocation BARS = new ResourceLocation(
-            Mythria.MODID, "textures/gui/bars.png");
+public class ScreenHud extends AbstractGui {
+    public static final ScreenHud INSTANCE = new ScreenHud();
+
     private final ResourceLocation ICONS = new MythriaResourceLocation("textures/gui/icons.png");
-    private final ResourceLocation WIDGETS_TEX_PATH = new MythriaResourceLocation("textures/gui/widgets.png");
+    private final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
+    private final ResourceLocation ABILITY_BOOK = new MythriaResourceLocation("textures/items/magic/book_spell.png");
+    private final ResourceLocation ATTACK_BARS = new MythriaResourceLocation("textures/gui/attack_bars.png");
 
-    public double weightValue = 0.0;
-    public double staminaValue = 0.0;
-    public double thirstValue = 0.0;
-    public double hungerValue = 0.0;
-    public double temperatureValue = 0.0;
-    public double torporValue = 0.0;
-    public double fatigueValue = 0.0;
-    public double levelValue = 0.0;
-    private double manaValue = 0.0;
-    private double pleaseValue = 0.0;
-    private Double bloodValue = 0.0;
+    private static final StatRenderer BLOOD = new StatRenderer(0, 72, 9, 18, true, false, 0);
+    private static final StatRenderer THIRST = new StatRenderer(0, 45, 9, 18, true, false, 1);
+    private static final StatRenderer HUNGER = new StatRenderer(0, 36, 9, 18, true, false, 2);
 
-    public ScreenHud(Minecraft mc) {
-        super(mc);
+    private static final StatRenderer TORPOR = new StatRenderer(0, 18, 9, 18, true, false, 4);
+    private static final StatRenderer STAMINA = new StatRenderer(0, 9, 9, 18, true, false, 5);
+    private static final StatRenderer MANA = new StatRenderer(0, 54, 9, 18, true, false, 6);
+
+    private static final StatRenderer TEMPERATURE = new StatRenderer(0, 27, 9, 18, true, false, 8);
+    private static final StatRenderer OVERWEIGHT = new StatRenderer(0, 0, 27, 36, false, false, 9);
+    private static final StatRenderer WEIGHT = new StatRenderer(0, 0, 9, 18, true, false, 9);
+    private double levelValue = 0.0;
+    private final Minecraft mc;
+
+    public ScreenHud() {
+        this.mc = Minecraft.getInstance();
     }
 
-    @Override
-    public void renderIngameGui(MatrixStack matrixStack, float partialTicks) {
+    private ImmutableList<StatRenderer> getStatRenderers() {
+        return ImmutableList.of(HUNGER, BLOOD, TORPOR, MANA, STAMINA, THIRST, TEMPERATURE, WEIGHT, OVERWEIGHT);
+    }
+
+    public void render(MatrixStack matrixStack, float partialTicks) {
         final int width = mc.getMainWindow().getScaledWidth();
         final int height = mc.getMainWindow().getScaledHeight();
 
@@ -47,7 +64,7 @@ public class ScreenHud extends IngameGui {
 //            renderKnockedOutOverlay(scaledRes);
 //        }
 
-        mc.getTextureManager().bindTexture(BARS);
+        mc.getTextureManager().bindTexture(new ResourceLocation("textures/gui/icons.png"));
 
         final short barWidth = 182;
 
@@ -56,116 +73,94 @@ public class ScreenHud extends IngameGui {
         if (profile == null) return;
         if (player.isCreative() || player.isSpectator()) return;
 
-        hungerValue = profile.getAverageNutrition();
-        thirstValue = profile.getConsumable(Consumable.THIRST);
-        fatigueValue = (1 - profile.getConsumable(Consumable.FATIGUE)) * 20;
-        double maxStamina = profile.getStat(StatType.MAX_STAMINA);
-        if (maxStamina > 0) staminaValue = profile.getConsumable(Consumable.STAMINA) / maxStamina * 20;
-        double maxWeight = profile.getStat(StatType.MAX_WEIGHT);
-        if (maxWeight > 0) weightValue = 20 - profile.getConsumable(Consumable.WEIGHT) / maxWeight * 20;
-        temperatureValue = profile.getConsumable(Consumable.TEMPERATURE);
-        torporValue = 20 - profile.getConsumable(Consumable.TORPOR);
-
-        levelValue = profile.getPlayerLevelProgressBuffer();
-
-        double maxMana = profile.getStat(StatType.MAX_MANA);
-        if (maxMana > 0) manaValue = profile.getConsumable(Consumable.MANA) / maxMana * 20;
-        pleaseValue = profile.getConsumable(Consumable.PLEASURE);
-
-        bloodValue = profile.getConsumable(Consumable.BLOOD);
-
-
-        mc.getTextureManager().bindTexture(BARS);
         drawBar(matrixStack, width / 2 - barWidth / 2, height - 32 + 3, (int) (levelValue * (barWidth + 1)), barWidth, true); // LEVEL
+        drawStatRenderers(matrixStack);
+        renderAbilityWheel(matrixStack, width, height);
 
-        drawStats(matrixStack);
+        if(MythriaPlayerProvider.getMythriaPlayer(player).getCombatMode().equals(CombatMode.DUAL)) {
+            this.mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
+            RenderSystem.enableBlend();
+            RenderSystem.color3f(1.0f, 0f, 0f);
+            RenderSystem.enableTexture();
+            HandSide handside = player.getPrimaryHand().opposite();
+            int i = width / 2;
+            if (handside == HandSide.LEFT) {
+                this.blit(matrixStack, i - 91 - 29, height - 23, 24, 22, 29, 24);
+            } else {
+                this.blit(matrixStack, i + 91, height - 23, 53, 22, 29, 24);
+            }
+        }
+    }
+
+    private void renderAbilityWheel(MatrixStack matrixStack, int width, int height) {
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.enableBlend();
+        RenderHelper.enableStandardItemLighting();
+        boolean abilityMode = MythriaPlayerProvider.getMythriaPlayer(mc.player).getControlMode().equals(ControlMode.ABILITY);
+
+        mc.getItemRenderer().renderItemAndEffectIntoGUI(new ItemStack(Items.ENCHANTED_BOOK), 8, height - 24);
+        if (abilityMode) {
+            int j = 5;
+            for (int i = 0; i < j + 1; i++) {
+                double a = (Math.PI / 2 / (double) j) * i - Math.PI / 2;
+                int x = (int) (Math.cos(a) * 64D);
+                int y = (int) (Math.sin(a) * 64D);
+
+                mc.getItemRenderer().renderItemAndEffectIntoGUI(new ItemStack(Items.FIRE_CHARGE), 8 + x, height - 24 + y);
+            }
+            mc.getTextureManager().bindTexture(WIDGETS_TEX_PATH);
+            blit(matrixStack, 64 + 5, height - 24 - 3, 24, 23, 22, 22);
+            drawString(matrixStack, mc.fontRenderer, "Test Spell", 96, height - 20, 0xffffff);
+        }
     }
 
     private void drawBar(MatrixStack matrixStack, final int left, final int top, final int filled, final int barWidth, final boolean back) {
-        blit(matrixStack, left, top, 0, 80, barWidth, 5);
+        blit(matrixStack, left, top, 0, 64, barWidth, 5);
         if (filled > 0)
-            blit(matrixStack, left, top, 0, 85, MathHelper.clamp(filled, 0, barWidth), 5);
+            blit(matrixStack, left, top, 0, 69, MathHelper.clamp(filled, 0, barWidth), 5);
     }
 
-    private void drawStatBar(MatrixStack matrixStack, int x, int y, int weight, int txBack, int txFront, int txFrontHalf, int ty, boolean renderBackground, int backValue, boolean reverse, boolean showWobble) {
-        RenderSystem.enableBlend();
-
-        for (int i = 0; i < 10; i++) {
-            int idx = i * 2 + 1;
-            int offset = reverse ? 72 - (i * 8) : i * 8;
-
-            if (renderBackground) {
-                if (idx <= backValue) blit(matrixStack, x + offset, y, txBack, ty, 9, 9);
-            }
-
-            if (idx < weight) {
-                blit(matrixStack, x + offset, y, txFront, ty, 9, 9);
-            }
-
-            if (idx == weight) {
-                blit(matrixStack, x + offset, y, txFrontHalf, ty, 9, 9);
-            }
-        }
-
-        RenderSystem.disableBlend();
-    }
-
-    private void drawStatBar(MatrixStack matrixStack, int x, int y, int weight, int txBack, int txFront, int txFrontHalf, int ty, boolean back, int backValue) {
-        drawStatBar(matrixStack, x, y, weight, txBack, txFront, txFrontHalf, ty, back, backValue, false, false);
-    }
-
-    private void drawStats(MatrixStack matrixStack) {
+    private void drawStatRenderers(MatrixStack matrixStack) {
         final int width = mc.getMainWindow().getScaledWidth();
         final int height = mc.getMainWindow().getScaledHeight();
         mc.getTextureManager().bindTexture(ICONS);
 
         if (mc.getRenderViewEntity() instanceof PlayerEntity) {
-            RenderSystem.enableBlend();
-
-            int yOff = -10;
-            int y = height - 39 - 20;
-            int x = width / 2 - 91 - 82 - 9;
-
-            int blood = (int) Math.round(bloodValue);
-            drawStatBar(matrixStack, x, y + yOff, blood, 0, 9, 18, 72, true, 20, true, true);
-            yOff += 10;
-
-            int torpor = (int) Math.round(torporValue);
-            drawStatBar(matrixStack, x, y + yOff, torpor, 0, 9, 18, 18, true, 20);
-            yOff += 10;
-
-            int mana = (int) Math.round(manaValue);
-            drawStatBar(matrixStack, x, y + yOff, mana, 0, 9, 18, 54, true, 20);
-            yOff += 10;
-
-            int stamina = (int) Math.round(staminaValue);
-            drawStatBar(matrixStack, x, y + yOff, stamina, 0, 9, 18, 9, true, (int) Math.floor(fatigueValue));
-            yOff += 10;
-
-            x = width / 2 + 91 + 9;
-            y = height - 39 - 20;
-            yOff = -10;
-
-            int thirst = (int) Math.round(thirstValue);
-            drawStatBar(matrixStack, x, y + yOff, thirst, 0, 9, 18, 45, true, 20, true, true);
-            yOff += 10;
-
-            int hunger = (int) Math.round(hungerValue);
-            drawStatBar(matrixStack, x, y + yOff, hunger, 0, 9, 18, 36, true, 20, true, true);
-            yOff += 10;
-
-            int temp = (int) Math.round(temperatureValue);
-            drawStatBar(matrixStack, x, y + yOff, temp, 0, 9, 18, 27, true, 20, true, false);
-            yOff += 10;
-
-            int overWeight = (int) Math.round(20 - Math.abs(Math.min(weightValue, 0) / 3));
-            drawStatBar(matrixStack, x, y + yOff, overWeight, 0, 27, 36, 0, true, 20, true, false);
-            int weight = (int) Math.round(weightValue);
-            drawStatBar(matrixStack, x, y + yOff, weight, 0, 9, 18, 0, false, 20, true, false);
-
-//            int please = (int) Math.round(pleaseValue);
-//            drawStatBar(matrixStack, x, y + yOff, please, 0, 9, 18, 63, false, 20, true, false);
-//            yOff += 10;
+            int x = width - 81 - 9;
+            int y = height - 108 - 9;
+            for (StatRenderer statRenderer : getStatRenderers()) {
+                statRenderer.render(matrixStack, x, y + statRenderer.getSlotOrder() * 11);
+            }
         }
+    }
+
+    public void tick() {
+        ClientPlayerEntity player = mc.player;
+        if(player == null) return;
+        final Profile profile = ProfileProvider.getProfile(player);
+        if (profile == null) return;
+        if (player.isCreative() || player.isSpectator()) return;
+
+        HUNGER.setValueFront((int) profile.getAverageNutrition()).setValueBack(20);
+        THIRST.setValueFront((int) profile.getConsumable(Consumable.THIRST)).setValueBack(20);
+
+        double maxStamina = profile.getStat(StatType.MAX_STAMINA);
+        STAMINA.setValueFront((int) (maxStamina > 0 ? profile.getConsumable(Consumable.STAMINA) / maxStamina * 20 : 0))
+                .setValueBack((int) ((1 - profile.getConsumable(Consumable.FATIGUE)) * 20.0));
+
+        double maxWeight = profile.getStat(StatType.MAX_WEIGHT);
+        int weightValue = (int) (maxWeight > 0 ? profile.getConsumable(Consumable.WEIGHT) / maxWeight * 20.0 : 0);
+        WEIGHT.setValueFront(weightValue).setValueBack(20);
+        OVERWEIGHT.setValueFront((int) (Math.max(weightValue-20, 0) / 3.0));
+
+        TEMPERATURE.setValueFront((int) profile.getConsumable(Consumable.TEMPERATURE)).setValueBack(20);
+        TORPOR.setValueFront((int) (20 - profile.getConsumable(Consumable.TORPOR))).setValueBack(20);
+
+        levelValue = profile.getPlayerLevelProgressBuffer();
+
+        double maxMana = profile.getStat(StatType.MAX_MANA);
+        MANA.setValueFront((int) (maxMana > 0 ? profile.getConsumable(Consumable.MANA) / maxMana * 20 : 0)).setValueBack(20);
+
+        BLOOD.setValueFront((int) profile.getConsumable(Consumable.BLOOD)).setValueBack(20);
     }
 }

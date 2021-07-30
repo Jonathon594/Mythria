@@ -5,7 +5,7 @@ import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.item.Item;
 
-public interface IModularTool {
+public interface IModularTool extends IShareTagCapability {
     default Item getDefaultHandle() {
         return MythriaItems.OAK_TOOL_HANDLE;
     }

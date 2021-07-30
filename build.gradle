@@ -1,13 +1,14 @@
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        maven { url='https://repo.spongepowered.org/maven' }
+        maven { url = 'https://maven.minecraftforge.net/' }
+        maven { url='https://repo.spongepowered.org/repository/maven-public/' }
         jcenter()
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
         classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
+        classpath "com.github.jengelman.gradle.plugins:shadow:4.0.4"
     }
 }
 
@@ -16,6 +17,9 @@ apply plugin: 'org.spongepowered.mixin'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+import java.util.regex.Pattern
 
 group = 'me.Jonathon594.Mythria' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "${mod_name}"
@@ -33,7 +37,7 @@ minecraft {
     mappings channel: 'snapshot', version: '20201028-1.16.3'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     
-    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
@@ -108,14 +112,15 @@ repositories {
     }
 }
 
+
+
 dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
-    implementation("net.dv8tion:JDA:4.2.1_253") {
-        exclude module: 'opus-java'
-    }
+
+    compile group: 'net.dv8tion', name: 'JDA', version: '4.2.1_253'
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -134,11 +139,22 @@ dependencies {
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
 }
+
+//task incrementPatch {
+//    def configFile = file("gradle.properties")
+//    def configText = configFile.getText()
+//    def patternDev = Pattern.compile("patch=(\\w+)")
+//    def matcherPatch = patternDev.matcher(configText)
+//    matcherPatch.find()
+//    def patch = Integer.parseInt(matcherPatch.group(0).toString().substring(6))
+//    matcherPatch = matcherPatch.replaceAll("patch=" + (patch+1))
+//    configFile.write(matcherPatch)
+//}
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
+    classifier = 'slim'
     manifest {
         attributes([
             "Specification-Title": "Mythria",
@@ -153,9 +169,32 @@ jar {
     }
 }
 
+shadowJar {
+    classifier = 'fat'
+    configurations = [project.configurations.shadow]
+    dependencies {
+        exclude(dependency('org.apache.commons:commons-collections4:.*'))
+    }
+    manifest {
+        attributes([
+                "Specification-Title": "Mythria",
+                "Specification-Vendor": "Mythria",
+                "Specification-Version": "1", // We are version 1 of ourselves
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${version}",
+                "Implementation-Vendor" :"Mythria",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs": "mixins/mythria/config.json"
+        ])
+    }
+}
+
+//tasks.jar.dependsOn(tasks.shadowJar)
+
 // Example configuration to allow publishing using the maven-publish task
 // This is the preferred method to reobfuscate your jar file
-jar.finalizedBy('reobfJar') 
+jar.finalizedBy('reobfJar')
+//shadowJar.finalizedBy('reobfJar')
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
 //publish.dependsOn('reobfJar')
 

@@ -3,6 +3,7 @@ package me.Jonathon594.Mythria.Items;
 import me.Jonathon594.Mythria.Capability.Bow.Bow;
 import me.Jonathon594.Mythria.Capability.Bow.BowProvider;
 import me.Jonathon594.Mythria.Client.ClientUtil;
+import me.Jonathon594.Mythria.Interface.IShareTagCapability;
 import me.Jonathon594.Mythria.Mythria;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -11,7 +12,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -22,10 +22,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.DistExecutor;
 
-import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
-public class MythriaBowItem extends BowItem {
+public class MythriaBowItem extends BowItem implements IShareTagCapability {
     public static final Predicate<ItemStack> MYTHRIA_ARROWS = (stack) -> stack.getItem() instanceof MythriaArrowItem;
 
     public MythriaBowItem(String name, IItemTier tier) {
@@ -53,25 +52,6 @@ public class MythriaBowItem extends BowItem {
         return true;
     }
 
-    @Nullable
-    @Override
-    public CompoundNBT getShareTag(ItemStack stack) {
-        CompoundNBT tag = stack.getOrCreateTag();
-        tag.put(Mythria.MODID + ".bow_sync", BowProvider.getBow(stack).toNBT());
-        return tag;
-    }
-
-    @Override
-    public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
-        if (nbt == null) return;
-        String key = Mythria.MODID + ".bow_sync";
-        if (nbt.contains(key)) {
-            BowProvider.getBow(stack).fromNBT(nbt.getCompound(key));
-            nbt.remove(key);
-        }
-        stack.setTag(nbt);
-    }
-
     public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
         if (entityLiving instanceof PlayerEntity) {
             PlayerEntity playerentity = (PlayerEntity) entityLiving;
@@ -92,7 +72,7 @@ public class MythriaBowItem extends BowItem {
 
             if (!arrow.isEmpty() || flag) {
                 if (arrow.isEmpty()) {
-                    arrow = new ItemStack(Items.ARROW);
+                    arrow = new ItemStack(MythriaItems.OAK_ARROW);
                 }
 
                 float f = getArrowVelocity(i);

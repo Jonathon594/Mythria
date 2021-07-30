@@ -2,25 +2,23 @@ package me.Jonathon594.Mythria.Items;
 
 import me.Jonathon594.Mythria.Capability.HeatableItem.HeatableProvider;
 import me.Jonathon594.Mythria.Interface.IHeatableItem;
+import me.Jonathon594.Mythria.Interface.IShareTagCapability;
 import me.Jonathon594.Mythria.Interface.ITickableItem;
-import me.Jonathon594.Mythria.Mythria;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class HeatableItem extends MythriaItem implements IHeatableItem, ITickableItem {
+public class HeatableItem extends MythriaItem implements IHeatableItem, ITickableItem, IShareTagCapability {
     public HeatableItem(String name, Properties properties) {
         super(name, properties);
     }
@@ -37,25 +35,6 @@ public class HeatableItem extends MythriaItem implements IHeatableItem, ITickabl
         }
         //lines.add(new StringTextComponent(MythriaUtil.round(temperature, 1) + " C")); //todo remove
         return lines;
-    }
-
-    @Nullable
-    @Override
-    public CompoundNBT getShareTag(ItemStack stack) {
-        CompoundNBT tag = stack.getOrCreateTag();
-        tag.put(Mythria.MODID + ".heatable_sync", HeatableProvider.getHeatable(stack).toNBT());
-        return tag;
-    }
-
-    @Override
-    public void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt) {
-        if (nbt != null) return;
-        String key = Mythria.MODID + ".heatable_sync";
-        if (nbt.contains(key)) {
-            HeatableProvider.getHeatable(stack).fromNBT(nbt.getCompound(key));
-            nbt.remove(key);
-        }
-        stack.setTag(nbt);
     }
 
     @Override

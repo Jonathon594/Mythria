@@ -3,10 +3,7 @@ package me.Jonathon594.Mythria.Listener;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
-import me.Jonathon594.Mythria.Managers.BlessingManager;
-import me.Jonathon594.Mythria.Managers.LimitedInventoryManager;
-import me.Jonathon594.Mythria.Managers.StatManager;
-import me.Jonathon594.Mythria.Managers.TimeManager;
+import me.Jonathon594.Mythria.Managers.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.event.TickEvent;
@@ -46,5 +43,6 @@ public class TickListener {
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         TimeManager.onTick(event);
         StatManager.onTick(event);
+        TaskManager.onTick(event);
     }
 }

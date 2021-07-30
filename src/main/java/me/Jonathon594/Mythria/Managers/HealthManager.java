@@ -2,12 +2,12 @@ package me.Jonathon594.Mythria.Managers;
 
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.DataTypes.CureCondition;
+import me.Jonathon594.Mythria.DataTypes.Health.*;
 import me.Jonathon594.Mythria.DataTypes.HealthConditionType;
 import me.Jonathon594.Mythria.DataTypes.ObtainCondition;
 import me.Jonathon594.Mythria.Enum.AnatomySlot;
 import me.Jonathon594.Mythria.Enum.ObtainConditionType;
 import me.Jonathon594.Mythria.Enum.StatType;
-import me.Jonathon594.Mythria.Health.*;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package me.Jonathon594.Mythria.Mixin;
 
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
-import me.Jonathon594.Mythria.Genetic.SpecialAbility;
+import me.Jonathon594.Mythria.DataTypes.Genetic.SpecialAbility;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Effects;
 import org.spongepowered.asm.mixin.Mixin;
