@@ -50,8 +50,8 @@ public class GeneticType extends ForgeRegistryEntry<GeneticType> {
         return SkinParts.getSkinPartsFor(SkinPart.Type.SKIN);
     }
 
-    public Collection<Origin> getAllowedSpawnGifts() {
-        return MythriaRegistries.SPAWN_GIFTS.getValues();
+    public Collection<Origin> getAllowedOrigins() {
+        return MythriaRegistries.ORIGINS.getValues();
     }
 
     public Genetic getDefaultInstance() {

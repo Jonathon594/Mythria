@@ -16,7 +16,7 @@ public class ScreenProfileCreation extends Screen {
     protected final int ySize = 166;
     public ProfileNamesTab profileNamesTab;
     public ProfileAppearanceTab profileLooksTab;
-    public ProfileGiftTab profileGiftTab;
+    public ProfileOriginTab profileOriginTab;
     protected int left;
     protected int top;
     protected List<ProfileCreationTab> tabs = new ArrayList<>();
@@ -80,7 +80,7 @@ public class ScreenProfileCreation extends Screen {
         tabs.clear();
         tabs.add(profileNamesTab = new ProfileNamesTab(this, font, left, top));
         tabs.add(profileLooksTab = new ProfileAppearanceTab(this, font, left, top));
-        tabs.add(profileGiftTab = new ProfileGiftTab(this, font, left, top));
+        tabs.add(profileOriginTab = new ProfileOriginTab(this, font, left, top));
         tabs.add(new ProfileSummaryTab(this, font, left, top));
         for (ProfileCreationTab tab : tabs) {
             addListener(tab);

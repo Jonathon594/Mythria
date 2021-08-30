@@ -125,7 +125,7 @@ public class ProfileAppearanceTab extends ProfileCreationTab {
     private void onRaceClicked(Button button) {
         gender.updateIndex();
         updateSkinPartIndices();
-        parent.profileGiftTab.giftSelectorButton.updateIndex();
+        parent.profileOriginTab.originSelectorButton.updateIndex();
     }
 
     private void onSkinPartChanged(Button button) {

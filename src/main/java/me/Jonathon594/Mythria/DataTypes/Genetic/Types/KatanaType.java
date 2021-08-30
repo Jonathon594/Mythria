@@ -53,7 +53,7 @@ public class KatanaType extends GeneticType {
     }
 
     @Override
-    public Collection<Origin> getAllowedSpawnGifts() {
+    public Collection<Origin> getAllowedOrigins() {
         return ImmutableList.of(Origins.SURVIVOR);
     }
 }

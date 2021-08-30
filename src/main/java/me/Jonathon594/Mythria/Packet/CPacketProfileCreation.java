@@ -68,7 +68,7 @@ public class CPacketProfileCreation {
         eyes = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(packetBuffer.readString(32767)));
         clothes = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(packetBuffer.readString(32767)));
         skin = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(packetBuffer.readString(32767)));
-        origin = MythriaRegistries.SPAWN_GIFTS.getValue(new ResourceLocation(packetBuffer.readString(32767)));
+        origin = MythriaRegistries.ORIGINS.getValue(new ResourceLocation(packetBuffer.readString(32767)));
 
         String s = packetBuffer.readString(32767);
         if (!s.isEmpty()) unique = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(s));

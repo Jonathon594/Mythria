@@ -30,7 +30,7 @@ public class ProfileSummaryTab extends ProfileCreationTab {
                             profileNamesTab.lastName.getText(), profileNamesTab.month.getValueInt(), profileNamesTab.day.getValueInt(),
                             profileLooksTab.getSelectedGeneticType(), profileLooksTab.getSelectedGender(), profileLooksTab.getSelectedHair(),
                             profileLooksTab.getSelectedEyes(), profileLooksTab.getSelectedClothing(), profileLooksTab.getSelectedSkin(),
-                            profileLooksTab.getSelectedUnique(), parent.profileGiftTab.getSelectedGift()));
+                            profileLooksTab.getSelectedUnique(), parent.profileOriginTab.getSelectedOrigin()));
         }
     }
 }

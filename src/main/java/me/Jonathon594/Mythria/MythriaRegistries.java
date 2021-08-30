@@ -17,5 +17,5 @@ public class MythriaRegistries {
     public static final IForgeRegistry<SkinPart> SKIN_PARTS = RegistryManager.ACTIVE.getRegistry(SkinPart.class);
     public static final IForgeRegistry<GeneSerializer<? extends Gene>> GENE_SERIALIZERS =
             RegistryManager.ACTIVE.getRegistry(GeneSerializer.class);
-    public static final IForgeRegistry<Origin> SPAWN_GIFTS = RegistryManager.ACTIVE.getRegistry(Origin.class);
+    public static final IForgeRegistry<Origin> ORIGINS = RegistryManager.ACTIVE.getRegistry(Origin.class);
 }

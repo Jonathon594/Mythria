@@ -24,7 +24,7 @@ public class GiftSelectorButton extends GuiButtonSelector {
             return;
         }
         String name = optionFactory.get().get(index);
-        String displayName = MythriaRegistries.SPAWN_GIFTS.getValue(new ResourceLocation(name)).getDisplayName();
+        String displayName = MythriaRegistries.ORIGINS.getValue(new ResourceLocation(name)).getDisplayName();
         setMessage(new StringTextComponent(format.replace("%s", displayName)));
 
         selectedName = name;
