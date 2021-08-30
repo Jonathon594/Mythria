@@ -21,7 +21,6 @@ public class MythriaHoeItem extends HoeItem implements IModularTool {
     }
 
 
-
     @Override
     public Item getToolHeadItem() {
         return toolHead.get();

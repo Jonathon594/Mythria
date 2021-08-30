@@ -31,6 +31,22 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class EntityListener {
     @SubscribeEvent
+    public static void onCheckSpawn(LivingSpawnEvent.CheckSpawn event) {
+        LivingEntity livingEntity = event.getEntityLiving();
+        if (MythriaConst.LILASIA_ENTITIES.contains(livingEntity.getType())) {
+            World entityWorld = livingEntity.getEntityWorld();
+            if (entityWorld.getDimensionType().getMoonPhase(
+                    entityWorld.getWorldInfo().getDayTime()) != 0) {
+                event.setResult(Event.Result.DENY);
+            }
+        }
+
+        if (!(event.getEntityLiving() instanceof PlayerEntity)) {
+            event.setResult(Event.Result.DENY);
+        }
+    }
+
+    @SubscribeEvent
     public static void onEntityConstructing(EntityEvent.EntityConstructing event) {
         Entity entity = event.getEntity();
         if (entity instanceof PlayerEntity || entity instanceof NPCEntity) { //todo
@@ -68,22 +84,6 @@ public class EntityListener {
     }
 
     @SubscribeEvent
-    public static void onCheckSpawn(LivingSpawnEvent.CheckSpawn event) {
-        LivingEntity livingEntity = event.getEntityLiving();
-        if (MythriaConst.LILASIA_ENTITIES.contains(livingEntity.getType())) {
-            World entityWorld = livingEntity.getEntityWorld();
-            if (entityWorld.getDimensionType().getMoonPhase(
-                    entityWorld.getWorldInfo().getDayTime()) != 0) {
-                event.setResult(Event.Result.DENY);
-            }
-        }
-
-        if(!(event.getEntityLiving() instanceof PlayerEntity)) {
-            event.setResult(Event.Result.DENY);
-        }
-    }
-
-    @SubscribeEvent
     public static void onEntityPickupItem(final EntityItemPickupEvent event) {
         if (event.getPlayer() != null) {
             LimitedInventoryManager.onPlayerPickupItem(event);
@@ -94,7 +94,7 @@ public class EntityListener {
 
     @SubscribeEvent
     public static void onEntityTarget(LivingSetAttackTargetEvent event) {
-        if(event.getTarget() == null) return; //todo Fix TRUCE
+        if (event.getTarget() == null) return; //todo Fix TRUCE
         if (event.getEntity().world.isRemote) return;
         BlessingManager.onEntityTarget(event);
 

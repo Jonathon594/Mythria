@@ -11,7 +11,7 @@ import net.minecraft.util.Hand;
 public class UnarmedAbilityDeflect implements IParryAbility {
     @Override
     public void onTrigger(PlayerEntity player, Profile profile, LivingEntity target, Hand hand, ParryEvent event) {
-        if(profile.hasFlag(AttributeFlag.UNARMED_ABILITY_PARRY)) {
+        if (profile.hasFlag(AttributeFlag.UNARMED_ABILITY_PARRY)) {
             event.setDamage(0);
         }
     }

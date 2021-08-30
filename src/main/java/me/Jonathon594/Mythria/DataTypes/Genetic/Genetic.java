@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Genetic {
+    private final List<Gene> extraGenes = new ArrayList<>();
     private GeneticType type;
     private DoubleStatGene healthGene;
     private DoubleStatGene staminaGene;
@@ -33,12 +34,9 @@ public class Genetic {
     private DoubleStatGene genderBias;
     private LifeSpanGene lifespanGene;
     private NutritionGene nutrition;
-
     private SkinPartGene hair;
     private SkinPartGene eyes;
     private SkinPartGene skin;
-
-    private final List<Gene> extraGenes = new ArrayList<>();
 
     public Genetic(GeneticType type, double health, double stamina, double speed,
                    double weight, double intelligence, double mana, double temperature, double manaRegen,
@@ -139,10 +137,6 @@ public class Genetic {
         return eyes;
     }
 
-    public LifeSpanGene getLifeSpanGene() {
-        return lifespanGene;
-    }
-
     public Genetic setEyes(SkinPartGene eyes) {
         this.eyes = eyes;
         return this;
@@ -178,6 +172,10 @@ public class Genetic {
 
     public double getIdealTemperature() {
         return temperature.getValue();
+    }
+
+    public LifeSpanGene getLifeSpanGene() {
+        return lifespanGene;
     }
 
     public NutritionGene getNutrition() {

@@ -35,8 +35,8 @@ public class CPacketProfileCreation {
     private final SkinPart eyes;
     private final SkinPart clothes;
     private final SkinPart skin;
-    private SkinPart unique;
     private final Origin origin;
+    private SkinPart unique;
 
     public CPacketProfileCreation(String firstName, String middleName, String lastName, int month,
                                   int day, GeneticType geneticType, Gender gender, SkinPart hair, SkinPart eyes, SkinPart clothes,
@@ -114,10 +114,6 @@ public class CPacketProfileCreation {
         return geneticType;
     }
 
-    public Origin getOrigin() {
-        return origin;
-    }
-
     public SkinPart getHair() {
         return hair;
     }
@@ -132,6 +128,10 @@ public class CPacketProfileCreation {
 
     public int getMonth() {
         return month;
+    }
+
+    public Origin getOrigin() {
+        return origin;
     }
 
     public SkinPart getSkin() {

@@ -49,12 +49,6 @@ import java.util.*;
 public class MythriaUtil {
     private static final Random RANDOM = new Random();
 
-    public static float getDeltaA(float a1, float a2) {
-        float deltaA = a1 - a2;
-        deltaA += deltaA > 180 ? -360 : deltaA < -180 ? 360 : 0;
-        return deltaA;
-    }
-
     public static void DropAllItems(final PlayerEntity player, final boolean armor, final boolean offhand) {
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
             final ItemStack is = player.inventory.getStackInSlot(i);
@@ -232,12 +226,18 @@ public class MythriaUtil {
         return d;
     }
 
-    public static double getExperienceForPlayerLevel(int level) {
-        return 7500.0 * Math.pow(2, (double) level / 7) - 7500.0;
+    public static float getDeltaA(float a1, float a2) {
+        float deltaA = a1 - a2;
+        deltaA += deltaA > 180 ? -360 : deltaA < -180 ? 360 : 0;
+        return deltaA;
     }
 
     public static double getExperienceForLevel(int level) {
         return 750.0 * Math.pow(2, (double) level / 7) - 750.0;
+    }
+
+    public static double getExperienceForPlayerLevel(int level) {
+        return 7500.0 * Math.pow(2, (double) level / 7) - 7500.0;
     }
 
     public static List<Item> getItemCollectionFromTag(ResourceLocation resourceLocation) {
@@ -302,6 +302,10 @@ public class MythriaUtil {
 
     public static boolean isOre(Block block) {
         return block instanceof MythriaOre;
+    }
+
+    public static boolean isSword(Item item) {
+        return item instanceof SwordItem && !(item instanceof MythriaDaggerItem);
     }
 
     public static double round(double value, int precision) {
@@ -381,9 +385,5 @@ public class MythriaUtil {
             toGrant.add(a);
             addChildren(a, toGrant);
         }
-    }
-
-    public static boolean isSword(Item item) {
-        return item instanceof SwordItem && !(item instanceof MythriaDaggerItem);
     }
 }

@@ -34,11 +34,10 @@ public abstract class Origin extends ForgeRegistryEntry<Origin> {
         for (PerkType perkType : getPerkTypes()) {
             profile.unlockPerkType(perkType);
         }
-        for(Map.Entry<MythicSkills, Integer> entry : getSkillLevels().entrySet()) {
+        for (Map.Entry<MythicSkills, Integer> entry : getSkillLevels().entrySet()) {
             profile.getSkillLevels().put(entry.getKey(), MythriaUtil.getExperienceForLevel(entry.getValue()));
         }
     }
-
 
 
     public ITextComponent getDescription() {
@@ -48,6 +47,8 @@ public abstract class Origin extends ForgeRegistryEntry<Origin> {
     public String getDisplayName() {
         return displayName;
     }
+
+    public abstract int getStartingAge(Genetic genetic);
 
     public Origin withDisplayName(String displayName) {
         this.displayName = displayName;
@@ -65,6 +66,4 @@ public abstract class Origin extends ForgeRegistryEntry<Origin> {
     protected Map<MythicSkills, Integer> getSkillLevels() {
         return Maps.newHashMap();
     }
-
-    public abstract int getStartingAge(Genetic genetic);
 }

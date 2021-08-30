@@ -40,7 +40,6 @@ public class MythriaHammerItem extends ToolItem implements IModularTool {
     }
 
 
-
     @Override
     public Item getToolHeadItem() {
         return toolHead.get();

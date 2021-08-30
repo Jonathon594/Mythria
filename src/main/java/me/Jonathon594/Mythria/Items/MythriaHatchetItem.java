@@ -31,7 +31,6 @@ public class MythriaHatchetItem extends ToolItem implements IModularTool {
     }
 
 
-
     @Override
     public Item getToolHeadItem() {
         return toolHead.get();

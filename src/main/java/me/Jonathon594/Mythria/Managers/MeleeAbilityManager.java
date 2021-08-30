@@ -12,6 +12,24 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 
 public class MeleeAbilityManager {
+    public static void disarm(LivingEntity entity, Hand hand) {
+        ItemStack is = entity.getHeldItem(hand).copy();
+        entity.setHeldItem(hand, new ItemStack(Items.AIR));
+        ItemEntity item = new ItemEntity(entity.world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), is);
+        item.setPickupDelay(30);
+        entity.world.addEntity(item);
+        entity.playSound(SoundEvents.ENTITY_ITEM_BREAK, 1.0f, 1.0f);
+    }
+
+    public static void disarmor(LivingEntity entity, EquipmentSlotType slot) {
+        ItemStack is = entity.getItemStackFromSlot(slot).copy();
+        entity.setItemStackToSlot(slot, new ItemStack(Items.AIR));
+        ItemEntity item = new ItemEntity(entity.world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), is);
+        item.setPickupDelay(80);
+        entity.world.addEntity(item);
+        entity.playSound(SoundEvents.ENTITY_ITEM_BREAK, 1.0f, 1.0f);
+    }
+
     public static MeleeCombatManager getCombatManager(Item item) {
         if (MythriaUtil.isSword(item)) {
             return MeleeCombatManager.SWORD_MANAGER;
@@ -30,23 +48,5 @@ public class MeleeAbilityManager {
             return MeleeCombatManager.DAGGER_MANAGER;
         }
         return null;
-    }
-
-    public static void disarm(LivingEntity entity, Hand hand) {
-        ItemStack is = entity.getHeldItem(hand).copy();
-        entity.setHeldItem(hand, new ItemStack(Items.AIR));
-        ItemEntity item = new ItemEntity(entity.world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), is);
-        item.setPickupDelay(30);
-        entity.world.addEntity(item);
-        entity.playSound(SoundEvents.ENTITY_ITEM_BREAK, 1.0f, 1.0f);
-    }
-
-    public static void disarmor(LivingEntity entity, EquipmentSlotType slot) {
-        ItemStack is = entity.getItemStackFromSlot(slot).copy();
-        entity.setItemStackToSlot(slot, new ItemStack(Items.AIR));
-        ItemEntity item = new ItemEntity(entity.world, entity.getPosX(), entity.getPosY(), entity.getPosZ(), is);
-        item.setPickupDelay(80);
-        entity.world.addEntity(item);
-        entity.playSound(SoundEvents.ENTITY_ITEM_BREAK, 1.0f, 1.0f);
     }
 }

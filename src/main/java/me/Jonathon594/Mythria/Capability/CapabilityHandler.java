@@ -113,16 +113,16 @@ public class CapabilityHandler {
     }
 
     public static void readFromShareTag(ItemStack stack, CompoundNBT nbt) {
-        if(nbt != null && nbt.contains("share_caps")) {
+        if (nbt != null && nbt.contains("share_caps")) {
             CompoundNBT capTags = nbt.getCompound("share_caps");
 
-            if(capTags.contains("tool")) {
+            if (capTags.contains("tool")) {
                 stack.getCapability(ToolProvider.TOOL_CAP).ifPresent(iTool -> iTool.fromNBT(capTags.getCompound("tool")));
             }
-            if(capTags.contains("bow")) {
+            if (capTags.contains("bow")) {
                 stack.getCapability(BowProvider.BOW_CAP).ifPresent(iBow -> iBow.fromNBT(capTags.getCompound("bow")));
             }
-            if(capTags.contains("heatable")) {
+            if (capTags.contains("heatable")) {
                 stack.getCapability(HeatableProvider.HEATABLE_CAP).ifPresent(iHeatable -> iHeatable.fromNBT(capTags.getCompound("heatable")));
             }
 
@@ -140,8 +140,8 @@ public class CapabilityHandler {
         LazyOptional<IHeatable> heatable = stack.getCapability(HeatableProvider.HEATABLE_CAP);
         heatable.ifPresent((iHeatable) -> capTags.put("heatable", iHeatable.toNBT()));
 
-        if(capTags.isEmpty()) return tag;
-        if(tag == null) return new CompoundNBT();
+        if (capTags.isEmpty()) return tag;
+        if (tag == null) return new CompoundNBT();
         else tag = tag.copy();
         tag.put("share_caps", capTags);
         return tag;

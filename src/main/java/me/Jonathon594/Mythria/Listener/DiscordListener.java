@@ -15,6 +15,11 @@ import java.util.List;
 
 public class DiscordListener extends ListenerAdapter {
     @Override
+    public void onReady(@Nonnull ReadyEvent event) {
+        DiscordManager.sendMessageToChannel("Server started successfully.", "general");
+    }
+
+    @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
         if (event.getChannel().getName().equalsIgnoreCase("general")) {
@@ -26,10 +31,5 @@ public class DiscordListener extends ListenerAdapter {
                 player.sendMessage(new StringTextComponent(message), Util.DUMMY_UUID);
             }
         }
-    }
-
-    @Override
-    public void onReady(@Nonnull ReadyEvent event) {
-        DiscordManager.sendMessageToChannel("Server started successfully.", "general");
     }
 }

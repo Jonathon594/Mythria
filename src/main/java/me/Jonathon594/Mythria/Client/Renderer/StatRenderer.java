@@ -6,11 +6,11 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.util.math.MathHelper;
 
 public class StatRenderer extends AbstractGui {
-    private int value = 0;
-    private int backgroundValue = 0;
     private final int u, v, uf, ufh;
     private final boolean hasBack, reverse;
     private final int slotOrder;
+    private int value = 0;
+    private int backgroundValue = 0;
 
     public StatRenderer(int u, int v, int uf, int ufh, boolean hasBack, boolean reverse, int slotOrder) {
         this.u = u;
@@ -24,17 +24,6 @@ public class StatRenderer extends AbstractGui {
 
     public int getSlotOrder() {
         return slotOrder;
-    }
-
-    public StatRenderer setValueFront(int value) {
-        this.value = MathHelper.clamp(value, 0, 20);
-        return this;
-    }
-
-
-    public StatRenderer setValueBack(int value) {
-        this.backgroundValue = value;
-        return this;
     }
 
     public void render(MatrixStack matrixStack, int x, int y) {
@@ -58,5 +47,15 @@ public class StatRenderer extends AbstractGui {
         }
 
         RenderSystem.disableBlend();
+    }
+
+    public StatRenderer setValueBack(int value) {
+        this.backgroundValue = value;
+        return this;
+    }
+
+    public StatRenderer setValueFront(int value) {
+        this.value = MathHelper.clamp(value, 0, 20);
+        return this;
     }
 }

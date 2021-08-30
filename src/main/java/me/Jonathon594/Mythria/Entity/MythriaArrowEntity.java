@@ -31,6 +31,18 @@ public class MythriaArrowEntity extends AbstractArrowEntity {
     }
 
     @Override
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        compound.put("stack", getArrowStack().serializeNBT());
+    }
+
+    @Override
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
+        setArrowStack(ItemStack.read(compound.getCompound("stack")));
+    }
+
+    @Override
     public ItemStack getArrowStack() {
         return dataManager.get(ARROW_STACK);
     }
@@ -42,17 +54,5 @@ public class MythriaArrowEntity extends AbstractArrowEntity {
     @Override
     public IPacket<?> createSpawnPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
-    }
-
-    @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
-        compound.put("stack", getArrowStack().serializeNBT());
-    }
-
-    @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
-        setArrowStack(ItemStack.read(compound.getCompound("stack")));
     }
 }

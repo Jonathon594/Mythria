@@ -17,8 +17,32 @@ import java.util.List;
 public class DiscordManager {
     private static JDA jda = null;
 
+    public static TextChannel getDiscordChannelByName(String name) {
+        List<TextChannel> channels = jda.getTextChannelsByName(name, true);
+        if (channels.size() == 0) return null;
+        return channels.get(0);
+    }
+
     public static JDA getJda() {
         return jda;
+    }
+
+    public static void handleDiscordChat(ServerChatEvent event, ServerPlayerEntity sender, Profile profile, ChatChannel channel) {
+        JDA jda = getJda();
+        if (jda != null) {
+            if (channel.equals(ChatChannel.OOC)) {
+                sendMessageToChannel(profile.getFirstName() + " " + profile.getLastName() + " (" + sender.getName() + "): " +
+                                event.getMessage(),
+                        "general");
+            } else if (channel.equals(ChatChannel.PRAY)) {
+                sendMessageToChannel(profile.getFirstName() + " " + profile.getLastName() + " (" + sender.getName() + "): " +
+                                event.getMessage() + " " + sender.getPosition(),
+                        "pray");
+            } else {
+                sendMessageToChannel("[" + MythriaUtil.capitalize(channel.name()) + "] " + profile.getFirstName() + " " + profile.getLastName() + " (" + sender.getName() + "): " +
+                        event.getMessage(), "local-log");
+            }
+        }
     }
 
     public static void init() {
@@ -35,29 +59,5 @@ public class DiscordManager {
         TextChannel general = getDiscordChannelByName(channelName);
         if (general == null) return;
         general.sendMessage(text).queue();
-    }
-
-    public static TextChannel getDiscordChannelByName(String name) {
-        List<TextChannel> channels = jda.getTextChannelsByName(name, true);
-        if (channels.size() == 0) return null;
-        return channels.get(0);
-    }
-
-    public static void handleDiscordChat(ServerChatEvent event, ServerPlayerEntity sender, Profile profile, ChatChannel channel) {
-        JDA jda = getJda();
-        if (jda != null) {
-            if (channel.equals(ChatChannel.OOC)) {
-                sendMessageToChannel(profile.getFirstName() + " " + profile.getLastName() + " (" + sender.getName() + "): " +
-                                event.getMessage(),
-                        "general");
-            } else if (channel.equals(ChatChannel.PRAY)) {
-                sendMessageToChannel(profile.getFirstName() + " " + profile.getLastName() + " (" + sender.getName() + "): " +
-                                event.getMessage() + " " + sender.getPosition().toString(),
-                        "pray");
-            } else {
-                sendMessageToChannel("[" + MythriaUtil.capitalize(channel.name()) + "] " + profile.getFirstName() + " " + profile.getLastName() + " (" + sender.getName() + "): " +
-                        event.getMessage(), "local-log");
-            }
-        }
     }
 }

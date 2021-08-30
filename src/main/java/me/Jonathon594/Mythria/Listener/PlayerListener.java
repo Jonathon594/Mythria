@@ -244,10 +244,7 @@ public class PlayerListener {
     }
 
     private static void updatePlayerCapabilities(Profile profile, ServerPlayerEntity player) {
-        boolean canFly = false;
-        if (profile.hasFlag(AttributeFlag.FAE_FLIGHT) || player.isCreative() || player.isSpectator()) {
-            canFly = true;
-        }
+        boolean canFly = profile.hasFlag(AttributeFlag.FAE_FLIGHT) || player.isCreative() || player.isSpectator();
 
         player.abilities.allowFlying = canFly;
         player.sendPlayerAbilities();

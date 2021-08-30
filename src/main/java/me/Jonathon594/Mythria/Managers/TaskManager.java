@@ -7,10 +7,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class TaskManager {
-    private static ArrayList<AbstractTask> tasks = new ArrayList<>();
+    private static final ArrayList<AbstractTask> tasks = new ArrayList<>();
+
+    public static void addScheduleTask(AbstractTask task) {
+        tasks.add(task);
+    }
 
     public static void onTick(TickEvent.ServerTickEvent event) {
-        if(event.phase.equals(TickEvent.Phase.END)) return;
+        if (event.phase.equals(TickEvent.Phase.END)) return;
         Iterator<AbstractTask> it = tasks.iterator();
         while (it.hasNext()) {
             AbstractTask task = it.next();
@@ -21,9 +25,5 @@ public class TaskManager {
             }
             task.update();
         }
-    }
-
-    public static void addScheduleTask(AbstractTask task) {
-        tasks.add(task);
     }
 }

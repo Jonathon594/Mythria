@@ -3,6 +3,7 @@ package me.Jonathon594.Mythria.Managers;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
+import me.Jonathon594.Mythria.Enum.AttackClass;
 import me.Jonathon594.Mythria.Enum.EnumAttackType;
 import me.Jonathon594.Mythria.Event.CombatEvent;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
@@ -36,19 +37,8 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
 
 public class CombatManager {
-    private static double getAttackRangeByWeapon(ItemStack itemStack) {
-        double attackRange = 3.0;
-        Item item = itemStack.getItem();
-        if (item instanceof ToolItem) attackRange = 3.3;
-        if (MythriaUtil.isAxe(item)) attackRange = 3.5;
-        if (MythriaUtil.isDagger(item)) attackRange = 3.1;
-        if (MythriaUtil.isSword(item)) attackRange = 3.9;
-        if (MythriaUtil.isHammer(item)) attackRange = 3.3;
-        return attackRange;
-    }
-
     public static void attackEntity(PlayerEntity player, Entity targetEntity, Hand hand, EnumAttackType type,
-                                    boolean ignoreRangeChecks, boolean ignoreCooldownChecks) {
+                                    AttackClass attackClass, boolean ignoreRangeChecks, boolean ignoreCooldownChecks) {
         if (targetEntity == null) return;
         if (!ForgeHooks.onPlayerAttackTarget(player, targetEntity)) return;
         if (targetEntity.canBeAttackedWithItem()) {
@@ -123,8 +113,9 @@ public class CombatManager {
 //                    }
 
                     //Mythria
-                    boolean isCrit = pre.isForceCrit();
-                    float critModifier = isCrit ? 1.5F : 1.0F;
+                    boolean isHeavy = attackClass.equals(AttackClass.HEAVY);
+                    boolean isCrit = pre.isForceCrit() || isHeavy;
+                    float critModifier = isCrit ? (isHeavy ? 1.75F : 1.5F) : 1.0F;
                     final CriticalHitEvent hitResult = ForgeHooks
                             .getCriticalHit(player, targetEntity, isCrit, critModifier);
                     isCrit = hitResult != null;
@@ -177,9 +168,9 @@ public class CombatManager {
 
                         if (knockBack > 0) {
                             if (targetEntity instanceof LivingEntity) {
-                                ((LivingEntity) targetEntity).applyKnockback((float) knockBack * 0.5F, (double) MathHelper.sin(player.rotationYaw * ((float) Math.PI / 180F)), (double) (-MathHelper.cos(player.rotationYaw * ((float) Math.PI / 180F))));
+                                ((LivingEntity) targetEntity).applyKnockback((float) knockBack * 0.5F, MathHelper.sin(player.rotationYaw * ((float) Math.PI / 180F)), -MathHelper.cos(player.rotationYaw * ((float) Math.PI / 180F)));
                             } else {
-                                targetEntity.addVelocity((double) (-MathHelper.sin(player.rotationYaw * ((float) Math.PI / 180F)) * (float) knockBack * 0.5F), 0.1D, (double) (MathHelper.cos(player.rotationYaw * ((float) Math.PI / 180F)) * (float) knockBack * 0.5F));
+                                targetEntity.addVelocity(-MathHelper.sin(player.rotationYaw * ((float) Math.PI / 180F)) * (float) knockBack * 0.5F, 0.1D, MathHelper.cos(player.rotationYaw * ((float) Math.PI / 180F)) * (float) knockBack * 0.5F);
                             }
 
                             player.setMotion(player.getMotion().mul(0.6D, 1.0D, 0.6D));
@@ -202,15 +193,15 @@ public class CombatManager {
                         }
 
                         if (isCrit) {
-                            player.world.playSound((PlayerEntity) null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, player.getSoundCategory(), 1.0F, 1.0F);
+                            player.world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, player.getSoundCategory(), 1.0F, 1.0F);
                             player.onCriticalHit(targetEntity);
                         }
 
                         if (!isCrit && !shouldSweep) {
                             if (flag) {
-                                player.world.playSound((PlayerEntity) null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, player.getSoundCategory(), 1.0F, 1.0F);
+                                player.world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, player.getSoundCategory(), 1.0F, 1.0F);
                             } else {
-                                player.world.playSound((PlayerEntity) null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, player.getSoundCategory(), 1.0F, 1.0F);
+                                player.world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, player.getSoundCategory(), 1.0F, 1.0F);
                             }
                         }
 
@@ -254,7 +245,7 @@ public class CombatManager {
 
                         //player.addExhaustion(0.1F);
                     } else {
-                        player.world.playSound((PlayerEntity) null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, player.getSoundCategory(), 1.0F, 1.0F);
+                        player.world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, player.getSoundCategory(), 1.0F, 1.0F);
                         if (flag4) {
                             targetEntity.extinguish();
                         }
@@ -266,17 +257,28 @@ public class CombatManager {
         }
     }
 
+    private static double getAttackRangeByWeapon(ItemStack itemStack) {
+        double attackRange = 3.0;
+        Item item = itemStack.getItem();
+        if (item instanceof ToolItem) attackRange = 3.3;
+        if (MythriaUtil.isAxe(item)) attackRange = 3.5;
+        if (MythriaUtil.isDagger(item)) attackRange = 3.1;
+        if (MythriaUtil.isSword(item)) attackRange = 3.9;
+        if (MythriaUtil.isHammer(item)) attackRange = 3.3;
+        return attackRange;
+    }
+
     private static void triggerSweep(PlayerEntity player, Entity targetEntity, float damage) {
         float f3 = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * damage;
 
         for (LivingEntity livingentity : player.world.getEntitiesWithinAABB(LivingEntity.class, targetEntity.getBoundingBox().grow(1.0D, 0.25D, 1.0D))) {
             if (livingentity != player && livingentity != targetEntity && !player.isOnSameTeam(livingentity) && (!(livingentity instanceof ArmorStandEntity) || !((ArmorStandEntity) livingentity).hasMarker()) && player.getDistanceSq(livingentity) < 9.0D) {
-                livingentity.applyKnockback(0.4F, (double) MathHelper.sin(player.rotationYaw * ((float) Math.PI / 180F)), (double) (-MathHelper.cos(player.rotationYaw * ((float) Math.PI / 180F))));
+                livingentity.applyKnockback(0.4F, MathHelper.sin(player.rotationYaw * ((float) Math.PI / 180F)), -MathHelper.cos(player.rotationYaw * ((float) Math.PI / 180F)));
                 livingentity.attackEntityFrom(DamageSource.causePlayerDamage(player), f3);
             }
         }
 
-        player.world.playSound((PlayerEntity) null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
+        player.world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
         player.spawnSweepParticles();
     }
 }

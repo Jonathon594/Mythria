@@ -20,6 +20,8 @@ public abstract class MeleeCombatManager {
 
     protected static final BasicAttackAbility BASIC_ATTACK_ABILITY = new BasicAttackAbility();
 
+    public abstract ICombatAbility getAbility(EnumAttackType type, boolean isDual, boolean blocking);
+
     public void onCombat(PlayerEntity player, Profile profile, Entity target, CombatPhase phase, CombatEvent event, boolean isDual, MythicSkills skill) {
         EnumAttackType type = event.getType();
 
@@ -51,6 +53,4 @@ public abstract class MeleeCombatManager {
             profile.addSkillExperience(skill, experience, (ServerPlayerEntity) player, 0);
         }
     }
-
-    public abstract ICombatAbility getAbility(EnumAttackType type, boolean isDual, boolean blocking);
 }

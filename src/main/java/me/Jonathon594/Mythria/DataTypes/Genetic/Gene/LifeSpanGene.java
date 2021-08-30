@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class LifeSpanGene extends Gene {
     private final HashMap<LifeStage, Integer> lifeMap = new HashMap<>();
-    private boolean immortal;
+    private final boolean immortal;
 
     public LifeSpanGene(Integer childAge, Integer adolescentAge, Integer adultAge, Integer middleAge, Integer elderlyAge, boolean immortal) {
         super(GeneType.LIFESPAN);
@@ -30,17 +30,9 @@ public class LifeSpanGene extends Gene {
         immortal = compoundNBT.getBoolean("immortal");
     }
 
-    public HashMap<LifeStage, Integer> getStages() {
-        return lifeMap;
-    }
-
     @Override
     public GeneSerializer<LifeSpanGene> getSerializer() {
         return GeneSerializers.LIFESPAN;
-    }
-
-    public boolean isImmortal() {
-        return immortal;
     }
 
     @Override
@@ -51,6 +43,14 @@ public class LifeSpanGene extends Gene {
     public int getStage(LifeStage stage) {
         if (stage.equals(LifeStage.INFANT)) return 0;
         return lifeMap.get(stage);
+    }
+
+    public HashMap<LifeStage, Integer> getStages() {
+        return lifeMap;
+    }
+
+    public boolean isImmortal() {
+        return immortal;
     }
 
     public enum LifeStage {

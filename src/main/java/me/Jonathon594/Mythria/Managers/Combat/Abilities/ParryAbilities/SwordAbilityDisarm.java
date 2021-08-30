@@ -12,7 +12,7 @@ import net.minecraft.util.Hand;
 public class SwordAbilityDisarm implements IParryAbility {
     @Override
     public void onTrigger(PlayerEntity player, Profile profile, LivingEntity target, Hand hand, ParryEvent event) {
-        if(profile.hasFlag(AttributeFlag.SWORD_ABILITY_DISARM)) {
+        if (profile.hasFlag(AttributeFlag.SWORD_ABILITY_DISARM)) {
             event.setDamage(0);
             MeleeAbilityManager.disarm(target, event.getHand());
             //PacketUtil.swingPlayerArm((PlayerEntity) player, hand);

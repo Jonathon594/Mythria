@@ -23,7 +23,6 @@ public class MythriaPickaxeItem extends PickaxeItem implements IModularTool {
     }
 
 
-
     @Override
     public Item getToolHeadItem() {
         return toolHead.get();

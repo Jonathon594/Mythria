@@ -69,7 +69,7 @@ public class TimeManager {
     }
 
     public static void onTick(final TickEvent.ServerTickEvent event) {
-        if(event.phase.equals(TickEvent.Phase.START)) return;
+        if (event.phase.equals(TickEvent.Phase.START)) return;
         MinecraftServer currentServer = ServerLifecycleHooks.getCurrentServer();
         final World w = currentServer.getWorld(World.OVERWORLD);
         final long time = w.getDayTime() % 24000;

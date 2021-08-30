@@ -157,7 +157,7 @@ public class StatManager {
     }
 
     public static void onTick(final TickEvent.ServerTickEvent event) {
-        if(event.phase.equals(TickEvent.Phase.START)) return;
+        if (event.phase.equals(TickEvent.Phase.START)) return;
         final PlayerList players = ServerLifecycleHooks.getCurrentServer().getPlayerList();
         for (final ServerPlayerEntity p : players.getPlayers()) {
             int tickCounter = ServerLifecycleHooks.getCurrentServer().getTickCounter();

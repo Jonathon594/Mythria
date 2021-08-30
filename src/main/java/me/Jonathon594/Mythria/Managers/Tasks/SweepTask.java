@@ -6,11 +6,11 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Hand;
 
 public class SweepTask extends AbstractTask {
-    private PlayerEntity player;
-    private LivingEntity target;
+    private final PlayerEntity player;
+    private final LivingEntity target;
+    private final float damage;
+    private final Hand hand;
     private EntityDamageSource damageSource;
-    private float damage;
-    private Hand hand;
 
     public SweepTask(int delay, PlayerEntity player, LivingEntity target, EntityDamageSource damageSource, float damage, Hand hand) {
         super(delay);
@@ -20,7 +20,7 @@ public class SweepTask extends AbstractTask {
         this.damage = damage;
         this.hand = hand;
 
-        if(hand == Hand.OFF_HAND) this.damageSource = new EntityDamageSource("playeroffhand", player);
+        if (hand == Hand.OFF_HAND) this.damageSource = new EntityDamageSource("playeroffhand", player);
     }
 
     @Override

@@ -6,7 +6,6 @@ import me.Jonathon594.Mythria.Event.CombatEvent;
 import me.Jonathon594.Mythria.Interface.ICombatAbility;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 
 public class AxeAbilitySweep implements ICombatAbility {
     @Override

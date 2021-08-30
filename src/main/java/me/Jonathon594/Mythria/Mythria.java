@@ -33,13 +33,13 @@ public class Mythria {
         MythriaTileEntities.TILE_ENTITY_TYPES.register(modEventBus);
     }
 
+    public void onClientSetup(FMLClientSetupEvent event) {
+        ClientManager.clientSetup();
+    }
+
     public void onServerSetup(FMLDedicatedServerSetupEvent event) {
         //ServerGlobalConfig.init();
         //DiscordManager.init();
-    }
-
-    public void onClientSetup(FMLClientSetupEvent event) {
-        ClientManager.clientSetup();
     }
 
     public void onSetup(FMLCommonSetupEvent event) {

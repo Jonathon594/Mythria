@@ -35,11 +35,10 @@ public class CampfireTileEntity extends TileEntity implements IClearable, ITicka
     private final int[] cookingTimes = new int[4];
     private final int[] cookingTotalTimes = new int[4];
     private final int maxTicks = 24000;
-
+    private final Random rand = new Random();
     private float friction = 0;
     private int ticksLeft = maxTicks;
     private boolean charcoal = false;
-    private final Random rand = new Random();
 
     public CampfireTileEntity() {
         super(MythriaTileEntities.CAMPFIRE.get());

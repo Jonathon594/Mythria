@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 public class ClientTickListener {
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
-        if(event.phase.equals(TickEvent.Phase.END)) {
+        if (event.phase.equals(TickEvent.Phase.END)) {
             InputManager.onClientTick();
             ScreenHud.INSTANCE.tick();
         }

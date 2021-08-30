@@ -10,7 +10,6 @@ import me.Jonathon594.Mythria.Managers.Tasks.AttackTask;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.util.Hand;
 
 public class UnarmedAbilityRapidStrike implements ICombatAbility {

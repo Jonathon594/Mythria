@@ -4,7 +4,6 @@ import me.Jonathon594.Mythria.Capability.Crucible.Crucible;
 import me.Jonathon594.Mythria.Capability.Crucible.CrucibleProvider;
 import me.Jonathon594.Mythria.Capability.HeatableItem.HeatableProvider;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
-import me.Jonathon594.Mythria.Client.Manager.ClientCombatManager;
 import me.Jonathon594.Mythria.Client.Manager.InputManager;
 import me.Jonathon594.Mythria.Items.CrucibleItem;
 import me.Jonathon594.Mythria.Items.HeatableItem;
@@ -30,6 +29,11 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class ClientListener {
+    @SubscribeEvent
+    public static void onClickMouse(InputEvent.ClickInputEvent event) {
+        InputManager.onClickMouse(event);
+    }
+
     @SubscribeEvent
     public static void onFog(EntityViewRenderEvent.FogDensity event) {
         if (event.getInfo().getFluidState().isTagged(FluidTags.LAVA)) {
@@ -73,10 +77,5 @@ public class ClientListener {
         if (event.getOverlayType().equals(RenderBlockOverlayEvent.OverlayType.FIRE) &&
                 ProfileProvider.getProfile(Minecraft.getInstance().player).getGenetic().isImmune(DamageSource.ON_FIRE))
             event.setCanceled(true);
-    }
-
-    @SubscribeEvent
-    public static void onClickMouse(InputEvent.ClickInputEvent event) {
-        InputManager.onClickMouse(event);
     }
 }

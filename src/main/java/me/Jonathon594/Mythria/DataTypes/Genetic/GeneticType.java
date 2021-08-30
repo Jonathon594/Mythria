@@ -18,9 +18,9 @@ public class GeneticType extends ForgeRegistryEntry<GeneticType> {
     private final String displayName;
     private final SpawnPos spawnPos;
     private final Supplier<Genetic> factory;
+    private final Genetic instance;
     private SkinPart.Type specialSkinPartType = null;
     private RegistryKey<World> spawnDimension = World.OVERWORLD;
-    private final Genetic instance;
 
     public GeneticType(String name, String displayName, SpawnPos spawnPos, Supplier<Genetic> factory) {
         setRegistryName(new MythriaResourceLocation(name));

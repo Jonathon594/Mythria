@@ -7,11 +7,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 
 public interface ICombatAbility {
-    void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent);
-
-    void onCombatPost(PlayerEntity player, Profile profile, Entity target, CombatEvent.Post postEvent);
-
     AttributeFlag getRequiredFlag();
 
     double getStaminaMultiplier();
+
+    void onCombatPost(PlayerEntity player, Profile profile, Entity target, CombatEvent.Post postEvent);
+
+    void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent);
 }

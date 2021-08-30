@@ -7,11 +7,11 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.util.Hand;
 
 public class AttackTask extends AbstractTask {
-    private PlayerEntity player;
-    private LivingEntity target;
-    private Hand hand;
-    private EnumAttackType type;
-    private EquipmentSlotType slotHit;
+    private final PlayerEntity player;
+    private final LivingEntity target;
+    private final Hand hand;
+    private final EnumAttackType type;
+    private final EquipmentSlotType slotHit;
 
     public AttackTask(int delay, PlayerEntity player, LivingEntity target, Hand hand, EnumAttackType type, EquipmentSlotType slotHit) {
         super(delay);

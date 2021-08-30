@@ -6,12 +6,22 @@
       }
     },
     {
-      "when": {"lit": true, "soulfire": false},
-      "apply": {"model": "mythria:block/pit_furnace_fire"}
+      "when": {
+        "lit": true,
+        "soulfire": false
+      },
+      "apply": {
+        "model": "mythria:block/pit_furnace_fire"
+      }
     },
     {
-      "when": {"lit": true, "soulfire": true},
-      "apply": {"model": "mythria:block/pit_furnace_soulfire"}
+      "when": {
+        "lit": true,
+        "soulfire": true
+      },
+      "apply": {
+        "model": "mythria:block/pit_furnace_soulfire"
+      }
     }
   ]
 }

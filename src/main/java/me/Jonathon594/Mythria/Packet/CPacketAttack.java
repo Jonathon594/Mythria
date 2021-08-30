@@ -1,5 +1,6 @@
 package me.Jonathon594.Mythria.Packet;
 
+import me.Jonathon594.Mythria.Enum.AttackClass;
 import me.Jonathon594.Mythria.Enum.EnumAttackType;
 import me.Jonathon594.Mythria.Managers.CombatManager;
 import net.minecraft.entity.Entity;
@@ -15,30 +16,30 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class CPacketAttack {
-    private EnumAttackType type;
-    private int entityID;
-    private int hand;
-    private boolean abilityMode;
+    private final EnumAttackType type;
+    private final int entityID;
+    private final int hand;
+    private final AttackClass attackClass;
 
-    public CPacketAttack(int entityID, int hand, EnumAttackType type, boolean abilityMode) {
+    public CPacketAttack(int entityID, int hand, EnumAttackType type, AttackClass attackClass) {
         this.entityID = entityID;
         this.hand = hand;
         this.type = type;
-        this.abilityMode = abilityMode;
+        this.attackClass = attackClass;
     }
 
     public CPacketAttack(PacketBuffer buf) {
         entityID = buf.readInt();
         type = EnumAttackType.values()[buf.readInt()];
         hand = buf.readInt();
-        abilityMode = buf.readBoolean();
+        attackClass = AttackClass.values()[buf.readInt()];
     }
 
     public void encode(PacketBuffer buf) {
         buf.writeInt(entityID);
         buf.writeInt(type.ordinal());
         buf.writeInt(hand);
-        buf.writeBoolean(abilityMode);
+        buf.writeInt(attackClass.ordinal());
     }
 
     public static void handle(CPacketAttack msg, Supplier<NetworkEvent.Context> contextSupplier) {
@@ -53,12 +54,8 @@ public class CPacketAttack {
                     return;
                 }
             }
-            if (msg.abilityMode) {
-
-            } else {
-                CombatManager.attackEntity(contextSupplier.get().getSender(), entity, Hand.values()[msg.hand], msg.type,
-                        false, false);
-            }
+            CombatManager.attackEntity(contextSupplier.get().getSender(), entity, Hand.values()[msg.hand], msg.type, msg.attackClass,
+                    false, false);
         });
     }
 }

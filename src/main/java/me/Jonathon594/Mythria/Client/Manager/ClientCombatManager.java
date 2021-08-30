@@ -1,10 +1,9 @@
 package me.Jonathon594.Mythria.Client.Manager;
 
-import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
+import me.Jonathon594.Mythria.Enum.AttackClass;
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
-import me.Jonathon594.Mythria.Enum.ControlMode;
 import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Enum.EnumAttackType;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
@@ -18,10 +17,6 @@ import net.minecraft.util.math.EntityRayTraceResult;
 public class ClientCombatManager {
     private static final Minecraft mc = Minecraft.getInstance();
 
-    private static void processAbilityAction(EnumAttackType type, EntityRayTraceResult rayTraceResult, Hand hand) {
-        sendPacket(rayTraceResult != null ? rayTraceResult.getEntity() : null, hand, type, true);
-    }
-
     public static EnumAttackType getAttackType() {
         if (mc.gameSettings.keyBindForward.isKeyDown()) {
             return EnumAttackType.FORWARD;
@@ -34,7 +29,7 @@ public class ClientCombatManager {
         }
     }
 
-    public static void meleeAttack(EntityRayTraceResult rayTraceResult, Hand hand) {
+    public static void meleeAttack(EntityRayTraceResult rayTraceResult, Hand hand, AttackClass attackClass) {
         PlayerEntity player = mc.player;
         Profile profile = ProfileProvider.getProfile(player);
         float cooledAttackStrength = player.getCooledAttackStrength(0);
@@ -55,11 +50,11 @@ public class ClientCombatManager {
 //            }
 
         player.swingArm(hand);
-        sendPacket(rayTraceResult != null ? rayTraceResult.getEntity() : null, hand, getAttackType(), false);
+        sendPacket(rayTraceResult != null ? rayTraceResult.getEntity() : null, hand, getAttackType(), attackClass);
         return;
     }
 
-    private static void sendPacket(final Entity entityHit, final Hand hand, EnumAttackType type, boolean abilityMode) {
-        MythriaPacketHandler.sendToServer(new CPacketAttack(entityHit != null ? entityHit.getEntityId() : -1, hand.ordinal(), type, abilityMode));
+    private static void sendPacket(final Entity entityHit, final Hand hand, EnumAttackType type, AttackClass attackClass) {
+        MythriaPacketHandler.sendToServer(new CPacketAttack(entityHit != null ? entityHit.getEntityId() : -1, hand.ordinal(), type, attackClass));
     }
 }

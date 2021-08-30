@@ -29,7 +29,10 @@ public class MythriaPlayer implements IMythriaPlayer {
     private CombatMode combatMode = CombatMode.NORMAL;
 
     private InputIntent mainhandIntent = InputIntent.NONE, offhandIntent = InputIntent.NONE;
-    private int attackingMainhand, attackingOffhand;
+    private int attackingMainhand;
+    private int attackingOffhand;
+    private int attackCooldownMainhand;
+    private int attackCooldownOffhand;
 
     public MythriaPlayer(LivingEntity entity) {
         this.entity = entity;
@@ -39,25 +42,26 @@ public class MythriaPlayer implements IMythriaPlayer {
         this.entity = null;
     }
 
+    public int getAttackCooldownMainhand() {
+        return attackCooldownMainhand;
+    }
+
+    public MythriaPlayer setAttackCooldownMainhand(int attackCooldownMainhand) {
+        this.attackCooldownMainhand = attackCooldownMainhand;
+        return this;
+    }
+
+    public int getAttackCooldownOffhand() {
+        return attackCooldownOffhand;
+    }
+
+    public MythriaPlayer setAttackCooldownOffhand(int attackCooldownOffhand) {
+        this.attackCooldownOffhand = attackCooldownOffhand;
+        return this;
+    }
+
     public int getAttackingMainhand() {
         return attackingMainhand;
-    }
-
-    public int getAttackingOffhand() {
-        return attackingOffhand;
-    }
-
-    @Override
-    public Gender getGender() {
-        return entity.getDataManager().get(GENDER);
-    }
-
-    public CombatMode getCombatMode() {
-        return combatMode;
-    }
-
-    public InputIntent getInputIntent(Hand hand) {
-        return hand == Hand.MAIN_HAND ? mainhandIntent : offhandIntent;
     }
 
     public MythriaPlayer setAttackingMainhand(int attackingMainhand) {
@@ -65,13 +69,34 @@ public class MythriaPlayer implements IMythriaPlayer {
         return this;
     }
 
+    public int getAttackingOffhand() {
+        return attackingOffhand;
+    }
+
     public MythriaPlayer setAttackingOffhand(int attackingOffhand) {
         this.attackingOffhand = attackingOffhand;
         return this;
     }
 
+    public CombatMode getCombatMode() {
+        return combatMode;
+    }
+
     public void setCombatMode(CombatMode combatMode) {
         this.combatMode = combatMode;
+    }
+
+    public ControlMode getControlMode() {
+        return entity.getDataManager().get(CONTROL_MODE);
+    }
+
+    public void setControlMode(ControlMode controlMode) {
+        entity.getDataManager().set(CONTROL_MODE, controlMode);
+    }
+
+    @Override
+    public Gender getGender() {
+        return entity.getDataManager().get(GENDER);
     }
 
     @Override
@@ -103,13 +128,6 @@ public class MythriaPlayer implements IMythriaPlayer {
         return ticksParrying;
     }
 
-    public MythriaPlayer setInputIntent(Hand hand, InputIntent inputIntent) {
-        if (hand == Hand.MAIN_HAND) {
-            mainhandIntent = inputIntent;
-        } else offhandIntent = inputIntent;
-        return this;
-    }
-
     @Override
     public void setTicksParrying(int ticksParrying) {
         this.ticksParrying = ticksParrying;
@@ -125,6 +143,7 @@ public class MythriaPlayer implements IMythriaPlayer {
         entity.getDataManager().set(PARRYING, parrying);
     }
 
+    //todo skinpart layer numbers
     @Override
     public void setSkinPart(SkinPart.Type skinPart, SkinPart part) {
         switch (skinPart) {
@@ -149,6 +168,10 @@ public class MythriaPlayer implements IMythriaPlayer {
         }
     }
 
+    public InputIntent getInputIntent(Hand hand) {
+        return hand == Hand.MAIN_HAND ? mainhandIntent : offhandIntent;
+    }
+
     public int getWingFlightFlapAngle() {
         return wingFlightFlapAngle;
     }
@@ -158,14 +181,14 @@ public class MythriaPlayer implements IMythriaPlayer {
     }
 
     public void onTick() {
-
+        if (attackCooldownMainhand > 0) attackCooldownMainhand--;
+        if (attackCooldownOffhand > 0) attackCooldownOffhand--;
     }
 
-    public void setControlMode(ControlMode controlMode) {
-        entity.getDataManager().set(CONTROL_MODE, controlMode);
-    }
-
-    public ControlMode getControlMode() {
-        return entity.getDataManager().get(CONTROL_MODE);
+    public MythriaPlayer setInputIntent(Hand hand, InputIntent inputIntent) {
+        if (hand == Hand.MAIN_HAND) {
+            mainhandIntent = inputIntent;
+        } else offhandIntent = inputIntent;
+        return this;
     }
 }
