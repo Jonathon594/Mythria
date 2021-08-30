@@ -9,6 +9,8 @@ import me.Jonathon594.Mythria.Enum.InputIntent;
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
@@ -143,9 +145,13 @@ public class InputManager {
         if (result.getType().equals(RayTraceResult.Type.ENTITY)) {
             ClientCombatManager.meleeAttack((EntityRayTraceResult) result, hand, attackClass);
         } else {
+            final ItemStack itemStack = hand == Hand.MAIN_HAND ? mc.player.getHeldItemMainhand()
+                    : mc.player.getHeldItemOffhand();
+            mc.player.getAttributeManager().reapplyModifiers(itemStack.getAttributeModifiers(EquipmentSlotType.MAINHAND));
             mc.player.swingArm(hand);
             net.minecraftforge.common.ForgeHooks.onEmptyLeftClick(mc.player); //delegate to forgehook.
+            mc.player.resetCooldown();
         }
-        mc.player.resetCooldown();
+
     }
 }
