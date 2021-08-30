@@ -25,6 +25,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.ITextComponent;
@@ -74,9 +75,9 @@ public class CharacterRenderer extends LivingRenderer<LivingEntity, CharacterMod
         model.swingProgress = 0.0F;
         model.isSneak = false;
         model.swimAnimation = 0.0F;
-        model.setRotationAngles(entityIn, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
         ModelRenderer rendererArmIn = side == HandSide.RIGHT ? model.bipedRightArm : model.bipedLeftArm;
         ModelRenderer rendererArmwearIn = side == HandSide.RIGHT ? model.bipedRightArmwear : model.bipedLeftArmwear;
+
         rendererArmIn.rotateAngleX = 0.0F;
         rendererArmIn.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntitySolid(getEntityTexture(entityIn))), combinedLightIn, OverlayTexture.NO_OVERLAY);
         rendererArmwearIn.rotateAngleX = 0.0F;

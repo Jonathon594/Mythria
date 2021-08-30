@@ -141,16 +141,16 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 }
 
-task incrementPatch {
-    def configFile = file("gradle.properties")
-    def configText = configFile.getText()
-    def patternDev = Pattern.compile("patch=(\\w+)")
-    def matcherPatch = patternDev.matcher(configText)
-    matcherPatch.find()
-    def patch = Integer.parseInt(matcherPatch.group(0).toString().substring(6))
-    matcherPatch = matcherPatch.replaceAll("patch=" + (patch+1))
-    configFile.write(matcherPatch)
-}
+//task incrementPatch {
+//    def configFile = file("gradle.properties")
+//    def configText = configFile.getText()
+//    def patternDev = Pattern.compile("patch=(\\w+)")
+//    def matcherPatch = patternDev.matcher(configText)
+//    matcherPatch.find()
+//    def patch = Integer.parseInt(matcherPatch.group(0).toString().substring(6))
+//    matcherPatch = matcherPatch.replaceAll("patch=" + (patch+1))
+//    configFile.write(matcherPatch)
+//}
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {

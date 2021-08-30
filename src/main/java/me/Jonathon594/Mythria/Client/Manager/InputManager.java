@@ -2,10 +2,13 @@ package me.Jonathon594.Mythria.Client.Manager;
 
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
+import me.Jonathon594.Mythria.Client.Keybindings;
 import me.Jonathon594.Mythria.Enum.AttackClass;
 import me.Jonathon594.Mythria.Enum.CombatMode;
 import me.Jonathon594.Mythria.Enum.ControlMode;
 import me.Jonathon594.Mythria.Enum.InputIntent;
+import me.Jonathon594.Mythria.MythriaPacketHandler;
+import me.Jonathon594.Mythria.Packet.CPacketParry;
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -21,6 +24,7 @@ public class InputManager {
     private static final Minecraft mc = Minecraft.getInstance();
     private static boolean deltaAttack = false;
     private static boolean deltaUse = false;
+    private static boolean deltaParry = false;
 
     public static void onClickMouse(InputEvent.ClickInputEvent event) {
         if (event.isPickBlock()) return;
@@ -62,11 +66,14 @@ public class InputManager {
 
         boolean attack = gameSettings.keyBindAttack.isKeyDown();
         boolean useItem = gameSettings.keyBindUseItem.isKeyDown();
+        boolean parry = Keybindings.PARRY.isKeyDown();
 
         boolean attackPressed = attack && !deltaAttack;
         boolean usePressed = useItem && !deltaUse;
+        boolean parryPressed = parry && !deltaParry;
         boolean attackReleased = !attack && deltaAttack;
         boolean useReleased = !useItem && deltaUse;
+        boolean parryReleased = !parry && deltaParry;
 
         boolean isAttackReady = player.getCooledAttackStrength(0) == 1;
         switch (mythriaPlayer.getControlMode()) {
@@ -106,6 +113,15 @@ public class InputManager {
                     }
                     mythriaPlayer.setInputIntent(hand, InputIntent.NONE);
                 }
+
+                if(parryPressed && attackingMainhand == 0 && attackingOffhand == 0 &&
+                        mythriaPlayer.getInputIntent(Hand.OFF_HAND) == InputIntent.NONE &&
+                        mythriaPlayer.getInputIntent(Hand.MAIN_HAND) == InputIntent.NONE) {
+                    MythriaPacketHandler.sendToServer(new CPacketParry(true));
+                }
+                if(parryReleased && mythriaPlayer.isParrying()) {
+                    MythriaPacketHandler.sendToServer(new CPacketParry(false));
+                }
                 break;
             case ABILITY:
                 break;
@@ -114,6 +130,7 @@ public class InputManager {
         //Last
         deltaAttack = attack;
         deltaUse = useItem;
+        deltaParry = parry;
     }
 
     public static void onToggleCombatMode() {

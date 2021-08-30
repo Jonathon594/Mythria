@@ -161,7 +161,7 @@ public class EntityListener {
 
     @SubscribeEvent
     public static void onLivingHurt(final LivingHurtEvent event) {
-        //Todo AbilityManager.handleCombatSkills(event);
+        AbilityManager.handleCombatSkills(event);
         if (event.getEntity().getEntityWorld().isRemote)
             return;
 
@@ -170,7 +170,7 @@ public class EntityListener {
                 event.getSource().damageType.equalsIgnoreCase("playeroffhand")) {
             final PlayerEntity source = (PlayerEntity) trueSource;
             final Profile sourceProfile = ProfileProvider.getProfile(source);
-            //Todo AbilityManager.onLivingHurt(sourceProfile, event, source);
+            AbilityManager.onLivingHurtByPlayer(sourceProfile, event, source);
             BlessingManager.onPlayerAttackEntity(sourceProfile, event, source);
 
             event.getEntityLiving().hurtResistantTime = 0;

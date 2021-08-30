@@ -31,8 +31,6 @@ public class MythriaPlayer implements IMythriaPlayer {
     private InputIntent mainhandIntent = InputIntent.NONE, offhandIntent = InputIntent.NONE;
     private int attackingMainhand;
     private int attackingOffhand;
-    private int attackCooldownMainhand;
-    private int attackCooldownOffhand;
 
     public MythriaPlayer(LivingEntity entity) {
         this.entity = entity;
@@ -40,24 +38,6 @@ public class MythriaPlayer implements IMythriaPlayer {
 
     public MythriaPlayer() {
         this.entity = null;
-    }
-
-    public int getAttackCooldownMainhand() {
-        return attackCooldownMainhand;
-    }
-
-    public MythriaPlayer setAttackCooldownMainhand(int attackCooldownMainhand) {
-        this.attackCooldownMainhand = attackCooldownMainhand;
-        return this;
-    }
-
-    public int getAttackCooldownOffhand() {
-        return attackCooldownOffhand;
-    }
-
-    public MythriaPlayer setAttackCooldownOffhand(int attackCooldownOffhand) {
-        this.attackCooldownOffhand = attackCooldownOffhand;
-        return this;
     }
 
     public int getAttackingMainhand() {
@@ -181,8 +161,6 @@ public class MythriaPlayer implements IMythriaPlayer {
     }
 
     public void onTick() {
-        if (attackCooldownMainhand > 0) attackCooldownMainhand--;
-        if (attackCooldownOffhand > 0) attackCooldownOffhand--;
     }
 
     public MythriaPlayer setInputIntent(Hand hand, InputIntent inputIntent) {

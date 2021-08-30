@@ -41,6 +41,7 @@ public class MythriaPacketHandler {
                 CPacketReloadWeapon::handle);
         HANDLER.registerMessage(disc++, CPacketAction.class, CPacketAction::encode, CPacketAction::new, CPacketAction::handle);
         HANDLER.registerMessage(disc++, CPacketAttack.class, CPacketAttack::encode, CPacketAttack::new, CPacketAttack::handle);
+        HANDLER.registerMessage(disc++, CPacketParry.class, CPacketParry::encode, CPacketParry::new, CPacketParry::handle);
     }
 
     /**

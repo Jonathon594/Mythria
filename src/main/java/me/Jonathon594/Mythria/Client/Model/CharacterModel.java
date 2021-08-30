@@ -4,10 +4,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.HandSide;
+import net.minecraft.util.math.MathHelper;
 
 public class CharacterModel<T extends LivingEntity> extends PlayerModel<T> {
     public final ModelRenderer bipedLeftArmwear;
@@ -86,6 +89,20 @@ public class CharacterModel<T extends LivingEntity> extends PlayerModel<T> {
      */
     public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+
+        if(MythriaPlayerProvider.getMythriaPlayer(entityIn).isParrying()) {
+            float rotateAngleY = (float) MathHelper.clamp(this.bipedHead.rotateAngleY, -Math.PI / 8, Math.PI / 8);
+            boolean mainFist = entityIn.getHeldItemMainhand().isEmpty();
+            boolean offFist = entityIn.getHeldItemOffhand().isEmpty();
+            float inwardMain = mainFist ? 0.5F : 0.2F;
+            float inwardOff = offFist ? 0.5F : 0.2F;
+            this.bipedRightArm.rotateAngleY = -inwardMain + rotateAngleY;
+            this.bipedLeftArm.rotateAngleY = inwardOff + rotateAngleY;
+            this.bipedRightArm.rotateAngleX = -((float) Math.PI / 3);
+            this.bipedLeftArm.rotateAngleX = -((float) Math.PI / 3);
+            this.bipedRightArm.rotateAngleZ = (float) (Math.PI / 10);
+            this.bipedLeftArm.rotateAngleZ = (float) (-Math.PI / 10);
+        }
 
         this.bipedLeftLegwear.copyModelAngles(this.bipedLeftLeg);
         this.bipedRightLegwear.copyModelAngles(this.bipedRightLeg);
