@@ -9,8 +9,13 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class DaggerAbilitySlash implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.DAGGER_ABILITY_SLASH;
+    }
 
+    @Override
+    public double getStaminaMultiplier() {
+        return 1.5;
     }
 
     @Override
@@ -19,12 +24,7 @@ public class DaggerAbilitySlash implements ICombatAbility {
     }
 
     @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.DAGGER_ABILITY_SLASH;
-    }
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
 
-    @Override
-    public double getStaminaMultiplier() {
-        return 1.5;
     }
 }

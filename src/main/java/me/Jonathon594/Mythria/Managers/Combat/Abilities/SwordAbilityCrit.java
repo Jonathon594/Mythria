@@ -9,8 +9,13 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class SwordAbilityCrit implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
-        preEvent.setForceCrit(true);
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.SWORD_ABILITY_CRIT;
+    }
+
+    @Override
+    public double getStaminaMultiplier() {
+        return 2;
     }
 
     @Override
@@ -19,12 +24,7 @@ public class SwordAbilityCrit implements ICombatAbility {
     }
 
     @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.SWORD_ABILITY_CRIT;
-    }
-
-    @Override
-    public double getStaminaMultiplier() {
-        return 2;
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+        preEvent.setForceCrit(true);
     }
 }

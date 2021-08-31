@@ -1,7 +1,11 @@
 package me.Jonathon594.Mythria.Managers.Tasks;
 
+import me.Jonathon594.Mythria.Enum.AttackClass;
+import me.Jonathon594.Mythria.Enum.EnumAttackType;
+import me.Jonathon594.Mythria.Managers.CombatManager;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Hand;
 
@@ -25,8 +29,10 @@ public class SweepTask extends AbstractTask {
 
     @Override
     public void execute() {
-        //CombatKeyManager.attackEntityServer(player, target, hand, EnumAttackType.BASIC, null, true, true);
-        //CombatKeyManager.triggerSweep(player, target, damageSource, damage / 3.0f);
-        //PacketUtil.swingPlayerArm(player, hand);
+        CombatManager.attackEntity(player, target, hand, EnumAttackType.BASIC, AttackClass.LIGHT, true, true);
+        CombatManager.triggerSweep(player, target, damageSource, damage / 3.0f);
+        player.swingArm(hand);
+        player.getAttributeManager().reapplyModifiers(player.getHeldItem(hand).getAttributeModifiers(EquipmentSlotType.MAINHAND));
+        player.resetCooldown();
     }
 }

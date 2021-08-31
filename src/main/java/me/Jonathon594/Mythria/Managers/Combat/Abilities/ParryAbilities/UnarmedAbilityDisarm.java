@@ -15,7 +15,7 @@ public class UnarmedAbilityDisarm implements IParryAbility {
         if (profile.hasFlag(AttributeFlag.UNARMED_ABILITY_PARRY)) {
             event.setDamage(0);
             MeleeAbilityManager.disarm(target, event.getHand());
-            //PacketUtil.swingPlayerArm((PlayerEntity) player, hand); todo
+            player.swingArm(hand);
         }
     }
 }

@@ -46,12 +46,12 @@ public class GeneticType extends ForgeRegistryEntry<GeneticType> {
         return SkinParts.getSkinPartsFor(SkinPart.Type.HAIR);
     }
 
-    public List<SkinPart> getAllowedSkins() {
-        return SkinParts.getSkinPartsFor(SkinPart.Type.SKIN);
-    }
-
     public Collection<Origin> getAllowedOrigins() {
         return MythriaRegistries.ORIGINS.getValues();
+    }
+
+    public List<SkinPart> getAllowedSkins() {
+        return SkinParts.getSkinPartsFor(SkinPart.Type.SKIN);
     }
 
     public Genetic getDefaultInstance() {

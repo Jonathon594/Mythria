@@ -67,7 +67,7 @@ public class CombatManager {
 
                 MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(player);
                 double attackRange = getAttackRangeByWeapon(itemStack);
-                CombatEvent.Pre pre = new CombatEvent.Pre(damage, ds, type, targetEntity, player, ProfileProvider.getProfile(player), itemStack, itemStackOther, hand, attackRange);
+                CombatEvent.Pre pre = new CombatEvent.Pre(damage, ds, type, targetEntity, player, ProfileProvider.getProfile(player), itemStack, itemStackOther, hand, attackRange, attackClass);
                 MinecraftForge.EVENT_BUS.post(pre);
 
                 if (pre.isFail()) {
@@ -155,7 +155,7 @@ public class CombatManager {
                     Vector3d vector3d = targetEntity.getMotion();
                     boolean shouldAttack = targetEntity.attackEntityFrom(DamageSource.causePlayerDamage(player), damage);
                     if (shouldAttack) {
-                        CombatEvent.Post post = new CombatEvent.Post(damage, ds, type, targetEntity, player, ProfileProvider.getProfile(player), itemStack, itemStackOther, knockBack, hand);
+                        CombatEvent.Post post = new CombatEvent.Post(damage, ds, type, targetEntity, player, ProfileProvider.getProfile(player), itemStack, itemStackOther, knockBack, hand, attackClass);
 
 //                        if (targetEntity instanceof EntityPlayer) {
 //                            AbilityManager.applyTorpidity(ProfileProvider.getProfile((EntityPlayer) targetEntity), itemStack.getItem(), hitInfo.getTorpidity() * post.getTorpidityMultiplier());
@@ -183,7 +183,7 @@ public class CombatManager {
                         }
 
                         if (shouldSweep) {
-                            triggerSweep(player, targetEntity, damage);
+                            triggerSweep(player, targetEntity, ds, damage);
                         }
 
                         if (targetEntity instanceof ServerPlayerEntity && targetEntity.velocityChanged) {
@@ -257,6 +257,20 @@ public class CombatManager {
         }
     }
 
+    public static void triggerSweep(PlayerEntity player, Entity targetEntity, DamageSource source, float damage) {
+        float f3 = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * damage;
+
+        for (LivingEntity livingentity : player.world.getEntitiesWithinAABB(LivingEntity.class, targetEntity.getBoundingBox().grow(1.0D, 0.25D, 1.0D))) {
+            if (livingentity != player && livingentity != targetEntity && !player.isOnSameTeam(livingentity) && (!(livingentity instanceof ArmorStandEntity) || !((ArmorStandEntity) livingentity).hasMarker()) && player.getDistanceSq(livingentity) < 9.0D) {
+                livingentity.applyKnockback(0.4F, MathHelper.sin(player.rotationYaw * ((float) Math.PI / 180F)), -MathHelper.cos(player.rotationYaw * ((float) Math.PI / 180F)));
+                livingentity.attackEntityFrom(source, f3);
+            }
+        }
+
+        player.world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
+        player.spawnSweepParticles();
+    }
+
     private static double getAttackRangeByWeapon(ItemStack itemStack) {
         double attackRange = 3.0;
         Item item = itemStack.getItem();
@@ -266,19 +280,5 @@ public class CombatManager {
         if (MythriaUtil.isSword(item)) attackRange = 3.9;
         if (MythriaUtil.isHammer(item)) attackRange = 3.3;
         return attackRange;
-    }
-
-    private static void triggerSweep(PlayerEntity player, Entity targetEntity, float damage) {
-        float f3 = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * damage;
-
-        for (LivingEntity livingentity : player.world.getEntitiesWithinAABB(LivingEntity.class, targetEntity.getBoundingBox().grow(1.0D, 0.25D, 1.0D))) {
-            if (livingentity != player && livingentity != targetEntity && !player.isOnSameTeam(livingentity) && (!(livingentity instanceof ArmorStandEntity) || !((ArmorStandEntity) livingentity).hasMarker()) && player.getDistanceSq(livingentity) < 9.0D) {
-                livingentity.applyKnockback(0.4F, MathHelper.sin(player.rotationYaw * ((float) Math.PI / 180F)), -MathHelper.cos(player.rotationYaw * ((float) Math.PI / 180F)));
-                livingentity.attackEntityFrom(DamageSource.causePlayerDamage(player), f3);
-            }
-        }
-
-        player.world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
-        player.spawnSweepParticles();
     }
 }

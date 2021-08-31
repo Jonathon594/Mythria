@@ -49,7 +49,7 @@ public class EntityListener {
     @SubscribeEvent
     public static void onEntityConstructing(EntityEvent.EntityConstructing event) {
         Entity entity = event.getEntity();
-        if (entity instanceof PlayerEntity || entity instanceof NPCEntity) { //todo
+        if (entity instanceof PlayerEntity || entity instanceof NPCEntity) {
             LivingEntity player = (LivingEntity) entity;
             player.getDataManager().register(MythriaPlayer.PARRYING, false);
             player.getDataManager().register(MythriaPlayer.SKIN, SkinParts.getSkinPartsFor(SkinPart.Type.SKIN).get(0));

@@ -9,8 +9,13 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class SwordAbilitySweep implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.SWORD_ABILITY_SWEEP;
+    }
 
+    @Override
+    public double getStaminaMultiplier() {
+        return 1.5;
     }
 
     @Override
@@ -19,12 +24,7 @@ public class SwordAbilitySweep implements ICombatAbility {
     }
 
     @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.SWORD_ABILITY_SWEEP;
-    }
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
 
-    @Override
-    public double getStaminaMultiplier() {
-        return 1.5;
     }
 }

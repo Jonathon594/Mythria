@@ -14,9 +14,14 @@ import net.minecraft.util.Hand;
 
 public class AxeAbilityDoubleAxe implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.AXE_ABILITY_DOUBLE_AXE;
     }
 
+    @Override
+    public double getStaminaMultiplier() {
+        return 3;
+    }
 
     @Override
     public void onCombatPost(PlayerEntity player, Profile profile, Entity target, CombatEvent.Post postEvent) {
@@ -32,12 +37,6 @@ public class AxeAbilityDoubleAxe implements ICombatAbility {
     }
 
     @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.AXE_ABILITY_DOUBLE_AXE;
-    }
-
-    @Override
-    public double getStaminaMultiplier() {
-        return 3;
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
     }
 }

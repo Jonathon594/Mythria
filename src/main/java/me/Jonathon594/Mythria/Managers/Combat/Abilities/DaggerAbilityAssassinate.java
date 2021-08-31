@@ -12,6 +12,20 @@ import net.minecraft.item.ItemStack;
 
 public class DaggerAbilityAssassinate implements ICombatAbility {
     @Override
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.DAGGER_ABILITY_ASSASSINATE;
+    }
+
+    @Override
+    public double getStaminaMultiplier() {
+        return 2;
+    }
+
+    @Override
+    public void onCombatPost(PlayerEntity player, Profile profile, Entity target, CombatEvent.Post postEvent) {
+    }
+
+    @Override
     public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
         if (target instanceof LivingEntity) {
             LivingEntity LivingEntity = (LivingEntity) target;
@@ -22,19 +36,5 @@ public class DaggerAbilityAssassinate implements ICombatAbility {
                 preEvent.setFail(true);
             }
         }
-    }
-
-    @Override
-    public void onCombatPost(PlayerEntity player, Profile profile, Entity target, CombatEvent.Post postEvent) {
-    }
-
-    @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.DAGGER_ABILITY_ASSASSINATE;
-    }
-
-    @Override
-    public double getStaminaMultiplier() {
-        return 2;
     }
 }

@@ -9,8 +9,13 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class UnarmedAbilityForcePunch implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
-        preEvent.setDamage(preEvent.getDamage() + 2);
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.UNARMED_ABILITY_FORCE_PUNCH;
+    }
+
+    @Override
+    public double getStaminaMultiplier() {
+        return 2;
     }
 
     @Override
@@ -19,12 +24,7 @@ public class UnarmedAbilityForcePunch implements ICombatAbility {
     }
 
     @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.UNARMED_ABILITY_FORCE_PUNCH;
-    }
-
-    @Override
-    public double getStaminaMultiplier() {
-        return 2;
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+        preEvent.setDamage(preEvent.getDamage() + 2);
     }
 }

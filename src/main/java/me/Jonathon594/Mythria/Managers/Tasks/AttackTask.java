@@ -1,6 +1,8 @@
 package me.Jonathon594.Mythria.Managers.Tasks;
 
+import me.Jonathon594.Mythria.Enum.AttackClass;
 import me.Jonathon594.Mythria.Enum.EnumAttackType;
+import me.Jonathon594.Mythria.Managers.CombatManager;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -11,20 +13,22 @@ public class AttackTask extends AbstractTask {
     private final LivingEntity target;
     private final Hand hand;
     private final EnumAttackType type;
-    private final EquipmentSlotType slotHit;
+    private final AttackClass attackClass;
 
-    public AttackTask(int delay, PlayerEntity player, LivingEntity target, Hand hand, EnumAttackType type, EquipmentSlotType slotHit) {
+    public AttackTask(int delay, PlayerEntity player, LivingEntity target, Hand hand, EnumAttackType type, AttackClass attackClass) {
         super(delay);
         this.player = player;
         this.target = target;
         this.type = type;
         this.hand = hand;
-        this.slotHit = slotHit;
+        this.attackClass = attackClass;
     }
 
     @Override
     public void execute() {
-        //CombatKeyManager.attackEntityServer(player, target, hand, type, slotHit, true, true);
-        //PacketUtil.swingPlayerArm(player, hand); todo
+        CombatManager.attackEntity(player, target, hand, type, attackClass, true, true);
+        player.swingArm(hand);
+        player.getAttributeManager().reapplyModifiers(player.getHeldItem(hand).getAttributeModifiers(EquipmentSlotType.MAINHAND));
+        player.resetCooldown();
     }
 }

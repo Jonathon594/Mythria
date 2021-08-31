@@ -9,7 +9,13 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class HammerAbilityLegStrike implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.HAMMER_ABILITY_LEG_STRIKE;
+    }
+
+    @Override
+    public double getStaminaMultiplier() {
+        return 2;
     }
 
     @Override
@@ -18,12 +24,6 @@ public class HammerAbilityLegStrike implements ICombatAbility {
     }
 
     @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.HAMMER_ABILITY_LEG_STRIKE;
-    }
-
-    @Override
-    public double getStaminaMultiplier() {
-        return 2;
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
     }
 }

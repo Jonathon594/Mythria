@@ -13,6 +13,21 @@ import net.minecraft.util.math.MathHelper;
 
 public class DaggerAbilityThroatSlice implements ICombatAbility {
     @Override
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.DAGGER_ABILITY_THROAT_SLICE;
+    }
+
+    @Override
+    public double getStaminaMultiplier() {
+        return 2;
+    }
+
+    @Override
+    public void onCombatPost(PlayerEntity player, Profile profile, Entity target, CombatEvent.Post postEvent) {
+
+    }
+
+    @Override
     public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
         if (target instanceof LivingEntity) {
             float targetYaw = MathHelper.wrapDegrees(target.getRotationYawHead());
@@ -31,20 +46,5 @@ public class DaggerAbilityThroatSlice implements ICombatAbility {
             }
         }
         preEvent.setFail(true);
-    }
-
-    @Override
-    public void onCombatPost(PlayerEntity player, Profile profile, Entity target, CombatEvent.Post postEvent) {
-
-    }
-
-    @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.DAGGER_ABILITY_THROAT_SLICE;
-    }
-
-    @Override
-    public double getStaminaMultiplier() {
-        return 2;
     }
 }

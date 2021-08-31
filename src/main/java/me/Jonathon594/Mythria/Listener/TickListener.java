@@ -22,7 +22,6 @@ public class TickListener {
             MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(player);
             //tick Mythria Players
             mythriaPlayer.onTick();
-            //Todo VesselModule.onPlayerTick(event);
             //Todo SkillManager.onPlayerTick(event);
 
             if (!player.world.isRemote) {

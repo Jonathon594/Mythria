@@ -34,17 +34,6 @@ public class BlockUtils {
         }
     }
 
-    /**
-     * Adds a tree to the given lists.
-     *
-     * @param anchor      anchor block
-     * @param list        list
-     * @param validBlocks TODO
-     * @param maxCount    TODO
-     * @param maxRadius   TODO
-     * @param maxHeight   TODO
-     * @param original    TODO
-     */
     public static void getConnected(World worldIn, final BlockPos anchor, final ArrayList<BlockPos> list, final ArrayList<Block> validBlocks,
                                     final int maxCount, final int maxRadius, final int maxHeight, final BlockPos original) {
         // Limits:

@@ -9,15 +9,6 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class ShieldAbilityBash implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
-        preEvent.setDamage(4);
-    }
-
-    @Override
-    public void onCombatPost(PlayerEntity player, Profile profile, Entity target, CombatEvent.Post postEvent) {
-    }
-
-    @Override
     public AttributeFlag getRequiredFlag() {
         return AttributeFlag.SHIELD_ABILITY_BASH;
     }
@@ -25,5 +16,14 @@ public class ShieldAbilityBash implements ICombatAbility {
     @Override
     public double getStaminaMultiplier() {
         return 2;
+    }
+
+    @Override
+    public void onCombatPost(PlayerEntity player, Profile profile, Entity target, CombatEvent.Post postEvent) {
+    }
+
+    @Override
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+        preEvent.setDamage(4);
     }
 }

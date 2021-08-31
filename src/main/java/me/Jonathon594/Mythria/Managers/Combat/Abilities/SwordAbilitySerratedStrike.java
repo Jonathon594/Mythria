@@ -14,8 +14,13 @@ import net.minecraft.util.Hand;
 
 public class SwordAbilitySerratedStrike implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.SWORD_SERRATED_STRIKE;
+    }
 
+    @Override
+    public double getStaminaMultiplier() {
+        return 3;
     }
 
     @Override
@@ -33,12 +38,7 @@ public class SwordAbilitySerratedStrike implements ICombatAbility {
     }
 
     @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.SWORD_SERRATED_STRIKE;
-    }
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
 
-    @Override
-    public double getStaminaMultiplier() {
-        return 3;
     }
 }

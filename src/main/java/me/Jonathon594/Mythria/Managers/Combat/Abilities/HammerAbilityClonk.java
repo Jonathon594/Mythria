@@ -19,6 +19,20 @@ import net.minecraft.util.SoundEvents;
 
 public class HammerAbilityClonk implements ICombatAbility {
     @Override
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.HAMMER_ABILITY_HEADSHOT;
+    }
+
+    @Override
+    public double getStaminaMultiplier() {
+        return 3;
+    }
+
+    @Override
+    public void onCombatPost(PlayerEntity player, Profile profile, Entity target, CombatEvent.Post postEvent) {
+    }
+
+    @Override
     public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
         if (target instanceof LivingEntity) {
             LivingEntity LivingEntity = (LivingEntity) target;
@@ -38,19 +52,5 @@ public class HammerAbilityClonk implements ICombatAbility {
                 targetProfile.setConsumable(Consumable.TORPOR, targetProfile.getConsumables().get(Consumable.TORPOR) + preEvent.getDamage());
             }
         }
-    }
-
-    @Override
-    public void onCombatPost(PlayerEntity player, Profile profile, Entity target, CombatEvent.Post postEvent) {
-    }
-
-    @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.HAMMER_ABILITY_HEADSHOT;
-    }
-
-    @Override
-    public double getStaminaMultiplier() {
-        return 3;
     }
 }

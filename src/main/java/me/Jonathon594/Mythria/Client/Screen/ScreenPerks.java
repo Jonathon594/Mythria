@@ -5,6 +5,7 @@ import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Const.ColorConst;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.RootPerk;
+import me.Jonathon594.Mythria.Enum.MythicSkills;
 import me.Jonathon594.Mythria.Enum.PerkType;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.MythriaRegistries;
@@ -112,6 +113,13 @@ public class ScreenPerks extends AbstractTreeMenuScreen {
             }
             if (perk instanceof RootPerk) {
                 if (!p.isPerkTypeUnlocked(perk.getType())) hidden = true;
+            }
+            //todo See if this looks good.
+            for (Map.Entry<MythicSkills, Integer> e : perk.getRequiredSkills().entrySet()) {
+                if (p.getSkillLevel(e.getKey()) < e.getValue()) {
+                    hidden = true;
+                    break;
+                }
             }
         }
         boolean hasPerk = p.hasPerk(perk);

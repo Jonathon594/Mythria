@@ -9,8 +9,13 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class BasicAttackAbility implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+    public AttributeFlag getRequiredFlag() {
+        return null;
+    }
 
+    @Override
+    public double getStaminaMultiplier() {
+        return 1;
     }
 
     @Override
@@ -19,12 +24,7 @@ public class BasicAttackAbility implements ICombatAbility {
     }
 
     @Override
-    public AttributeFlag getRequiredFlag() {
-        return null;
-    }
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
 
-    @Override
-    public double getStaminaMultiplier() {
-        return 1;
     }
 }

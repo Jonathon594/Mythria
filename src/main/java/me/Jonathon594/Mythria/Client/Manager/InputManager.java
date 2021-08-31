@@ -114,12 +114,12 @@ public class InputManager {
                     mythriaPlayer.setInputIntent(hand, InputIntent.NONE);
                 }
 
-                if(parryPressed && attackingMainhand == 0 && attackingOffhand == 0 &&
+                if (parryPressed && attackingMainhand == 0 && attackingOffhand == 0 &&
                         mythriaPlayer.getInputIntent(Hand.OFF_HAND) == InputIntent.NONE &&
                         mythriaPlayer.getInputIntent(Hand.MAIN_HAND) == InputIntent.NONE) {
                     MythriaPacketHandler.sendToServer(new CPacketParry(true));
                 }
-                if(parryReleased && mythriaPlayer.isParrying()) {
+                if (parryReleased && mythriaPlayer.isParrying()) {
                     MythriaPacketHandler.sendToServer(new CPacketParry(false));
                 }
                 break;

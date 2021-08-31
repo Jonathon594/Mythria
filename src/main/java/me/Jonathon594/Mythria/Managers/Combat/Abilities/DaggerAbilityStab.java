@@ -9,9 +9,13 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class DaggerAbilityStab implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
-        preEvent.setForceCrit(true);
-        preEvent.setAirSmash(true);
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.DAGGER_ABILITY_STAB;
+    }
+
+    @Override
+    public double getStaminaMultiplier() {
+        return 2;
     }
 
     @Override
@@ -20,12 +24,8 @@ public class DaggerAbilityStab implements ICombatAbility {
     }
 
     @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.DAGGER_ABILITY_STAB;
-    }
-
-    @Override
-    public double getStaminaMultiplier() {
-        return 2;
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+        preEvent.setForceCrit(true);
+        preEvent.setAirSmash(true);
     }
 }

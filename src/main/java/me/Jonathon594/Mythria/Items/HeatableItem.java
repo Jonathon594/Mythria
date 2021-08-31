@@ -33,7 +33,6 @@ public class HeatableItem extends MythriaItem implements IHeatableItem, ITickabl
         if (shouldBurnPlayers(temperature)) {
             lines.add(new StringTextComponent(TextFormatting.RED + "Hot!"));
         }
-        //lines.add(new StringTextComponent(MythriaUtil.round(temperature, 1) + " C")); //todo remove
         return lines;
     }
 

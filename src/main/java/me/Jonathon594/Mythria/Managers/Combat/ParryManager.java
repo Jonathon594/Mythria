@@ -9,7 +9,6 @@ import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Event.ParryEvent;
 import me.Jonathon594.Mythria.Items.MythriaDaggerItem;
 import me.Jonathon594.Mythria.Items.MythriaHammerItem;
-import me.Jonathon594.Mythria.Managers.CooldownManager;
 import me.Jonathon594.Mythria.Managers.SoundManager;
 import me.Jonathon594.Mythria.Util.CombatUtil;
 import net.minecraft.entity.LivingEntity;
@@ -45,7 +44,7 @@ public class ParryManager {
     public static void onPlayerTickServer(ServerPlayerEntity player, Profile profile, MythriaPlayer mythriaPlayer) {
         boolean parrying = mythriaPlayer.isParrying();
         if (!canParry(player, profile) && parrying) mythriaPlayer.setParrying(false);
-        if(player.isSwingInProgress && parrying) mythriaPlayer.setParrying(false);
+        if (player.isSwingInProgress && parrying) mythriaPlayer.setParrying(false);
 
         if (parrying) {
             mythriaPlayer.setTicksParrying(mythriaPlayer.getTicksParrying() + 1);
@@ -74,16 +73,6 @@ public class ParryManager {
             }
             updateAndResetCooldown(player);
         }
-    }
-
-    private static void updateAndResetCooldown(PlayerEntity player) {
-        //todo Find a more elegant solution
-        player.getAttributeManager().reapplyModifiers(player.getHeldItemOffhand().getAttributeModifiers(EquipmentSlotType.MAINHAND));
-        player.resetCooldown();
-    }
-
-    private static float getStaminaCost(float amount) {
-        return amount * 2;
     }
 
     private static boolean canParry(ServerPlayerEntity player, Profile profile) {
@@ -117,5 +106,15 @@ public class ParryManager {
             return AttributeFlag.UNARMED_ABILITY_PARRY;
         }
         return null;
+    }
+
+    private static float getStaminaCost(float amount) {
+        return amount * 2;
+    }
+
+    private static void updateAndResetCooldown(PlayerEntity player) {
+        //todo Calculate shorter cooldown
+        player.getAttributeManager().reapplyModifiers(player.getHeldItemOffhand().getAttributeModifiers(EquipmentSlotType.MAINHAND));
+        player.resetCooldown();
     }
 }

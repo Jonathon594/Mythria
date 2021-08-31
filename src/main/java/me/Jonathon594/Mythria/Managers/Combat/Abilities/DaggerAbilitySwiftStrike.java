@@ -14,7 +14,13 @@ import net.minecraft.util.Hand;
 
 public class DaggerAbilitySwiftStrike implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.DAGGER_ABILITY_SWIFT_STRIKE;
+    }
+
+    @Override
+    public double getStaminaMultiplier() {
+        return 3;
     }
 
     @Override
@@ -23,19 +29,13 @@ public class DaggerAbilitySwiftStrike implements ICombatAbility {
             postEvent.setShouldSweep(true);
             LivingEntity LivingEntity = (LivingEntity) target;
             Hand hand = postEvent.getHand();
-            TaskManager.addScheduleTask(new AttackTask(8, player, LivingEntity, hand, EnumAttackType.BASIC, null));
-            TaskManager.addScheduleTask(new AttackTask(16, player, LivingEntity, hand, EnumAttackType.BASIC, null));
+            TaskManager.addScheduleTask(new AttackTask(8, player, LivingEntity, hand, EnumAttackType.BASIC, postEvent.getAttackClass()));
+            TaskManager.addScheduleTask(new AttackTask(16, player, LivingEntity, hand, EnumAttackType.BASIC, postEvent.getAttackClass()));
             postEvent.setKnockBack(0);
         }
     }
 
     @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.DAGGER_ABILITY_SWIFT_STRIKE;
-    }
-
-    @Override
-    public double getStaminaMultiplier() {
-        return 3;
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
     }
 }

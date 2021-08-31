@@ -14,8 +14,13 @@ import net.minecraft.util.SoundEvents;
 
 public class HammerAbilityDoubleStrike implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.HAMMER_ABILITY_DOUBLE_STRIKE;
+    }
 
+    @Override
+    public double getStaminaMultiplier() {
+        return 3;
     }
 
     @Override
@@ -34,12 +39,7 @@ public class HammerAbilityDoubleStrike implements ICombatAbility {
     }
 
     @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.HAMMER_ABILITY_DOUBLE_STRIKE;
-    }
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
 
-    @Override
-    public double getStaminaMultiplier() {
-        return 3;
     }
 }

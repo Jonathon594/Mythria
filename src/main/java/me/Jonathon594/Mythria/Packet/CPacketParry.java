@@ -1,7 +1,5 @@
 package me.Jonathon594.Mythria.Packet;
 
-import me.Jonathon594.Mythria.Enum.Attribute;
-import me.Jonathon594.Mythria.Managers.AttributeManager;
 import me.Jonathon594.Mythria.Managers.Combat.ParryManager;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -9,7 +7,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class CPacketParry {
-    private boolean parry;
+    private final boolean parry;
 
     public CPacketParry(boolean parry) {
         this.parry = parry;

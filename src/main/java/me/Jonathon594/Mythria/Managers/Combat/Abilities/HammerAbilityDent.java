@@ -21,6 +21,20 @@ import java.util.ArrayList;
 
 public class HammerAbilityDent implements ICombatAbility {
     @Override
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.HAMMER_ABILITY_DENT;
+    }
+
+    @Override
+    public double getStaminaMultiplier() {
+        return 2;
+    }
+
+    @Override
+    public void onCombatPost(PlayerEntity player, Profile profile, Entity target, CombatEvent.Post postEvent) {
+    }
+
+    @Override
     public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
         if (target instanceof LivingEntity) {
             LivingEntity LivingEntity = (LivingEntity) target;
@@ -53,19 +67,5 @@ public class HammerAbilityDent implements ICombatAbility {
                 target.playSound(SoundEvents.ENTITY_ITEM_BREAK, 1.0f, 1.0f);
             }
         }
-    }
-
-    @Override
-    public void onCombatPost(PlayerEntity player, Profile profile, Entity target, CombatEvent.Post postEvent) {
-    }
-
-    @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.HAMMER_ABILITY_DENT;
-    }
-
-    @Override
-    public double getStaminaMultiplier() {
-        return 2;
     }
 }

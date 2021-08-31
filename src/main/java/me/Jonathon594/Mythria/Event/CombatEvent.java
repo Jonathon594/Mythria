@@ -1,6 +1,7 @@
 package me.Jonathon594.Mythria.Event;
 
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
+import me.Jonathon594.Mythria.Enum.AttackClass;
 import me.Jonathon594.Mythria.Enum.EnumAttackType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,8 +21,10 @@ public class CombatEvent extends Event {
     private final Hand hand;
     protected float damage;
     private boolean fail = false;
+    private final AttackClass attackClass;
 
-    public CombatEvent(float damage, EntityDamageSource source, EnumAttackType type, Entity target, PlayerEntity player, Profile profile, ItemStack weapon, ItemStack otherWeapon, Hand hand) {
+
+    public CombatEvent(float damage, EntityDamageSource source, EnumAttackType type, Entity target, PlayerEntity player, Profile profile, ItemStack weapon, ItemStack otherWeapon, Hand hand, AttackClass attackClass) {
         this.source = source;
         this.target = target;
         this.player = player;
@@ -31,6 +34,11 @@ public class CombatEvent extends Event {
         this.weapon = weapon;
         this.otherWeapon = otherWeapon;
         this.hand = hand;
+        this.attackClass = attackClass;
+    }
+
+    public AttackClass getAttackClass() {
+        return attackClass;
     }
 
     public float getDamage() {
@@ -82,8 +90,8 @@ public class CombatEvent extends Event {
         private boolean isAirSmash = false;
         private double attackRange;
 
-        public Pre(float damage, EntityDamageSource source, EnumAttackType type, Entity entity, PlayerEntity player, Profile profile, ItemStack weapon, ItemStack otherWeapon, Hand hand, double attackRange) {
-            super(damage, source, type, entity, player, profile, weapon, otherWeapon, hand);
+        public Pre(float damage, EntityDamageSource source, EnumAttackType type, Entity entity, PlayerEntity player, Profile profile, ItemStack weapon, ItemStack otherWeapon, Hand hand, double attackRange, AttackClass attackClass) {
+            super(damage, source, type, entity, player, profile, weapon, otherWeapon, hand, attackClass);
             this.attackRange = attackRange;
         }
 
@@ -123,8 +131,8 @@ public class CombatEvent extends Event {
         private boolean shouldSweep = false;
         private int knockUp = 0;
 
-        public Post(float damage, EntityDamageSource source, EnumAttackType type, Entity entity, PlayerEntity player, Profile profile, ItemStack weapon, ItemStack otherWeapon, int knockBack, Hand hand) {
-            super(damage, source, type, entity, player, profile, weapon, otherWeapon, hand);
+        public Post(float damage, EntityDamageSource source, EnumAttackType type, Entity entity, PlayerEntity player, Profile profile, ItemStack weapon, ItemStack otherWeapon, int knockBack, Hand hand, AttackClass attackClass) {
+            super(damage, source, type, entity, player, profile, weapon, otherWeapon, hand, attackClass);
             this.knockBack = knockBack;
             torpidityMultiplier = 1.0f;
         }

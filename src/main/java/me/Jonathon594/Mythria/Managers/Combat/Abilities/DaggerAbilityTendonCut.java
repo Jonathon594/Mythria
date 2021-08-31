@@ -23,17 +23,13 @@ import java.util.Random;
 
 public class DaggerAbilityTendonCut implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
-        float targetYaw = MathHelper.wrapDegrees(target.rotationYaw);
-        float angleTo = (float) MathHelper.wrapDegrees(
-                Math.toDegrees(Math.atan2(target.getPosZ() - player.getPosZ(), target.getPosX() - player.getPosX())) - 90);
-        float deltaA = MythriaUtil.getDeltaA(targetYaw, angleTo);
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.DAGGER_ABILITY_TENDON_CUT;
+    }
 
-        if (Math.abs(deltaA) < 90) {
-            preEvent.setForceCrit(true);
-        } else {
-            preEvent.setFail(true);
-        }
+    @Override
+    public double getStaminaMultiplier() {
+        return 3;
     }
 
     @Override
@@ -58,12 +54,16 @@ public class DaggerAbilityTendonCut implements ICombatAbility {
     }
 
     @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.DAGGER_ABILITY_TENDON_CUT;
-    }
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+        float targetYaw = MathHelper.wrapDegrees(target.rotationYaw);
+        float angleTo = (float) MathHelper.wrapDegrees(
+                Math.toDegrees(Math.atan2(target.getPosZ() - player.getPosZ(), target.getPosX() - player.getPosX())) - 90);
+        float deltaA = MythriaUtil.getDeltaA(targetYaw, angleTo);
 
-    @Override
-    public double getStaminaMultiplier() {
-        return 3;
+        if (Math.abs(deltaA) < 90) {
+            preEvent.setForceCrit(true);
+        } else {
+            preEvent.setFail(true);
+        }
     }
 }

@@ -8,7 +8,6 @@ import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.math.MathHelper;
 
@@ -90,7 +89,7 @@ public class CharacterModel<T extends LivingEntity> extends PlayerModel<T> {
     public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
-        if(MythriaPlayerProvider.getMythriaPlayer(entityIn).isParrying()) {
+        if (MythriaPlayerProvider.getMythriaPlayer(entityIn).isParrying()) {
             float rotateAngleY = (float) MathHelper.clamp(this.bipedHead.rotateAngleY, -Math.PI / 8, Math.PI / 8);
             boolean mainFist = entityIn.getHeldItemMainhand().isEmpty();
             boolean offFist = entityIn.getHeldItemOffhand().isEmpty();
