@@ -7,6 +7,7 @@ import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Event.ParryEvent;
+import me.Jonathon594.Mythria.Interface.IWeapon;
 import me.Jonathon594.Mythria.Items.MythriaDaggerItem;
 import me.Jonathon594.Mythria.Items.MythriaHammerItem;
 import me.Jonathon594.Mythria.Managers.SoundManager;
@@ -94,17 +95,8 @@ public class ParryManager {
     }
 
     private static AttributeFlag getFlagToParryWith(Item item) {
-        if (item instanceof MythriaDaggerItem) {
-            return AttributeFlag.DAGGER_ABILITY_PARRY;
-        } else if (item instanceof SwordItem) {
-            return AttributeFlag.SWORD_ABILITY_PARRY;
-        } else if (item instanceof AxeItem) {
-            return AttributeFlag.AXE_ABILITY_PARRY;
-        } else if (item instanceof MythriaHammerItem) {
-            return AttributeFlag.HAMMER_ABILITY_PARRY;
-        } else if (item.equals(Items.AIR)) {
-            return AttributeFlag.UNARMED_ABILITY_PARRY;
-        }
+        if(item.equals(Items.AIR)) return AttributeFlag.UNARMED_ABILITY_PARRY;
+        if(item instanceof IWeapon) return ((IWeapon) item).getFlagForParrying();
         return null;
     }
 

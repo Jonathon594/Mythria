@@ -5,10 +5,14 @@ import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Client.Renderer.Items.HammerItemRenderer;
 import me.Jonathon594.Mythria.DataTypes.MythriaToolType;
+import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import me.Jonathon594.Mythria.Enum.Consumable;
+import me.Jonathon594.Mythria.Enum.MythicSkills;
 import me.Jonathon594.Mythria.Interface.IModularTool;
+import me.Jonathon594.Mythria.Interface.IWeapon;
 import me.Jonathon594.Mythria.Managers.Crafting.ConstructionManager;
 import me.Jonathon594.Mythria.Managers.MaterialManager;
+import me.Jonathon594.Mythria.Managers.MeleeCombatManager;
 import me.Jonathon594.Mythria.Managers.StatManager;
 import me.Jonathon594.Mythria.Mythria;
 import net.minecraft.block.Block;
@@ -24,7 +28,7 @@ import net.minecraft.world.World;
 import java.util.Set;
 import java.util.function.Supplier;
 
-public class MythriaHammerItem extends ToolItem implements IModularTool {
+public class MythriaHammerItem extends ToolItem implements IModularTool, IWeapon {
 
     private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet();
     private final double weight;
@@ -37,6 +41,21 @@ public class MythriaHammerItem extends ToolItem implements IModularTool {
         setRegistryName(Mythria.MODID, name);
         this.weight = weight;
         this.toolHead = toolHead;
+    }
+
+    @Override
+    public MeleeCombatManager getCombatManager() {
+        return MeleeCombatManager.HAMMER_MANAGER;
+    }
+
+    @Override
+    public MythicSkills getUsageSkill() {
+        return MythicSkills.HEAVY_WEAPONS;
+    }
+
+    @Override
+    public AttributeFlag getFlagForParrying() {
+        return AttributeFlag.HAMMER_ABILITY_PARRY;
     }
 
 

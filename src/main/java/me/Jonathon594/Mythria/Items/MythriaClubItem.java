@@ -2,13 +2,17 @@ package me.Jonathon594.Mythria.Items;
 
 import com.google.common.collect.Sets;
 import me.Jonathon594.Mythria.DataTypes.MythriaToolType;
+import me.Jonathon594.Mythria.Enum.AttributeFlag;
+import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Interface.IWeapon;
+import me.Jonathon594.Mythria.Managers.MeleeCombatManager;
 import me.Jonathon594.Mythria.Mythria;
 import net.minecraft.block.Block;
 import net.minecraft.item.*;
 
 import java.util.Set;
 
-public class MythriaClubItem extends ToolItem {
+public class MythriaClubItem extends ToolItem implements IWeapon {
 
     private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet();
     private final double weight;
@@ -18,5 +22,20 @@ public class MythriaClubItem extends ToolItem {
                 .addToolType(MythriaToolType.HAMMER, tier.getHarvestLevel()));
         setRegistryName(Mythria.MODID, name);
         this.weight = weight;
+    }
+
+    @Override
+    public MeleeCombatManager getCombatManager() {
+        return MeleeCombatManager.CLUB_MANAGER;
+    }
+
+    @Override
+    public MythicSkills getUsageSkill() {
+        return MythicSkills.HEAVY_WEAPONS;
+    }
+
+    @Override
+    public AttributeFlag getFlagForParrying() {
+        return AttributeFlag.CLUB_ABILITY_PARRY;
     }
 }

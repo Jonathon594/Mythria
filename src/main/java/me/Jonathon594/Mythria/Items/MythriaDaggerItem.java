@@ -3,6 +3,9 @@ package me.Jonathon594.Mythria.Items;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import me.Jonathon594.Mythria.Client.Renderer.Items.DaggerItemRenderer;
+import me.Jonathon594.Mythria.Enum.AttributeFlag;
+import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Managers.MeleeCombatManager;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -28,5 +31,20 @@ public class MythriaDaggerItem extends MythriaSwordItem {
         }
 
         return multimap;
+    }
+
+    @Override
+    public MeleeCombatManager getCombatManager() {
+        return MeleeCombatManager.DAGGER_MANAGER;
+    }
+
+    @Override
+    public MythicSkills getUsageSkill() {
+        return MythicSkills.DAGGERS;
+    }
+
+    @Override
+    public AttributeFlag getFlagForParrying() {
+        return AttributeFlag.DAGGER_ABILITY_PARRY;
     }
 }

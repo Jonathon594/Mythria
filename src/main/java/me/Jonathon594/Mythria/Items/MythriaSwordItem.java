@@ -1,7 +1,11 @@
 package me.Jonathon594.Mythria.Items;
 
 import me.Jonathon594.Mythria.Client.Renderer.Items.SwordItemRenderer;
+import me.Jonathon594.Mythria.Enum.AttributeFlag;
+import me.Jonathon594.Mythria.Enum.MythicSkills;
 import me.Jonathon594.Mythria.Interface.IModularTool;
+import me.Jonathon594.Mythria.Interface.IWeapon;
+import me.Jonathon594.Mythria.Managers.MeleeCombatManager;
 import me.Jonathon594.Mythria.Mythria;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
@@ -12,7 +16,7 @@ import net.minecraft.item.SwordItem;
 
 import java.util.function.Supplier;
 
-public class MythriaSwordItem extends SwordItem implements IModularTool {
+public class MythriaSwordItem extends SwordItem implements IModularTool, IWeapon {
     private final double weight;
     private final Supplier<Item> toolHead;
 
@@ -25,6 +29,21 @@ public class MythriaSwordItem extends SwordItem implements IModularTool {
         setRegistryName(overrideVanilla ? "minecraft" : Mythria.MODID, name);
         this.weight = weight;
         this.toolHead = toolHead;
+    }
+
+    @Override
+    public MeleeCombatManager getCombatManager() {
+        return MeleeCombatManager.SWORD_MANAGER;
+    }
+
+    @Override
+    public MythicSkills getUsageSkill() {
+        return MythicSkills.SWORDS;
+    }
+
+    @Override
+    public AttributeFlag getFlagForParrying() {
+        return AttributeFlag.SWORD_ABILITY_PARRY;
     }
 
     @Override

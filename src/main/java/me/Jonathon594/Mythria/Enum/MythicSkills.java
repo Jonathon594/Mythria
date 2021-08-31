@@ -6,7 +6,7 @@ public enum MythicSkills {
     METALLURGY(true), ENGINEERING(true), ALCHEMY(true), MINING(true),
     MEDICAL(true), FISHING(true), FARMING(true),
     COOKING(true), FIREMAKING(true), BLOCK(false), DAGGERS(false),
-    HAMMERS(false), HEAVY_ARMOR(false),
+    HEAVY_WEAPONS(false), HEAVY_ARMOR(false),
     GLASSBLOWING(true), PICKPOCKET(false), ENCHANTING(true),
     WORSHIP(true), ATHEISM(true), WOODCUTTING(true),
     POTTERY(true), CARPENTRY(true), DIGGING(true);
