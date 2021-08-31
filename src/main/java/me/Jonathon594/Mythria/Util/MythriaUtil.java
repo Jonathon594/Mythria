@@ -97,16 +97,32 @@ public class MythriaUtil {
 
     public static void addRecipesFromPerk(PlayerEntity player, Perk attribute) {
         if (player.world.isRemote) return;
-        ArrayList<IRecipe<?>> toUnlock = new ArrayList<>();
+        HashSet<IRecipe<?>> toUnlock = new HashSet<>();
         for (Item item : attribute.getCraftable()) {
-            for (IRecipe recipe : player.world.getServer().getRecipeManager().getRecipes()) {
-                if (recipe.getRecipeOutput().getItem().equals(item)) {
-                    toUnlock.add(recipe);
-                }
-            }
+            collectRecipesForItem(player, toUnlock, item);
         }
 
         if (toUnlock.size() > 0) player.unlockRecipes(toUnlock);
+    }
+
+    private static void collectRecipesForItem(PlayerEntity player, HashSet<IRecipe<?>> recipes, Item item) {
+        for (IRecipe recipe : player.world.getServer().getRecipeManager().getRecipes()) {
+            if (recipe.getRecipeOutput().getItem().equals(item)) {
+                recipes.add(recipe);
+            }
+        }
+    }
+
+    public static void addRecipesFromPerks(ServerPlayerEntity player, List<Perk> perks) {
+        HashSet<Item> craftableItems = new HashSet<>();
+        for(Perk perk : perks) {
+            craftableItems.addAll(perk.getCraftable());
+        }
+        HashSet<IRecipe<?>> craftableRecipes = new HashSet<>();
+        for(Item item : craftableItems) {
+            collectRecipesForItem(player, craftableRecipes, item);
+        }
+        player.unlockRecipes(craftableRecipes);
     }
 
     public static void applyMythriaAttributeModifier(final PlayerEntity p, final String string, final double value,

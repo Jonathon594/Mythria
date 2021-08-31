@@ -77,7 +77,7 @@ public class Perks {
     }
 
     public static void addPerk(PlayerEntity player, Perk pa, Profile p) {
-        p.addAttribute(pa);
+        p.addPerk(pa);
     }
 
     public static Perk getPerk(final String s) {

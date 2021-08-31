@@ -86,7 +86,7 @@ public class Profile implements IProfile {
         }
     }
 
-    public void addAttribute(final Perk perk) {
+    public void addPerk(final Perk perk) {
         if (perk == null)
             return;
         if (player != null) MythriaUtil.addRecipesFromPerk(player, perk);
@@ -241,7 +241,7 @@ public class Profile implements IProfile {
             final Perk pa = MythriaRegistries.PERKS.getValue(new ResourceLocation(s));
             if (pa != null) {
                 perks.add(pa);
-                MythriaUtil.addRecipesFromPerk(player, pa); //todo move later
+                //todo Add recipes after loading data
             }
         }
 
@@ -309,6 +309,10 @@ public class Profile implements IProfile {
                 System.out.println("Error loading deity for favor.");
             }
         }
+    }
+
+    public List<Perk> getPerks() {
+        return perks;
     }
 
     public CompoundNBT toNBT() {

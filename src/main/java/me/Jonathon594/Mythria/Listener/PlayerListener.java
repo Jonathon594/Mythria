@@ -206,6 +206,7 @@ public class PlayerListener {
         //MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(player);
         //mythriaPlayer.setPlayer(player);
         MythriaUtil.unlockDefaultRecipes(player);
+        MythriaUtil.addRecipesFromPerks(player, p.getPerks());
 
         if (p.getCreated()) {
             //CompoundNBT renderData = MythriaRenderManager.createRenderData(p, player);

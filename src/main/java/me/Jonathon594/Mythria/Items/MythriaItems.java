@@ -25,6 +25,9 @@ public class MythriaItems {
     public static final Item WARPED_BOW = null;
     public static final Item CRIMSON_BOW = null;
 
+    //Clubs
+    public static final Item OAK_CLUB = null;
+
     //Shields
     public static final MythriaShieldItem TIN_SHIELD = null;
     public static final MythriaShieldItem COPPER_SHIELD = null;
@@ -458,7 +461,7 @@ public class MythriaItems {
                 new MythriaSwordItem("tin_sword", MythriaItemTier.TIN, 5, () -> TIN_SWORD_BLADE, false),
                 new MythriaHoeItem("tin_hoe", MythriaItemTier.TIN, -2.0f, () -> TIN_HOE_HEAD, false),
                 new MythriaChiselItem(1, -2.0f, MythriaItemTier.TIN, "tin_chisel", 1, () -> TIN_CHISEL_HEAD),
-                new MythriaHammerItem(0, -3.7f, MythriaItemTier.TIN, "tin_hammer", 6, () -> TIN_HAMMER_HEAD),
+                new MythriaHammerItem("tin_hammer", 2, -3.7f, MythriaItemTier.TIN, 6, () -> TIN_HAMMER_HEAD),
                 new MythriaSawItem("tin_saw", -2.5f, -1.5f, MythriaItemTier.TIN, () -> TIN_SAW_BLADE),
 
                 //Copper Tools
@@ -468,7 +471,7 @@ public class MythriaItems {
                 new MythriaSwordItem("copper_sword", MythriaItemTier.COPPER, 10, () -> COPPER_SWORD_BLADE, false),
                 new MythriaHoeItem("copper_hoe", MythriaItemTier.COPPER, -2.0f, () -> COPPER_HOE_HEAD, false),
                 new MythriaChiselItem(1, -2.0f, MythriaItemTier.COPPER, "copper_chisel", 3, () -> COPPER_CHISEL_HEAD),
-                new MythriaHammerItem(0, -3.7f, MythriaItemTier.COPPER, "copper_hammer", 12, () -> COPPER_HAMMER_HEAD),
+                new MythriaHammerItem("copper_hammer", 2, -3.7f, MythriaItemTier.COPPER, 12, () -> COPPER_HAMMER_HEAD),
                 new MythriaSawItem("copper_saw", -2.5f, -1.5f, MythriaItemTier.COPPER, () -> COPPER_SAW_BLADE),
 
                 //Bronze Tools
@@ -478,7 +481,7 @@ public class MythriaItems {
                 new MythriaSwordItem("bronze_sword", MythriaItemTier.BRONZE, 9, () -> BRONZE_SWORD_BLADE, false),
                 new MythriaHoeItem("bronze_hoe", MythriaItemTier.BRONZE, -2.0f, () -> BRONZE_HOE_HEAD, false),
                 new MythriaChiselItem(1, -2.0f, MythriaItemTier.BRONZE, "bronze_chisel", 2, () -> BRONZE_CHISEL_HEAD),
-                new MythriaHammerItem(0, -3.7f, MythriaItemTier.BRONZE, "bronze_hammer", 10, () -> BRONZE_HAMMER_HEAD),
+                new MythriaHammerItem("bronze_hammer", 2, -3.7f, MythriaItemTier.BRONZE, 10, () -> BRONZE_HAMMER_HEAD),
                 new MythriaSawItem("bronze_saw", -2.5f, -1.5f, MythriaItemTier.BRONZE, () -> BRONZE_SAW_BLADE),
                 //Bone Tools
                 new MythriaShovelItem("bone_shovel", MythriaItemTier.BONE, () -> BONE_SHOVEL_HEAD, false),
@@ -491,7 +494,7 @@ public class MythriaItems {
                 new MythriaPickaxeItem("iron_pickaxe", ItemTier.IRON, 9, () -> IRON_PICKAXE_HEAD, true),
                 new MythriaSwordItem("iron_sword", ItemTier.IRON, 9, () -> IRON_SWORD_BLADE, true),
                 new MythriaChiselItem(1, -1.5f, ItemTier.IRON, "iron_chisel", 2, () -> IRON_CHISEL_HEAD),
-                new MythriaHammerItem(1, -3.7f, ItemTier.IRON, "iron_hammer", 10, () -> IRON_HAMMER_HEAD),
+                new MythriaHammerItem("iron_hammer", 3, -3.7f, ItemTier.IRON, 10, () -> IRON_HAMMER_HEAD),
                 new MythriaSawItem("iron_saw", -2.5f, -1, ItemTier.IRON, () -> IRON_SAW_BLADE),
                 //Gold
                 new MythriaHoeItem("golden_hoe", ItemTier.GOLD, -1.0f, () -> GOLDEN_HOE_HEAD, true),
@@ -500,7 +503,7 @@ public class MythriaItems {
                 new MythriaPickaxeItem("golden_pickaxe", ItemTier.GOLD, 9, () -> GOLDEN_PICKAXE_HEAD, true),
                 new MythriaSwordItem("golden_sword", ItemTier.GOLD, 9, () -> GOLDEN_SWORD_BLADE, true),
                 new MythriaChiselItem(1, -1.5f, ItemTier.GOLD, "golden_chisel", 2, () -> GOLDEN_CHISEL_HEAD),
-                new MythriaHammerItem(1, -3.7f, ItemTier.GOLD, "golden_hammer", 10, () -> GOLDEN_HAMMER_HEAD),
+                new MythriaHammerItem("golden_hammer", 3, -3.7f, ItemTier.GOLD, 10, () -> GOLDEN_HAMMER_HEAD),
                 new MythriaSawItem("golden_saw", -2.5f, -1, ItemTier.GOLD, () -> GOLDEN_SAW_BLADE),
                 //Steel Tools
                 new MythriaShovelItem("steel_shovel", MythriaItemTier.STEEL, () -> STEEL_SHOVEL_HEAD, false),
@@ -509,7 +512,7 @@ public class MythriaItems {
                 new MythriaSwordItem("steel_sword", MythriaItemTier.STEEL, 9, () -> STEEL_SWORD_BLADE, false),
                 new MythriaHoeItem("steel_hoe", MythriaItemTier.STEEL, -1.8f, () -> STEEL_HOE_HEAD, false),
                 new MythriaChiselItem(1, -1.5f, MythriaItemTier.STEEL, "steel_chisel", 2, () -> STEEL_CHISEL_HEAD),
-                new MythriaHammerItem(1, -3.7f, MythriaItemTier.STEEL, "steel_hammer", 10, () -> STEEL_HAMMER_HEAD),
+                new MythriaHammerItem("steel_hammer", 4, -3.7f, MythriaItemTier.STEEL, 10, () -> STEEL_HAMMER_HEAD),
                 new MythriaSawItem("steel_saw", -2.5f, 1, MythriaItemTier.STEEL, () -> STEEL_SAW_BLADE),
                 //Titanium Tools
                 new MythriaShovelItem("titanium_shovel", MythriaItemTier.TITANIUM, () -> TITANIUM_SHOVEL_HEAD, false),
@@ -518,7 +521,7 @@ public class MythriaItems {
                 new MythriaSwordItem("titanium_sword", MythriaItemTier.TITANIUM, 8, () -> TITANIUM_SWORD_BLADE, false),
                 new MythriaHoeItem("titanium_hoe", MythriaItemTier.TITANIUM, -1.6f, () -> TITANIUM_HOE_HEAD, false),
                 new MythriaChiselItem(1, -1.5f, MythriaItemTier.TITANIUM, "titanium_chisel", 1, () -> TITANIUM_CHISEL_HEAD),
-                new MythriaHammerItem(2, -3.7f, MythriaItemTier.TITANIUM, "titanium_hammer", 9, () -> TITANIUM_HAMMER_HEAD),
+                new MythriaHammerItem("titanium_hammer", 4, -3.7f, MythriaItemTier.TITANIUM, 9, () -> TITANIUM_HAMMER_HEAD),
                 new MythriaSawItem("titanium_saw", -2.5f, 1, MythriaItemTier.TITANIUM, () -> TITANIUM_SAW_BLADE),
                 new MythriaShovelItem("tungsten_shovel", MythriaItemTier.TUNGSTEN, () -> TUNGSTEN_SHOVEL_HEAD, false),
                 new MythriaAxeItem("tungsten_axe", MythriaItemTier.TUNGSTEN, -3.0f, 8.5f, () -> TUNGSTEN_AXE_HEAD, false),
@@ -526,7 +529,7 @@ public class MythriaItems {
                 new MythriaSwordItem("tungsten_sword", MythriaItemTier.TUNGSTEN, 8, () -> TUNGSTEN_SWORD_BLADE, false),
                 new MythriaHoeItem("tungsten_hoe", MythriaItemTier.TUNGSTEN, -1.4f, () -> TUNGSTEN_HOE_HEAD, false),
                 new MythriaChiselItem(1, -1.2f, MythriaItemTier.TUNGSTEN, "tungsten_chisel", 1, () -> TUNGSTEN_CHISEL_HEAD),
-                new MythriaHammerItem(2, -3.7f, MythriaItemTier.TUNGSTEN, "tungsten_hammer", 9, () -> TUNGSTEN_HAMMER_HEAD),
+                new MythriaHammerItem("tungsten_hammer", 5, -3.7f, MythriaItemTier.TUNGSTEN, 9, () -> TUNGSTEN_HAMMER_HEAD),
                 new MythriaSawItem("tungsten_saw", -2.2f, 1, MythriaItemTier.TUNGSTEN, () -> TUNGSTEN_SAW_BLADE),
                 //Ingots
                 new IngotItem("tin_ingot", MythriaMaterial.TIN, EnumMetalShape.INGOT),
@@ -914,7 +917,16 @@ public class MythriaItems {
                 new SpearItem("acacia_spear", MythriaItemTier.PRIMITIVE, 0.9, 0.1, 0.0),
                 new SpearItem("dark_oak_spear", MythriaItemTier.PRIMITIVE, 1.2, 0, 2.0),
                 new SpearItem("warped_spear", MythriaItemTier.PRIMITIVE, 0.9, 0.3, 0.0),
-                new SpearItem("crimson_spear", MythriaItemTier.PRIMITIVE, 1.2, 0, 4.0)
+                new SpearItem("crimson_spear", MythriaItemTier.PRIMITIVE, 1.2, 0, 4.0),
+
+                new MythriaClubItem("oak_club", 1, -3F, MythriaItemTier.PRIMITIVE, 4),
+                new MythriaClubItem("birch_club", 1, -2.8F, MythriaItemTier.PRIMITIVE, 3),
+                new MythriaClubItem("spruce_club", 2, -3F, MythriaItemTier.PRIMITIVE, 5),
+                new MythriaClubItem("jungle_club", 1, -2.9F, MythriaItemTier.PRIMITIVE, 3),
+                new MythriaClubItem("acacia_club", 1, -2.9F, MythriaItemTier.PRIMITIVE, 3),
+                new MythriaClubItem("dark_oak_club", 3, -3F, MythriaItemTier.PRIMITIVE, 6),
+                new MythriaClubItem("warped_club", 1, -2.7F, MythriaItemTier.PRIMITIVE, 3),
+                new MythriaClubItem("crimson_club", 5, -3F, MythriaItemTier.PRIMITIVE, 5)
         );
     }
 }

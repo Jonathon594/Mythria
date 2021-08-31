@@ -30,7 +30,7 @@ public class MythriaHammerItem extends ToolItem implements IModularTool {
     private final double weight;
     private final Supplier<Item> toolHead;
 
-    public MythriaHammerItem(float damage, float speed, IItemTier tier, String name, double weight, Supplier<Item> toolHead) {
+    public MythriaHammerItem(String name, float damage, float speed, IItemTier tier, double weight, Supplier<Item> toolHead) {
         super(damage, speed, tier, EFFECTIVE_ON, new Item.Properties().group(ItemGroup.COMBAT)
                 .addToolType(MythriaToolType.HAMMER, tier.getHarvestLevel())
                 .setISTER(() -> HammerItemRenderer::new));
