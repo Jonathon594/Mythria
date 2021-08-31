@@ -21,14 +21,14 @@ public class AbilityManager {
         if (event.getEntity().world.isRemote)
             return;
 
-        if(trueSource instanceof PlayerEntity) {
+        if (trueSource instanceof PlayerEntity) {
 
         }
-        if(livingEntity instanceof PlayerEntity) {
+        if (livingEntity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) livingEntity;
             Profile profile = ProfileProvider.getProfile(player);
 
-            if(trueSource instanceof LivingEntity) {
+            if (trueSource instanceof LivingEntity) {
                 ParryManager.onReceiveDamage(player, profile, event, (LivingEntity) trueSource);
             }
         }

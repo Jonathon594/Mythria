@@ -9,15 +9,6 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class DaggerAbilityCrit implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
-        preEvent.setForceCrit(true);
-    }
-
-    @Override
-    public void onCombatPost(PlayerEntity player, Profile profile, Entity target, CombatEvent.Post postEvent) {
-    }
-
-    @Override
     public AttributeFlag getRequiredFlag() {
         return AttributeFlag.DAGGER_ABILITY_CRIT;
     }
@@ -25,5 +16,14 @@ public class DaggerAbilityCrit implements ICombatAbility {
     @Override
     public double getStaminaMultiplier() {
         return 1.5;
+    }
+
+    @Override
+    public void onCombatPost(PlayerEntity player, Profile profile, Entity target, CombatEvent.Post postEvent) {
+    }
+
+    @Override
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+        preEvent.setForceCrit(true);
     }
 }

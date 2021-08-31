@@ -1,7 +1,6 @@
 package me.Jonathon594.Mythria.Mixin;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Client.PlayerRenderManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
@@ -11,7 +10,6 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.HandSide;
-import net.minecraft.util.math.vector.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

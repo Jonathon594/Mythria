@@ -9,9 +9,13 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class AxeAbilitySweep implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
-        preEvent.setAttackRange(preEvent.getAttackRange() + 1);
-        preEvent.setDamage(preEvent.getDamage() * 0.8f);
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.AXE_ABILITY_SWEEP;
+    }
+
+    @Override
+    public double getStaminaMultiplier() {
+        return 2;
     }
 
     @Override
@@ -20,12 +24,8 @@ public class AxeAbilitySweep implements ICombatAbility {
     }
 
     @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.AXE_ABILITY_SWEEP;
-    }
-
-    @Override
-    public double getStaminaMultiplier() {
-        return 2;
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+        preEvent.setAttackRange(preEvent.getAttackRange() + 1);
+        preEvent.setDamage(preEvent.getDamage() * 0.8f);
     }
 }

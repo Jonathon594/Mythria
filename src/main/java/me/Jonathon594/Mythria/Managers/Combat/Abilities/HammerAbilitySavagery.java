@@ -9,9 +9,13 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class HammerAbilitySavagery implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
-        preEvent.setForceCrit(true);
-        preEvent.setAirSmash(true);
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.HAMMER_ABILITY_SAVAGERY;
+    }
+
+    @Override
+    public double getStaminaMultiplier() {
+        return 4;
     }
 
     @Override
@@ -20,12 +24,8 @@ public class HammerAbilitySavagery implements ICombatAbility {
     }
 
     @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.HAMMER_ABILITY_SAVAGERY;
-    }
-
-    @Override
-    public double getStaminaMultiplier() {
-        return 4;
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+        preEvent.setForceCrit(true);
+        preEvent.setAirSmash(true);
     }
 }

@@ -12,8 +12,13 @@ import net.minecraft.potion.Effects;
 
 public class UnarmedAbilityPressurePoint implements ICombatAbility {
     @Override
-    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
-        preEvent.setForceCrit(true);
+    public AttributeFlag getRequiredFlag() {
+        return AttributeFlag.UNARMED_ABILITY_PRESSURE_POINT;
+    }
+
+    @Override
+    public double getStaminaMultiplier() {
+        return 2;
     }
 
     @Override
@@ -28,12 +33,7 @@ public class UnarmedAbilityPressurePoint implements ICombatAbility {
     }
 
     @Override
-    public AttributeFlag getRequiredFlag() {
-        return AttributeFlag.UNARMED_ABILITY_PRESSURE_POINT;
-    }
-
-    @Override
-    public double getStaminaMultiplier() {
-        return 2;
+    public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
+        preEvent.setForceCrit(true);
     }
 }
