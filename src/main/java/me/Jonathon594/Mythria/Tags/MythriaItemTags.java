@@ -18,6 +18,7 @@ public class MythriaItemTags {
     public static final ITag<Item> TOOL_HANDLES = wrapTag("tool_handles");
     public static final ITag<Item> TOOL_HANDLES_OVERWORLD = wrapTag("tool_handles_overworld");
     public static final ITag<Item> TOOL_HANDLES_NETHER = wrapTag("tool_handles_nether");
+    public static final ITag<Item> CLUBS = wrapTag("clubs");
 
     private static ITag<Item> wrapTag(String name) {
         return ItemTags.getCollection().get(new MythriaResourceLocation(name));

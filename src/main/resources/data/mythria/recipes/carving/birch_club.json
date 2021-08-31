@@ -1,0 +1,9 @@
+{
+  "type": "mythria:wood_carving",
+  "ingredient": {
+    "item": "mythria:birch_log"
+  },
+  "result": "mythria:birch_club",
+  "count": 1,
+  "tier": 0
+}

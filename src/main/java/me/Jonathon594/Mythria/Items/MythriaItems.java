@@ -27,6 +27,13 @@ public class MythriaItems {
 
     //Clubs
     public static final Item OAK_CLUB = null;
+    public static final Item SPRUCE_CLUB = null;
+    public static final Item BIRCH_CLUB = null;
+    public static final Item ACACIA_CLUB = null;
+    public static final Item JUNGLE_CLUB = null;
+    public static final Item DARK_OAK_CLUB = null;
+    public static final Item WARPED_CLUB = null;
+    public static final Item CRIMSON_CLUB = null;
 
     //Shields
     public static final MythriaShieldItem TIN_SHIELD = null;

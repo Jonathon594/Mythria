@@ -39,12 +39,18 @@ public class WoodworkingPerks implements IPerkRegistry {
                         .addPerkTypeUnlock(PerkType.LEATHER_WORKING)
                         .addRequiredAttribute(Attribute.INTELLIGENCE, 3),
 
-                new Perk("wooden_weapons", type, MythriaItems.OAK_SPEAR, MythicSkills.CRAFTING, 5, () -> BASIC_WOODCARVING)
-                        .setDisplayName("Wooden Weapons").setDescription("If I were to sharpen this material...")
+                new Perk("wooden_weapons", type, MythriaItems.OAK_CLUB, MythicSkills.CRAFTING, 0, () -> BASIC_WOODCARVING)
+                        .setDisplayName("Basic Wooden Weapons").setDescription("With a big enough piece of wood cut the right way, you could hurt somebody.")
+                        .addCraftableItemTag(new MythriaResourceLocation("clubs"))
+                        //.addPerkTypeUnlock(PerkType.FLETCHING) todo combat
+                        .addRequiredAttribute(Attribute.INTELLIGENCE, 3),
+
+                new Perk("advanced_wooden_weapons", type, MythriaItems.OAK_SPEAR, MythicSkills.CRAFTING, 5, () -> WOODEN_WEAPONS)
+                        .setDisplayName("The art of sharp").setDescription("If I were to sharpen this material...")
                         .addCraftableItemTag(new MythriaResourceLocation("spears"))
                         .addCraftableItemTag(new MythriaResourceLocation("arrow_shafts"))
                         .addPerkTypeUnlock(PerkType.FLETCHING)
-                        .addRequiredAttribute(Attribute.INTELLIGENCE, 3)
+                        .addRequiredAttribute(Attribute.INTELLIGENCE, 4)
         );
     }
 }

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mythria:oak_club",
+    "mythria:spruce_club",
+    "mythria:birch_club",
+    "mythria:jungle_club",
+    "mythria:acacia_club",
+    "mythria:dark_oak_club",
+    "mythria:crimson_club",
+    "mythria:warped_club"
+  ]
+}
