@@ -9,6 +9,8 @@ import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 public class DataListener {
     @SubscribeEvent
     public static void onGatherData(GatherDataEvent event) {
-        event.getGenerator().addProvider(new MythriaLangGenerator(event.getGenerator(), Mythria.MODID, "en_us"));
+        if(event.includeClient()) {
+            event.getGenerator().addProvider(new MythriaLangGenerator(event.getGenerator(), Mythria.MODID, "en_us"));
+        }
     }
 }
