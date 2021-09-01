@@ -2,11 +2,10 @@ package me.Jonathon594.Mythria.Client.Manager;
 
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
+import me.Jonathon594.Mythria.Capability.Profile.Profile;
+import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Client.Keybindings;
-import me.Jonathon594.Mythria.Enum.AttackClass;
-import me.Jonathon594.Mythria.Enum.CombatMode;
-import me.Jonathon594.Mythria.Enum.ControlMode;
-import me.Jonathon594.Mythria.Enum.InputIntent;
+import me.Jonathon594.Mythria.Enum.*;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.Packet.CPacketParry;
 import net.minecraft.client.GameSettings;
@@ -60,6 +59,7 @@ public class InputManager {
 
         ClientPlayerEntity player = mc.player;
         if (player == null) return;
+        Profile profile = ProfileProvider.getProfile(player);
         MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(player);
         RayTraceResult result = mc.objectMouseOver;
         boolean lookingAtBlock = result.getType().equals(RayTraceResult.Type.BLOCK);
@@ -81,10 +81,15 @@ public class InputManager {
                 Hand hand = Hand.MAIN_HAND;
                 int attackingMainhand = mythriaPlayer.getAttackingMainhand();
                 if (attack && attackingMainhand < HEAVY_ATTACK_THRESHOLD) {
-                    if (attackPressed && mythriaPlayer.getInputIntent(hand).equals(InputIntent.NONE) && !lookingAtBlock && isAttackReady)
+                    if (attackPressed && mythriaPlayer.getInputIntent(hand).equals(InputIntent.NONE) && !lookingAtBlock && isAttackReady) {
                         mythriaPlayer.setInputIntent(hand, InputIntent.ATTACK);
+                        if(!profile.hasFlag(AttributeFlag.COMBAT_ABILITY_HEAVY_ATTACK)) {
+                            attack(result, hand, AttackClass.LIGHT);
+                            return;
+                        }
+                    }
                     if (mythriaPlayer.getInputIntent(hand).equals(InputIntent.ATTACK)) {
-                        mythriaPlayer.setAttackingMainhand(attackingMainhand + 1);
+                            mythriaPlayer.setAttackingMainhand(attackingMainhand + 1);
                     }
                 } else if (attackReleased || attackingMainhand >= HEAVY_ATTACK_THRESHOLD) {
                     if (mythriaPlayer.getInputIntent(hand).equals(InputIntent.ATTACK)) {
@@ -100,8 +105,13 @@ public class InputManager {
                 hand = Hand.OFF_HAND;
                 int attackingOffhand = mythriaPlayer.getAttackingOffhand();
                 if (useItem && isDual && attackingOffhand < HEAVY_ATTACK_THRESHOLD) {
-                    if (usePressed && mythriaPlayer.getInputIntent(hand).equals(InputIntent.NONE) && !lookingAtBlock && isAttackReady)
+                    if (usePressed && mythriaPlayer.getInputIntent(hand).equals(InputIntent.NONE) && !lookingAtBlock && isAttackReady) {
                         mythriaPlayer.setInputIntent(hand, InputIntent.ATTACK);
+                        if(!profile.hasFlag(AttributeFlag.COMBAT_ABILITY_HEAVY_ATTACK)) {
+                            attack(result, hand, AttackClass.LIGHT);
+                            return;
+                        }
+                    }
                     if (mythriaPlayer.getInputIntent(hand).equals(InputIntent.ATTACK))
                         mythriaPlayer.setAttackingOffhand(attackingOffhand + 1);
                 } else if (useReleased || attackingOffhand >= HEAVY_ATTACK_THRESHOLD) {

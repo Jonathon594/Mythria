@@ -175,6 +175,7 @@ public class CPacketProfileCreation {
             MythriaUtil.unlockDefaultRecipes(serverPlayer);
             serverPlayer.getFoodStats().setFoodLevel(20);
             profile.unlockPerkType(PerkType.SURVIVAL);
+            profile.unlockPerkType(PerkType.COMBAT); //todo Figure out better way to unlock combat
             SpawnManager.spawnInWorld(serverPlayer, profile);
             msg.getOrigin().apply(serverPlayer, profile);
             profile.sendDataPacket();

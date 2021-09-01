@@ -60,8 +60,8 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         if (relatedSkill != null) requiredSkills.put(relatedSkill, requiredLevel);
     }
 
-    public Perk addAttributeFlag(final AttributeFlag dodge) {
-        attributeFlags.add(dodge);
+    public Perk addAttributeFlag(final AttributeFlag flag) {
+        attributeFlags.add(flag);
         return this;
     }
 

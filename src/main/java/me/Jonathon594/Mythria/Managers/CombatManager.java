@@ -2,8 +2,10 @@ package me.Jonathon594.Mythria.Managers;
 
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
+import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Enum.AttackClass;
+import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import me.Jonathon594.Mythria.Enum.EnumAttackType;
 import me.Jonathon594.Mythria.Event.CombatEvent;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
@@ -66,6 +68,9 @@ public class CombatManager {
                 }
 
                 MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(player);
+                Profile profile = ProfileProvider.getProfile(player);
+                if(!profile.hasFlag(AttributeFlag.COMBAT_ABILITY_HEAVY_ATTACK)) attackClass = AttackClass.LIGHT;
+
                 double attackRange = getAttackRangeByWeapon(itemStack);
                 CombatEvent.Pre pre = new CombatEvent.Pre(damage, ds, type, targetEntity, player, ProfileProvider.getProfile(player), itemStack, itemStackOther, hand, attackRange, attackClass);
                 MinecraftForge.EVENT_BUS.post(pre);

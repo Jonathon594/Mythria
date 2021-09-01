@@ -1,6 +1,7 @@
 package me.Jonathon594.Mythria.Managers.Combat.Abilities;
 
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
+import me.Jonathon594.Mythria.Enum.AttackClass;
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import me.Jonathon594.Mythria.Event.CombatEvent;
 import me.Jonathon594.Mythria.Interface.ICombatAbility;
@@ -26,5 +27,10 @@ public class SwordAbilitySweep implements ICombatAbility {
     @Override
     public void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent) {
 
+    }
+
+    @Override
+    public AttackClass getAttackClass() {
+        return AttackClass.LIGHT;
     }
 }

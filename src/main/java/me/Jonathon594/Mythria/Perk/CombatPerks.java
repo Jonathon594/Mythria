@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.RootPerk;
 import me.Jonathon594.Mythria.Enum.Attribute;
+import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import me.Jonathon594.Mythria.Enum.PerkType;
 import me.Jonathon594.Mythria.Interface.IPerkRegistry;
 import net.minecraft.item.Items;
@@ -22,6 +23,7 @@ public class CombatPerks implements IPerkRegistry {
                         .setDisplayName("Basic Combat").setDescription("A strong offense is the best defence.")
                         .addRequiredAttribute(Attribute.STRENGTH, 3)
                         .addRequiredAttribute(Attribute.ENDURANCE, 2)
+                        .addAttributeFlag(AttributeFlag.COMBAT_ABILITY_HEAVY_ATTACK)
         );
     }
 }
