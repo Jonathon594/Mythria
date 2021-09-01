@@ -8,7 +8,6 @@ import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import me.Jonathon594.Mythria.Enum.MythicSkills;
 import me.Jonathon594.Mythria.Enum.PerkType;
 import me.Jonathon594.Mythria.Interface.IPerkRegistry;
-import me.Jonathon594.Mythria.Items.MythriaItems;
 import me.Jonathon594.Mythria.Mythria;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;

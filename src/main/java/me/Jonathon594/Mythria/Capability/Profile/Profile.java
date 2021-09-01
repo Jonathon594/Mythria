@@ -86,6 +86,10 @@ public class Profile implements IProfile {
         }
     }
 
+    public void addFavor(Deity deity, int add, int max) {
+        favorLevels.put(deity, Math.min(getFavor(deity) + add, max));
+    }
+
     public void addPerk(final Perk perk) {
         if (perk == null)
             return;
@@ -103,10 +107,6 @@ public class Profile implements IProfile {
             return;
 
         sendDataPacket();
-    }
-
-    public void addFavor(Deity deity, int add, int max) {
-        favorLevels.put(deity, Math.min(getFavor(deity) + add, max));
     }
 
     public void addSingleSkillExperience(MythicSkills skill, double xp, ServerPlayerEntity player, int effectiveLevel) {
@@ -309,10 +309,6 @@ public class Profile implements IProfile {
                 System.out.println("Error loading deity for favor.");
             }
         }
-    }
-
-    public List<Perk> getPerks() {
-        return perks;
     }
 
     public CompoundNBT toNBT() {
@@ -543,6 +539,10 @@ public class Profile implements IProfile {
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
+    }
+
+    public List<Perk> getPerks() {
+        return perks;
     }
 
     public PlayerEntity getPlayer() {

@@ -46,13 +46,19 @@ public class MeleeAbilityManager {
     }
 
     @SubscribeEvent
+    public static void onCombatEventPost(CombatEvent.Post event) {
+        onCombat(CombatPhase.POST, event);
+    }
+
+    @SubscribeEvent
     public static void onCombatEventPre(CombatEvent.Pre event) {
         onCombat(CombatPhase.PRE, event);
     }
 
-    @SubscribeEvent
-    public static void onCombatEventPost(CombatEvent.Post event) {
-        onCombat(CombatPhase.POST, event);
+    private static MythicSkills getRelatedSkill(Item item) {
+        if (item.equals(Items.AIR)) return MythicSkills.MARTIAL_ARTS;
+        if (item instanceof IWeapon) return ((IWeapon) item).getUsageSkill();
+        return null;
     }
 
     private static void onCombat(CombatPhase phase, CombatEvent event) {
@@ -62,21 +68,15 @@ public class MeleeAbilityManager {
         Profile profile = ProfileProvider.getProfile(player);
         Entity target = event.getTarget();
         MeleeCombatManager manager = getCombatManager(item);
-        if(manager == null) return;
+        if (manager == null) return;
 
         boolean dual = false;
         MeleeCombatManager otherManager = getCombatManager(otherItem);
-        if(otherManager != null && otherManager == manager) dual = true;
+        if (otherManager != null && otherManager == manager) dual = true;
 
         MythicSkills skill = getRelatedSkill(item);
-        if(skill == null) return;
+        if (skill == null) return;
 
         manager.onCombat(player, profile, target, phase, event, dual, skill);
-    }
-
-    private static MythicSkills getRelatedSkill(Item item) {
-        if(item.equals(Items.AIR)) return MythicSkills.MARTIAL_ARTS;
-        if(item instanceof IWeapon) return ((IWeapon) item).getUsageSkill();
-        return null;
     }
 }

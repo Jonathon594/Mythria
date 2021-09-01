@@ -5,7 +5,6 @@ import me.Jonathon594.Mythria.Const.ColorConst;
 import me.Jonathon594.Mythria.Enum.*;
 import me.Jonathon594.Mythria.Managers.MaterialManager;
 import me.Jonathon594.Mythria.MythriaRegistries;
-import me.Jonathon594.Mythria.Perk.Perks;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.block.Block;
@@ -47,7 +46,7 @@ public class Perk extends ForgeRegistryEntry<Perk> {
     private int minimumAge;
     private double learnTime = 0;
     private double bonusFatigueMitigation = 0.0;
-    private List<String> description = new ArrayList<>();
+    private final List<String> description = new ArrayList<>();
 
     public Perk(final String name, final PerkType type, final IItemProvider icon,
                 final MythicSkills relatedSkill, final int requiredLevel,
@@ -100,6 +99,11 @@ public class Perk extends ForgeRegistryEntry<Perk> {
 
     public Perk addCraftableItemTag(ResourceLocation resourceLocation) {
         craftableItemTags.add(resourceLocation);
+        return this;
+    }
+
+    public Perk addDescriptionLine(String description) {
+        this.description.add(description);
         return this;
     }
 
@@ -210,7 +214,7 @@ public class Perk extends ForgeRegistryEntry<Perk> {
             }
             lines.add("");
         }
-        for(String s : getDescription()) {
+        for (String s : getDescription()) {
             lines.add(ColorConst.HIGH_COLOR + s);
         }
         return lines;
@@ -381,10 +385,5 @@ public class Perk extends ForgeRegistryEntry<Perk> {
 
     private List<String> getDescription() {
         return description;
-    }
-
-    public Perk addDescriptionLine(String description) {
-        this.description.add(description);
-        return this;
     }
 }

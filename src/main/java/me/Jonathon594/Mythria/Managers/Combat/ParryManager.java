@@ -8,18 +8,14 @@ import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Event.ParryEvent;
 import me.Jonathon594.Mythria.Interface.IWeapon;
-import me.Jonathon594.Mythria.Items.MythriaDaggerItem;
-import me.Jonathon594.Mythria.Items.MythriaHammerItem;
 import me.Jonathon594.Mythria.Managers.SoundManager;
 import me.Jonathon594.Mythria.Util.CombatUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.AxeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
-import net.minecraft.item.SwordItem;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraftforge.common.MinecraftForge;
@@ -95,8 +91,8 @@ public class ParryManager {
     }
 
     private static AttributeFlag getFlagToParryWith(Item item) {
-        if(item.equals(Items.AIR)) return AttributeFlag.UNARMED_ABILITY_PARRY;
-        if(item instanceof IWeapon) return ((IWeapon) item).getFlagForParrying();
+        if (item.equals(Items.AIR)) return AttributeFlag.UNARMED_ABILITY_PARRY;
+        if (item instanceof IWeapon) return ((IWeapon) item).getFlagForParrying();
         return null;
     }
 

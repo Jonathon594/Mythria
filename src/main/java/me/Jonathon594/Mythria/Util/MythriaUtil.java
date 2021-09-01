@@ -1,10 +1,13 @@
 package me.Jonathon594.Mythria.Util;
 
 import me.Jonathon594.Mythria.Blocks.MythriaOre;
+import me.Jonathon594.Mythria.Capability.Profile.Profile;
+import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Const.ColorConst;
 import me.Jonathon594.Mythria.DataTypes.Date;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.SpawnPos;
+import me.Jonathon594.Mythria.Enum.MythicSkills;
 import me.Jonathon594.Mythria.Items.MythriaDaggerItem;
 import me.Jonathon594.Mythria.Items.MythriaHammerItem;
 import me.Jonathon594.Mythria.Managers.TimeManager;
@@ -16,6 +19,7 @@ import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
@@ -34,6 +38,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
@@ -42,6 +47,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -64,6 +70,13 @@ public class MythriaUtil {
                 player.world.addEntity(item);
                 player.inventory.removeStackFromSlot(i);
             }
+        }
+    }
+
+    public static void addExperienceToAllAroundPoint(World world, int radius, BlockPos pos, MythicSkills skill, double amount, int effectiveLevel) {
+        for (PlayerEntity playerEntity : getPlayersWithinRadius(world, radius, pos)) {
+            Profile profile = ProfileProvider.getProfile(playerEntity);
+            profile.addSkillExperience(skill, amount, (ServerPlayerEntity) playerEntity, effectiveLevel);
         }
     }
 
@@ -105,21 +118,13 @@ public class MythriaUtil {
         if (toUnlock.size() > 0) player.unlockRecipes(toUnlock);
     }
 
-    private static void collectRecipesForItem(PlayerEntity player, HashSet<IRecipe<?>> recipes, Item item) {
-        for (IRecipe recipe : player.world.getServer().getRecipeManager().getRecipes()) {
-            if (recipe.getRecipeOutput().getItem().equals(item)) {
-                recipes.add(recipe);
-            }
-        }
-    }
-
     public static void addRecipesFromPerks(ServerPlayerEntity player, List<Perk> perks) {
         HashSet<Item> craftableItems = new HashSet<>();
-        for(Perk perk : perks) {
+        for (Perk perk : perks) {
             craftableItems.addAll(perk.getCraftable());
         }
         HashSet<IRecipe<?>> craftableRecipes = new HashSet<>();
-        for(Item item : craftableItems) {
+        for (Item item : craftableItems) {
             collectRecipesForItem(player, craftableRecipes, item);
         }
         player.unlockRecipes(craftableRecipes);
@@ -276,6 +281,13 @@ public class MythriaUtil {
         );
     }
 
+    @NotNull
+    public static List<PlayerEntity> getPlayersWithinRadius(World world, float radius, BlockPos pos) {
+        return world.getEntitiesWithinAABB(EntityType.PLAYER,
+                new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius,
+                        pos.getX() + radius, pos.getY() + radius, pos.getZ() + radius), playerEntity -> pos.distanceSq(playerEntity.getPosition()) < radius * radius);
+    }
+
     public static SpawnPos getRandomPositionAroundPoint(SpawnPos center, int radius, ServerWorld world) {
         double angle = Math.random() * Math.PI * 2;
         double x = Math.cos(angle) * Math.random() * radius;
@@ -400,6 +412,14 @@ public class MythriaUtil {
         for (Advancement a : root.getChildren()) {
             toGrant.add(a);
             addChildren(a, toGrant);
+        }
+    }
+
+    private static void collectRecipesForItem(PlayerEntity player, HashSet<IRecipe<?>> recipes, Item item) {
+        for (IRecipe recipe : player.world.getServer().getRecipeManager().getRecipes()) {
+            if (recipe.getRecipeOutput().getItem().equals(item)) {
+                recipes.add(recipe);
+            }
         }
     }
 }

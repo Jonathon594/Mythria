@@ -5,7 +5,10 @@ import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Client.Keybindings;
-import me.Jonathon594.Mythria.Enum.*;
+import me.Jonathon594.Mythria.Enum.AttackClass;
+import me.Jonathon594.Mythria.Enum.CombatMode;
+import me.Jonathon594.Mythria.Enum.ControlMode;
+import me.Jonathon594.Mythria.Enum.InputIntent;
 import me.Jonathon594.Mythria.Interface.IWeapon;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.Packet.CPacketParry;
@@ -85,13 +88,13 @@ public class InputManager {
                 if (attack && attackingMainhand < HEAVY_ATTACK_THRESHOLD) {
                     if (attackPressed && mythriaPlayer.getInputIntent(hand).equals(InputIntent.NONE) && !lookingAtBlock && isAttackReady) {
                         mythriaPlayer.setInputIntent(hand, InputIntent.ATTACK);
-                        if(!canHeavyAttack(player, hand)) {
+                        if (!canHeavyAttack(player, hand)) {
                             attack(result, hand, AttackClass.LIGHT);
                             return;
                         }
                     }
                     if (mythriaPlayer.getInputIntent(hand).equals(InputIntent.ATTACK)) {
-                            mythriaPlayer.setAttackingMainhand(attackingMainhand + 1);
+                        mythriaPlayer.setAttackingMainhand(attackingMainhand + 1);
                     }
                 } else if (attackReleased || attackingMainhand >= HEAVY_ATTACK_THRESHOLD) {
                     if (mythriaPlayer.getInputIntent(hand).equals(InputIntent.ATTACK)) {
@@ -109,7 +112,7 @@ public class InputManager {
                 if (useItem && isDual && attackingOffhand < HEAVY_ATTACK_THRESHOLD) {
                     if (usePressed && mythriaPlayer.getInputIntent(hand).equals(InputIntent.NONE) && !lookingAtBlock && isAttackReady) {
                         mythriaPlayer.setInputIntent(hand, InputIntent.ATTACK);
-                        if(!canHeavyAttack(player, hand)) {
+                        if (!canHeavyAttack(player, hand)) {
                             attack(result, hand, AttackClass.LIGHT);
                             return;
                         }
@@ -143,14 +146,6 @@ public class InputManager {
         deltaAttack = attack;
         deltaUse = useItem;
         deltaParry = parry;
-    }
-
-    private static boolean canHeavyAttack(ClientPlayerEntity player, Hand hand) {
-        ItemStack itemStack = player.getHeldItem(hand);
-        if(itemStack.isEmpty()) return true;
-        Item item = itemStack.getItem();
-        if(item instanceof IWeapon) return ((IWeapon) item).canHeavyAttack();
-        return false;
     }
 
     public static void onToggleCombatMode() {
@@ -190,5 +185,13 @@ public class InputManager {
             mc.player.resetCooldown();
         }
 
+    }
+
+    private static boolean canHeavyAttack(ClientPlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getHeldItem(hand);
+        if (itemStack.isEmpty()) return true;
+        Item item = itemStack.getItem();
+        if (item instanceof IWeapon) return ((IWeapon) item).canHeavyAttack();
+        return false;
     }
 }

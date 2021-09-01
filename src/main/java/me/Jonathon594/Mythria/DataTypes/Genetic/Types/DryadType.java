@@ -48,15 +48,15 @@ public class DryadType extends GeneticType {
     }
 
     @Override
+    public Collection<Origin> getAllowedOrigins() {
+        return ImmutableList.of(Origins.SURVIVOR);
+    }
+
+    @Override
     public List<SkinPart> getAllowedSkins() {
         return ImmutableList.of(
                 SkinParts.HUMAN_SKIN_WHITE,
                 SkinParts.HUMAN_SKIN_TAN,
                 SkinParts.HUMAN_SKIN_MEDIUM);
-    }
-
-    @Override
-    public Collection<Origin> getAllowedOrigins() {
-        return ImmutableList.of(Origins.SURVIVOR);
     }
 }

@@ -3,6 +3,8 @@ package me.Jonathon594.Mythria.TileEntity;
 import me.Jonathon594.Mythria.Blocks.CampfireBlock;
 import me.Jonathon594.Mythria.Capability.Food.Food;
 import me.Jonathon594.Mythria.Capability.Food.FoodProvider;
+import me.Jonathon594.Mythria.Const.EXPConst;
+import me.Jonathon594.Mythria.Enum.MythicSkills;
 import me.Jonathon594.Mythria.Interface.ILightable;
 import me.Jonathon594.Mythria.Items.LogItem;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
@@ -265,6 +267,7 @@ public class CampfireTileEntity extends TileEntity implements IClearable, ITicka
                     InventoryHelper.spawnItemStack(this.world, blockpos.getX(), blockpos.getY(), blockpos.getZ(), itemstack1);
                     this.cookingInventory.set(i, ItemStack.EMPTY);
                     this.inventoryChanged();
+                    MythriaUtil.addExperienceToAllAroundPoint(world, 10, pos, MythicSkills.COOKING, EXPConst.COOK_ITEM, 0);
                 }
             }
         }

@@ -17,13 +17,13 @@ public class DaggerManager extends MeleeCombatManager {
     public ICombatAbility getAbility(EnumAttackType type, boolean isDual, boolean blocking, AttackClass attackClass) {
         switch (type) {
             case FORWARD:
-                if(attackClass.equals(AttackClass.LIGHT)) return DAGGER_ABILITY_STAB;
+                if (attackClass.equals(AttackClass.LIGHT)) return DAGGER_ABILITY_STAB;
                 break;
             case SPRINT:
-                if(attackClass.equals(AttackClass.LIGHT)) return DAGGER_ABILITY_CRIT;
+                if (attackClass.equals(AttackClass.LIGHT)) return DAGGER_ABILITY_CRIT;
                 break;
             case SIDE:
-                if(attackClass.equals(AttackClass.HEAVY)) return DAGGER_ABILITY_SWEEP;
+                if (attackClass.equals(AttackClass.HEAVY)) return DAGGER_ABILITY_SWEEP;
                 break;
         }
         return BASIC_ATTACK_ABILITY;

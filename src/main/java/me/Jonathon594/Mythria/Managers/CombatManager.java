@@ -5,7 +5,6 @@ import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Enum.AttackClass;
-import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import me.Jonathon594.Mythria.Enum.EnumAttackType;
 import me.Jonathon594.Mythria.Event.CombatEvent;
 import me.Jonathon594.Mythria.Util.MythriaUtil;

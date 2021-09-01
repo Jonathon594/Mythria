@@ -41,16 +41,16 @@ public class OrcType extends GeneticType {
     }
 
     @Override
+    public Collection<Origin> getAllowedOrigins() {
+        return ImmutableList.of(Origins.SURVIVOR);
+    }
+
+    @Override
     public List<SkinPart> getAllowedSkins() {
         return ImmutableList.of(
                 SkinParts.ORC_SKIN_LIGHT,
                 SkinParts.ORC_SKIN_TAN,
                 SkinParts.ORC_SKIN_MEDIUM,
                 SkinParts.ORC_SKIN_DARK);
-    }
-
-    @Override
-    public Collection<Origin> getAllowedOrigins() {
-        return ImmutableList.of(Origins.SURVIVOR);
     }
 }
