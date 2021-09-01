@@ -85,7 +85,7 @@ public class InputManager {
                 if (attack && attackingMainhand < HEAVY_ATTACK_THRESHOLD) {
                     if (attackPressed && mythriaPlayer.getInputIntent(hand).equals(InputIntent.NONE) && !lookingAtBlock && isAttackReady) {
                         mythriaPlayer.setInputIntent(hand, InputIntent.ATTACK);
-                        if(!canHeavyAttack(profile, player, hand)) {
+                        if(!canHeavyAttack(player, hand)) {
                             attack(result, hand, AttackClass.LIGHT);
                             return;
                         }
@@ -109,7 +109,7 @@ public class InputManager {
                 if (useItem && isDual && attackingOffhand < HEAVY_ATTACK_THRESHOLD) {
                     if (usePressed && mythriaPlayer.getInputIntent(hand).equals(InputIntent.NONE) && !lookingAtBlock && isAttackReady) {
                         mythriaPlayer.setInputIntent(hand, InputIntent.ATTACK);
-                        if(!canHeavyAttack(profile, player, hand)) {
+                        if(!canHeavyAttack(player, hand)) {
                             attack(result, hand, AttackClass.LIGHT);
                             return;
                         }
@@ -145,11 +145,8 @@ public class InputManager {
         deltaParry = parry;
     }
 
-    private static boolean canHeavyAttack(Profile profile, ClientPlayerEntity player, Hand hand) {
-        return profile.hasFlag(AttributeFlag.COMBAT_ABILITY_HEAVY_ATTACK) && canHeavyAttackWith(player.getHeldItem(hand));
-    }
-
-    private static boolean canHeavyAttackWith(ItemStack itemStack) {
+    private static boolean canHeavyAttack(ClientPlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getHeldItem(hand);
         if(itemStack.isEmpty()) return true;
         Item item = itemStack.getItem();
         if(item instanceof IWeapon) return ((IWeapon) item).canHeavyAttack();

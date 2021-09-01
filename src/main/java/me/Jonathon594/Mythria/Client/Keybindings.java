@@ -13,7 +13,7 @@ public class Keybindings {
     public static final KeyBinding TOGGLE_WIELDING_MODE = new KeyBinding("Toggle Wielding Mode", GLFW.GLFW_KEY_X, "Mythria");
     public static final KeyBinding TOGGLE_ABILITY_MODE = new KeyBinding("Toggle Ability Mode", GLFW.GLFW_KEY_Z, "Mythria");
 
-    public static final KeyBinding PARRY = new KeyBinding("Parry", GLFW.GLFW_MOUSE_BUTTON_4, "Mythria");
+    public static final KeyBinding PARRY = new KeyBinding("Parry", GLFW.GLFW_KEY_V, "Mythria");
 
     public static void init() {
         ClientRegistry.registerKeyBinding(SHOW_PROFILE);
