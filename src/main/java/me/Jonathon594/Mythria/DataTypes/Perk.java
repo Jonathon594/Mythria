@@ -84,11 +84,9 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         for (final Object i : items) {
             if (i instanceof Item) {
                 craftable.add((Item) i);
-                Perks.addItemRequiringPerk((Item) i);
             }
             if (i instanceof Block) {
                 craftable.add(Item.getItemFromBlock((Block) i));
-                Perks.addItemRequiringPerk(Item.getItemFromBlock((Block) i));
             }
         }
 

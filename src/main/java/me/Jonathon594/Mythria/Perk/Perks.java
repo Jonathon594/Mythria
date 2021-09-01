@@ -6,6 +6,7 @@ import me.Jonathon594.Mythria.Const.MythriaConst;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.Enum.Attribute;
 import me.Jonathon594.Mythria.Enum.PerkType;
+import me.Jonathon594.Mythria.Managers.MaterialManager;
 import me.Jonathon594.Mythria.MythriaRegistries;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -22,8 +23,6 @@ import java.util.Map;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Perks {
-    private static final ArrayList<Item> perkCraftingItems = new ArrayList<>();
-
     public static void AttemptBuy(final PlayerEntity player, final Perk pa) {
         final Profile p = ProfileProvider.getProfile(player);
         if (player.isCreative()) {
@@ -72,10 +71,6 @@ public class Perks {
         addPerk(player, pa, p);
     }
 
-    public static void addItemRequiringPerk(Item item) {
-        perkCraftingItems.add(item);
-    }
-
     public static void addPerk(PlayerEntity player, Perk pa, Profile p) {
         p.addPerk(pa);
     }
@@ -108,6 +103,6 @@ public class Perks {
     }
 
     public static boolean requiresPerk(Item i) {
-        return perkCraftingItems.contains(i);
+        return MaterialManager.PERKS_FOR_CRAFTING.containsKey(i);
     }
 }
