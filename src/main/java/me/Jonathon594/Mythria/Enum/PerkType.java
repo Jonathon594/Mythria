@@ -15,7 +15,8 @@ public enum PerkType {
     COOKING(new CookingPerks()),
     FLETCHING(new FletchingPerks()),
     LEATHER_WORKING(new LeatherWorkingPerks()),
-    FARMING(new FarmingPerks());
+    FARMING(new FarmingPerks()),
+    COMBAT(new CombatPerks());
 
     private final IPerkRegistry registry;
 
