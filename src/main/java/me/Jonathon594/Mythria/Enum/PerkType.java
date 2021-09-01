@@ -5,6 +5,7 @@ import me.Jonathon594.Mythria.Perk.*;
 
 public enum PerkType {
     SURVIVAL(new SurvivalPerks()),
+    COMBAT(new CombatPerks()),
     WOODWORKING(new WoodworkingPerks()),
     MINING(new MiningPerks()),
     DIGGING(new DiggingPerks()),
@@ -15,8 +16,7 @@ public enum PerkType {
     COOKING(new CookingPerks()),
     FLETCHING(new FletchingPerks()),
     LEATHER_WORKING(new LeatherWorkingPerks()),
-    FARMING(new FarmingPerks()),
-    COMBAT(new CombatPerks());
+    FARMING(new FarmingPerks());
 
     private final IPerkRegistry registry;
 

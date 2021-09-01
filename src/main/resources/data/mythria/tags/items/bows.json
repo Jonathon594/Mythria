@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mythria:oak_bow",
+    "mythria:spruce_bow",
+    "mythria:birch_bow",
+    "mythria:jungle_bow",
+    "mythria:acacia_bow",
+    "mythria:dark_oak_bow",
+    "mythria:crimson_bow",
+    "mythria:warped_bow"
+  ]
+}

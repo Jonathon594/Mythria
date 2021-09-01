@@ -6,12 +6,14 @@ import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Client.Keybindings;
 import me.Jonathon594.Mythria.Enum.*;
+import me.Jonathon594.Mythria.Interface.IWeapon;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.Packet.CPacketParry;
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -83,7 +85,7 @@ public class InputManager {
                 if (attack && attackingMainhand < HEAVY_ATTACK_THRESHOLD) {
                     if (attackPressed && mythriaPlayer.getInputIntent(hand).equals(InputIntent.NONE) && !lookingAtBlock && isAttackReady) {
                         mythriaPlayer.setInputIntent(hand, InputIntent.ATTACK);
-                        if(!profile.hasFlag(AttributeFlag.COMBAT_ABILITY_HEAVY_ATTACK)) {
+                        if(!canHeavyAttack(profile, player, hand)) {
                             attack(result, hand, AttackClass.LIGHT);
                             return;
                         }
@@ -107,7 +109,7 @@ public class InputManager {
                 if (useItem && isDual && attackingOffhand < HEAVY_ATTACK_THRESHOLD) {
                     if (usePressed && mythriaPlayer.getInputIntent(hand).equals(InputIntent.NONE) && !lookingAtBlock && isAttackReady) {
                         mythriaPlayer.setInputIntent(hand, InputIntent.ATTACK);
-                        if(!profile.hasFlag(AttributeFlag.COMBAT_ABILITY_HEAVY_ATTACK)) {
+                        if(!canHeavyAttack(profile, player, hand)) {
                             attack(result, hand, AttackClass.LIGHT);
                             return;
                         }
@@ -141,6 +143,17 @@ public class InputManager {
         deltaAttack = attack;
         deltaUse = useItem;
         deltaParry = parry;
+    }
+
+    private static boolean canHeavyAttack(Profile profile, ClientPlayerEntity player, Hand hand) {
+        return profile.hasFlag(AttributeFlag.COMBAT_ABILITY_HEAVY_ATTACK) && canHeavyAttackWith(player.getHeldItem(hand));
+    }
+
+    private static boolean canHeavyAttackWith(ItemStack itemStack) {
+        if(itemStack.isEmpty()) return true;
+        Item item = itemStack.getItem();
+        if(item instanceof IWeapon) return ((IWeapon) item).canHeavyAttack();
+        return false;
     }
 
     public static void onToggleCombatMode() {

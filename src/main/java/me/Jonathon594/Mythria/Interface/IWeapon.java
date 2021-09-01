@@ -10,4 +10,8 @@ public interface IWeapon {
     MythicSkills getUsageSkill();
 
     AttributeFlag getFlagForParrying();
+
+    default boolean canHeavyAttack() {
+        return true;
+    }
 }

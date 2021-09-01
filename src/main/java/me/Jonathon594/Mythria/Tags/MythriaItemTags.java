@@ -8,6 +8,7 @@ import net.minecraft.tags.ItemTags;
 public class MythriaItemTags {
     public static final ITag<Item> ARROW_SHAFTS = wrapTag("arrow_shafts");
     public static final ITag<Item> ARROWS = wrapTag("arrows");
+    public static final ITag<Item> BOWS = wrapTag("bows");
     public static final ITag<Item> AXES_AND_HATCHETS = wrapTag("axes_and_hatchets");
     public static final ITag<Item> BLADE_HANDLES = wrapTag("blade_handles");
     public static final ITag<Item> CLAY = wrapTag("clay");

@@ -26,8 +26,9 @@ public class FletchingPerks implements IPerkRegistry {
                 new RootPerk("basic_fletching", type, Items.ARROW, MythicSkills.CRAFTING, 5,
                         new ResourceLocation("minecraft:textures/block/spruce_log.png"))
                         .setDisplayName("Basic Fletching").setDescription("It's like a spear, but smaller and propelled with more force.")
-                        .addCraftable(MythriaItems.OAK_BOW, MythriaItems.SINEW_BOWSTRING)
+                        .addCraftable(MythriaItems.SINEW_BOWSTRING)
                         .addCraftableItemTag(new MythriaResourceLocation("arrows"))
+                        .addCraftableItemTag(new MythriaResourceLocation("bows"))
                         .addRequiredAttribute(Attribute.DEXTERITY, 3)
         );
     }
