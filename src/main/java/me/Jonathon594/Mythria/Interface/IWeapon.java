@@ -5,13 +5,13 @@ import me.Jonathon594.Mythria.Enum.MythicSkills;
 import me.Jonathon594.Mythria.Managers.MeleeCombatManager;
 
 public interface IWeapon {
-    MeleeCombatManager getCombatManager();
-
-    MythicSkills getUsageSkill();
-
-    AttributeFlag getFlagForParrying();
-
     default boolean canHeavyAttack() {
         return true;
     }
+
+    MeleeCombatManager getCombatManager();
+
+    AttributeFlag getFlagForParrying();
+
+    MythicSkills getUsageSkill();
 }

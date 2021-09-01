@@ -8,7 +8,9 @@ import me.Jonathon594.Mythria.Interface.IWeapon;
 import me.Jonathon594.Mythria.Managers.MeleeCombatManager;
 import me.Jonathon594.Mythria.Mythria;
 import net.minecraft.block.Block;
-import net.minecraft.item.*;
+import net.minecraft.item.IItemTier;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ToolItem;
 
 import java.util.Set;
 

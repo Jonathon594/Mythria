@@ -41,6 +41,11 @@ public class HumanType extends GeneticType {
     }
 
     @Override
+    public Collection<Origin> getAllowedOrigins() {
+        return ImmutableList.of(Origins.SURVIVOR);
+    }
+
+    @Override
     public List<SkinPart> getAllowedSkins() {
         return ImmutableList.of(
                 SkinParts.HUMAN_SKIN_WHITE,
@@ -48,10 +53,5 @@ public class HumanType extends GeneticType {
                 SkinParts.HUMAN_SKIN_MEDIUM,
                 SkinParts.HUMAN_SKIN_DARK,
                 SkinParts.HUMAN_SKIN_BLACK);
-    }
-
-    @Override
-    public Collection<Origin> getAllowedOrigins() {
-        return ImmutableList.of(Origins.SURVIVOR);
     }
 }

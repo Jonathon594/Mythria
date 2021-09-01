@@ -19,9 +19,9 @@ public class CombatEvent extends Event {
     private final ItemStack weapon;
     private final ItemStack otherWeapon;
     private final Hand hand;
+    private final AttackClass attackClass;
     protected float damage;
     private boolean fail = false;
-    private final AttackClass attackClass;
 
 
     public CombatEvent(float damage, EntityDamageSource source, EnumAttackType type, Entity target, PlayerEntity player, Profile profile, ItemStack weapon, ItemStack otherWeapon, Hand hand, AttackClass attackClass) {

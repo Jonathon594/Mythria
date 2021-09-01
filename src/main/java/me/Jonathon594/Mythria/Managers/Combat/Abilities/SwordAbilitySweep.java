@@ -1,7 +1,6 @@
 package me.Jonathon594.Mythria.Managers.Combat.Abilities;
 
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
-import me.Jonathon594.Mythria.Enum.AttackClass;
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import me.Jonathon594.Mythria.Event.CombatEvent;
 import me.Jonathon594.Mythria.Interface.ICombatAbility;
