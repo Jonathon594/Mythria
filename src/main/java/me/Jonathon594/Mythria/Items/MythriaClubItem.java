@@ -26,7 +26,7 @@ public class MythriaClubItem extends ToolItem implements IWeapon {
 
     @Override
     public MeleeCombatManager getCombatManager() {
-        return MeleeCombatManager.CLUB_MANAGER;
+        return null;
     }
 
     @Override

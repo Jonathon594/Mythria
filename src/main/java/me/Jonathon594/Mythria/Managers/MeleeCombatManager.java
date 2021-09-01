@@ -17,7 +17,6 @@ public abstract class MeleeCombatManager {
     public static final UnarmedManager UNARMED_MANAGER = new UnarmedManager();
     public static final ShieldManager SHIELD_MANAGER = new ShieldManager();
     public static final DaggerManager DAGGER_MANAGER = new DaggerManager();
-    public static final ClubManager CLUB_MANAGER = new ClubManager();
     public static final HammerManager HAMMER_MANAGER = new HammerManager();
 
     protected static final BasicAttackAbility BASIC_ATTACK_ABILITY = new BasicAttackAbility();

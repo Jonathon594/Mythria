@@ -32,12 +32,6 @@ public class BluntWeaponPerks implements IPerkRegistry {
                         .setDisplayName("Basic Hammers")
                         .addDescriptionLine("Hammers are heavy weapons designed to concuss and break armor.")
                         .addAttributeFlag(AttributeFlag.HAMMER_ABILITY_CRIT)
-                        .addRequiredAttribute(Attribute.STRENGTH, 5),
-
-                new Perk("basic_clubs", type, MythriaItems.OAK_CLUB, MythicSkills.HEAVY_WEAPONS, 0, () -> BLUNT_WEAPONRY)
-                        .setDisplayName("Basic Clubs")
-                        .addDescriptionLine("Clubs are simple blunt objects designed mostly to concuss opponents.")
-                        .addAttributeFlag(AttributeFlag.CLUB_ABILITY_BLUDGEON)
                         .addRequiredAttribute(Attribute.STRENGTH, 5)
         );
     }
