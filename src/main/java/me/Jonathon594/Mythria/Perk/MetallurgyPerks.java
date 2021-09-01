@@ -17,14 +17,14 @@ import java.util.List;
 
 @ObjectHolder(Mythria.MODID)
 public class MetallurgyPerks implements IPerkRegistry {
-    public static final Perk BASIC_SMELTING = null;
+    public static final Perk METALLURGY = null;
 
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(
-                new RootPerk("basic_smelting", type, MythriaItems.CERAMIC_CRUCIBLE, MythicSkills.METALLURGY, 0,
+                new RootPerk("metallurgy", type, MythriaItems.CERAMIC_CRUCIBLE, MythicSkills.METALLURGY, 0,
                         new ResourceLocation("minecraft:textures/block/coal_block.png"))
-                        .setDisplayName("Basic Smelting").setDescription("Hot metal? isn't that dangerous?")
+                        .addDescriptionLine("Hot metal? isn't that dangerous?")
                         .addAttributeFlag(AttributeFlag.BASIC_SMELTING)
                         .addRequiredAttribute(Attribute.INTELLIGENCE, 4)
         );

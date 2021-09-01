@@ -4,6 +4,7 @@ import me.Jonathon594.Mythria.Enum.MythicSkills;
 import me.Jonathon594.Mythria.Enum.PerkType;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
+import org.apache.commons.lang3.NotImplementedException;
 
 public class RootPerk extends Perk {
     private final ResourceLocation background;
@@ -16,5 +17,11 @@ public class RootPerk extends Perk {
 
     public ResourceLocation getBackground() {
         return background;
+    }
+
+    @Override
+    public Perk setDisplayName(String displayName) {
+        System.out.println("Setting display name on RootPerk will have no effect.");
+        return this;
     }
 }

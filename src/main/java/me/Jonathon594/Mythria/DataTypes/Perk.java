@@ -47,7 +47,7 @@ public class Perk extends ForgeRegistryEntry<Perk> {
     private int minimumAge;
     private double learnTime = 0;
     private double bonusFatigueMitigation = 0.0;
-    private String description;
+    private List<String> description = new ArrayList<>();
 
     public Perk(final String name, final PerkType type, final IItemProvider icon,
                 final MythicSkills relatedSkill, final int requiredLevel,
@@ -210,7 +210,9 @@ public class Perk extends ForgeRegistryEntry<Perk> {
             }
             lines.add("");
         }
-        lines.add(ColorConst.HIGH_COLOR + getDescription());
+        for(String s : getDescription()) {
+            lines.add(ColorConst.HIGH_COLOR + s);
+        }
         return lines;
     }
 
@@ -377,12 +379,12 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         return getRegistryName().toString();
     }
 
-    private String getDescription() {
-        return description == null ? "" : description;
+    private List<String> getDescription() {
+        return description;
     }
 
-    public Perk setDescription(String description) {
-        this.description = description;
+    public Perk addDescriptionLine(String description) {
+        this.description.add(description);
         return this;
     }
 }

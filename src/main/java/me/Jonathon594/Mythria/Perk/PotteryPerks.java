@@ -17,14 +17,13 @@ import java.util.List;
 
 @ObjectHolder(Mythria.MODID)
 public class PotteryPerks implements IPerkRegistry {
-    public static final Perk BASIC_POTTERY = null;
+    public static final Perk POTTERY = null;
 
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(
-                new RootPerk("basic_pottery", type, MythriaItems.CLAY_BRICK, MythicSkills.POTTERY, 0,
-                        new ResourceLocation("minecraft:textures/block/terracotta.png"))
-                        .setDisplayName("Basic Pottery").setDescription("Clay is easily formed into other shapes, perhaps applying heat can change that?")
+                new RootPerk("pottery", type, MythriaItems.CLAY_BRICK, MythicSkills.POTTERY, 0,
+                        new ResourceLocation("minecraft:textures/block/terracotta.png")).addDescriptionLine("Clay is easily formed into other shapes, perhaps applying heat can change that?")
                         .addCraftableItemTag(new MythriaResourceLocation("clay"))
                         .addRequiredAttribute(Attribute.INTELLIGENCE, 3)
                         .addRequiredAttribute(Attribute.DEXTERITY, 2)

@@ -1,7 +1,7 @@
 package me.Jonathon594.Mythria.Enum;
 
 public enum MythicSkills {
-    AGILITY(false), AXES(false), SWORDS(false), UNARMED(false),
+    AGILITY(false), AXES(false), SWORDS(false), MARTIAL_ARTS(false),
     ARCHERY(false), CRAFTING(true), MASONRY(true),
     METALLURGY(true), ENGINEERING(true), ALCHEMY(true), MINING(true),
     MEDICAL(true), FISHING(true), FARMING(true),

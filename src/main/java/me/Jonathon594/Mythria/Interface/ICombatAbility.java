@@ -15,8 +15,4 @@ public interface ICombatAbility {
     void onCombatPost(PlayerEntity player, Profile profile, Entity target, CombatEvent.Post postEvent);
 
     void onCombatPre(PlayerEntity player, Profile profile, Entity target, CombatEvent.Pre preEvent);
-
-    default AttackClass getAttackClass() {
-        return AttackClass.HEAVY;
-    }
 }

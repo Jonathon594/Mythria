@@ -125,7 +125,9 @@ public class ScreenPerks extends AbstractTreeMenuScreen {
         boolean hasPerk = p.hasPerk(perk);
         ItemStack icon = new ItemStack(perk.getMenuIcon(), 1);
         if (hidden) icon = new ItemStack(Items.IRON_BARS);
-        IFormattableTextComponent title = new StringTextComponent(hidden ? "Locked" : (perk instanceof RootPerk) ? MythriaUtil.capitalize(perk.getType().name()) : perk.getDisplayName());
+        IFormattableTextComponent title = new StringTextComponent(hidden ? "Locked" :
+                perk instanceof RootPerk ? MythriaUtil.capitalizeWords(perk.getType().toString().replace("_", " "))
+                        : perk.getDisplayName());
         title.mergeStyle(hasPerk ? ColorConst.MAIN_COLOR : ColorConst.HEAD_COLOR);
         StringBuilder desc = new StringBuilder();
         for (String s : perk.getDataLines(p)) {

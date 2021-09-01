@@ -17,14 +17,14 @@ import java.util.List;
 
 @ObjectHolder(Mythria.MODID)
 public class LumberingPerks implements IPerkRegistry {
-    public static final Perk BASIC_LUMBERING = null;
+    public static final Perk LUMBERING = null;
 
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(
-                new RootPerk("basic_lumbering", type, MythriaItems.BRONZE_AXE, MythicSkills.WOODCUTTING, 0,
+                new RootPerk("lumbering", type, MythriaItems.BRONZE_AXE, MythicSkills.WOODCUTTING, 0,
                         new ResourceLocation("minecraft:textures/block/oak_log.png"))
-                        .setDisplayName("Basic Lumbering").setDescription("With an axe even the toughest of wood can be cut.")
+                        .addDescriptionLine("With an axe even the toughest of wood can be cut.")
                         .addBreakableBlockTag(BlockTags.LOGS.getName())
                         .addPerkTypeUnlock(PerkType.CARPENTRY)
                         .addRequiredAttribute(Attribute.STRENGTH, 1)

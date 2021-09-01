@@ -75,7 +75,7 @@ public class MeleeAbilityManager {
     }
 
     private static MythicSkills getRelatedSkill(Item item) {
-        if(item.equals(Items.AIR)) return MythicSkills.UNARMED;
+        if(item.equals(Items.AIR)) return MythicSkills.MARTIAL_ARTS;
         if(item instanceof IWeapon) return ((IWeapon) item).getUsageSkill();
         return null;
     }

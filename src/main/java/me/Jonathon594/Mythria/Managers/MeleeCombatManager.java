@@ -22,12 +22,12 @@ public abstract class MeleeCombatManager {
 
     protected static final BasicAttackAbility BASIC_ATTACK_ABILITY = new BasicAttackAbility();
 
-    public abstract ICombatAbility getAbility(EnumAttackType type, boolean isDual, boolean blocking);
+    public abstract ICombatAbility getAbility(EnumAttackType type, boolean isDual, boolean blocking, AttackClass attackClass);
 
     public void onCombat(PlayerEntity player, Profile profile, Entity target, CombatPhase phase, CombatEvent event, boolean isDual, MythicSkills skill) {
         EnumAttackType type = event.getType();
 
-        ICombatAbility ability = getAbility(type, isDual, player.isActiveItemStackBlocking());
+        ICombatAbility ability = getAbility(type, isDual, player.isActiveItemStackBlocking(), event.getAttackClass());
         if (phase.equals(CombatPhase.PRE)) {
             CombatEvent.Pre preEvent = (CombatEvent.Pre) event;
 

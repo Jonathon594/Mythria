@@ -17,14 +17,14 @@ import java.util.List;
 
 @ObjectHolder(Mythria.MODID)
 public class CarpentryPerks implements IPerkRegistry {
-    public static final Perk BASIC_CARPENTRY = null;
+    public static final Perk CARPENTRY = null;
 
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(
-                new RootPerk("basic_carpentry", type, Blocks.OAK_LOG, MythicSkills.CARPENTRY, 0,
+                new RootPerk("carpentry", type, Blocks.OAK_LOG, MythicSkills.CARPENTRY, 0,
                         new ResourceLocation("minecraft:textures/block/oak_planks.png"))
-                        .setDisplayName("Basic Carpentry").setDescription("Wood is a versatile material that is quite strong.")
+                        .addDescriptionLine("Wood is a versatile material that is quite strong.")
                         .addPlaceableBlockTag(BlockTags.LOGS.getName())
                         .addRequiredAttribute(Attribute.INTELLIGENCE, 2)
                         .addRequiredAttribute(Attribute.STRENGTH, 2)

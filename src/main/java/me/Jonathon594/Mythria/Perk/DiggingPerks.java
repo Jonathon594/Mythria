@@ -17,15 +17,14 @@ import java.util.List;
 
 @ObjectHolder(Mythria.MODID)
 public class DiggingPerks implements IPerkRegistry {
-    public static final Perk BASIC_DIGGING = null;
+    public static final Perk DIGGING = null;
 
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(
-                new RootPerk("basic_digging", type, MythriaItems.TIN_SHOVEL, MythicSkills.DIGGING, 0,
+                new RootPerk("digging", type, MythriaItems.TIN_SHOVEL, MythicSkills.DIGGING, 0,
                         new ResourceLocation("minecraft:textures/block/dirt.png"))
-                        .setDisplayName("Basic Digging")
-                        .setDescription("With a shovel you can move loose soils.")
+                        .addDescriptionLine("With a shovel you can move loose soils.")
                         .addRequiredAttribute(Attribute.ENDURANCE, 3)
                         .addRequiredAttribute(Attribute.STRENGTH, 1)
                         .addBreakable(Blocks.GRAVEL, Blocks.DIRT, Blocks.COARSE_DIRT,

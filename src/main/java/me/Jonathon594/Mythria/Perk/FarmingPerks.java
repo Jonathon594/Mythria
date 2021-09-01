@@ -17,15 +17,14 @@ import java.util.List;
 
 @ObjectHolder(Mythria.MODID)
 public class FarmingPerks implements IPerkRegistry {
-    public static final Perk BASIC_FARMING = null;
+    public static final Perk FARMING = null;
 
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(
-                new RootPerk("basic_farming", type, Items.WHEAT_SEEDS, MythicSkills.FARMING, 0,
+                new RootPerk("farming", type, Items.WHEAT_SEEDS, MythicSkills.FARMING, 0,
                         new ResourceLocation("minecraft:textures/block/farmland.png"))
-                        .setDisplayName("Basic Farming")
-                        .setDescription("A hoe can soften the ground and allow you to grow plants.")
+                        .addDescriptionLine("A hoe can soften the ground and allow you to grow plants.")
                         .addRequiredAttribute(Attribute.ENDURANCE, 4)
                         .addPlaceable(Blocks.FARMLAND, Blocks.WHEAT)
         );

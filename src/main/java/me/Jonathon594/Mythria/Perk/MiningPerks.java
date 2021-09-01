@@ -17,15 +17,14 @@ import java.util.List;
 
 @ObjectHolder(Mythria.MODID)
 public class MiningPerks implements IPerkRegistry {
-    public static final Perk BASIC_MINING = null;
+    public static final Perk MINING = null;
 
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(
-                new RootPerk("basic_mining", type, MythriaItems.TIN_PICKAXE, MythicSkills.MINING, 0,
+                new RootPerk("mining", type, MythriaItems.TIN_PICKAXE, MythicSkills.MINING, 0,
                         new ResourceLocation("minecraft:textures/block/stone.png"))
-                        .setDisplayName("Basic Mining")
-                        .setDescription("With a pickaxe even something as hard as stone can break.")
+                        .addDescriptionLine("With a pickaxe even something as hard as stone can break.")
                         .addRequiredAttribute(Attribute.ENDURANCE, 1)
                         .addRequiredAttribute(Attribute.STRENGTH, 3)
                         .addBreakableBlockTag(BlockTags.BASE_STONE_OVERWORLD.getName())

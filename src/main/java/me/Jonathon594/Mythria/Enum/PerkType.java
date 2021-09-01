@@ -5,7 +5,9 @@ import me.Jonathon594.Mythria.Perk.*;
 
 public enum PerkType {
     SURVIVAL(new SurvivalPerks()),
-    COMBAT(new CombatPerks()),
+    BLADED_WEAPONS(new BladedWeaponPerks()),
+    BLUNT_WEAPONS(new BluntWeaponPerks()),
+    MARTIAL_ARTS(new MartialArtsPerks()),
     WOODWORKING(new WoodworkingPerks()),
     MINING(new MiningPerks()),
     DIGGING(new DiggingPerks()),

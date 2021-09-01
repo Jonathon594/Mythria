@@ -17,14 +17,14 @@ import java.util.List;
 
 @ObjectHolder(Mythria.MODID)
 public class CookingPerks implements IPerkRegistry {
-    public static final Perk BASIC_COOKING = null;
+    public static final Perk COOKING = null;
 
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(
-                new RootPerk("basic_cooking", type, Items.RABBIT, MythicSkills.COOKING, 0,
+                new RootPerk("cooking", type, Items.RABBIT, MythicSkills.COOKING, 0,
                         new ResourceLocation("minecraft:textures/block/terracotta.png"))
-                        .setDisplayName("Basic Cooking").setDescription("You want me to, heat my food?")
+                        .addDescriptionLine("You want me to, heat my food?")
                         .addAttributeFlag(AttributeFlag.BASIC_COOKING)
                         .addRequiredAttribute(Attribute.INTELLIGENCE, 3)
         );

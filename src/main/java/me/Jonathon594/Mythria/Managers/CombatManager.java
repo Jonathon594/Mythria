@@ -69,7 +69,6 @@ public class CombatManager {
 
                 MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(player);
                 Profile profile = ProfileProvider.getProfile(player);
-                if(!profile.hasFlag(AttributeFlag.COMBAT_ABILITY_HEAVY_ATTACK)) attackClass = AttackClass.LIGHT;
 
                 double attackRange = getAttackRangeByWeapon(itemStack);
                 CombatEvent.Pre pre = new CombatEvent.Pre(damage, ds, type, targetEntity, player, ProfileProvider.getProfile(player), itemStack, itemStackOther, hand, attackRange, attackClass);
