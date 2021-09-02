@@ -20,7 +20,7 @@ public class WeightManager {
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
     private static final HashMap<IItemProvider, Float> weightMap = new HashMap<>();
 
-    public static double getWeight(ItemStack itemStack) {
+    public static float getWeight(ItemStack itemStack) {
         Item item = itemStack.getItem();
         return weightMap.containsKey(item) ? weightMap.get(item) : 0.0f;
     }

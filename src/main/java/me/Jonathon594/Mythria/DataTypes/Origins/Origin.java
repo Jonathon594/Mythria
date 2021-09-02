@@ -16,13 +16,17 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public abstract class Origin extends ForgeRegistryEntry<Origin> {
+    protected Random random;
+
     private String displayName;
 
     public Origin(String name) {
         setRegistryName(new MythriaResourceLocation(name));
         this.displayName = name;
+        random = new Random();
     }
 
     public void apply(ServerPlayerEntity serverPlayer, Profile profile) {

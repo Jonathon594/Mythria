@@ -9,12 +9,12 @@ import net.minecraftforge.registries.ObjectHolder;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 @ObjectHolder(Mythria.MODID)
 public class Origins {
-    public static final Origin SURVIVOR = null;
+    public static final Origin SCAVENGER = null;
 
     @SubscribeEvent
     public static void onRegisterGifts(RegistryEvent.Register<Origin> event) {
         event.getRegistry().registerAll(
-                new EmptyOrigin("survivor").withDisplayName("Survivor")
+                new ScavengerOrigin("scavenger").withDisplayName("Scavenger")
         );
     }
 }

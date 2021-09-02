@@ -5,9 +5,11 @@ import me.Jonathon594.Mythria.Capability.Crucible.CrucibleProvider;
 import me.Jonathon594.Mythria.Capability.HeatableItem.HeatableProvider;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Client.Manager.InputManager;
+import me.Jonathon594.Mythria.Const.ColorConst;
 import me.Jonathon594.Mythria.Items.CrucibleItem;
 import me.Jonathon594.Mythria.Items.HeatableItem;
 import me.Jonathon594.Mythria.Managers.LimitedInventoryManager;
+import me.Jonathon594.Mythria.Managers.WeightManager;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.Packet.CPacketOpenInventory;
 import net.minecraft.client.Minecraft;
@@ -18,6 +20,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
@@ -59,6 +62,10 @@ public class ClientListener {
                 event.getToolTip().addAll(heatableItem.getHeatToolTips(heatable.getTemperature()));
             }
         }
+
+        float weight = WeightManager.getWeight(itemStack);
+        String weightString = weight == Math.floor(weight) ? String.valueOf((int) weight) : String.valueOf(weight);
+        event.getToolTip().add(new StringTextComponent(ColorConst.HIGH_COLOR + weightString + "kg"));
     }
 
     @SubscribeEvent

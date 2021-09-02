@@ -45,7 +45,7 @@ public class ElfType extends GeneticType {
 
     @Override
     public Collection<Origin> getAllowedOrigins() {
-        return ImmutableList.of(Origins.SURVIVOR);
+        return ImmutableList.of(Origins.SCAVENGER);
     }
 
     @Override
