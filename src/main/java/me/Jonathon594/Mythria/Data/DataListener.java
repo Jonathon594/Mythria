@@ -12,5 +12,8 @@ public class DataListener {
         if (event.includeClient()) {
             event.getGenerator().addProvider(new MythriaLangGenerator(event.getGenerator(), Mythria.MODID, "en_us"));
         }
+        if(event.includeServer()) {
+            event.getGenerator().addProvider(new MythriaWeightProvider(event.getGenerator(), Mythria.MODID));
+        }
     }
 }

@@ -63,5 +63,7 @@ public class Mythria {
                 EntitySpawnPlacementRegistry.PlacementType.ON_GROUND,
                 Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
                 NetherChickenEntity::canNetherChickenSpawn);
+
+        WeightManager.init();
     }
 }

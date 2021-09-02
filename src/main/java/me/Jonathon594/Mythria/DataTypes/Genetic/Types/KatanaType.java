@@ -34,7 +34,7 @@ public class KatanaType extends GeneticType {
 
     public KatanaType() {
         super("katana", "Ka'Tana", new SpawnPos(3119, -3909), () -> new Genetic(GeneticTypes.KATANA, -4, 300, 0.02,
-                60, 0.85, 20, 14, 1, NUTRITION, LIFESPAN)
+                40, 0.85, 20, 14, 1, NUTRITION, LIFESPAN)
                 .withExtraGene(new EntityAttitudeGene(EntityAttitudeGene.Attitude.FEAR, EntityType.CREEPER)));
     }
 
