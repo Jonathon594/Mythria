@@ -2,15 +2,17 @@ package me.Jonathon594.Mythria.Managers;
 
 import me.Jonathon594.Mythria.Ability.Ability;
 import me.Jonathon594.Mythria.Ability.AbilityInstance;
+import me.Jonathon594.Mythria.Ability.InstantAbility;
+import me.Jonathon594.Mythria.Enum.EnumAttackType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class AbilityHandler {
-    private final ArrayList<AbilityInstance> abilityInstances = new ArrayList<>();
+    private final HashSet<AbilityInstance> abilityInstances = new HashSet<>();
 
     //instance variables
     private final HashMap<Fluid, Boolean> fluidWalkingMap = new HashMap<>();
@@ -29,8 +31,21 @@ public class AbilityHandler {
         return false;
     }
 
-    public ArrayList<AbilityInstance> getAbilityInstances() {
+    public HashSet<AbilityInstance> getAbilityInstances() {
         return abilityInstances;
+    }
+
+    public AbilityInstance getAbilityInstance(Ability ability) {
+        for (AbilityInstance abilityInstance : getAbilityInstances()) {
+            if (abilityInstance.getAbility().equals(ability)) return abilityInstance;
+        }
+        return null;
+    }
+
+    public void onAbilityInstant(InstantAbility ability) {
+        AbilityInstance abilityInstance = getAbilityInstance(ability);
+        if (abilityInstance == null) return;
+        ability.onInstantActivate(abilityInstance);
     }
 
     public void setFluidWalkingState(Fluid fluid, boolean state) {
@@ -41,5 +56,13 @@ public class AbilityHandler {
         for (AbilityInstance instance : getAbilityInstances()) {
             instance.tick();
         }
+    }
+
+    public void onCastStart(int hand, EnumAttackType type) {
+
+    }
+
+    public void onCastEnd(int hand, EnumAttackType type) {
+
     }
 }

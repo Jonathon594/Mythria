@@ -3,6 +3,7 @@ package me.Jonathon594.Mythria.Client.Screen;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import me.Jonathon594.Mythria.Ability.Ability;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
@@ -12,6 +13,7 @@ import me.Jonathon594.Mythria.Enum.CombatMode;
 import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Enum.StatType;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
+import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.AbstractGui;
@@ -19,6 +21,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
@@ -39,6 +42,7 @@ public class ScreenHud extends AbstractGui {
     private final ResourceLocation WIDGETS_TEX_PATH = new ResourceLocation("textures/gui/widgets.png");
     private final ResourceLocation ABILITY_BOOK = new MythriaResourceLocation("textures/items/magic/book_spell.png");
     private final ResourceLocation ATTACK_BARS = new MythriaResourceLocation("textures/gui/attack_bars.png");
+    private final ResourceLocation ABILITY_BAR = new MythriaResourceLocation("textures/gui/ability_hotbar.png");
     private final Minecraft mc;
     private double levelValue = 0.0;
 
@@ -58,7 +62,7 @@ public class ScreenHud extends AbstractGui {
 
         final short barWidth = 182;
 
-        ClientPlayerEntity player = mc.player;
+        PlayerEntity player = getRenderViewPlayer();
         final Profile profile = ProfileProvider.getProfile(player);
         if (profile == null) return;
         if (player.isCreative() || player.isSpectator()) return;
@@ -70,6 +74,65 @@ public class ScreenHud extends AbstractGui {
 
         if (mythriaPlayer.getCombatMode().equals(CombatMode.DUAL)) {
             //renderDualWieldingIndicator(matrixStack, width, height, player);
+        }
+    }
+
+    private PlayerEntity getRenderViewPlayer() {
+        return !(this.mc.getRenderViewEntity() instanceof PlayerEntity) ? null : (PlayerEntity) this.mc.getRenderViewEntity();
+    }
+
+    public void renderAbilityHotbar(MatrixStack matrixStack, Object partialTicks) {
+        final int width = mc.getMainWindow().getScaledWidth();
+        final int height = mc.getMainWindow().getScaledHeight();
+
+        PlayerEntity playerentity = getRenderViewPlayer();
+        if (playerentity != null) {
+            Profile profile = ProfileProvider.getProfile(playerentity);
+
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            this.mc.getTextureManager().bindTexture(ABILITY_BAR);
+            HandSide handside = playerentity.getPrimaryHand().opposite();
+            int i = width / 2;
+            int j = this.getBlitOffset();
+            int k = 182;
+            int l = 91;
+
+            this.setBlitOffset(-90);
+            for (int s = 0; s < 9; s++) {
+                int i1 = (s * 20) + (s > 0 ? 1 : 0);
+                this.blit(matrixStack, i - 91 + i1, height - 22, i1, 0, s == 0 || s == 8 ? 21 : 20, 22);
+            }
+            //this.blit(matrixStack, i - 91 - 1 + playerentity.inventory.currentItem * 20, height - 22 - 1, 0, 44, 24, 22);
+            this.blit(matrixStack, i - 91 - 29, height - 23, 24, 44, 29, 24);
+            this.blit(matrixStack, i + 91, height - 23, 53, 44, 29, 24);
+
+            this.setBlitOffset(j);
+            RenderSystem.enableRescaleNormal();
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+
+            for (int i1 = 0; i1 < 9; ++i1) {
+                int j1 = i - 90 + i1 * 20 + 2;
+                int k1 = height - 16 - 3;
+                //this.renderHotbarItem(j1, k1, partialTicks, playerentity, playerentity.inventory.mainInventory.get(i1));
+                Ability ability = profile.getBoundAbility(i1);
+                if(ability == null) continue;
+                mc.getTextureManager().bindTexture(ability.getAbilityTexturePath());
+                matrixStack.push();
+                matrixStack.scale(1/16f, 1/16f, 1);
+                this.blit(matrixStack, j1* 16, k1* 16, 0, 0, 256, 256);
+                matrixStack.pop();
+            }
+
+            int i2 = height - 16 - 3;
+            if (handside == HandSide.LEFT) {
+                //this.renderHotbarItem(i - 91 - 26, i2, partialTicks, playerentity, itemstack);
+            } else {
+                //this.renderHotbarItem(i + 91 + 10, i2, partialTicks, playerentity, itemstack);
+            }
+
+            RenderSystem.disableRescaleNormal();
+            RenderSystem.disableBlend();
         }
     }
 

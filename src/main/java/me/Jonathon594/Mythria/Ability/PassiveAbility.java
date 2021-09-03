@@ -1,7 +1,7 @@
 package me.Jonathon594.Mythria.Ability;
 
-public abstract class PassiveTickAbility extends Ability {
-    public PassiveTickAbility(String name) {
+public abstract class PassiveAbility extends Ability {
+    public PassiveAbility(String name) {
         super(name);
     }
 

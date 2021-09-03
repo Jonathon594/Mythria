@@ -73,6 +73,7 @@ public class Profile implements IProfile {
     private double bleeding = 0.0;
     private double playerLevelProgressBuffer;
     private SkinPart clothing = SkinParts.CLOTHES_PRIMITIVE;
+    private Ability[] boundAbilities = new Ability[9];
 
     public Profile() {
         init();
@@ -83,7 +84,20 @@ public class Profile implements IProfile {
         if (!abilities.contains(ability)) {
             abilities.add(ability);
             abilityHandler.addAbilityInstance(ability, player);
+
+            //Todo remove
+            if(ability.canBeBound())
+            for(int i = 0; i < boundAbilities.length; i++) {
+                if(boundAbilities[i] == null) {
+                    boundAbilities[i] = ability;
+                    break;
+                }
+            }
         }
+    }
+
+    public Ability getBoundAbility(int slot) {
+        return boundAbilities[slot];
     }
 
     public void addFavor(Deity deity, int add, int max) {

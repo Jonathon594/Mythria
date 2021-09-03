@@ -45,6 +45,8 @@ public class ClientManager {
     }
 
     public static void addTextureToStitch(ResourceLocation location) {
+        if (location.getPath().endsWith(".png"))
+            location = new ResourceLocation(location.getNamespace(), location.getPath().replace(".png", ""));
         if (!texturesToStitch.contains(location)) texturesToStitch.add(location);
     }
 

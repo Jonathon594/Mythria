@@ -19,7 +19,7 @@ public class Abilities {
         event.getRegistry().registerAll(
                 new PassiveHealingAbility("elf_healing", 10, Consumable.MANA, 1),
                 new PassiveFaeFlightAbility("fae_flight"),
-                new PassiveDryadGrowthAbility("dryad_growth")
+                new InstantDryadGrowthAbility("dryad_growth")
         );
     }
 }

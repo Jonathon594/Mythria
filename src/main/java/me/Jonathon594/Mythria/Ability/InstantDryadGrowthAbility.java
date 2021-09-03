@@ -17,10 +17,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class PassiveDryadGrowthAbility extends PassiveTickAbility {
+public class InstantDryadGrowthAbility extends InstantAbility {
     private final ArrayList<Block> growables = new ArrayList<>();
 
-    public PassiveDryadGrowthAbility(String name) {
+    public InstantDryadGrowthAbility(String name) {
         super(name);
         for (Block b : ForgeRegistries.BLOCKS.getValues()) {
             if (b instanceof IGrowable) growables.add(b);
@@ -28,12 +28,12 @@ public class PassiveDryadGrowthAbility extends PassiveTickAbility {
     }
 
     @Override
-    protected void onPassiveTick(AbilityInstance abilityInstance) {
+    public void onInstantActivate(AbilityInstance abilityInstance) {
         PlayerEntity playerEntity = abilityInstance.getOwner();
         World world = playerEntity.world;
         Profile profile = ProfileProvider.getProfile(playerEntity);
         if (world.isRemote) return;
-        if (world.getGameTime() % 20 == 0) {
+        //if (world.getGameTime() % 20 == 0) {
             BlockPos pos = playerEntity.getPosition().down();
             ArrayList<BlockPos> positions = new ArrayList<>();
             BlockUtils.getConnected(world, pos, positions, growables, Integer.MAX_VALUE, 10, 12, pos);
@@ -45,7 +45,7 @@ public class PassiveDryadGrowthAbility extends PassiveTickAbility {
             double maxMana = profile.getStat(StatType.MAX_MANA);
             if (playerMana > maxMana) playerMana = maxMana;
 
-            if (!abilityInstance.isOnCooldown()) {
+            //if (!abilityInstance.isOnCooldown()) {
                 int count = random.nextInt(10);
                 for (int i = 0; i < Math.min(count, positions.size()); i++) {
                     if (positions.isEmpty()) break;
@@ -56,16 +56,16 @@ public class PassiveDryadGrowthAbility extends PassiveTickAbility {
                         IGrowable growable = (IGrowable) growState.getBlock();
                         if (growable.canGrow(world, growPos, growState, world.isRemote)) {
                             int cost = 20;
-                            if (playerMana < cost) break;
+                            //if (playerMana < cost) break;
                             playerMana -= cost;
                             growable.grow((ServerWorld) world, random, growPos, growState);
                             abilityInstance.setCooldown(240);
                         }
                     }
                 }
-            }
+           // }
 
             if (playerMana != profile.getConsumable(Consumable.MANA)) profile.setConsumable(mana, playerMana);
-        }
+        //}
     }
 }

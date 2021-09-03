@@ -6,7 +6,7 @@ import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Managers.StatManager;
 import net.minecraft.entity.player.PlayerEntity;
 
-public class PassiveFlightAbility extends PassiveTickAbility {
+public class PassiveFlightAbility extends PassiveAbility {
     private final double cost;
     private final Consumable consumable;
     private final int costInterval;

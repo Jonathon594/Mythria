@@ -8,7 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
 
-public abstract class PassiveElytraPropulsionAbility extends PassiveTickAbility {
+public abstract class PassiveElytraPropulsionAbility extends PassiveAbility {
     public PassiveElytraPropulsionAbility(String name) {
         super(name);
     }

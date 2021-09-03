@@ -7,7 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class PassiveHealingAbility extends PassiveTickAbility {
+public class PassiveHealingAbility extends PassiveAbility {
     private final double cost;
     private final Consumable consumable;
     private final float maxHealing;

@@ -11,6 +11,7 @@ import me.Jonathon594.Mythria.Enum.ControlMode;
 import me.Jonathon594.Mythria.Enum.InputIntent;
 import me.Jonathon594.Mythria.Interface.IWeapon;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
+import me.Jonathon594.Mythria.Packet.CPacketAbility;
 import me.Jonathon594.Mythria.Packet.CPacketParry;
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
@@ -37,7 +38,8 @@ public class InputManager {
         MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(player);
         RayTraceResult result = mc.objectMouseOver;
 
-        if (mythriaPlayer.getControlMode().equals(ControlMode.NORMAL)) {
+        ControlMode controlMode = mythriaPlayer.getControlMode();
+        if (controlMode.equals(ControlMode.NORMAL)) {
             if (result.getType().equals(RayTraceResult.Type.BLOCK) && mythriaPlayer.getAttackingMainhand() == 0) {
                 InputIntent inputIntent = mythriaPlayer.getInputIntent(Hand.MAIN_HAND);
                 if (inputIntent.equals(InputIntent.NONE) || inputIntent.equals(InputIntent.MINE)) {
@@ -139,6 +141,11 @@ public class InputManager {
                 }
                 break;
             case ABILITY:
+                for(int i = 0; i < 9; i++) {
+                    if(mc.gameSettings.keyBindsHotbar[i].isKeyDown()) {
+                        MythriaPacketHandler.sendToServer(new CPacketAbility(i));
+                    }
+                }
                 break;
         }
 
