@@ -16,10 +16,7 @@ import me.Jonathon594.Mythria.Managers.StatManager;
 import me.Jonathon594.Mythria.Managers.TimeManager;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.MythriaRegistries;
-import me.Jonathon594.Mythria.Packet.SPacketProfileCache;
-import me.Jonathon594.Mythria.Packet.SPacketUpdateConsumables;
-import me.Jonathon594.Mythria.Packet.SPacketUpdateExperience;
-import me.Jonathon594.Mythria.Packet.SPacketUpdateNutrition;
+import me.Jonathon594.Mythria.Packet.*;
 import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Skin.SkinParts;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
@@ -73,7 +70,8 @@ public class Profile implements IProfile {
     private double bleeding = 0.0;
     private double playerLevelProgressBuffer;
     private SkinPart clothing = SkinParts.CLOTHES_PRIMITIVE;
-    private Ability[] boundAbilities = new Ability[9];
+    private Ability[] boundAbilities = new Ability[48];
+    private int abilityPreset = 0;
 
     public Profile() {
         init();
@@ -96,9 +94,14 @@ public class Profile implements IProfile {
         }
     }
 
+    public int getAbilityPreset() {
+        return abilityPreset;
+    }
+
     public Ability getBoundAbility(int slot) {
         return boundAbilities[slot];
     }
+
 
     public void addFavor(Deity deity, int add, int max) {
         favorLevels.put(deity, Math.min(getFavor(deity) + add, max));
@@ -323,6 +326,20 @@ public class Profile implements IProfile {
                 System.out.println("Error loading deity for favor.");
             }
         }
+    }
+
+    public void setBoundAbility(int slotIndex, Ability ability) {
+        boundAbilities[slotIndex] = ability;
+
+        if(player.world.isRemote) {
+            MythriaPacketHandler.sendToServer(new CPacketBindAbility(slotIndex, ability));
+        }
+    }
+
+    public Profile setAbilityPreset(int abilityPreset) {
+        abilityPreset = MathHelper.clamp(abilityPreset, 0, 3);
+        this.abilityPreset = abilityPreset;
+        return this;
     }
 
     public CompoundNBT toNBT() {

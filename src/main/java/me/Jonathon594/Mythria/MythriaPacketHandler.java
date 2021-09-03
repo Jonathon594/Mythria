@@ -44,6 +44,7 @@ public class MythriaPacketHandler {
         HANDLER.registerMessage(disc++, CPacketParry.class, CPacketParry::encode, CPacketParry::new, CPacketParry::handle);
         HANDLER.registerMessage(disc++, CPacketAbility.class, CPacketAbility::encode, CPacketAbility::new, CPacketAbility::handle);
         HANDLER.registerMessage(disc++, CPacketCast.class, CPacketCast::encode, CPacketCast::new, CPacketCast::handle);
+        HANDLER.registerMessage(disc++, CPacketBindAbility.class, CPacketBindAbility::encode, CPacketBindAbility::new, CPacketBindAbility::handle);
     }
 
     /**

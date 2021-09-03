@@ -115,7 +115,7 @@ public class ScreenHud extends AbstractGui {
                 int j1 = i - 90 + i1 * 20 + 2;
                 int k1 = height - 16 - 3;
                 //this.renderHotbarItem(j1, k1, partialTicks, playerentity, playerentity.inventory.mainInventory.get(i1));
-                Ability ability = profile.getBoundAbility(i1);
+                Ability ability = profile.getBoundAbility(MythriaUtil.wrapInt(i1 + profile.getAbilityPreset() * 9, 0, 35));
                 if(ability == null) continue;
                 mc.getTextureManager().bindTexture(ability.getAbilityTexturePath());
                 matrixStack.push();

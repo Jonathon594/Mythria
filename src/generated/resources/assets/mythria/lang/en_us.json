@@ -1,4 +1,8 @@
 {
+  "abilities.dryad_absorb.name": "Dryad Absorb",
+  "abilities.dryad_growth.name": "Dryad Growth",
+  "abilities.elf_healing.name": "Elf Healing",
+  "abilities.fae_flight.name": "Fae Flight",
   "block.mythria.bookshelf": "Bookshelf",
   "block.mythria.brick_anvil": "Brick Anvil",
   "block.mythria.bronze_anvil": "Bronze Anvil",

@@ -16,10 +16,8 @@ public abstract class Ability extends ForgeRegistryEntry<Ability> {
         setRegistryName(new MythriaResourceLocation(name));
         random = new Random();
 
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientManager.addTextureToStitch(
-                new ResourceLocation(getAbilityTexturePath().getNamespace(),
-                        getAbilityTexturePath().getPath().substring(9).replace(".png", ""))
-        ));
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+                ClientManager.addTextureToStitch(new MythriaResourceLocation("magic/" + getTextureName())));
     }
 
     public abstract void tick(AbilityInstance abilityInstance);
@@ -29,6 +27,10 @@ public abstract class Ability extends ForgeRegistryEntry<Ability> {
     }
 
     public ResourceLocation getAbilityTexturePath() {
-        return new MythriaResourceLocation("textures/magic/earth.png");
+        return new MythriaResourceLocation("textures/magic/" + getTextureName() + ".png");
+    }
+
+    protected String getTextureName() {
+        return "plant";
     }
 }

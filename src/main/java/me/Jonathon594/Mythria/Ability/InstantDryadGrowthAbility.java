@@ -29,43 +29,40 @@ public class InstantDryadGrowthAbility extends InstantAbility {
 
     @Override
     public void onInstantActivate(AbilityInstance abilityInstance) {
-        PlayerEntity playerEntity = abilityInstance.getOwner();
-        World world = playerEntity.world;
-        Profile profile = ProfileProvider.getProfile(playerEntity);
-        if (world.isRemote) return;
-        //if (world.getGameTime() % 20 == 0) {
+        if (!abilityInstance.isOnCooldown()) {
+            PlayerEntity playerEntity = abilityInstance.getOwner();
+            World world = playerEntity.world;
+            Profile profile = ProfileProvider.getProfile(playerEntity);
+            if (world.isRemote) return;
             BlockPos pos = playerEntity.getPosition().down();
             ArrayList<BlockPos> positions = new ArrayList<>();
             BlockUtils.getConnected(world, pos, positions, growables, Integer.MAX_VALUE, 10, 12, pos);
-            int totalBlocks = positions.size();
 
             Consumable mana = Consumable.MANA;
             double playerMana = profile.getConsumable(mana);
-            playerMana += totalBlocks * 0.05;
             double maxMana = profile.getStat(StatType.MAX_MANA);
             if (playerMana > maxMana) playerMana = maxMana;
 
-            //if (!abilityInstance.isOnCooldown()) {
-                int count = random.nextInt(10);
-                for (int i = 0; i < Math.min(count, positions.size()); i++) {
-                    if (positions.isEmpty()) break;
-                    Collections.shuffle(positions);
-                    BlockPos growPos = positions.get(i);
-                    BlockState growState = world.getBlockState(growPos);
-                    if (growState.getBlock() instanceof IGrowable) {
-                        IGrowable growable = (IGrowable) growState.getBlock();
-                        if (growable.canGrow(world, growPos, growState, world.isRemote)) {
-                            int cost = 20;
-                            //if (playerMana < cost) break;
-                            playerMana -= cost;
-                            growable.grow((ServerWorld) world, random, growPos, growState);
-                            abilityInstance.setCooldown(240);
-                        }
+
+            int count = random.nextInt(10);
+            for (int i = 0; i < Math.min(count, positions.size()); i++) {
+                if (positions.isEmpty()) break;
+                Collections.shuffle(positions);
+                BlockPos growPos = positions.get(i);
+                BlockState growState = world.getBlockState(growPos);
+                if (growState.getBlock() instanceof IGrowable) {
+                    IGrowable growable = (IGrowable) growState.getBlock();
+                    if (growable.canGrow(world, growPos, growState, world.isRemote)) {
+                        int cost = 35;
+                        if (playerMana < cost) break;
+                        playerMana -= cost;
+                        growable.grow((ServerWorld) world, random, growPos, growState);
+                        abilityInstance.setCooldown(100);
                     }
                 }
-           // }
+            }
 
             if (playerMana != profile.getConsumable(Consumable.MANA)) profile.setConsumable(mana, playerMana);
-        //}
+        }
     }
 }

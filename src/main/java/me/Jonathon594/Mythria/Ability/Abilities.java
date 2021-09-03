@@ -13,13 +13,15 @@ public class Abilities {
     public static final Ability ELF_HEALING = null;
     public static final Ability FAE_FLIGHT = null;
     public static final Ability DRYAD_GROWTH = null;
+    public static final Ability DRYAD_ABSORB = null;
 
     @SubscribeEvent
     public static void onRegisterAbilities(RegistryEvent.Register<Ability> event) {
         event.getRegistry().registerAll(
                 new PassiveHealingAbility("elf_healing", 10, Consumable.MANA, 1),
                 new PassiveFaeFlightAbility("fae_flight"),
-                new InstantDryadGrowthAbility("dryad_growth")
+                new InstantDryadGrowthAbility("dryad_growth"),
+                new PassiveDryadAbsorbAbility("dryad_absorb")
         );
     }
 }

@@ -3,9 +3,12 @@ package me.Jonathon594.Mythria.Client.Listener;
 import me.Jonathon594.Mythria.Capability.Crucible.Crucible;
 import me.Jonathon594.Mythria.Capability.Crucible.CrucibleProvider;
 import me.Jonathon594.Mythria.Capability.HeatableItem.HeatableProvider;
+import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Client.Manager.InputManager;
+import me.Jonathon594.Mythria.Client.Screen.SpellInventoryScreen;
 import me.Jonathon594.Mythria.Const.ColorConst;
+import me.Jonathon594.Mythria.Enum.ControlMode;
 import me.Jonathon594.Mythria.Items.CrucibleItem;
 import me.Jonathon594.Mythria.Items.HeatableItem;
 import me.Jonathon594.Mythria.Managers.LimitedInventoryManager;
@@ -70,6 +73,11 @@ public class ClientListener {
 
     @SubscribeEvent
     public static void onOpenGui(final GuiOpenEvent event) {
+        if(event.getGui() instanceof InventoryScreen &&
+                MythriaPlayerProvider.getMythriaPlayer(Minecraft.getInstance().player).getControlMode().equals(ControlMode.ABILITY)) {
+            event.setGui(new SpellInventoryScreen());
+        }
+
         Screen gui = event.getGui();
         if (gui instanceof ContainerScreen) {
             ContainerScreen container = (ContainerScreen) gui;

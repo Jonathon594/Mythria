@@ -393,5 +393,10 @@
   "item.mythria.warped_tool_handle": "Warped Tool Handle",
   "item.mythria.wheat_dough": "Wheat Dough",
 
-  "origins.scavenger.description": "You've spent your adolescent life traveling from place to place just trying to survive. You found an old bandolier along the way which has helped you to carry more things with you. Good luck out there, in this harsh world."
+  "origins.scavenger.description": "You've spent your adolescent life traveling from place to place just trying to survive. You found an old bandolier along the way which has helped you to carry more things with you. Good luck out there, in this harsh world.",
+
+  "abilities.dryad_absorb.name": "Dryad's Absorption",
+  "abilities.dryad_growth.name": "Overgrowth",
+  "abilities.elf_healing.name": "Elvish Healing",
+  "abilities.fae_flight.name": "Fae's Flight"
 }

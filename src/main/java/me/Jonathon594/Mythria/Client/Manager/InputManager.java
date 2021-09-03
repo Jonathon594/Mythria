@@ -13,6 +13,7 @@ import me.Jonathon594.Mythria.Interface.IWeapon;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.Packet.CPacketAbility;
 import me.Jonathon594.Mythria.Packet.CPacketParry;
+import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -143,7 +144,8 @@ public class InputManager {
             case ABILITY:
                 for(int i = 0; i < 9; i++) {
                     if(mc.gameSettings.keyBindsHotbar[i].isKeyDown()) {
-                        MythriaPacketHandler.sendToServer(new CPacketAbility(i));
+                        MythriaPacketHandler.sendToServer(new CPacketAbility(
+                                MythriaUtil.wrapInt(i + profile.getAbilityPreset() * 9, 0, 35)));
                     }
                 }
                 break;
