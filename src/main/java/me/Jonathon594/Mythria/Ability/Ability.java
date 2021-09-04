@@ -1,6 +1,6 @@
 package me.Jonathon594.Mythria.Ability;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import me.Jonathon594.Mythria.Client.Manager.ClientManager;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import net.minecraft.util.ResourceLocation;
@@ -34,9 +34,9 @@ public abstract class Ability extends ForgeRegistryEntry<Ability> {
     }
 
     public List<ITextComponent> getHoveredToolTip() {
-        return ImmutableList.of(
-                getDisplayName()
-        );
+        List<ITextComponent> tooltips = Lists.newArrayList();
+        tooltips.add(getDisplayName());
+        return tooltips;
     }
 
     @NotNull

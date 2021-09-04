@@ -38,7 +38,7 @@ public class PassiveDryadAbsorbAbility extends PassiveAbility {
 
             Consumable mana = Consumable.MANA;
             double playerMana = profile.getConsumable(mana);
-            playerMana += totalBlocks * 0.01;
+            playerMana += totalBlocks * 0.03;
             double maxMana = profile.getStat(StatType.MAX_MANA);
             if (playerMana > maxMana) playerMana = maxMana;
 
