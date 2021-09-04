@@ -1,9 +1,11 @@
 package me.Jonathon594.Mythria.Client.Screen;
 
-public class SpellSlot {
-    private int x, y, index;
+public class AbilitySlot {
+    private final int x;
+    private final int y;
+    private final int index;
 
-    public SpellSlot(int index, int x, int y) {
+    public AbilitySlot(int index, int x, int y) {
         this.x = x;
         this.y = y;
         this.index = index;
@@ -22,6 +24,6 @@ public class SpellSlot {
     }
 
     public boolean isHovered(int mouseX, int mouseY) {
-        return mouseX >= x-1 && mouseX < x + 17 && mouseY >= y-1 && mouseY < y + 17;
+        return mouseX >= x - 1 && mouseX < x + 17 && mouseY >= y - 1 && mouseY < y + 17;
     }
 }

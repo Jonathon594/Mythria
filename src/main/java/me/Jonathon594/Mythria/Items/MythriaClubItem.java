@@ -32,12 +32,12 @@ public class MythriaClubItem extends ToolItem implements IWeapon {
     }
 
     @Override
-    public MythicSkills getUsageSkill() {
-        return MythicSkills.HEAVY_WEAPONS;
+    public AttributeFlag getFlagForParrying() {
+        return AttributeFlag.CLUB_ABILITY_PARRY;
     }
 
     @Override
-    public AttributeFlag getFlagForParrying() {
-        return AttributeFlag.CLUB_ABILITY_PARRY;
+    public MythicSkills getUsageSkill() {
+        return MythicSkills.HEAVY_WEAPONS;
     }
 }

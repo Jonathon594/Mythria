@@ -29,13 +29,13 @@ public class MythriaAxeItem extends AxeItem implements IModularTool, IWeapon {
     }
 
     @Override
-    public MythicSkills getUsageSkill() {
-        return MythicSkills.AXES;
+    public AttributeFlag getFlagForParrying() {
+        return AttributeFlag.AXE_ABILITY_PARRY;
     }
 
     @Override
-    public AttributeFlag getFlagForParrying() {
-        return AttributeFlag.AXE_ABILITY_PARRY;
+    public MythicSkills getUsageSkill() {
+        return MythicSkills.AXES;
     }
 
     @Override

@@ -142,8 +142,8 @@ public class InputManager {
                 }
                 break;
             case ABILITY:
-                for(int i = 0; i < 9; i++) {
-                    if(mc.gameSettings.keyBindsHotbar[i].isKeyDown()) {
+                for (int i = 0; i < 9; i++) {
+                    if (mc.gameSettings.keyBindsHotbar[i].isKeyDown()) {
                         MythriaPacketHandler.sendToServer(new CPacketAbility(
                                 MythriaUtil.wrapInt(i + profile.getAbilityPreset() * 9, 0, 35)));
                     }

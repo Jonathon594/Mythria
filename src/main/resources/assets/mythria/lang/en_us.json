@@ -1,8 +1,4 @@
 {
-  "abilities.dryad_absorb.name": "Dryad Absorb",
-  "abilities.dryad_growth.name": "Dryad Growth",
-  "abilities.elf_healing.name": "Elf Healing",
-  "abilities.fae_flight.name": "Fae Flight",
   "block.mythria.bookshelf": "Bookshelf",
   "block.mythria.brick_anvil": "Brick Anvil",
   "block.mythria.bronze_anvil": "Bronze Anvil",
@@ -395,5 +391,16 @@
   "item.mythria.warped_spear": "Warped Spear",
   "item.mythria.warped_stick": "Warped Stick",
   "item.mythria.warped_tool_handle": "Warped Tool Handle",
-  "item.mythria.wheat_dough": "Wheat Dough"
+  "item.mythria.wheat_dough": "Wheat Dough",
+
+  "origins.scavenger.description": "You've spent your adolescent life traveling from place to place just trying to survive. You found an old bandolier along the way which has helped you to carry more things with you. Good luck out there, in this harsh world.",
+
+  "abilities.dryad_absorb.name": "Dryad's Absorption",
+  "abilities.dryad_growth.name": "Overgrowth",
+  "abilities.elf_healing.name": "Elvish Healing",
+  "abilities.fae_flight.name": "Fae's Flight",
+
+  "gui.ability_book.search_hint": "Search...",
+  "gui.ability_book.toggleAbilities.usable": "Show only usable abilities",
+  "gui.ability_book.toggleAbilities.all": "Show all abilities"
 }

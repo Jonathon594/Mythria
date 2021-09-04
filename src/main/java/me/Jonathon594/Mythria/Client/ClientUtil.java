@@ -42,6 +42,10 @@ public class ClientUtil {
         }
     }
 
+    public static Profile getClientProfile() {
+        return ProfileProvider.getProfile(instance.player);
+    }
+
     public static void handleUpdateConsumables(SPacketUpdateConsumables msg) {
         final Profile profile = ProfileProvider.getProfile(Minecraft.getInstance().player);
         profile.setConsumable(msg.getConsumable(), msg.getValue());

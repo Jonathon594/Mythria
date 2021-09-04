@@ -70,7 +70,7 @@ public class Profile implements IProfile {
     private double bleeding = 0.0;
     private double playerLevelProgressBuffer;
     private SkinPart clothing = SkinParts.CLOTHES_PRIMITIVE;
-    private Ability[] boundAbilities = new Ability[48];
+    private final Ability[] boundAbilities = new Ability[48];
     private int abilityPreset = 0;
 
     public Profile() {
@@ -82,26 +82,8 @@ public class Profile implements IProfile {
         if (!abilities.contains(ability)) {
             abilities.add(ability);
             abilityHandler.addAbilityInstance(ability, player);
-
-            //Todo remove
-            if(ability.canBeBound())
-            for(int i = 0; i < boundAbilities.length; i++) {
-                if(boundAbilities[i] == null) {
-                    boundAbilities[i] = ability;
-                    break;
-                }
-            }
         }
     }
-
-    public int getAbilityPreset() {
-        return abilityPreset;
-    }
-
-    public Ability getBoundAbility(int slot) {
-        return boundAbilities[slot];
-    }
-
 
     public void addFavor(Deity deity, int add, int max) {
         favorLevels.put(deity, Math.min(getFavor(deity) + add, max));
@@ -242,6 +224,12 @@ public class Profile implements IProfile {
         bleeding = comp.getDouble("bleeding");
         clothing = MythriaRegistries.SKIN_PARTS.getValue(new ResourceLocation(comp.getString("Clothing")));
 
+        CompoundNBT abilityBindings = comp.getCompound("BoundAbilities");
+        for (String key : abilityBindings.keySet()) {
+            int index = Integer.parseInt(key);
+            boundAbilities[index] = MythriaRegistries.ABILITIES.getValue(new ResourceLocation(abilityBindings.getString(key)));
+        }
+
         healthData.fromNBT(comp.getCompound("HealthData"));
 
         final String uuids = comp.getString("UUID");
@@ -328,20 +316,6 @@ public class Profile implements IProfile {
         }
     }
 
-    public void setBoundAbility(int slotIndex, Ability ability) {
-        boundAbilities[slotIndex] = ability;
-
-        if(player.world.isRemote) {
-            MythriaPacketHandler.sendToServer(new CPacketBindAbility(slotIndex, ability));
-        }
-    }
-
-    public Profile setAbilityPreset(int abilityPreset) {
-        abilityPreset = MathHelper.clamp(abilityPreset, 0, 3);
-        this.abilityPreset = abilityPreset;
-        return this;
-    }
-
     public CompoundNBT toNBT() {
         final CompoundNBT comp = new CompoundNBT();
         comp.putString("FirstName", getFirstName());
@@ -361,6 +335,14 @@ public class Profile implements IProfile {
         comp.putLong("LastDisconnect", getLastDisconnect());
         comp.put("HealthData", healthData.toNBT());
         comp.putString("Clothing", clothing.getRegistryName().toString());
+
+        CompoundNBT abilityBindings = new CompoundNBT();
+        for (int i = 0; i < boundAbilities.length; i++) {
+            if (boundAbilities[i] != null) {
+                abilityBindings.putString(String.valueOf(i), boundAbilities[i].getRegistryName().toString());
+            }
+        }
+        comp.put("BoundAbilities", abilityBindings);
 
         if (getProfileUUID() == null)
             setProfileUUID(UUID.randomUUID());
@@ -432,6 +414,16 @@ public class Profile implements IProfile {
         return abilityHandler;
     }
 
+    public int getAbilityPreset() {
+        return abilityPreset;
+    }
+
+    public Profile setAbilityPreset(int abilityPreset) {
+        abilityPreset = MathHelper.clamp(abilityPreset, 0, 3);
+        this.abilityPreset = abilityPreset;
+        return this;
+    }
+
     public int getAttributeLevel(Attribute attribute) {
         return attributeValues.get(attribute);
     }
@@ -460,6 +452,10 @@ public class Profile implements IProfile {
 
     public void setBleeding(double bleeding) {
         this.bleeding = Math.max(bleeding, 0);
+    }
+
+    public Ability getBoundAbility(int slot) {
+        return boundAbilities[slot];
     }
 
     public SkinPart getClothing() {
@@ -806,6 +802,14 @@ public class Profile implements IProfile {
 
     public void setAttributeLevel(Attribute attribute, int level) {
         attributeValues.put(attribute, level);
+    }
+
+    public void setBoundAbility(int slotIndex, Ability ability) {
+        boundAbilities[slotIndex] = ability;
+
+        if (player.world.isRemote) {
+            MythriaPacketHandler.sendToServer(new PacketBindAbility(slotIndex, ability));
+        }
     }
 
     public void setConsumable(final Consumable t, double v) {

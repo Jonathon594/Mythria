@@ -7,6 +7,7 @@ import me.Jonathon594.Mythria.Enum.InputIntent;
 import me.Jonathon594.Mythria.Network.MythriaSerializers;
 import me.Jonathon594.Mythria.Skin.SkinPart;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.util.Hand;
@@ -32,6 +33,8 @@ public class MythriaPlayer implements IMythriaPlayer {
     private int attackingMainhand;
     private int attackingOffhand;
 
+    private boolean abilityBookOpen = false;
+
     public MythriaPlayer(LivingEntity entity) {
         this.entity = entity;
     }
@@ -42,6 +45,15 @@ public class MythriaPlayer implements IMythriaPlayer {
 
     public int getAttackingMainhand() {
         return attackingMainhand;
+    }
+
+    public boolean isAbilityBookOpen() {
+        return abilityBookOpen;
+    }
+
+    public MythriaPlayer setAbilityBookOpen(boolean open) {
+        this.abilityBookOpen = open;
+        return this;
     }
 
     public MythriaPlayer setAttackingMainhand(int attackingMainhand) {
@@ -72,6 +84,11 @@ public class MythriaPlayer implements IMythriaPlayer {
 
     public void setControlMode(ControlMode controlMode) {
         entity.getDataManager().set(CONTROL_MODE, controlMode);
+    }
+
+    @Override
+    public void fromNBT(CompoundNBT comp) {
+        abilityBookOpen = comp.getBoolean("AbilityBookOpen");
     }
 
     @Override
@@ -146,6 +163,13 @@ public class MythriaPlayer implements IMythriaPlayer {
                 entity.getDataManager().set(VINES, part);
                 break;
         }
+    }
+
+    @Override
+    public CompoundNBT toNBT() {
+        CompoundNBT compoundNBT = new CompoundNBT();
+        compoundNBT.putBoolean("AbilityBookOpen", abilityBookOpen);
+        return compoundNBT;
     }
 
     public InputIntent getInputIntent(Hand hand) {

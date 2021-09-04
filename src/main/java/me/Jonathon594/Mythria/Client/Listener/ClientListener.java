@@ -6,7 +6,7 @@ import me.Jonathon594.Mythria.Capability.HeatableItem.HeatableProvider;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Client.Manager.InputManager;
-import me.Jonathon594.Mythria.Client.Screen.SpellInventoryScreen;
+import me.Jonathon594.Mythria.Client.Screen.AbilityInventoryScreen;
 import me.Jonathon594.Mythria.Const.ColorConst;
 import me.Jonathon594.Mythria.Enum.ControlMode;
 import me.Jonathon594.Mythria.Items.CrucibleItem;
@@ -73,9 +73,9 @@ public class ClientListener {
 
     @SubscribeEvent
     public static void onOpenGui(final GuiOpenEvent event) {
-        if(event.getGui() instanceof InventoryScreen &&
+        if (event.getGui() instanceof InventoryScreen &&
                 MythriaPlayerProvider.getMythriaPlayer(Minecraft.getInstance().player).getControlMode().equals(ControlMode.ABILITY)) {
-            event.setGui(new SpellInventoryScreen());
+            event.setGui(new AbilityInventoryScreen());
         }
 
         Screen gui = event.getGui();

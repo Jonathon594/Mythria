@@ -28,15 +28,24 @@ public abstract class WeightProvider implements IDataProvider {
     }
 
     @Override
-    public String getName() {
-        return "weights";
-    }
-
-    @Override
     public void act(DirectoryCache cache) throws IOException {
         addWeights();
         if (!data.isEmpty())
             save(cache, data, this.gen.getOutputFolder().resolve("data/" + modid + "/weight.json"));
+    }
+
+    @Override
+    public String getName() {
+        return "weights";
+    }
+
+    public void add(String key, float weight) {
+        if (data.put(key, weight) != null)
+            throw new IllegalStateException("Duplicate translation key " + key);
+    }
+
+    public void add(Item key, float weight) {
+        add(key.getRegistryName().toString(), weight);
     }
 
     private void save(DirectoryCache cache, Object object, Path target) throws IOException {
@@ -55,13 +64,4 @@ public abstract class WeightProvider implements IDataProvider {
     }
 
     protected abstract void addWeights();
-
-    public void add(String key, float weight) {
-        if (data.put(key, weight) != null)
-            throw new IllegalStateException("Duplicate translation key " + key);
-    }
-
-    public void add(Item key, float weight) {
-        add(key.getRegistryName().toString(), weight);
-    }
 }

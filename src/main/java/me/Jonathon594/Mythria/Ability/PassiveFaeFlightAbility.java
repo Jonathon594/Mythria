@@ -11,6 +11,11 @@ public class PassiveFaeFlightAbility extends PassiveElytraPropulsionAbility {
     }
 
     @Override
+    public boolean isHidden() {
+        return true;
+    }
+
+    @Override
     protected Consumable getConsumable() {
         return Consumable.STAMINA;
     }

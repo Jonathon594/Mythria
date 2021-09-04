@@ -37,13 +37,13 @@ public class MythriaSwordItem extends SwordItem implements IModularTool, IWeapon
     }
 
     @Override
-    public MythicSkills getUsageSkill() {
-        return MythicSkills.SWORDS;
+    public AttributeFlag getFlagForParrying() {
+        return AttributeFlag.SWORD_ABILITY_PARRY;
     }
 
     @Override
-    public AttributeFlag getFlagForParrying() {
-        return AttributeFlag.SWORD_ABILITY_PARRY;
+    public MythicSkills getUsageSkill() {
+        return MythicSkills.SWORDS;
     }
 
     @Override

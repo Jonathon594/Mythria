@@ -14,6 +14,11 @@ public class MythriaLangGenerator extends LanguageProvider {
         super(gen, modid, locale);
     }
 
+    public void add(Ability ability) {
+        add("abilities." + ability.getRegistryName().getPath() + ".name",
+                MythriaUtil.capitalizeWords(ability.getRegistryName().getPath().replace("_", " ")));
+    }
+
     @Override
     protected void addTranslations() {
         for (Item item : ForgeRegistries.ITEMS) {
@@ -22,13 +27,8 @@ public class MythriaLangGenerator extends LanguageProvider {
             }
         }
 
-        for(Ability ability : MythriaRegistries.ABILITIES) {
+        for (Ability ability : MythriaRegistries.ABILITIES) {
             add(ability);
         }
-    }
-
-    public void add(Ability ability) {
-        add("abilities." + ability.getRegistryName().getPath() + ".name",
-                MythriaUtil.capitalizeWords(ability.getRegistryName().getPath().replace("_", " ")));
     }
 }

@@ -32,7 +32,7 @@ public class RenderListener {
             event.setCanceled(true);
         }
 
-        if(event.getType().equals(RenderGameOverlayEvent.ElementType.HOTBAR) && mythriaPlayer.getControlMode().equals(ControlMode.ABILITY)) {
+        if (event.getType().equals(RenderGameOverlayEvent.ElementType.HOTBAR) && mythriaPlayer.getControlMode().equals(ControlMode.ABILITY)) {
             event.setCanceled(true);
             ScreenHud.INSTANCE.renderAbilityHotbar(event.getMatrixStack(), event.getPartialTicks());
         }

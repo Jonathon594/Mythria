@@ -49,15 +49,14 @@ public class MythriaHammerItem extends ToolItem implements IModularTool, IWeapon
     }
 
     @Override
-    public MythicSkills getUsageSkill() {
-        return MythicSkills.HEAVY_WEAPONS;
-    }
-
-    @Override
     public AttributeFlag getFlagForParrying() {
         return AttributeFlag.HAMMER_ABILITY_PARRY;
     }
 
+    @Override
+    public MythicSkills getUsageSkill() {
+        return MythicSkills.HEAVY_WEAPONS;
+    }
 
     @Override
     public Item getToolHeadItem() {

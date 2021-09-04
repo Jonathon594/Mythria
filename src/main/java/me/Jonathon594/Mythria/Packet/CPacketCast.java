@@ -12,8 +12,8 @@ import java.util.function.Supplier;
 
 public class CPacketCast {
     private final EnumAttackType type;
-    private Action action;
     private final int hand;
+    private final Action action;
 
     public CPacketCast(int hand, EnumAttackType type, Action action) {
         this.hand = hand;
@@ -38,7 +38,7 @@ public class CPacketCast {
             ServerPlayerEntity sender = contextSupplier.get().getSender();
             Profile profile = ProfileProvider.getProfile(sender);
             AbilityHandler abilityHandler = profile.getAbilityHandler();
-            if(msg.action == Action.PRESSED) {
+            if (msg.action == Action.PRESSED) {
                 abilityHandler.onCastStart(msg.hand, msg.type);
             } else {
                 abilityHandler.onCastEnd(msg.hand, msg.type);

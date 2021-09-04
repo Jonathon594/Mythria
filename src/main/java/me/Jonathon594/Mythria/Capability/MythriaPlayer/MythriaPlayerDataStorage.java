@@ -9,11 +9,12 @@ import net.minecraftforge.common.capabilities.Capability.IStorage;
 public class MythriaPlayerDataStorage implements IStorage<IMythriaPlayer> {
     @Override
     public CompoundNBT writeNBT(final Capability<IMythriaPlayer> capability, final IMythriaPlayer instance, final Direction side) {
-        return new CompoundNBT();
+        return instance.toNBT();
     }
 
     @Override
     public void readNBT(final Capability<IMythriaPlayer> capability, final IMythriaPlayer instance, final Direction side, final INBT nbt) {
-
+        final CompoundNBT comp = (CompoundNBT) nbt;
+        instance.fromNBT(comp);
     }
 }

@@ -77,10 +77,6 @@ public class ScreenHud extends AbstractGui {
         }
     }
 
-    private PlayerEntity getRenderViewPlayer() {
-        return !(this.mc.getRenderViewEntity() instanceof PlayerEntity) ? null : (PlayerEntity) this.mc.getRenderViewEntity();
-    }
-
     public void renderAbilityHotbar(MatrixStack matrixStack, Object partialTicks) {
         final int width = mc.getMainWindow().getScaledWidth();
         final int height = mc.getMainWindow().getScaledHeight();
@@ -116,11 +112,11 @@ public class ScreenHud extends AbstractGui {
                 int k1 = height - 16 - 3;
                 //this.renderHotbarItem(j1, k1, partialTicks, playerentity, playerentity.inventory.mainInventory.get(i1));
                 Ability ability = profile.getBoundAbility(MythriaUtil.wrapInt(i1 + profile.getAbilityPreset() * 9, 0, 35));
-                if(ability == null) continue;
+                if (ability == null) continue;
                 mc.getTextureManager().bindTexture(ability.getAbilityTexturePath());
                 matrixStack.push();
-                matrixStack.scale(1/16f, 1/16f, 1);
-                this.blit(matrixStack, j1* 16, k1* 16, 0, 0, 256, 256);
+                matrixStack.scale(1 / 16f, 1 / 16f, 1);
+                this.blit(matrixStack, j1 * 16, k1 * 16, 0, 0, 256, 256);
                 matrixStack.pop();
             }
 
@@ -184,6 +180,10 @@ public class ScreenHud extends AbstractGui {
                 statRenderer.render(matrixStack, x, y + statRenderer.getSlotOrder() * 11);
             }
         }
+    }
+
+    private PlayerEntity getRenderViewPlayer() {
+        return !(this.mc.getRenderViewEntity() instanceof PlayerEntity) ? null : (PlayerEntity) this.mc.getRenderViewEntity();
     }
 
     private ImmutableList<StatRenderer> getStatRenderers() {

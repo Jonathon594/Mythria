@@ -42,11 +42,11 @@ public class Perk extends ForgeRegistryEntry<Perk> {
     private final List<String> excludedPerks = new ArrayList<>();
     private final PerkType type;
     private final List<PerkType> perkTypeUnlocks = new ArrayList<>();
+    private final List<String> description = new ArrayList<>();
     private String displayName;
     private int minimumAge;
     private double learnTime = 0;
     private double bonusFatigueMitigation = 0.0;
-    private final List<String> description = new ArrayList<>();
 
     public Perk(final String name, final PerkType type, final IItemProvider icon,
                 final MythicSkills relatedSkill, final int requiredLevel,

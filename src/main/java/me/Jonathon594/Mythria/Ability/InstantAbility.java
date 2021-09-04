@@ -6,13 +6,13 @@ public abstract class InstantAbility extends Ability {
     }
 
     @Override
-    public void tick(AbilityInstance abilityInstance) {
-
+    public boolean canBeBound() {
+        return true;
     }
 
     @Override
-    public boolean canBeBound() {
-        return true;
+    public void tick(AbilityInstance abilityInstance) {
+
     }
 
     public abstract void onInstantActivate(AbilityInstance abilityInstance);

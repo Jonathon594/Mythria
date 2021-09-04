@@ -39,12 +39,12 @@ public class MythriaDaggerItem extends MythriaSwordItem {
     }
 
     @Override
-    public MythicSkills getUsageSkill() {
-        return MythicSkills.DAGGERS;
+    public AttributeFlag getFlagForParrying() {
+        return AttributeFlag.DAGGER_ABILITY_PARRY;
     }
 
     @Override
-    public AttributeFlag getFlagForParrying() {
-        return AttributeFlag.DAGGER_ABILITY_PARRY;
+    public MythicSkills getUsageSkill() {
+        return MythicSkills.DAGGERS;
     }
 }

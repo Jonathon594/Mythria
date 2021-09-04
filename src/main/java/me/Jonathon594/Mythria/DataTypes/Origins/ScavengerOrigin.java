@@ -25,6 +25,11 @@ public class ScavengerOrigin extends Origin {
     }
 
     @Override
+    protected List<PerkType> getPerkTypes() {
+        return ImmutableList.of(PerkType.LEATHER_WORKING);
+    }
+
+    @Override
     protected List<ItemStack> getItems() {
         ItemStack bandolier = createBandolier();
         return ImmutableList.of(bandolier);
@@ -37,10 +42,5 @@ public class ScavengerOrigin extends Origin {
                 .setStyle(Style.EMPTY).mergeStyle(TextFormatting.WHITE));
         bandolier.setDamage(bandolier.getMaxDamage() / 2);
         return bandolier;
-    }
-
-    @Override
-    protected List<PerkType> getPerkTypes() {
-        return ImmutableList.of(PerkType.LEATHER_WORKING);
     }
 }

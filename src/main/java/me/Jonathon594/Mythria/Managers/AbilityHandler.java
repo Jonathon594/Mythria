@@ -31,10 +31,6 @@ public class AbilityHandler {
         return false;
     }
 
-    public HashSet<AbilityInstance> getAbilityInstances() {
-        return abilityInstances;
-    }
-
     public AbilityInstance getAbilityInstance(Ability ability) {
         for (AbilityInstance abilityInstance : getAbilityInstances()) {
             if (abilityInstance.getAbility().equals(ability)) return abilityInstance;
@@ -42,10 +38,22 @@ public class AbilityHandler {
         return null;
     }
 
+    public HashSet<AbilityInstance> getAbilityInstances() {
+        return abilityInstances;
+    }
+
     public void onAbilityInstant(InstantAbility ability) {
         AbilityInstance abilityInstance = getAbilityInstance(ability);
         if (abilityInstance == null) return;
         ability.onInstantActivate(abilityInstance);
+    }
+
+    public void onCastEnd(int hand, EnumAttackType type) {
+
+    }
+
+    public void onCastStart(int hand, EnumAttackType type) {
+
     }
 
     public void setFluidWalkingState(Fluid fluid, boolean state) {
@@ -56,13 +64,5 @@ public class AbilityHandler {
         for (AbilityInstance instance : getAbilityInstances()) {
             instance.tick();
         }
-    }
-
-    public void onCastStart(int hand, EnumAttackType type) {
-
-    }
-
-    public void onCastEnd(int hand, EnumAttackType type) {
-
     }
 }

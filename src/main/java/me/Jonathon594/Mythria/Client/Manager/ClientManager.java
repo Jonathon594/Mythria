@@ -11,6 +11,7 @@ import me.Jonathon594.Mythria.Client.Screen.*;
 import me.Jonathon594.Mythria.Container.MythriaContainerType;
 import me.Jonathon594.Mythria.Entity.MythriaEntityType;
 import me.Jonathon594.Mythria.Enum.Consumable;
+import me.Jonathon594.Mythria.MythriaRegistries;
 import me.Jonathon594.Mythria.TileEntity.MythriaTileEntities;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.block.Block;
@@ -21,6 +22,8 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.util.SearchTree;
+import net.minecraft.client.util.SearchTreeManager;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.ResourceLocation;
@@ -30,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 
 public class ClientManager {
@@ -38,6 +42,8 @@ public class ClientManager {
     private static final ArrayList<ResourceLocation> specialModels = new ArrayList<>();
     private static final HashMap<Item, Collection<MythriaPropertyGetter>> propertyOverrideMap = new HashMap<>();
     private static final HashMap<Ability, KeyBinding> keyAbilityTriggers = new HashMap<>();
+
+    public static final SearchTreeManager.Key<Ability> ABILITIES = new SearchTreeManager.Key<>();
 
     public static void addSpecialModel(ResourceLocation resourceLocation) {
         if (specialModels.contains(resourceLocation)) throw new IllegalArgumentException();
@@ -75,6 +81,14 @@ public class ClientManager {
                 ItemModelsProperties.registerProperty(e.getKey(), getter.getName(), getter);
             }
         }
+
+        SearchTree<Ability> searchTree = new SearchTree<>(
+                (ability) -> Stream.of(ability.getDisplayName().getString()),
+                (ability) -> Stream.of(MythriaRegistries.ABILITIES.getKey(ability)));
+        MythriaRegistries.ABILITIES.getValues().forEach((ability -> searchTree.func_217872_a(ability)));
+        minecraft.getSearchTreeManager().add(ABILITIES, searchTree);
+
+
     }
 
     public static ArrayList<ResourceLocation> getSpecialModels() {
