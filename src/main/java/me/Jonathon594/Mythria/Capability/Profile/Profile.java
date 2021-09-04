@@ -246,7 +246,6 @@ public class Profile implements IProfile {
             final Perk pa = MythriaRegistries.PERKS.getValue(new ResourceLocation(s));
             if (pa != null) {
                 perks.add(pa);
-                //todo Add recipes after loading data
             }
         }
 
