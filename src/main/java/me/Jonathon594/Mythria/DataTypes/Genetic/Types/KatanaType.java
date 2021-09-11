@@ -33,7 +33,7 @@ public class KatanaType extends GeneticType {
     private static final LifeSpanGene LIFESPAN = new LifeSpanGene(2, 5, 8, 16, 34, false);
 
     public KatanaType() {
-        super("katana", "Ka'Tana", new SpawnPos(3710, -4925), () -> new Genetic(GeneticTypes.KATANA, -4, 300, 0.02,
+        super("katana", "Ka'Tana", () -> new Genetic(GeneticTypes.KATANA, -4, 300, 0.02,
                 40, 0.85, 20, 14, 1, NUTRITION, LIFESPAN)
                 .withExtraGene(new EntityAttitudeGene(EntityAttitudeGene.Attitude.FEAR, EntityType.CREEPER)));
     }

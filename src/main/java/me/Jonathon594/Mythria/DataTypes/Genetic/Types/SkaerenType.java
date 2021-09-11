@@ -9,7 +9,6 @@ import me.Jonathon594.Mythria.DataTypes.Genetic.GeneticType;
 import me.Jonathon594.Mythria.DataTypes.Genetic.GeneticTypes;
 import me.Jonathon594.Mythria.DataTypes.Origins.Origin;
 import me.Jonathon594.Mythria.DataTypes.Origins.Origins;
-import me.Jonathon594.Mythria.DataTypes.SpawnPos;
 import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Skin.SkinParts;
@@ -34,13 +33,12 @@ public class SkaerenType extends GeneticType {
     private static final LifeSpanGene LIFESPAN = new LifeSpanGene(3, 11, 16, 105, 210, false);
 
     public SkaerenType() {
-        super("skaeren", "Skaeren", SpawnPos.ZERO, () -> new Genetic(GeneticTypes.SKAEREN, 0, 100, 0.01,
+        super("skaeren", "Skaeren", () -> new Genetic(GeneticTypes.SKAEREN, 0, 100, 0.01,
                 60, 1.0, 40, 20, 1, NUTRITION, LIFESPAN)
                 .withExtraGene(new ImmunityGene(DamageSource.IN_FIRE, DamageSource.ON_FIRE, DamageSource.HOT_FLOOR,
                         DamageSource.LAVA))
                 .withExtraGene(new EntityAttitudeGene(EntityAttitudeGene.Attitude.TRUCE, EntityType.GHAST,
                         EntityType.BLAZE)));
-        setSpawnDimension(World.THE_NETHER);
     }
 
     @Override

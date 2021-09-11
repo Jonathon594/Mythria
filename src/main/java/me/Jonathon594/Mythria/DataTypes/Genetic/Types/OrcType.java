@@ -31,7 +31,7 @@ public class OrcType extends GeneticType {
     private static final LifeSpanGene LIFESPAN = new LifeSpanGene(2, 8, 12, 24, 48, false);
 
     public OrcType() {
-        super("orc", "Orc", new SpawnPos(3710, -4925), () -> new Genetic(GeneticTypes.ORC, 20, 140, -0.01,
+        super("orc", "Orc", () -> new Genetic(GeneticTypes.ORC, 20, 140, -0.01,
                 100, 0.8, 5, 16, 0, NUTRITION, LIFESPAN));
     }
 

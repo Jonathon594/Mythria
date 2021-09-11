@@ -38,8 +38,7 @@ public class ScavengerOrigin extends Origin {
     @NotNull
     private ItemStack createBandolier() {
         ItemStack bandolier = new ItemStack(MythriaItems.PRIMITIVE_BANDOLIER, 1);
-        bandolier.setDisplayName(new StringTextComponent("Old Bandolier")
-                .setStyle(Style.EMPTY).mergeStyle(TextFormatting.WHITE));
+        bandolier.setDisplayName(new StringTextComponent(TextFormatting.WHITE + "Old Bandolier"));
         bandolier.setDamage(bandolier.getMaxDamage() / 2);
         return bandolier;
     }

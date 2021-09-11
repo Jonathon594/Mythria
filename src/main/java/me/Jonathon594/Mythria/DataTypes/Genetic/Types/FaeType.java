@@ -32,7 +32,7 @@ public class FaeType extends GeneticType {
     private static final LifeSpanGene LIFESPAN = new LifeSpanGene(3, 11, 16, 120, 284, false);
 
     public FaeType() {
-        super("fae", "Fae", new SpawnPos(3710, -4925), () -> new Genetic(GeneticTypes.FAE, -10, 80, 0.02,
+        super("fae", "Fae", () -> new Genetic(GeneticTypes.FAE, -10, 80, 0.02,
                 30, 1.0, 80, 11, 1, NUTRITION, LIFESPAN)
                 .withExtraGene(new FaeWingsGene(SkinParts.FAE_WINGS_BLUE)));
         setSpecialSkinPartType(SkinPart.Type.WINGS);

@@ -1,5 +1,9 @@
 package me.Jonathon594.Mythria.Util;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import me.Jonathon594.Mythria.Blocks.MythriaOre;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
@@ -50,10 +54,15 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class MythriaUtil {
     private static final Random RANDOM = new Random();
+    public static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
 
     public static void DropAllItems(final PlayerEntity player, final boolean armor, final boolean offhand) {
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
@@ -292,7 +301,7 @@ public class MythriaUtil {
         double angle = Math.random() * Math.PI * 2;
         double x = Math.cos(angle) * Math.random() * radius;
         double z = Math.sin(angle) * Math.random() * radius;
-        return new SpawnPos(+center.getX(), (int) z + center.getZ());
+        return new SpawnPos((int) x + center.getX(), (int) z + center.getZ(), center.getDimension());
     }
 
     public static void grantRecipeAdvancements(ServerPlayerEntity player) {
@@ -421,5 +430,19 @@ public class MythriaUtil {
                 recipes.add(recipe);
             }
         }
+    }
+
+    public static JsonObject loadJson(String location) {
+        try {
+            InputStream in = Mythria.class.getClassLoader().getResourceAsStream(location);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            JsonElement je = GSON.fromJson(reader, JsonElement.class);
+            reader.close();
+            JsonObject json = je.getAsJsonObject();
+            return json;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

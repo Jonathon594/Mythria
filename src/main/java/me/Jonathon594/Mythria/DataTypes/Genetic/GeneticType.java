@@ -1,31 +1,46 @@
 package me.Jonathon594.Mythria.DataTypes.Genetic;
 
+import com.electronwill.nightconfig.core.ConfigFormat;
+import com.electronwill.nightconfig.core.file.CommentedFileConfig;
+import com.electronwill.nightconfig.core.file.FileConfig;
+import com.google.common.collect.ImmutableList;
 import me.Jonathon594.Mythria.DataTypes.Origins.Origin;
 import me.Jonathon594.Mythria.DataTypes.SpawnPos;
 import me.Jonathon594.Mythria.MythriaRegistries;
 import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Skin.SkinParts;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
+import net.java.games.util.plugins.PluginLoader;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeConfig;
+import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.event.server.ServerLifecycleEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.fml.loading.FMLLoader;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.versions.forge.ForgeVersion;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
 public class GeneticType extends ForgeRegistryEntry<GeneticType> {
     private final String displayName;
-    private final SpawnPos spawnPos;
     private final Supplier<Genetic> factory;
     private final Genetic instance;
     private SkinPart.Type specialSkinPartType = null;
-    private RegistryKey<World> spawnDimension = World.OVERWORLD;
 
-    public GeneticType(String name, String displayName, SpawnPos spawnPos, Supplier<Genetic> factory) {
+    public GeneticType(String name, String displayName, Supplier<Genetic> factory) {
         setRegistryName(new MythriaResourceLocation(name));
         this.displayName = displayName;
-        this.spawnPos = spawnPos;
         this.factory = factory;
         this.instance = factory.get();
     }
@@ -60,19 +75,6 @@ public class GeneticType extends ForgeRegistryEntry<GeneticType> {
 
     public String getDisplayName() {
         return displayName;
-    }
-
-    public RegistryKey<World> getSpawnDimension() {
-        return spawnDimension;
-    }
-
-    public GeneticType setSpawnDimension(RegistryKey<World> spawnDimension) {
-        this.spawnDimension = spawnDimension;
-        return this;
-    }
-
-    public SpawnPos getSpawnPos() {
-        return spawnPos;
     }
 
     public SkinPart.Type getSpecialSkinPartType() {

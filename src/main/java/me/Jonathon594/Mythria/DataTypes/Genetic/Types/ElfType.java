@@ -33,7 +33,7 @@ public class ElfType extends GeneticType {
     private static final LifeSpanGene LIFESPAN = new LifeSpanGene(3, 11, 16, 523, 860, true);
 
     public ElfType() {
-        super("elf", "Elf", new SpawnPos(3710, -4925), () -> new Genetic(GeneticTypes.ELF, -2, 80, 0.01,
+        super("elf", "Elf", () -> new Genetic(GeneticTypes.ELF, -2, 80, 0.01,
                 50, 1.0, 50, 12, 0.5, NUTRITION, LIFESPAN)
                 .withExtraGene(new AbilityGene(Abilities.ELF_HEALING)));
     }

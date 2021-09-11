@@ -2,7 +2,6 @@ package me.Jonathon594.Mythria;
 
 import me.Jonathon594.Mythria.Capability.CapabilityHandler;
 import me.Jonathon594.Mythria.Client.Manager.ClientManager;
-import me.Jonathon594.Mythria.Config.ServerGlobalConfig;
 import me.Jonathon594.Mythria.Entity.MythriaEntityType;
 import me.Jonathon594.Mythria.Entity.NetherChickenEntity;
 import me.Jonathon594.Mythria.Listener.BiomeListener;
@@ -66,5 +65,6 @@ public class Mythria {
                 NetherChickenEntity::canNetherChickenSpawn);
 
         WeightManager.init();
+        SpawnManager.init();
     }
 }
