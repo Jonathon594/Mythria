@@ -32,7 +32,7 @@ public class DryadType extends GeneticType {
     private static final LifeSpanGene LIFESPAN = new LifeSpanGene(3, 11, 16, 523, 649, false);
 
     public DryadType() {
-        super("dryad", "Dryad", new SpawnPos(3119, -3909), () -> new Genetic(GeneticTypes.DRYAD, 8, 120, 0.01,
+        super("dryad", "Dryad", new SpawnPos(3710, -4925), () -> new Genetic(GeneticTypes.DRYAD, 8, 120, 0.01,
                 40, 1.0, 200, 14, 0.0, NUTRITION, LIFESPAN)
                 .setGenderBias(1.0)
                 .withExtraGene(new AbilityGene(Abilities.DRYAD_GROWTH))

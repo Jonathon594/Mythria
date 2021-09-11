@@ -418,7 +418,7 @@ public class Profile implements IProfile {
     }
 
     public Profile setAbilityPreset(int abilityPreset) {
-        abilityPreset = MathHelper.clamp(abilityPreset, 0, 3);
+        abilityPreset = MythriaUtil.wrapInt(abilityPreset, 0, 3);
         this.abilityPreset = abilityPreset;
         return this;
     }

@@ -12,8 +12,14 @@ public class Keybindings {
 
     public static final KeyBinding TOGGLE_WIELDING_MODE = new KeyBinding("Toggle Wielding Mode", GLFW.GLFW_KEY_X, "Mythria");
     public static final KeyBinding TOGGLE_ABILITY_MODE = new KeyBinding("Toggle Ability Mode", GLFW.GLFW_KEY_Z, "Mythria");
+    public static final KeyBinding NEXT_ABILITY_PRESET =
+            new KeyBinding("Next Ability Preset", GLFW.GLFW_KEY_PERIOD, "Mythria");
+    public static final KeyBinding PREVIOUS_ABILITY_PRESET =
+            new KeyBinding("Previous Ability Preset", GLFW.GLFW_KEY_COMMA, "Mythria");
 
     public static final KeyBinding PARRY = new KeyBinding("Parry", GLFW.GLFW_KEY_V, "Mythria");
+
+
 
     public static void init() {
         ClientRegistry.registerKeyBinding(SHOW_PROFILE);
@@ -22,6 +28,8 @@ public class Keybindings {
         ClientRegistry.registerKeyBinding(CRAFTING);
         ClientRegistry.registerKeyBinding(TOGGLE_WIELDING_MODE);
         ClientRegistry.registerKeyBinding(TOGGLE_ABILITY_MODE);
+        ClientRegistry.registerKeyBinding(NEXT_ABILITY_PRESET);
+        ClientRegistry.registerKeyBinding(PREVIOUS_ABILITY_PRESET);
         ClientRegistry.registerKeyBinding(PARRY);
     }
 }

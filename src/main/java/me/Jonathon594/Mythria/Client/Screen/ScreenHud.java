@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.Jonathon594.Mythria.Ability.Ability;
+import me.Jonathon594.Mythria.Ability.AbilityInstance;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
@@ -110,10 +111,10 @@ public class ScreenHud extends AbstractGui {
             for (int i1 = 0; i1 < 9; ++i1) {
                 int j1 = i - 90 + i1 * 20 + 2;
                 int k1 = height - 16 - 3;
-                //this.renderHotbarItem(j1, k1, partialTicks, playerentity, playerentity.inventory.mainInventory.get(i1));
                 Ability ability = profile.getBoundAbility(MythriaUtil.wrapInt(i1 + profile.getAbilityPreset() * 9, 0, 35));
                 if (ability == null) continue;
                 mc.getTextureManager().bindTexture(ability.getAbilityTexturePath());
+                renderAbilityCooldownIndicator(matrixStack, profile, j1, k1, ability);
                 matrixStack.push();
                 matrixStack.scale(1 / 16f, 1 / 16f, 1);
                 this.blit(matrixStack, j1 * 16, k1 * 16, 0, 0, 256, 256);
@@ -127,8 +128,26 @@ public class ScreenHud extends AbstractGui {
                 //this.renderHotbarItem(i + 91 + 10, i2, partialTicks, playerentity, itemstack);
             }
 
+            drawCenteredString(matrixStack, mc.fontRenderer, "Preset: " + (profile.getAbilityPreset() + 1), width / 2 - 148, height - 15, 0x6E848E);
+
             RenderSystem.disableRescaleNormal();
             RenderSystem.disableBlend();
+        }
+    }
+
+    private void renderAbilityCooldownIndicator(MatrixStack matrixStack, Profile profile, int x, int y, Ability ability) {
+        AbilityInstance abilityInstance = profile.getAbilityHandler().getAbilityInstance(ability);
+        int cooldown = abilityInstance.getCooldown();
+        if(cooldown > 0) {
+            int lastCooldown = abilityInstance.getLastCooldown();
+            float f = (float) cooldown / (float) lastCooldown;
+
+            RenderSystem.disableDepthTest();
+            RenderSystem.colorMask(true, true, true, false);
+            int slotColor = -2130706433;
+            this.fillGradient(matrixStack, x, y, x + 16, y + 16, slotColor, slotColor);
+            RenderSystem.colorMask(true, true, true, true);
+            RenderSystem.enableDepthTest();
         }
     }
 

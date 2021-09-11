@@ -40,10 +40,6 @@ public class EntityListener {
                 event.setResult(Event.Result.DENY);
             }
         }
-
-        if (!(event.getEntityLiving() instanceof PlayerEntity)) {
-            event.setResult(Event.Result.DENY);
-        }
     }
 
     @SubscribeEvent

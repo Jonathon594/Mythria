@@ -31,7 +31,7 @@ public class HumanType extends GeneticType {
     private static final LifeSpanGene LIFESPAN = new LifeSpanGene(3, 11, 16, 40, 74, false);
 
     public HumanType() {
-        super("human", "Human", new SpawnPos(3119, -3909), () -> new Genetic(GeneticTypes.HUMAN, 4, 100, 0.0, 55,
+        super("human", "Human", new SpawnPos(3710, -4925), () -> new Genetic(GeneticTypes.HUMAN, 4, 100, 0.0, 55,
                 1.5, 10, 14, 0, NUTRITION, LIFESPAN));
     }
 

@@ -1,5 +1,6 @@
 package me.Jonathon594.Mythria.Client.Listener;
 
+import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Client.Keybindings;
 import me.Jonathon594.Mythria.Client.Manager.InputManager;
@@ -21,8 +22,9 @@ public class KeybindingListener {
     @SubscribeEvent
     public static void onKeyPress(InputEvent.KeyInputEvent event) {
         Minecraft mc = Minecraft.getInstance();
+        Profile profile = ProfileProvider.getProfile(mc.player);
         if (Keybindings.SHOW_PROFILE.isPressed()) {
-            if (ProfileProvider.getProfile(mc.player).getCreated()) {
+            if (profile.getCreated()) {
                 mc.displayGuiScreen(new ScreenProfile());
             } else {
                 mc.displayGuiScreen(new ScreenProfileCreation());
@@ -42,6 +44,13 @@ public class KeybindingListener {
         }
         if (Keybindings.TOGGLE_ABILITY_MODE.isPressed()) {
             InputManager.onToggleControlMode();
+        }
+
+        if (Keybindings.NEXT_ABILITY_PRESET.isPressed()) {
+            profile.setAbilityPreset(profile.getAbilityPreset() + 1);
+        }
+        if (Keybindings.PREVIOUS_ABILITY_PRESET.isPressed()) {
+            profile.setAbilityPreset(profile.getAbilityPreset() - 1);
         }
     }
 }

@@ -17,6 +17,7 @@ import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -70,6 +71,7 @@ public class InputManager {
         Profile profile = ProfileProvider.getProfile(player);
         MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(player);
         RayTraceResult result = mc.objectMouseOver;
+        if (result == null) return;
         boolean lookingAtBlock = result.getType().equals(RayTraceResult.Type.BLOCK);
 
         boolean attack = gameSettings.keyBindAttack.isKeyDown();
@@ -143,9 +145,11 @@ public class InputManager {
                 break;
             case ABILITY:
                 for (int i = 0; i < 9; i++) {
-                    if (mc.gameSettings.keyBindsHotbar[i].isKeyDown()) {
+                    KeyBinding keyBinding = mc.gameSettings.keyBindsHotbar[i];
+                    if (keyBinding.isPressed()) {
+                        int slot = MythriaUtil.wrapInt(i + profile.getAbilityPreset() * 9, 0, 35);
                         MythriaPacketHandler.sendToServer(new CPacketAbility(
-                                MythriaUtil.wrapInt(i + profile.getAbilityPreset() * 9, 0, 35)));
+                                slot));
                     }
                 }
                 break;
