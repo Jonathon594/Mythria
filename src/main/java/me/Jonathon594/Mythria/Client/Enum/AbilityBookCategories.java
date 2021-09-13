@@ -16,7 +16,7 @@ public enum AbilityBookCategories {
     CASTED(ability -> ability instanceof CastAbility),
     PASSIVE(ability -> ability instanceof PassiveAbility);
 
-    private Predicate<? super Ability> predicate;
+    private final Predicate<? super Ability> predicate;
 
     AbilityBookCategories(Predicate<? super Ability> predicate) {
         this.predicate = predicate;

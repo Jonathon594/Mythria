@@ -109,6 +109,18 @@ public class AbilityInventoryScreen extends Screen {
         this.oldMouseY = (float) mouseY;
     }
 
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        InputMappings.Input mouseKey = InputMappings.getInputByCode(keyCode, scanCode);
+        if (super.keyPressed(keyCode, scanCode, modifiers)) {
+            return true;
+        } else if (this.minecraft.gameSettings.keyBindInventory.isActiveAndMatches(mouseKey)) {
+            this.closeScreen();
+            return true;
+        }
+        return false;
+    }
+
     protected void init() {
         super.init();
         profile = ProfileProvider.getProfile(minecraft.player);
@@ -249,17 +261,5 @@ public class AbilityInventoryScreen extends Screen {
         int j = this.guiTop;
         this.blit(matrixStack, i, j, 0, 0, this.xSize, this.ySize);
         InventoryScreen.drawEntityOnScreen(i + 51, j + 75, 30, (float) (i + 51) - this.oldMouseX, (float) (j + 75 - 50) - this.oldMouseY, this.minecraft.player);
-    }
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        InputMappings.Input mouseKey = InputMappings.getInputByCode(keyCode, scanCode);
-        if (super.keyPressed(keyCode, scanCode, modifiers)) {
-            return true;
-        } else if (this.minecraft.gameSettings.keyBindInventory.isActiveAndMatches(mouseKey)) {
-            this.closeScreen();
-            return true;
-        }
-        return false;
     }
 }

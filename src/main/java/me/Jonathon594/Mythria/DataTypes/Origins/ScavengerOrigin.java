@@ -7,7 +7,6 @@ import me.Jonathon594.Mythria.Enum.PerkType;
 import me.Jonathon594.Mythria.Items.MythriaItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import org.jetbrains.annotations.NotNull;
 

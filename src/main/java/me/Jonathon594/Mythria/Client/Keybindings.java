@@ -20,7 +20,6 @@ public class Keybindings {
     public static final KeyBinding PARRY = new KeyBinding("Parry", GLFW.GLFW_KEY_V, "Mythria");
 
 
-
     public static void init() {
         ClientRegistry.registerKeyBinding(SHOW_PROFILE);
         ClientRegistry.registerKeyBinding(SHOW_SKILLS);

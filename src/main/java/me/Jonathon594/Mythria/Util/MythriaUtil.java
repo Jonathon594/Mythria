@@ -61,8 +61,8 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class MythriaUtil {
-    private static final Random RANDOM = new Random();
     public static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
+    private static final Random RANDOM = new Random();
 
     public static void DropAllItems(final PlayerEntity player, final boolean armor, final boolean offhand) {
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
@@ -345,6 +345,20 @@ public class MythriaUtil {
         return item instanceof SwordItem && !(item instanceof MythriaDaggerItem);
     }
 
+    public static JsonObject loadJson(String location) {
+        try {
+            InputStream in = Mythria.class.getClassLoader().getResourceAsStream(location);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            JsonElement je = GSON.fromJson(reader, JsonElement.class);
+            reader.close();
+            JsonObject json = je.getAsJsonObject();
+            return json;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static double round(double value, int precision) {
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;
@@ -430,19 +444,5 @@ public class MythriaUtil {
                 recipes.add(recipe);
             }
         }
-    }
-
-    public static JsonObject loadJson(String location) {
-        try {
-            InputStream in = Mythria.class.getClassLoader().getResourceAsStream(location);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            JsonElement je = GSON.fromJson(reader, JsonElement.class);
-            reader.close();
-            JsonObject json = je.getAsJsonObject();
-            return json;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

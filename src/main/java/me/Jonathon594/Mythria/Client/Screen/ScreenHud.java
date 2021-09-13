@@ -135,22 +135,6 @@ public class ScreenHud extends AbstractGui {
         }
     }
 
-    private void renderAbilityCooldownIndicator(MatrixStack matrixStack, Profile profile, int x, int y, Ability ability) {
-        AbilityInstance abilityInstance = profile.getAbilityHandler().getAbilityInstance(ability);
-        int cooldown = abilityInstance.getCooldown();
-        if(cooldown > 0) {
-            int lastCooldown = abilityInstance.getLastCooldown();
-            float f = (float) cooldown / (float) lastCooldown;
-
-            RenderSystem.disableDepthTest();
-            RenderSystem.colorMask(true, true, true, false);
-            int slotColor = -2130706433;
-            this.fillGradient(matrixStack, x, y, x + 16, y + 16, slotColor, slotColor);
-            RenderSystem.colorMask(true, true, true, true);
-            RenderSystem.enableDepthTest();
-        }
-    }
-
     public void tick() {
         ClientPlayerEntity player = mc.player;
         if (player == null) return;
@@ -207,6 +191,22 @@ public class ScreenHud extends AbstractGui {
 
     private ImmutableList<StatRenderer> getStatRenderers() {
         return ImmutableList.of(HUNGER, BLOOD, TORPOR, MANA, STAMINA, THIRST, TEMPERATURE, WEIGHT, OVERWEIGHT);
+    }
+
+    private void renderAbilityCooldownIndicator(MatrixStack matrixStack, Profile profile, int x, int y, Ability ability) {
+        AbilityInstance abilityInstance = profile.getAbilityHandler().getAbilityInstance(ability);
+        int cooldown = abilityInstance.getCooldown();
+        if (cooldown > 0) {
+            int lastCooldown = abilityInstance.getLastCooldown();
+            float f = (float) cooldown / (float) lastCooldown;
+
+            RenderSystem.disableDepthTest();
+            RenderSystem.colorMask(true, true, true, false);
+            int slotColor = -2130706433;
+            this.fillGradient(matrixStack, x, y, x + 16, y + 16, slotColor, slotColor);
+            RenderSystem.colorMask(true, true, true, true);
+            RenderSystem.enableDepthTest();
+        }
     }
 
     private void renderAbilityWheel(MatrixStack matrixStack, int width, int height) {

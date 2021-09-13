@@ -43,49 +43,6 @@ public class MythriaPlayer implements IMythriaPlayer {
         this.entity = null;
     }
 
-    public int getAttackingMainhand() {
-        return attackingMainhand;
-    }
-
-    public boolean isAbilityBookOpen() {
-        return abilityBookOpen;
-    }
-
-    public MythriaPlayer setAbilityBookOpen(boolean open) {
-        this.abilityBookOpen = open;
-        return this;
-    }
-
-    public MythriaPlayer setAttackingMainhand(int attackingMainhand) {
-        this.attackingMainhand = attackingMainhand;
-        return this;
-    }
-
-    public int getAttackingOffhand() {
-        return attackingOffhand;
-    }
-
-    public MythriaPlayer setAttackingOffhand(int attackingOffhand) {
-        this.attackingOffhand = attackingOffhand;
-        return this;
-    }
-
-    public CombatMode getCombatMode() {
-        return combatMode;
-    }
-
-    public void setCombatMode(CombatMode combatMode) {
-        this.combatMode = combatMode;
-    }
-
-    public ControlMode getControlMode() {
-        return entity.getDataManager().get(CONTROL_MODE);
-    }
-
-    public void setControlMode(ControlMode controlMode) {
-        entity.getDataManager().set(CONTROL_MODE, controlMode);
-    }
-
     @Override
     public void fromNBT(CompoundNBT comp) {
         abilityBookOpen = comp.getBoolean("AbilityBookOpen");
@@ -172,6 +129,40 @@ public class MythriaPlayer implements IMythriaPlayer {
         return compoundNBT;
     }
 
+    public int getAttackingMainhand() {
+        return attackingMainhand;
+    }
+
+    public MythriaPlayer setAttackingMainhand(int attackingMainhand) {
+        this.attackingMainhand = attackingMainhand;
+        return this;
+    }
+
+    public int getAttackingOffhand() {
+        return attackingOffhand;
+    }
+
+    public MythriaPlayer setAttackingOffhand(int attackingOffhand) {
+        this.attackingOffhand = attackingOffhand;
+        return this;
+    }
+
+    public CombatMode getCombatMode() {
+        return combatMode;
+    }
+
+    public void setCombatMode(CombatMode combatMode) {
+        this.combatMode = combatMode;
+    }
+
+    public ControlMode getControlMode() {
+        return entity.getDataManager().get(CONTROL_MODE);
+    }
+
+    public void setControlMode(ControlMode controlMode) {
+        entity.getDataManager().set(CONTROL_MODE, controlMode);
+    }
+
     public InputIntent getInputIntent(Hand hand) {
         return hand == Hand.MAIN_HAND ? mainhandIntent : offhandIntent;
     }
@@ -182,6 +173,15 @@ public class MythriaPlayer implements IMythriaPlayer {
 
     public void setWingFlightFlapAngle(int wingFlightFlapAngle) {
         this.wingFlightFlapAngle = wingFlightFlapAngle;
+    }
+
+    public boolean isAbilityBookOpen() {
+        return abilityBookOpen;
+    }
+
+    public MythriaPlayer setAbilityBookOpen(boolean open) {
+        this.abilityBookOpen = open;
+        return this;
     }
 
     public void onTick() {

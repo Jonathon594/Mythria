@@ -5,14 +5,8 @@ import net.minecraft.entity.player.PlayerEntity;
 public class AbilityInstance {
     private final Ability ability;
     private final PlayerEntity owner;
-
-    public int getCooldown() {
-        return cooldown;
-    }
-
     private int cooldown = 0;
     private int lastCooldown = 0;
-
     public AbilityInstance(Ability ability, PlayerEntity owner) {
         this.ability = ability;
         this.owner = owner;
@@ -20,6 +14,15 @@ public class AbilityInstance {
 
     public Ability getAbility() {
         return ability;
+    }
+
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public void setCooldown(int cooldown) {
+        this.cooldown = cooldown;
+        this.lastCooldown = cooldown;
     }
 
     public int getLastCooldown() {
@@ -32,11 +35,6 @@ public class AbilityInstance {
 
     public boolean isOnCooldown() {
         return cooldown > 0;
-    }
-
-    public void setCooldown(int cooldown) {
-        this.cooldown = cooldown;
-        this.lastCooldown = cooldown;
     }
 
     public void tick() {

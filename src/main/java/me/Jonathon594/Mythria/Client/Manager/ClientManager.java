@@ -37,13 +37,12 @@ import java.util.stream.Stream;
 
 
 public class ClientManager {
+    public static final SearchTreeManager.Key<Ability> ABILITIES = new SearchTreeManager.Key<>();
     private static final Minecraft minecraft = Minecraft.getInstance();
     private static final Collection<ResourceLocation> texturesToStitch = new ArrayList<>();
     private static final ArrayList<ResourceLocation> specialModels = new ArrayList<>();
     private static final HashMap<Item, Collection<MythriaPropertyGetter>> propertyOverrideMap = new HashMap<>();
     private static final HashMap<Ability, KeyBinding> keyAbilityTriggers = new HashMap<>();
-
-    public static final SearchTreeManager.Key<Ability> ABILITIES = new SearchTreeManager.Key<>();
 
     public static void addSpecialModel(ResourceLocation resourceLocation) {
         if (specialModels.contains(resourceLocation)) throw new IllegalArgumentException();

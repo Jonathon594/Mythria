@@ -47,7 +47,7 @@ public class AbilityWidget extends Widget {
 
         boolean flag = this.animationTime > 0.0F;
         if (flag) {
-            float f = 1.0F + 0.1F * (float) Math.sin((double) (this.animationTime / 15.0F * (float) Math.PI));
+            float f = 1.0F + 0.1F * (float) Math.sin(this.animationTime / 15.0F * (float) Math.PI);
             matrixStack.push();
             matrixStack.translate((float) (this.x + 8), (float) (this.y + 12), 0.0F);
             matrixStack.scale(f, f, 1.0F);

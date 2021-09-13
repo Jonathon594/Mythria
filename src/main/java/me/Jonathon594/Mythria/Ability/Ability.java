@@ -33,15 +33,15 @@ public abstract class Ability extends ForgeRegistryEntry<Ability> {
         return new MythriaResourceLocation("textures/magic/" + getTextureName() + ".png");
     }
 
+    @NotNull
+    public TranslationTextComponent getDisplayName() {
+        return new TranslationTextComponent("abilities." + getRegistryName().getPath() + ".name");
+    }
+
     public List<ITextComponent> getHoveredToolTip() {
         List<ITextComponent> tooltips = Lists.newArrayList();
         tooltips.add(getDisplayName());
         return tooltips;
-    }
-
-    @NotNull
-    public TranslationTextComponent getDisplayName() {
-        return new TranslationTextComponent("abilities." + getRegistryName().getPath() + ".name");
     }
 
     public boolean isHidden() {

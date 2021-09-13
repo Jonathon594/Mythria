@@ -14,7 +14,6 @@ import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Skin.SkinParts;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
 
 import java.util.AbstractMap;
 import java.util.Collection;

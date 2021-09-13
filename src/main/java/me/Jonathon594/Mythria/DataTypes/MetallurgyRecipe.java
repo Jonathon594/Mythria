@@ -17,11 +17,9 @@ public class MetallurgyRecipe {
     private final HashMap<Item, Double> recipe = new HashMap<>();
 
     public MetallurgyRecipe(int difficulty, MythriaMaterial material, double meltingPoint, MetallurgyRecipePair... items) {
-        this.material = material;
-        this.meltingPoint = meltingPoint;
-        double p = 0;
-        this.difficulty = difficulty;
+        this(difficulty, material, meltingPoint);
 
+        double p = 0;
         if (items != null) {
             for (MetallurgyRecipePair entry : items) {
                 recipe.put(entry.getItem(), entry.getProp());
@@ -33,6 +31,12 @@ public class MetallurgyRecipe {
                 return;
             }
         }
+    }
+
+    public MetallurgyRecipe(int difficulty, MythriaMaterial material, double meltingPoint) {
+        this.difficulty = difficulty;
+        this.material = material;
+        this.meltingPoint = meltingPoint;
 
         SmeltingManager.addRecipe(this);
     }

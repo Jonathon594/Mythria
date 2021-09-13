@@ -50,6 +50,7 @@ public class Profile implements IProfile {
     private final Random random;
     private final ArrayList<Ability> abilities = new ArrayList<>();
     private final AbilityHandler abilityHandler = new AbilityHandler();
+    private final Ability[] boundAbilities = new Ability[48];
     private String firstName = "";
     private String middleName = "";
     private String lastName = "";
@@ -70,7 +71,6 @@ public class Profile implements IProfile {
     private double bleeding = 0.0;
     private double playerLevelProgressBuffer;
     private SkinPart clothing = SkinParts.CLOTHES_PRIMITIVE;
-    private final Ability[] boundAbilities = new Ability[48];
     private int abilityPreset = 0;
 
     public Profile() {

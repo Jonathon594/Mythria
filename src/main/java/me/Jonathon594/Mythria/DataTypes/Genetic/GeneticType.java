@@ -1,33 +1,12 @@
 package me.Jonathon594.Mythria.DataTypes.Genetic;
 
-import com.electronwill.nightconfig.core.ConfigFormat;
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import com.electronwill.nightconfig.core.file.FileConfig;
-import com.google.common.collect.ImmutableList;
 import me.Jonathon594.Mythria.DataTypes.Origins.Origin;
-import me.Jonathon594.Mythria.DataTypes.SpawnPos;
 import me.Jonathon594.Mythria.MythriaRegistries;
 import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Skin.SkinParts;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
-import net.java.games.util.plugins.PluginLoader;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeConfig;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.event.server.ServerLifecycleEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.minecraftforge.versions.forge.ForgeVersion;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;

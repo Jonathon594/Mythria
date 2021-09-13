@@ -8,7 +8,6 @@ import me.Jonathon594.Mythria.DataTypes.Genetic.GeneticType;
 import me.Jonathon594.Mythria.DataTypes.Genetic.GeneticTypes;
 import me.Jonathon594.Mythria.DataTypes.Origins.Origin;
 import me.Jonathon594.Mythria.DataTypes.Origins.Origins;
-import me.Jonathon594.Mythria.DataTypes.SpawnPos;
 import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Skin.SkinParts;
