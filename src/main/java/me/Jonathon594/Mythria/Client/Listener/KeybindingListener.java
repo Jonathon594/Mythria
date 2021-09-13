@@ -22,6 +22,7 @@ public class KeybindingListener {
     @SubscribeEvent
     public static void onKeyPress(InputEvent.KeyInputEvent event) {
         Minecraft mc = Minecraft.getInstance();
+        if(mc.player == null) return;
         Profile profile = ProfileProvider.getProfile(mc.player);
         if (Keybindings.SHOW_PROFILE.isPressed()) {
             if (profile.getCreated()) {

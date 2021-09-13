@@ -27,6 +27,8 @@ public class MetallurgyPerks implements IPerkRegistry {
                         .addDescriptionLine("Hot metal? isn't that dangerous?")
                         .addAttributeFlag(AttributeFlag.BASIC_SMELTING)
                         .addRequiredAttribute(Attribute.INTELLIGENCE, 4)
+                        .addPerkTypeUnlock(PerkType.MINING)
+                        .addPerkTypeUnlock(PerkType.DIGGING)
         );
     }
 }

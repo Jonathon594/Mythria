@@ -1,6 +1,8 @@
 package me.Jonathon594.Mythria.Skin;
 
+import com.google.common.collect.ImmutableSet;
 import me.Jonathon594.Mythria.DataTypes.GenderedSkinPart;
+import me.Jonathon594.Mythria.Enum.Gender;
 import me.Jonathon594.Mythria.Mythria;
 import me.Jonathon594.Mythria.MythriaRegistries;
 import net.minecraftforge.event.RegistryEvent;
@@ -24,6 +26,7 @@ public class SkinParts {
     public static final SkinPart HUMAN_HAIR_GINGER = null;
     public static final SkinPart HUMAN_HAIR_BROWN = null;
     public static final SkinPart HUMAN_HAIR_BLACK = null;
+    public static final SkinPart FAE_HAIR_PINK = null;
     public static final SkinPart HUMAN_SKIN_WHITE = null;
     public static final SkinPart HUMAN_SKIN_TAN = null;
     public static final SkinPart HUMAN_SKIN_MEDIUM = null;
@@ -38,14 +41,6 @@ public class SkinParts {
     public static final SkinPart FAE_WINGS_GREEN = null;
     public static final SkinPart DRYAD_VINES_OAK = null;
     private static final ArrayList<SkinPart> skinParts = new ArrayList<>();
-
-    public static List<String> getSkinPartNamesFor(List<SkinPart> parts) {
-        List<String> names = new ArrayList<>();
-        for (SkinPart part : parts) {
-            names.add(part.getRegistryName().toString());
-        }
-        return names;
-    }
 
     public static List<SkinPart> getSkinPartsFor(SkinPart.Type type) {
         List<SkinPart> parts = new ArrayList<>();
@@ -99,6 +94,12 @@ public class SkinParts {
                 new GenderedSkinPart("Ginger", "human_hair_ginger", SkinPart.Type.HAIR),
                 new GenderedSkinPart("Brown", "human_hair_brown", SkinPart.Type.HAIR),
                 new GenderedSkinPart("Black", "human_hair_black", SkinPart.Type.HAIR),
+                new GenderedSkinPart("Pink", "fae_hair_pink", SkinPart.Type.HAIR)
+                        .setAllowedGenders(ImmutableSet.of(Gender.FEMALE)),
+                new GenderedSkinPart("Green", "fae_hair_green", SkinPart.Type.HAIR)
+                        .setAllowedGenders(ImmutableSet.of(Gender.FEMALE)),
+                new GenderedSkinPart("Purple", "fae_hair_purple", SkinPart.Type.HAIR)
+                        .setAllowedGenders(ImmutableSet.of(Gender.FEMALE)),
 
 //                new SkinPart("Felixia", "deity_hair_felixia", SkinPart.Type.HAIR, false, true),
 //                new SkinPart("Melinias", "deity_hair_melinias", SkinPart.Type.HAIR, false, true),

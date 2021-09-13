@@ -1,12 +1,18 @@
 package me.Jonathon594.Mythria.Skin;
 
+import me.Jonathon594.Mythria.DataTypes.GenderedSkinPart;
 import me.Jonathon594.Mythria.Enum.Gender;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class SkinPart extends ForgeRegistryEntry<SkinPart> {
     private final Type type;
+    protected Set<Gender> allowedGenders = new HashSet<>();
     private String displayName = "";
 
     private boolean makesPiglinsNeutral = false;
@@ -15,6 +21,11 @@ public class SkinPart extends ForgeRegistryEntry<SkinPart> {
         setRegistryName(new MythriaResourceLocation(name));
         this.type = type;
         this.displayName = displayName;
+        allowedGenders.addAll(Arrays.asList(Gender.values()));
+    }
+
+    public Set<Gender> getAllowedGenders() {
+        return allowedGenders;
     }
 
     public String getDisplayName() {
@@ -31,6 +42,11 @@ public class SkinPart extends ForgeRegistryEntry<SkinPart> {
 
     public boolean makesPiglinsNeutral() {
         return makesPiglinsNeutral;
+    }
+
+    public SkinPart setAllowedGenders(Set<Gender> allowedGenders) {
+        this.allowedGenders = allowedGenders;
+        return this;
     }
 
     public SkinPart setMakesPiglinsNeutral(boolean makesPiglinsNeutral) {

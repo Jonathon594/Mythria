@@ -57,6 +57,7 @@ public class SurvivalPerks implements IPerkRegistry {
                         .setDisplayName("Bone Tools")
                         .addDescriptionLine("Not very durable, but bone tools can be quite effective.")
                         .addPerkTypeUnlock(PerkType.MINING)
+                        .addPerkTypeUnlock(PerkType.DIGGING)
                         .addPerkTypeUnlock(PerkType.LUMBERING)
                         .addCraftable(MythriaItems.BONE_AXE_HEAD, MythriaItems.BONE_HOE_HEAD, MythriaItems.BONE_DAGGER_BLADE, MythriaItems.BONE_SHOVEL_HEAD)
                         .addRequiredAttribute(Attribute.DEXTERITY, 2),

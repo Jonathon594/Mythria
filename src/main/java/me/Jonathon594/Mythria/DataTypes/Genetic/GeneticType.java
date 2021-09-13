@@ -1,5 +1,6 @@
 package me.Jonathon594.Mythria.DataTypes.Genetic;
 
+import com.google.common.collect.ImmutableList;
 import me.Jonathon594.Mythria.DataTypes.Origins.Origin;
 import me.Jonathon594.Mythria.MythriaRegistries;
 import me.Jonathon594.Mythria.Skin.SkinPart;
@@ -37,7 +38,7 @@ public class GeneticType extends ForgeRegistryEntry<GeneticType> {
     }
 
     public List<SkinPart> getAllowedHairs() {
-        return SkinParts.getSkinPartsFor(SkinPart.Type.HAIR);
+        return ImmutableList.of(SkinParts.HUMAN_HAIR_BLACK, SkinParts.HUMAN_HAIR_BROWN, SkinParts.HUMAN_HAIR_BLOND, SkinParts.HUMAN_HAIR_GINGER);
     }
 
     public Collection<Origin> getAllowedOrigins() {

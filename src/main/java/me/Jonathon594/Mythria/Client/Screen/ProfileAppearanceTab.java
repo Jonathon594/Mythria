@@ -20,6 +20,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProfileAppearanceTab extends ProfileCreationTab {
     public final GuiButtonSelector race;
@@ -56,21 +57,35 @@ public class ProfileAppearanceTab extends ProfileCreationTab {
         });
 
         hair = addWidget(new GuiButtonSkinPartSelector(xPos, yPos += yStep, width, height,
-                "Hair: %s", this::onSkinPartChanged, () ->
-                SkinParts.getSkinPartNamesFor(getSelectedGeneticType().getAllowedHairs())));
+                "Hair: %s", this::onSkinPartChanged,
+                () -> getSelectedGeneticType().getAllowedHairs().stream().filter(
+                        skinPart -> skinPart.getAllowedGenders().contains(getSelectedGender())
+                ).map(skinPart -> skinPart.getRegistryName().toString()).collect(Collectors.toList()))
+        );
+
         eyes = addWidget(new GuiButtonSkinPartSelector(xPos, yPos += yStep, width, height,
-                "Eyes: %s", this::onSkinPartChanged, () ->
-                SkinParts.getSkinPartNamesFor(getSelectedGeneticType().getAllowedEyes())));
+                "Eyes: %s", this::onSkinPartChanged,
+                () -> getSelectedGeneticType().getAllowedEyes().stream().filter(
+                        skinPart -> skinPart.getAllowedGenders().contains(getSelectedGender())
+                ).map(skinPart -> skinPart.getRegistryName().toString()).collect(Collectors.toList()))
+        );
         skin = addWidget(new GuiButtonSkinPartSelector(xPos, yPos += yStep, width, height,
-                "Skin: %s", this::onSkinPartChanged, () ->
-                SkinParts.getSkinPartNamesFor(getSelectedGeneticType().getAllowedSkins())));
+                "Skin: %s", this::onSkinPartChanged,
+                () -> getSelectedGeneticType().getAllowedSkins().stream().filter(
+                        skinPart -> skinPart.getAllowedGenders().contains(getSelectedGender())
+                ).map(skinPart -> skinPart.getRegistryName().toString()).collect(Collectors.toList()))
+        );
         clothes = addWidget(new GuiButtonSkinPartSelector(xPos, yPos += yStep, width, height,
-                "Clothes: %s", this::onSkinPartChanged, () ->
-                SkinParts.getSkinPartNamesFor(getSelectedGeneticType().getAllowedClothes())));
+                "Clothes: %s", this::onSkinPartChanged,
+                () -> getSelectedGeneticType().getAllowedClothes().stream().filter(
+                        skinPart -> skinPart.getAllowedGenders().contains(getSelectedGender())
+                ).map(skinPart -> skinPart.getRegistryName().toString()).collect(Collectors.toList()))
+        );
         unique = addWidget(new SpecialSkinPartSelector(xPos, yPos + yStep, width, height, this::onSkinPartChanged, () -> {
             SkinPart.Type type = getSelectedGeneticType().getSpecialSkinPartType();
             if (type == null) return ImmutableList.of();
-            return SkinParts.getSkinPartNamesFor(SkinParts.getSkinPartsFor(type));
+            return SkinParts.getSkinPartsFor(type).stream().filter(skinPart -> skinPart.getAllowedGenders().contains(getSelectedGender()))
+                    .map(skinPart -> skinPart.getRegistryName().toString()).collect(Collectors.toList());
         }));
 
         updateProfileSkin();

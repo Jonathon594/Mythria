@@ -54,4 +54,9 @@ public class FaeType extends GeneticType {
                 SkinParts.HUMAN_SKIN_TAN,
                 SkinParts.HUMAN_SKIN_MEDIUM);
     }
+
+    @Override
+    public List<SkinPart> getAllowedHairs() {
+        return SkinParts.getSkinPartsFor(SkinPart.Type.HAIR); //todo fix
+    }
 }
