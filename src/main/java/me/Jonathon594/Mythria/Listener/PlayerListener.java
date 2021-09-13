@@ -21,6 +21,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -56,6 +57,19 @@ public class PlayerListener {
             }
         } else {
             addExperienceForBreaking((ServerPlayerEntity) p, profile, block);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
+        ItemStack itemStack = event.getItemStack();
+        Item item = itemStack.getItem();
+        if(item instanceof ArmorItem) {
+            ArmorItem armor = (ArmorItem) item;
+            if(!LimitedInventoryManager.isSlotOpen(event.getPlayer(), armor.getEquipmentSlot().getIndex())) {
+                event.setCanceled(true);
+                event.setCancellationResult(ActionResultType.FAIL);
+            }
         }
     }
 

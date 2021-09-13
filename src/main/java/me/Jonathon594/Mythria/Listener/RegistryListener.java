@@ -20,7 +20,7 @@ public class RegistryListener {
                 .setType(Ability.class).setMaxID(Integer.MAX_VALUE - 1).create();
 
         new RegistryBuilder<GeneticType>().setName(new MythriaResourceLocation("genetic_types"))
-                .setType(GeneticType.class).setMaxID(Integer.MAX_VALUE - 1).setDefaultKey(new MythriaResourceLocation("human")).create();
+                .setType(GeneticType.class).setMaxID(Integer.MAX_VALUE - 1).create();
 
         new RegistryBuilder<Perk>().setName(new MythriaResourceLocation("perks"))
                 .setType(Perk.class).setMaxID(Integer.MAX_VALUE - 1).create();
