@@ -23,7 +23,7 @@ public abstract class MeleeCombatManager {
 
     public abstract ICombatAbility getAbility(EnumAttackType type, boolean isDual, boolean blocking, AttackClass attackClass);
 
-    public void onCombat(PlayerEntity player, Profile profile, Entity target, CombatPhase phase, CombatEvent event, boolean isDual, MythicSkills skill) {
+    public void onCombat(PlayerEntity player, Profile profile, Entity target, CombatPhase phase, CombatEvent event, boolean isDual, Skill skill) {
         EnumAttackType type = event.getType();
 
         ICombatAbility ability = getAbility(type, isDual, player.isActiveItemStackBlocking(), event.getAttackClass());

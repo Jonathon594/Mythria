@@ -7,7 +7,7 @@ import me.Jonathon594.Mythria.Client.Renderer.Items.HammerItemRenderer;
 import me.Jonathon594.Mythria.DataTypes.MythriaToolType;
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import me.Jonathon594.Mythria.Enum.Consumable;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Interface.IModularTool;
 import me.Jonathon594.Mythria.Interface.IWeapon;
 import me.Jonathon594.Mythria.Managers.Crafting.ConstructionManager;
@@ -54,8 +54,8 @@ public class MythriaHammerItem extends ToolItem implements IModularTool, IWeapon
     }
 
     @Override
-    public MythicSkills getUsageSkill() {
-        return MythicSkills.HEAVY_WEAPONS;
+    public Skill getUsageSkill() {
+        return Skill.HEAVY_WEAPONS;
     }
 
     @Override

@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.RootPerk;
 import me.Jonathon594.Mythria.Enum.Attribute;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Enum.PerkType;
 import me.Jonathon594.Mythria.Interface.IPerkRegistry;
 import me.Jonathon594.Mythria.Mythria;
@@ -22,9 +22,9 @@ public class FarmingPerks implements IPerkRegistry {
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(
-                new RootPerk("farming", type, Items.WHEAT_SEEDS, MythicSkills.FARMING, 0,
+                new RootPerk("farming", type, Items.WHEAT_SEEDS, Skill.FARMING, 0,
                         new ResourceLocation("minecraft:textures/block/farmland.png"))
-                        .addDescriptionLine("A hoe can soften the ground and allow you to grow plants.")
+                        .withDescription("A hoe can soften the ground and allow you to grow plants.")
                         .addRequiredAttribute(Attribute.ENDURANCE, 4)
                         .addPlaceable(Blocks.FARMLAND, Blocks.WHEAT)
         );

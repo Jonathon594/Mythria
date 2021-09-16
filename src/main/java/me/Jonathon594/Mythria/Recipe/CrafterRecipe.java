@@ -32,11 +32,10 @@ public abstract class CrafterRecipe implements IRecipe<IInventory> {
     protected final ItemStack result;
     protected final ResourceLocation id;
     protected final String group;
-    protected final int tier;
     private final IRecipeType<?> type;
     private final IRecipeSerializer<?> serializer;
 
-    public CrafterRecipe(IRecipeType<?> type, IRecipeSerializer<?> serializer, ResourceLocation id, String group, Ingredient ingredient, int cost, ItemStack result, int tier) {
+    public CrafterRecipe(IRecipeType<?> type, IRecipeSerializer<?> serializer, ResourceLocation id, String group, Ingredient ingredient, int cost, ItemStack result) {
         this.type = type;
         this.serializer = serializer;
         this.id = id;
@@ -44,7 +43,6 @@ public abstract class CrafterRecipe implements IRecipe<IInventory> {
         this.ingredient = ingredient;
         this.cost = cost;
         this.result = result;
-        this.tier = tier;
     }
 
     public int getCost() {
@@ -111,10 +109,6 @@ public abstract class CrafterRecipe implements IRecipe<IInventory> {
         return tooltips;
     }
 
-    public int getTier() {
-        return tier;
-    }
-
     private List<ITextComponent> getIngredientTooltips(long gameTime, boolean hasRequiredIngredients) {
         ArrayList<ITextComponent> tooltips = new ArrayList<>();
         tooltips.add(new StringTextComponent(ColorConst.MAIN_COLOR + "Ingredients:"));
@@ -143,11 +137,6 @@ public abstract class CrafterRecipe implements IRecipe<IInventory> {
                 ingredient = Ingredient.deserialize(JSONUtils.getJsonObject(json, "ingredient"));
             }
 
-            int tier = 0;
-            if (JSONUtils.hasField(json, "tier")) {
-                tier = JSONUtils.getInt(json, "tier");
-            }
-
             int cost = 1;
             if (JSONUtils.hasField(json, "cost")) {
                 cost = JSONUtils.getInt(json, "cost");
@@ -156,7 +145,7 @@ public abstract class CrafterRecipe implements IRecipe<IInventory> {
             String s1 = JSONUtils.getString(json, "result");
             int i = JSONUtils.getInt(json, "count");
             ItemStack itemstack = new ItemStack(Registry.ITEM.getOrDefault(new ResourceLocation(s1)), i);
-            return this.factory.create(recipeId, s, ingredient, cost, itemstack, tier);
+            return this.factory.create(recipeId, s, ingredient, cost, itemstack);
         }
 
         public T read(ResourceLocation recipeId, PacketBuffer buffer) {
@@ -164,8 +153,7 @@ public abstract class CrafterRecipe implements IRecipe<IInventory> {
             Ingredient ingredient = Ingredient.read(buffer);
             int cost = buffer.readInt();
             ItemStack itemstack = buffer.readItemStack();
-            int tier = buffer.readInt();
-            return this.factory.create(recipeId, s, ingredient, cost, itemstack, tier);
+            return this.factory.create(recipeId, s, ingredient, cost, itemstack);
         }
 
         public void write(PacketBuffer buffer, T recipe) {
@@ -173,11 +161,10 @@ public abstract class CrafterRecipe implements IRecipe<IInventory> {
             recipe.ingredient.write(buffer);
             buffer.writeInt(recipe.cost);
             buffer.writeItemStack(recipe.result);
-            buffer.writeInt(recipe.tier);
         }
 
         interface IRecipeFactory<T extends CrafterRecipe> {
-            T create(ResourceLocation p_create_1_, String p_create_2_, Ingredient ingredient, int cost, ItemStack result, int tier);
+            T create(ResourceLocation p_create_1_, String p_create_2_, Ingredient ingredient, int cost, ItemStack result);
         }
     }
 

@@ -16,7 +16,9 @@ import me.Jonathon594.Mythria.Managers.StatManager;
 import me.Jonathon594.Mythria.Managers.TimeManager;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.MythriaRegistries;
-import me.Jonathon594.Mythria.Packet.*;
+import me.Jonathon594.Mythria.Packet.PacketBindAbility;
+import me.Jonathon594.Mythria.Packet.SPacketProfileCache;
+import me.Jonathon594.Mythria.Packet.SPacketUpdateExperience;
 import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Skin.SkinParts;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
@@ -39,14 +41,14 @@ import java.util.*;
 public class Profile implements IProfile {
     private final List<Perk> perks = new ArrayList<>();
     private final List<PerkType> unlockedPerkTypes = new ArrayList<>();
-    private final HashMap<MythicSkills, Double> skillLevels = new HashMap<>();
-    private final HashMap<Consumable, Double> consumables = new HashMap<>();
-    private final HashMap<Consumable.Nutrition, Double> nutrition = new HashMap<>();
-    private final HashMap<Consumable.Nutrition, Double> undigested_nutrition = new HashMap<>();
+    private final EnumMap<Skill, Double> skillLevels = new EnumMap<>(Skill.class);
+    private final EnumMap<Consumable, Double> consumables = new EnumMap<>(Consumable.class);
+    private final EnumMap<Consumable.Nutrition, Double> nutrition = new EnumMap<>(Consumable.Nutrition.class);
+    private final EnumMap<Consumable.Nutrition, Double> undigested_nutrition = new EnumMap<>(Consumable.Nutrition.class);
     private final HealthData healthData = new HealthData();
-    private final HashMap<Attribute, Integer> attributeValues = new HashMap<>();
-    private final HashMap<Deity, Integer> favorLevels = new HashMap<>();
-    private final HashMap<StatType, Double> statModifiers = new HashMap<>();
+    private final EnumMap<Attribute, Integer> attributeValues = new EnumMap<>(Attribute.class);
+    private final EnumMap<Deity, Integer> favorLevels = new EnumMap<>(Deity.class);
+    private final EnumMap<StatType, Double> statModifiers = new EnumMap<>(StatType.class);
     private final Random random;
     private final ArrayList<Ability> abilities = new ArrayList<>();
     private final AbilityHandler abilityHandler = new AbilityHandler();
@@ -108,7 +110,7 @@ public class Profile implements IProfile {
         sendDataPacket();
     }
 
-    public void addSingleSkillExperience(MythicSkills skill, double xp, ServerPlayerEntity player, int effectiveLevel) {
+    public void addSingleSkillExperience(Skill skill, double xp, ServerPlayerEntity player, int effectiveLevel) {
         if (skill == null)
             return;
 
@@ -147,7 +149,7 @@ public class Profile implements IProfile {
         }
     }
 
-    public void addSkillExperience(final MythicSkills type, double value, final ServerPlayerEntity p, int effectiveLevel) {
+    public void addSkillExperience(final Skill type, double value, final ServerPlayerEntity p, int effectiveLevel) {
         if (type == null)
             return;
 
@@ -246,6 +248,9 @@ public class Profile implements IProfile {
             final Perk pa = MythriaRegistries.PERKS.getValue(new ResourceLocation(s));
             if (pa != null) {
                 perks.add(pa);
+                for (PerkType type : pa.getPerkTypeUnlocks()) {
+                    unlockPerkType(type);
+                }
             }
         }
 
@@ -266,7 +271,7 @@ public class Profile implements IProfile {
         }
 
         CompoundNBT skills = comp.getCompound("Skills");
-        for (final MythicSkills cs : MythicSkills.values()) {
+        for (final Skill cs : Skill.values()) {
             final Double value = skills.getDouble(cs.name());
             getSkillLevels().put(cs, value);
             MythriaUtil.getLevelForXP(value);
@@ -312,6 +317,22 @@ public class Profile implements IProfile {
             } catch (IllegalArgumentException e) {
                 System.out.println("Error loading deity for favor.");
             }
+        }
+    }
+
+    public EnumMap<Consumable.Nutrition, Double> getAllNutrition() {
+        return nutrition;
+    }
+
+    public void setAllNutrition(EnumMap<Consumable.Nutrition, Double> values) {
+        for (Map.Entry<Consumable.Nutrition, Double> entry : values.entrySet()) {
+            nutrition.put(entry.getKey(), entry.getValue());
+        }
+    }
+
+    public void setConsumables(EnumMap<Consumable, Double> consumables) {
+        for (Map.Entry<Consumable, Double> entry : consumables.entrySet()) {
+            this.consumables.put(entry.getKey(), entry.getValue());
         }
     }
 
@@ -366,7 +387,7 @@ public class Profile implements IProfile {
         comp.put("UnlockedPerkTypes", perkTypeList);
 
         CompoundNBT skills = new CompoundNBT();
-        for (final MythicSkills cs : MythicSkills.values())
+        for (final Skill cs : Skill.values())
             skills.putDouble(cs.name(), getSkillLevels().get(cs));
         comp.put("Skills", skills);
 
@@ -469,7 +490,7 @@ public class Profile implements IProfile {
         return consumables.get(consumable);
     }
 
-    public HashMap<Consumable, Double> getConsumables() {
+    public EnumMap<Consumable, Double> getConsumables() {
         return consumables;
     }
 
@@ -493,7 +514,7 @@ public class Profile implements IProfile {
         return favorLevels.getOrDefault(d, 0);
     }
 
-    public HashMap<Deity, Integer> getFavorLevels() {
+    public EnumMap<Deity, Integer> getFavorLevels() {
         return favorLevels;
     }
 
@@ -629,11 +650,11 @@ public class Profile implements IProfile {
         this.profileUUID = profileUUID;
     }
 
-    public int getSkillLevel(final MythicSkills type) {
+    public int getSkillLevel(final Skill type) {
         return MythriaUtil.getLevelForXP(skillLevels.get(type));
     }
 
-    public HashMap<MythicSkills, Double> getSkillLevels() {
+    public EnumMap<Skill, Double> getSkillLevels() {
         return skillLevels;
     }
 
@@ -700,7 +721,7 @@ public class Profile implements IProfile {
                 return Math.max(modifier + g.getBaseMana() + 50 * getStatModifier(statType)
                         * getAttributeLevel(Attribute.WILLPOWER), 0);
             case MANA_REGEN:
-                return modifier + g.getBaseManaRegen() + 0.3 * getStatModifier(statType)
+                return modifier + g.getBaseManaRegen() + 0.03 * getStatModifier(statType)
                         * getAttributeLevel(Attribute.WILLPOWER);
         }
         return 1;
@@ -738,7 +759,7 @@ public class Profile implements IProfile {
 
     public void init() {
         genetic = GeneticTypes.HUMAN.createGenetic();
-        for (final MythicSkills sk : MythicSkills.values())
+        for (final Skill sk : Skill.values())
             skillLevels.put(sk, (double) 0);
         for (final Attribute a : Attribute.values())
             attributeValues.put(a, 0);
@@ -811,60 +832,63 @@ public class Profile implements IProfile {
         }
     }
 
-    public void setConsumable(final Consumable t, double v) {
+    public void addConsumable(final Consumable consumable, final double value) {
+        if (value == 0) return;
+        setConsumable(consumable, consumables.get(consumable) + value);
+    }
+
+    public void setConsumable(final Consumable consumable, double value) {
         if (!created)
             return;
-        switch (t) {
+        switch (consumable) {
             case STAMINA:
-                v = MathHelper.clamp(v, 0, getStat(StatType.MAX_STAMINA) * (1 - getConsumable(Consumable.FATIGUE)));
-                consumables.put(t, v);
+                value = MathHelper.clamp(value, 0, getStat(StatType.MAX_STAMINA) * (1 - getConsumable(Consumable.FATIGUE)));
+                consumables.put(consumable, value);
                 break;
             case TEMPERATURE:
-                v = MathHelper.clamp(v, 0, 20);
-                consumables.put(t, v);
+                value = MathHelper.clamp(value, 0, 20);
+                consumables.put(consumable, value);
                 break;
             case THIRST:
-                v = MathHelper.clamp(v, 0, 20);
-                consumables.put(t, v);
+                value = MathHelper.clamp(value, 0, 20);
+                consumables.put(consumable, value);
                 break;
             case WEIGHT:
-                v = MathHelper.clamp(v, 0, Double.MAX_VALUE);
-                consumables.put(t, v);
+                value = MathHelper.clamp(value, 0, Double.MAX_VALUE);
+                consumables.put(consumable, value);
                 StatManager.UpdateSpeed(this, player);
                 break;
             case FATIGUE:
-                v = MathHelper.clamp(v, 0, 0.9);
-                consumables.put(t, v);
+                value = MathHelper.clamp(value, 0, 0.9);
+                consumables.put(consumable, value);
                 StatManager.UpdateSpeed(this, player);
                 break;
             case PAIN:
-                v = MathHelper.clamp(v, 0, 20);
-                consumables.put(t, v);
+                value = MathHelper.clamp(value, 0, 20);
+                consumables.put(consumable, value);
                 break;
             case TORPOR:
-                v = MathHelper.clamp(v, 0, 20);
-                consumables.put(t, v);
+                value = MathHelper.clamp(value, 0, 20);
+                consumables.put(consumable, value);
                 break;
             case MANA:
-                v = MathHelper.clamp(v, 0, getStat(StatType.MAX_MANA));
-                consumables.put(t, v);
+                value = MathHelper.clamp(value, 0, getStat(StatType.MAX_MANA));
+                consumables.put(consumable, value);
                 break;
             case PLEASURE:
-                v = MathHelper.clamp(v, 0, 20);
-                consumables.put(t, v);
+                value = MathHelper.clamp(value, 0, 20);
+                consumables.put(consumable, value);
                 break;
             case BLOOD:
-                v = MathHelper.clamp(v, 0, 20);
-                consumables.put(t, v);
-                if (v == 0) {
+                value = MathHelper.clamp(value, 0, 20);
+                consumables.put(consumable, value);
+                if (value == 0) {
                     player.setHealth(0);
                 }
                 break;
         }
         if (player == null)
             return;
-        if (!player.world.isRemote)
-            MythriaPacketHandler.sendTo(new SPacketUpdateConsumables(t, v), (ServerPlayerEntity) player);
     }
 
     public void setFavor(Deity d, int favor) {
@@ -873,11 +897,10 @@ public class Profile implements IProfile {
 
     public void setNutrition(Consumable.Nutrition nutrition, double value) {
         this.nutrition.put(nutrition, MathHelper.clamp(value, 0, 20));
+    }
 
-        if (player == null)
-            return;
-        if (!player.world.isRemote)
-            MythriaPacketHandler.sendTo(new SPacketUpdateNutrition(nutrition, value), (ServerPlayerEntity) player);
+    public void addNutrition(Consumable.Nutrition nutrition, double value) {
+        setNutrition(nutrition, this.nutrition.get(nutrition) + value);
     }
 
     public void setPregConceptionData(int pregConceptionData) {

@@ -25,9 +25,9 @@ public class NPCRenderer extends CharacterRenderer {
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
-    public void renderArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, NPCEntity npcIn, HandSide side) {
+    public void renderArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, NPCEntity npcIn, HandSide side, LivingEntity playerIn) {
         this.setModelVisibilities(npcIn);
-        super.renderArm(matrixStackIn, bufferIn, combinedLightIn, npcIn, side);
+        super.renderArm(matrixStackIn, bufferIn, combinedLightIn, npcIn, side, playerIn);
     }
 
     private void setModelVisibilities(LivingEntity npc) {

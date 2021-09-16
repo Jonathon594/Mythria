@@ -23,7 +23,7 @@ public class BlockUtils {
             Block nextBlock = worldIn.getBlockState(next).getBlock();
             BlockPos nextFlat = new BlockPos(next.getX(), firstPos.getY(), next.getZ());
             if (nextFlat.distanceSq(firstPos) < 25) {
-                if ((BlockTags.LOGS.contains(nextBlock) && leafStep <= 2) || (leafStep <= 4 && leaves.contains(nextBlock))) {
+                if ((BlockTags.LOGS.contains(nextBlock) && leafStep <= 3) || (leafStep <= 5 && leaves.contains(nextBlock))) {
                     if (!blocks.contains(next)) {
                         blocks.add(next);
                         final boolean isHoriz = !direction.equals(Direction.DOWN) && !direction.equals(Direction.UP);

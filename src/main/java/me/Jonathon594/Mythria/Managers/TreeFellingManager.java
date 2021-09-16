@@ -59,7 +59,6 @@ public class TreeFellingManager {
         axe
                 .setDamage((axe.getDamage() + d));
         if (d > itemr) {
-            p.attackEntityFrom(DamageSource.GENERIC, 4);
             SoundManager.playForAllNearby(p, SoundEvents.ENTITY_ITEM_BREAK);
             p.setHeldItem(Hand.MAIN_HAND, ItemStack.EMPTY);
         }

@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.RootPerk;
 import me.Jonathon594.Mythria.Enum.Attribute;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Enum.PerkType;
 import me.Jonathon594.Mythria.Interface.IPerkRegistry;
 import me.Jonathon594.Mythria.Items.MythriaItems;
@@ -23,9 +23,9 @@ public class FletchingPerks implements IPerkRegistry {
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(
-                new RootPerk("fletching", type, Items.ARROW, MythicSkills.CRAFTING, 5,
+                new RootPerk("fletching", type, Items.ARROW, Skill.CRAFTING, 5,
                         new ResourceLocation("minecraft:textures/block/spruce_log.png"))
-                        .setDisplayName("Basic Fletching").addDescriptionLine("It's like a spear, but smaller and propelled with more force.")
+                        .setDisplayName("Basic Fletching").withDescription("It's like a spear, but smaller and propelled with more force.")
                         .addCraftable(MythriaItems.SINEW_BOWSTRING)
                         .addCraftableItemTag(new MythriaResourceLocation("arrows"))
                         .addCraftableItemTag(new MythriaResourceLocation("bows"))

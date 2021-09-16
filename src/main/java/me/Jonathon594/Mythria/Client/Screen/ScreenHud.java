@@ -142,27 +142,27 @@ public class ScreenHud extends AbstractGui {
         if (profile == null) return;
         if (player.isCreative() || player.isSpectator()) return;
 
-        HUNGER.setValueFront((int) profile.getAverageNutrition()).setValueBack(20);
-        THIRST.setValueFront((int) profile.getConsumable(Consumable.THIRST)).setValueBack(20);
+        HUNGER.setValueFront((int) Math.round(profile.getAverageNutrition())).setValueBack(20);
+        THIRST.setValueFront((int) Math.round(profile.getConsumable(Consumable.THIRST))).setValueBack(20);
 
         double maxStamina = profile.getStat(StatType.MAX_STAMINA);
-        STAMINA.setValueFront((int) (maxStamina > 0 ? profile.getConsumable(Consumable.STAMINA) / maxStamina * 20 : 0))
-                .setValueBack((int) ((1 - profile.getConsumable(Consumable.FATIGUE)) * 20.0));
+        STAMINA.setValueFront((int) Math.round(maxStamina > 0 ? profile.getConsumable(Consumable.STAMINA) / maxStamina * 20 : 0))
+                .setValueBack((int) Math.round((1 - profile.getConsumable(Consumable.FATIGUE)) * 20.0));
 
         double maxWeight = profile.getStat(StatType.MAX_WEIGHT);
-        int weightValue = (int) (maxWeight > 0 ? profile.getConsumable(Consumable.WEIGHT) / maxWeight * 20.0 : 0);
+        int weightValue = (int) Math.round(maxWeight > 0 ? profile.getConsumable(Consumable.WEIGHT) / maxWeight * 20.0 : 0);
         WEIGHT.setValueFront(weightValue).setValueBack(20);
-        OVERWEIGHT.setValueFront((int) (Math.max(weightValue - 20, 0) / 3.0));
+        OVERWEIGHT.setValueFront((int) Math.round(Math.max(weightValue - 20, 0) / 3.0));
 
-        TEMPERATURE.setValueFront((int) profile.getConsumable(Consumable.TEMPERATURE)).setValueBack(20);
-        TORPOR.setValueFront((int) (20 - profile.getConsumable(Consumable.TORPOR))).setValueBack(20);
+        TEMPERATURE.setValueFront((int) Math.round(profile.getConsumable(Consumable.TEMPERATURE))).setValueBack(20);
+        TORPOR.setValueFront((int) Math.round(20 - profile.getConsumable(Consumable.TORPOR))).setValueBack(20);
 
         levelValue = profile.getPlayerLevelProgressBuffer();
 
         double maxMana = profile.getStat(StatType.MAX_MANA);
-        MANA.setValueFront((int) (maxMana > 0 ? profile.getConsumable(Consumable.MANA) / maxMana * 20 : 0)).setValueBack(20);
+        MANA.setValueFront((int) Math.round(maxMana > 0 ? profile.getConsumable(Consumable.MANA) / maxMana * 20 : 0)).setValueBack(20);
 
-        BLOOD.setValueFront((int) profile.getConsumable(Consumable.BLOOD)).setValueBack(20);
+        BLOOD.setValueFront((int) Math.round(profile.getConsumable(Consumable.BLOOD))).setValueBack(20);
     }
 
     private void drawBar(MatrixStack matrixStack, final int left, final int top, final int filled, final int barWidth, final boolean back) {

@@ -3,7 +3,7 @@ package me.Jonathon594.Mythria.Managers;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Enum.CombatPhase;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Event.CombatEvent;
 import me.Jonathon594.Mythria.Interface.IWeapon;
 import net.minecraft.entity.Entity;
@@ -55,8 +55,8 @@ public class MeleeAbilityManager {
         onCombat(CombatPhase.PRE, event);
     }
 
-    private static MythicSkills getRelatedSkill(Item item) {
-        if (item.equals(Items.AIR)) return MythicSkills.MARTIAL_ARTS;
+    private static Skill getRelatedSkill(Item item) {
+        if (item.equals(Items.AIR)) return Skill.MARTIAL_ARTS;
         if (item instanceof IWeapon) return ((IWeapon) item).getUsageSkill();
         return null;
     }
@@ -74,7 +74,7 @@ public class MeleeAbilityManager {
         MeleeCombatManager otherManager = getCombatManager(otherItem);
         if (otherManager != null && otherManager == manager) dual = true;
 
-        MythicSkills skill = getRelatedSkill(item);
+        Skill skill = getRelatedSkill(item);
         if (skill == null) return;
 
         manager.onCombat(player, profile, target, phase, event, dual, skill);

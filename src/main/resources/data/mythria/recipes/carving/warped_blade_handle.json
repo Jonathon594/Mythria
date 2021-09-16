@@ -1,0 +1,9 @@
+{
+  "type": "mythria:wood_carving",
+  "ingredient": {
+    "item": "mythria:warped_stick"
+  },
+  "result": "mythria:warped_blade_handle",
+  "count": 1,
+  "tier": 0
+}

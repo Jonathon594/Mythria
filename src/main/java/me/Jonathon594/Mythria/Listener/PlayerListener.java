@@ -10,7 +10,7 @@ import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import me.Jonathon594.Mythria.Enum.ChatChannel;
 import me.Jonathon594.Mythria.Enum.Consumable;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Managers.*;
 import me.Jonathon594.Mythria.Managers.Crafting.ConstructionManager;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
@@ -66,7 +66,7 @@ public class PlayerListener {
         Item item = itemStack.getItem();
         if(item instanceof ArmorItem) {
             ArmorItem armor = (ArmorItem) item;
-            if(!LimitedInventoryManager.isSlotOpen(event.getPlayer(), armor.getEquipmentSlot().getIndex())) {
+            if(!LimitedInventoryManager.isArmorSlotOpen(event.getPlayer(), armor.getEquipmentSlot().getIndex())) {
                 event.setCanceled(true);
                 event.setCancellationResult(ActionResultType.FAIL);
             }
@@ -85,7 +85,7 @@ public class PlayerListener {
         if (list != null) {
             for (final Perk pa : list) {
                 if (profile.getPlayerSkills().contains(pa)) {
-                    for (final Map.Entry<MythicSkills, Integer> s : pa.getRequiredSkills().entrySet())
+                    for (final Map.Entry<Skill, Integer> s : pa.getRequiredSkills().entrySet())
                         profile.addSkillExperience(s.getKey(), EXPConst.BLOCK_PLACE * (s.getValue() / 10.0 + 1), (ServerPlayerEntity) p, s.getValue());
                 }
             }
@@ -112,11 +112,11 @@ public class PlayerListener {
 
         final List<Perk> list = MaterialManager.PERKS_FOR_BREAKING.get(event.getState().getBlock());
         if (list != null) {
-            HashMap<MythicSkills, Integer> levelModifiers = new HashMap<>();
+            HashMap<Skill, Integer> levelModifiers = new HashMap<>();
             boolean able = list.size() == 0;
             for (final Perk pa : list) {
                 if (profile.getPlayerSkills().contains(pa)) able = true;
-                for (MythicSkills skill : pa.getRequiredSkills().keySet()) {
+                for (Skill skill : pa.getRequiredSkills().keySet()) {
                     if (!levelModifiers.containsKey(skill)) levelModifiers.put(skill, profile.getSkillLevel(skill));
                 }
             }
@@ -159,7 +159,7 @@ public class PlayerListener {
         if (list != null)
             for (final Perk pa : list)
                 if (p.getPlayerSkills().contains(pa))
-                    for (final Map.Entry<MythicSkills, Integer> s : pa.getRequiredSkills().entrySet())
+                    for (final Map.Entry<Skill, Integer> s : pa.getRequiredSkills().entrySet())
                         p.addSkillExperience(s.getKey(), EXPConst.ITEM_CRAFT * (s.getValue() / 10.0 + 1), (ServerPlayerEntity) player, s.getValue());
     }
 
@@ -270,7 +270,7 @@ public class PlayerListener {
         if (list != null) {
             for (final Perk pa : list)
                 if (profile.getPlayerSkills().contains(pa)) {
-                    for (final Map.Entry<MythicSkills, Integer> s : pa.getRequiredSkills().entrySet())
+                    for (final Map.Entry<Skill, Integer> s : pa.getRequiredSkills().entrySet())
                         profile.addSkillExperience(s.getKey(), EXPConst.BLOCK_BREAK * (s.getValue() / 10.0 + 1), p, s.getValue());
                 }
         }

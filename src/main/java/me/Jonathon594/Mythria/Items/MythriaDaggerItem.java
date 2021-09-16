@@ -4,7 +4,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import me.Jonathon594.Mythria.Client.Renderer.Items.DaggerItemRenderer;
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Managers.MeleeCombatManager;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -44,7 +44,7 @@ public class MythriaDaggerItem extends MythriaSwordItem {
     }
 
     @Override
-    public MythicSkills getUsageSkill() {
-        return MythicSkills.DAGGERS;
+    public Skill getUsageSkill() {
+        return Skill.DAGGERS;
     }
 }

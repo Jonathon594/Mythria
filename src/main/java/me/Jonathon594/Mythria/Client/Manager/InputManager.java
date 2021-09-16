@@ -99,10 +99,10 @@ public class InputManager {
                         }
                     }
                     if (mythriaPlayer.getInputIntent(hand).equals(InputIntent.ATTACK)) {
-                        mythriaPlayer.setAttackingMainhand(attackingMainhand + 1);
+                        if (canHeavyAttack(player, hand))mythriaPlayer.setAttackingMainhand(attackingMainhand + 1);
                     }
                 } else if (attackReleased || attackingMainhand >= HEAVY_ATTACK_THRESHOLD) {
-                    if (mythriaPlayer.getInputIntent(hand).equals(InputIntent.ATTACK)) {
+                    if (mythriaPlayer.getInputIntent(hand).equals(InputIntent.ATTACK) && canHeavyAttack(player, hand)) {
                         attack(result, hand, attackingMainhand >= HEAVY_ATTACK_THRESHOLD ? AttackClass.HEAVY : AttackClass.LIGHT);
                     }
                     if (attackReleased) {
@@ -123,9 +123,9 @@ public class InputManager {
                         }
                     }
                     if (mythriaPlayer.getInputIntent(hand).equals(InputIntent.ATTACK))
-                        mythriaPlayer.setAttackingOffhand(attackingOffhand + 1);
+                        if (canHeavyAttack(player, hand))mythriaPlayer.setAttackingOffhand(attackingOffhand + 1);
                 } else if (useReleased || attackingOffhand >= HEAVY_ATTACK_THRESHOLD) {
-                    if (mythriaPlayer.getInputIntent(hand).equals(InputIntent.ATTACK) && isDual) {
+                    if (mythriaPlayer.getInputIntent(hand).equals(InputIntent.ATTACK) && isDual && canHeavyAttack(player, hand)) {
                         attack(result, Hand.OFF_HAND, attackingOffhand >= HEAVY_ATTACK_THRESHOLD ? AttackClass.HEAVY : AttackClass.LIGHT);
                     }
                     if (useReleased) {

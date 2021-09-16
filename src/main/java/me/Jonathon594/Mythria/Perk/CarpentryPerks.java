@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.RootPerk;
 import me.Jonathon594.Mythria.Enum.Attribute;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Enum.PerkType;
 import me.Jonathon594.Mythria.Interface.IPerkRegistry;
 import me.Jonathon594.Mythria.Mythria;
@@ -22,9 +22,9 @@ public class CarpentryPerks implements IPerkRegistry {
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(
-                new RootPerk("carpentry", type, Blocks.OAK_LOG, MythicSkills.CARPENTRY, 0,
+                new RootPerk("carpentry", type, Blocks.OAK_LOG, Skill.CARPENTRY, 0,
                         new ResourceLocation("minecraft:textures/block/oak_planks.png"))
-                        .addDescriptionLine("Wood is a versatile material that is quite strong.")
+                        .withDescription("Wood is a versatile material that is quite strong.")
                         .addPlaceableBlockTag(BlockTags.LOGS.getName())
                         .addRequiredAttribute(Attribute.INTELLIGENCE, 2)
                         .addRequiredAttribute(Attribute.STRENGTH, 2)

@@ -1,0 +1,9 @@
+{
+  "type": "mythria:wood_carving",
+  "ingredient": {
+    "item": "mythria:acacia_stick"
+  },
+  "result": "mythria:acacia_saw_handle",
+  "count": 1,
+  "tier": 0
+}

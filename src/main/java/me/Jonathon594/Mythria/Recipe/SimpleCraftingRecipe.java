@@ -21,8 +21,8 @@ public class SimpleCraftingRecipe extends CrafterRecipe {
                 }
             });
 
-    public SimpleCraftingRecipe(final ResourceLocation resourceLocation, final String group, final Ingredient ingredient, int cost, final ItemStack itemStack, int tier) {
-        super(SIMPLE_CRAFTING_RECIPE, MythriaRecipeSerializer.SIMPLE_CRAFTING, resourceLocation, group, ingredient, cost, itemStack, tier);
+    public SimpleCraftingRecipe(final ResourceLocation resourceLocation, final String group, final Ingredient ingredient, int cost, final ItemStack itemStack) {
+        super(SIMPLE_CRAFTING_RECIPE, MythriaRecipeSerializer.SIMPLE_CRAFTING, resourceLocation, group, ingredient, cost, itemStack);
 
     }
 

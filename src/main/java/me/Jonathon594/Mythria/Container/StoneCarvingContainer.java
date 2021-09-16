@@ -1,6 +1,9 @@
 package me.Jonathon594.Mythria.Container;
 
 import me.Jonathon594.Mythria.Items.CuttingStone;
+import me.Jonathon594.Mythria.Items.MythriaChiselItem;
+import me.Jonathon594.Mythria.Items.MythriaItems;
+import me.Jonathon594.Mythria.Recipe.StoneCarvingRecipe;
 import me.Jonathon594.Mythria.Recipe.WoodCarvingRecipe;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
@@ -16,28 +19,25 @@ import net.minecraft.util.SoundEvents;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public abstract class CarvingContainer extends ToolCrafterContainer {
-    public CarvingContainer(int windowID, PlayerInventory playerInventory) {
-        super(MythriaContainerType.WOOD_CARVING, windowID, playerInventory);
+public class StoneCarvingContainer extends ToolCrafterContainer {
+    public StoneCarvingContainer(int windowID, PlayerInventory playerInventory) {
+        super(MythriaContainerType.STONE_CARVING, windowID, playerInventory);
     }
 
     @Override
     protected boolean isValidTool(ItemStack tool) {
-        return tool.getItem() instanceof CuttingStone;
+        return tool.getItem() instanceof MythriaChiselItem;
     }
 
     @Override
-    protected IRecipeType<WoodCarvingRecipe> getRecipeType() {
-        return WoodCarvingRecipe.WOOD_CARVING_RECIPE;
+    protected IRecipeType<StoneCarvingRecipe> getRecipeType() {
+        return StoneCarvingRecipe.STONE_CARVING_RECIPE;
     }
 
     @Override
     protected Collection<Item> getValidItems() {
         Collection<Item> collection = new ArrayList<>();
-        collection.addAll(MythriaUtil.getItemCollectionFromTag(ItemTags.LOGS.getName()));
-        collection.addAll(MythriaUtil.getItemCollectionFromTag(new MythriaResourceLocation("logs")));
-        collection.addAll(MythriaUtil.getItemCollectionFromTag(new MythriaResourceLocation("sticks")));
-        collection.add(Items.BONE);
+        collection.add(MythriaItems.ROCK);
         return collection;
     }
 

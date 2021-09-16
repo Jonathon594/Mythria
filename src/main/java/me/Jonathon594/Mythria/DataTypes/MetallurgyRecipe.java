@@ -64,28 +64,37 @@ public class MetallurgyRecipe {
         return recipe;
     }
 
-    public boolean matches(IItemHandler items) {
-        if (recipe.size() == 0) return false;
-        HashMap<Item, Integer> crucibleContents = new HashMap<>();
+    public double getDeviance(IItemHandler items) {
+        if (recipe.size() == 0) return 1.0;
+        HashMap<Item, Integer> itemCounts = new HashMap<>();
+        int totalItems = 0;
         for (int i = 0; i < items.getSlots(); i++) {
-            ItemStack is = items.getStackInSlot(i);
-            if (crucibleContents.containsKey(is.getItem())) {
-                crucibleContents.put(is.getItem(), crucibleContents.get(is.getItem()) + is.getCount());
+            ItemStack itemStack = items.getStackInSlot(i);
+            if (itemStack.isEmpty()) continue;
+            Item item = itemStack.getItem();
+            if (itemCounts.containsKey(item)) {
+                itemCounts.put(item, itemCounts.get(item) + 1);
             } else {
-                crucibleContents.put(is.getItem(), is.getCount());
+                itemCounts.put(item, 1);
             }
+            totalItems++;
         }
 
+        double totalDeviance = 0.0;
+        int ingredientCount = recipe.size();
         for (Map.Entry<Item, Double> entry : recipe.entrySet()) {
-            if (!crucibleContents.containsKey(entry.getKey())) return false;
-            int vesselCount = crucibleContents.get(entry.getKey());
-            int total = items.getSlots();
-            double prop = (double) vesselCount / (double) total;
-            double variance = (4 - difficulty) * 0.05;
-            if (prop < entry.getValue() - variance || prop > entry.getValue() + variance) return false;
+            if (!itemCounts.containsKey(entry.getKey())) {
+                totalDeviance += 1.0;
+                continue;
+            }
+            double existingProp = (double) itemCounts.get(entry.getKey()) / (double) totalItems;
+            double requiredProp = recipe.get(entry.getKey());
+            double devianceProp = Math.abs(requiredProp - existingProp);
+            totalDeviance += devianceProp;
         }
+        totalDeviance /= ingredientCount;
 
-        return true;
+        return totalDeviance;
     }
 
     public static class MetallurgyRecipePair {

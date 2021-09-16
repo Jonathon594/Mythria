@@ -5,7 +5,7 @@ import me.Jonathon594.Mythria.Blocks.MythriaBlocks;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.RootPerk;
 import me.Jonathon594.Mythria.Enum.Attribute;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Enum.PerkType;
 import me.Jonathon594.Mythria.Interface.IPerkRegistry;
 import me.Jonathon594.Mythria.Items.MythriaItems;
@@ -24,29 +24,29 @@ public class WoodworkingPerks implements IPerkRegistry {
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(
-                new RootPerk("woodcarving", type, MythriaItems.OAK_TOOL_HANDLE, MythicSkills.CRAFTING, 0,
+                new RootPerk("woodcarving", type, MythriaItems.OAK_TOOL_HANDLE, Skill.CRAFTING, 0,
                         new ResourceLocation("minecraft:textures/block/oak_log.png"))
-                        .addDescriptionLine("Wood seems soft enough to carve into other shapes.")
+                        .withDescription("Wood seems soft enough to carve into other shapes.")
                         .addCraftableItemTag(new MythriaResourceLocation("tool_handles"))
                         .addCraftableItemTag(new MythriaResourceLocation("blade_handles"))
                         .addCraftableItemTag(new MythriaResourceLocation("saw_handles"))
                         .addCraftableItemTag(new MythriaResourceLocation("sticks"))
                         .addRequiredAttribute(Attribute.DEXTERITY, 2),
 
-                new Perk("advanced_woodcarving", type, MythriaBlocks.TANNING_RACK, MythicSkills.CRAFTING, 5, () -> WOODCARVING)
-                        .setDisplayName("Advanced Woodcarving").addDescriptionLine("Combining different cut pieces of wood together can make larger structures")
+                new Perk("advanced_woodcarving", type, MythriaBlocks.TANNING_RACK, Skill.CRAFTING, 5, () -> WOODCARVING)
+                        .setDisplayName("Advanced Woodcarving").withDescription("Combining different cut pieces of wood together can make larger structures")
                         .addCraftable(MythriaBlocks.TANNING_RACK)
                         .addPerkTypeUnlock(PerkType.LEATHER_WORKING)
                         .addRequiredAttribute(Attribute.INTELLIGENCE, 3),
 
-                new Perk("wooden_weapons", type, MythriaItems.OAK_CLUB, MythicSkills.CRAFTING, 0, () -> WOODCARVING)
-                        .setDisplayName("Basic Wooden Weapons").addDescriptionLine("With a big enough piece of wood cut the right way, you could hurt somebody.")
+                new Perk("wooden_weapons", type, MythriaItems.OAK_CLUB, Skill.CRAFTING, 0, () -> WOODCARVING)
+                        .setDisplayName("Basic Wooden Weapons").withDescription("With a big enough piece of wood cut the right way, you could hurt somebody.")
                         .addCraftableItemTag(new MythriaResourceLocation("clubs"))
                         //.addPerkTypeUnlock(PerkType.FLETCHING) todo combat
                         .addRequiredAttribute(Attribute.INTELLIGENCE, 3),
 
-                new Perk("advanced_wooden_weapons", type, MythriaItems.OAK_SPEAR, MythicSkills.CRAFTING, 5, () -> WOODEN_WEAPONS)
-                        .setDisplayName("The art of sharp").addDescriptionLine("If I were to sharpen this material...")
+                new Perk("advanced_wooden_weapons", type, MythriaItems.OAK_SPEAR, Skill.CRAFTING, 5, () -> WOODEN_WEAPONS)
+                        .setDisplayName("The art of sharp").withDescription("If I were to sharpen this material...")
                         .addCraftableItemTag(new MythriaResourceLocation("spears"))
                         .addCraftableItemTag(new MythriaResourceLocation("arrow_shafts"))
                         .addPerkTypeUnlock(PerkType.FLETCHING)

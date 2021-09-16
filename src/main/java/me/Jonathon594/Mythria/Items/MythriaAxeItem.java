@@ -2,7 +2,7 @@ package me.Jonathon594.Mythria.Items;
 
 import me.Jonathon594.Mythria.Client.Renderer.Items.AxeItemRenderer;
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Interface.IModularTool;
 import me.Jonathon594.Mythria.Interface.IWeapon;
 import me.Jonathon594.Mythria.Managers.MeleeCombatManager;
@@ -34,8 +34,8 @@ public class MythriaAxeItem extends AxeItem implements IModularTool, IWeapon {
     }
 
     @Override
-    public MythicSkills getUsageSkill() {
-        return MythicSkills.AXES;
+    public Skill getUsageSkill() {
+        return Skill.AXES;
     }
 
     @Override

@@ -30,9 +30,4 @@ public class FilledMoldItem extends HeatableItem {
         }
         return new ActionResult<>(ActionResultType.SUCCESS, result.copy());
     }
-
-    @Override
-    public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
-        return ActionResultType.SUCCESS;
-    }
 }

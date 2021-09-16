@@ -1,6 +1,6 @@
 package me.Jonathon594.Mythria.Items;
 
-import me.Jonathon594.Mythria.Container.CuttingStoneContainer;
+import me.Jonathon594.Mythria.Container.WoodCarvingContainer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.IItemTier;
@@ -25,7 +25,7 @@ public class CuttingStone extends ToolHeadItem {
     public ActionResult<ItemStack> onItemRightClick(final World worldIn, final PlayerEntity playerIn, final Hand handIn) {
         ItemStack stack = playerIn.getHeldItem(handIn);
         playerIn.openContainer(new SimpleNamedContainerProvider((windowID, invPlayer, p_220283_4_) ->
-                new CuttingStoneContainer(windowID, invPlayer), CONTAINER_NAME));
+                new WoodCarvingContainer(windowID, invPlayer), CONTAINER_NAME));
         return new ActionResult<>(ActionResultType.SUCCESS, stack);
     }
 }

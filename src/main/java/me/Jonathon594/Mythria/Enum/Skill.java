@@ -1,6 +1,6 @@
 package me.Jonathon594.Mythria.Enum;
 
-public enum MythicSkills {
+public enum Skill {
     AGILITY(false), AXES(false), SWORDS(false), MARTIAL_ARTS(false),
     ARCHERY(false), CRAFTING(true), MASONRY(true),
     METALLURGY(true), ENGINEERING(true), ALCHEMY(true), MINING(true),
@@ -13,7 +13,7 @@ public enum MythicSkills {
 
     private final boolean isMental;
 
-    MythicSkills(boolean isMental) {
+    Skill(boolean isMental) {
         this.isMental = isMental;
     }
 

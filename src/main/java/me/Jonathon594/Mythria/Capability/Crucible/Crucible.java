@@ -7,6 +7,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.items.ItemStackHandler;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Crucible implements ICrucible {
     private final ItemStackHandler oreInventory = new ItemStackHandler(10);
     private MythriaMaterial material = null;
@@ -14,21 +18,25 @@ public class Crucible implements ICrucible {
 
     public void createMetal() {
         if (hasMeltingContents()) return;
-        for (MetallurgyRecipe r : SmeltingManager.getMetalRecipes()) {
-            if (r.matches(oreInventory)) {
-                int ore = 0;
-                for (int i = 0; i < oreInventory.getSlots(); i++) {
-                    if (oreInventory.getStackInSlot(i).isEmpty()) continue;
-                    ore++;
-                }
-                for (int i = 0; i < oreInventory.getSlots(); i++) {
-                    oreInventory.setStackInSlot(i, ItemStack.EMPTY);
-                }
-                material = r.getMaterial();
+        HashMap<MetallurgyRecipe, Double> devianceMap = new HashMap<>();
+        List<MetallurgyRecipe> r = SmeltingManager.getMetalRecipes().stream()
+                .filter(metallurgyRecipe -> {
+                    devianceMap.put(metallurgyRecipe, metallurgyRecipe.getDeviance(oreInventory));
+                    return devianceMap.get(metallurgyRecipe) < 1.0;
+                }).sorted((o1, o2) -> (int) Math.signum(devianceMap.get(o1) - devianceMap.get(o2))).collect(Collectors.toList());
+        if (r == null) return;
 
-                amount = ore * 100;
-            }
+        int ore = 0;
+        for (int i = 0; i < oreInventory.getSlots(); i++) {
+            if (oreInventory.getStackInSlot(i).isEmpty()) continue;
+            ore++;
         }
+        for (int i = 0; i < oreInventory.getSlots(); i++) {
+            oreInventory.setStackInSlot(i, ItemStack.EMPTY);
+        }
+        material = r.get(0).getMaterial();
+
+        amount = ore * 100;
     }
 
     @Override

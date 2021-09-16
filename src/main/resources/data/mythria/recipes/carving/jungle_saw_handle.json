@@ -1,0 +1,9 @@
+{
+  "type": "mythria:wood_carving",
+  "ingredient": {
+    "item": "mythria:jungle_stick"
+  },
+  "result": "mythria:jungle_saw_handle",
+  "count": 1,
+  "tier": 0
+}

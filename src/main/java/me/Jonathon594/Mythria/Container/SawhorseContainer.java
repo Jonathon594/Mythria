@@ -30,11 +30,6 @@ public class SawhorseContainer extends BlockCrafterContainer {
     }
 
     @Override
-    protected int getCraftingTier() {
-        return 1;
-    }
-
-    @Override
     protected Collection<Item> getValidItems() {
         Collection<Item> collection = MythriaUtil.getItemCollectionFromTag(ItemTags.LOGS.getName());
         collection.addAll(MythriaUtil.getItemCollectionFromTag(new MythriaResourceLocation("logs")));

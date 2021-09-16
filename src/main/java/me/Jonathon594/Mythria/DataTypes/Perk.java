@@ -34,7 +34,7 @@ public class Perk extends ForgeRegistryEntry<Perk> {
     private final List<ResourceLocation> placeableTags = new ArrayList();
     private final List<ResourceLocation> breakableTags = new ArrayList();
     private final Supplier<Perk> requiredPerk;
-    private final HashMap<MythicSkills, Integer> requiredSkills = new HashMap<>();
+    private final HashMap<Skill, Integer> requiredSkills = new HashMap<>();
     private final HashMap<Deity, Integer> requiredFavor = new HashMap<>();
     private final List<AttributeFlag> attributeFlags = new ArrayList<>();
     private final Item menuIcon;
@@ -42,14 +42,14 @@ public class Perk extends ForgeRegistryEntry<Perk> {
     private final List<String> excludedPerks = new ArrayList<>();
     private final PerkType type;
     private final List<PerkType> perkTypeUnlocks = new ArrayList<>();
-    private final List<String> description = new ArrayList<>();
+    private String description = "";
     private String displayName;
     private int minimumAge;
     private double learnTime = 0;
     private double bonusFatigueMitigation = 0.0;
 
     public Perk(final String name, final PerkType type, final IItemProvider icon,
-                final MythicSkills relatedSkill, final int requiredLevel,
+                final Skill relatedSkill, final int requiredLevel,
                 final Supplier<Perk> requiredAttribute) {
         super();
         setRegistryName(new MythriaResourceLocation(name));
@@ -102,8 +102,8 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         return this;
     }
 
-    public Perk addDescriptionLine(String description) {
-        this.description.add(description);
+    public Perk withDescription(String description) {
+        this.description = description;
         return this;
     }
 
@@ -137,7 +137,7 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         return this;
     }
 
-    public void addRequiredSkill(final MythicSkills type, final int value) {
+    public void addRequiredSkill(final Skill type, final int value) {
         requiredSkills.put(type, value);
     }
 
@@ -168,7 +168,7 @@ public class Perk extends ForgeRegistryEntry<Perk> {
             lines.add(ColorConst.MAIN_COLOR + "Minimum Age: " + color + current + "/" + minimumAge);
         }
 
-        for (final Entry<MythicSkills, Integer> e : requiredSkills.entrySet()) {
+        for (final Entry<Skill, Integer> e : requiredSkills.entrySet()) {
             Integer current = p.getSkillLevel(e.getKey());
             TextFormatting color = current >= e.getValue() ? ColorConst.SUCCESS_COLOR : ColorConst.CONT_COLOR;
 
@@ -214,9 +214,7 @@ public class Perk extends ForgeRegistryEntry<Perk> {
             }
             lines.add("");
         }
-        for (String s : getDescription()) {
-            lines.add(ColorConst.HIGH_COLOR + s);
-        }
+        if(!description.isEmpty()) lines.add(ColorConst.HIGH_COLOR + description);
         return lines;
     }
 
@@ -289,7 +287,7 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         return requiredPerk.get();
     }
 
-    public HashMap<MythicSkills, Integer> getRequiredSkills() {
+    public HashMap<Skill, Integer> getRequiredSkills() {
         return requiredSkills;
     }
 
@@ -317,7 +315,7 @@ public class Perk extends ForgeRegistryEntry<Perk> {
     }
 
     public boolean hasRequiredSkills(final Profile p) {
-        for (final Entry<MythicSkills, Integer> e : requiredSkills.entrySet())
+        for (final Entry<Skill, Integer> e : requiredSkills.entrySet())
             if (p.getSkillLevel(e.getKey()) < e.getValue())
                 return false;
         return true;
@@ -383,7 +381,7 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         return getRegistryName().toString();
     }
 
-    private List<String> getDescription() {
+    private String getDescription() {
         return description;
     }
 }

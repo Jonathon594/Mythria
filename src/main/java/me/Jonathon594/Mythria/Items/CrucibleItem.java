@@ -69,9 +69,4 @@ public class CrucibleItem extends HeatableItem {
             return new ActionResult<>(ActionResultType.SUCCESS, stack);
         }
     }
-
-    @Override
-    public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
-        return ActionResultType.SUCCESS;
-    }
 }

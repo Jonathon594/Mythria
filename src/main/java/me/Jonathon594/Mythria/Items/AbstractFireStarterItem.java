@@ -4,7 +4,7 @@ import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Const.ColorConst;
 import me.Jonathon594.Mythria.Const.EXPConst;
 import me.Jonathon594.Mythria.Const.MythriaConst;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Interface.ILightable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -48,7 +48,7 @@ public abstract class AbstractFireStarterItem extends MythriaItem {
                     lightable.tryLight(getFriction());
                     experience = EXPConst.LIGHT_FIRE_TICK;
                 }
-                ProfileProvider.getProfile(player).addSkillExperience(MythicSkills.FIREMAKING, experience, (ServerPlayerEntity) player, getRequiredLevel());
+                ProfileProvider.getProfile(player).addSkillExperience(Skill.FIREMAKING, experience, (ServerPlayerEntity) player, getRequiredLevel());
             } else {
                 player.sendMessage(new StringTextComponent(MythriaConst.FIREMAKING_NO_FUEL).mergeStyle(ColorConst.MAIN_COLOR), Util.DUMMY_UUID);
             }

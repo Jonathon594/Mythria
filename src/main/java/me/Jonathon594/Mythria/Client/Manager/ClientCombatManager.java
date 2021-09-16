@@ -49,8 +49,8 @@ public class ClientCombatManager {
 //                ICombatAbility ability = manager.getAbility(type, manager == omanager, player.isActiveItemStackBlocking());
 //            }
 
-        player.swingArm(hand);
         sendPacket(rayTraceResult != null ? rayTraceResult.getEntity() : null, hand, getAttackType(), attackClass);
+        player.swingArm(hand);
         return;
     }
 

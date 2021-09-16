@@ -11,7 +11,7 @@ import me.Jonathon594.Mythria.Const.ColorConst;
 import me.Jonathon594.Mythria.DataTypes.Date;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.SpawnPos;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Items.MythriaDaggerItem;
 import me.Jonathon594.Mythria.Items.MythriaHammerItem;
 import me.Jonathon594.Mythria.Managers.TimeManager;
@@ -82,7 +82,7 @@ public class MythriaUtil {
         }
     }
 
-    public static void addExperienceToAllAroundPoint(World world, int radius, BlockPos pos, MythicSkills skill, double amount, int effectiveLevel) {
+    public static void addExperienceToAllAroundPoint(World world, int radius, BlockPos pos, Skill skill, double amount, int effectiveLevel) {
         for (PlayerEntity playerEntity : getPlayersWithinRadius(world, radius, pos)) {
             Profile profile = ProfileProvider.getProfile(playerEntity);
             profile.addSkillExperience(skill, amount, (ServerPlayerEntity) playerEntity, effectiveLevel);

@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.RootPerk;
 import me.Jonathon594.Mythria.Enum.Attribute;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Enum.PerkType;
 import me.Jonathon594.Mythria.Interface.IPerkRegistry;
 import me.Jonathon594.Mythria.Items.MythriaItems;
@@ -22,9 +22,9 @@ public class MiningPerks implements IPerkRegistry {
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(
-                new RootPerk("mining", type, MythriaItems.TIN_PICKAXE, MythicSkills.MINING, 0,
+                new RootPerk("mining", type, MythriaItems.TIN_PICKAXE, Skill.MINING, 0,
                         new ResourceLocation("minecraft:textures/block/stone.png"))
-                        .addDescriptionLine("With a pickaxe even something as hard as stone can break.")
+                        .withDescription("With a pickaxe even something as hard as stone can break.")
                         .addRequiredAttribute(Attribute.ENDURANCE, 1)
                         .addRequiredAttribute(Attribute.STRENGTH, 3)
                         .addBreakableBlockTag(BlockTags.BASE_STONE_OVERWORLD.getName())

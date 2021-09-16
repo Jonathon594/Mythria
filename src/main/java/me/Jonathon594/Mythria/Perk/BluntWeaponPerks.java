@@ -5,7 +5,7 @@ import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.RootPerk;
 import me.Jonathon594.Mythria.Enum.Attribute;
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Enum.PerkType;
 import me.Jonathon594.Mythria.Interface.IPerkRegistry;
 import me.Jonathon594.Mythria.Items.MythriaItems;
@@ -24,13 +24,13 @@ public class BluntWeaponPerks implements IPerkRegistry {
         return ImmutableList.of(
                 new RootPerk("blunt_weaponry", type, MythriaItems.OAK_CLUB, null, 0,
                         new ResourceLocation("minecraft:textures/block/nether_bricks.png"))
-                        .addDescriptionLine("A stronger offense is the best offence.")
+                        .withDescription("A stronger offense is the best offence.")
                         .addRequiredAttribute(Attribute.STRENGTH, 3)
                         .addRequiredAttribute(Attribute.ENDURANCE, 2),
 
-                new Perk("basic_hammers", type, MythriaItems.TIN_HAMMER, MythicSkills.HEAVY_WEAPONS, 0, () -> BLUNT_WEAPONRY)
+                new Perk("basic_hammers", type, MythriaItems.TIN_HAMMER, Skill.HEAVY_WEAPONS, 0, () -> BLUNT_WEAPONRY)
                         .setDisplayName("Basic Hammers")
-                        .addDescriptionLine("Hammers are heavy weapons designed to concuss and break armor.")
+                        .withDescription("Hammers are heavy weapons designed to concuss and break armor.")
                         .addAttributeFlag(AttributeFlag.HAMMER_ABILITY_CRIT)
                         .addRequiredAttribute(Attribute.STRENGTH, 5)
         );

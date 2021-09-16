@@ -3,7 +3,7 @@ package me.Jonathon594.Mythria.Listener;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Const.EXPConst;
 import me.Jonathon594.Mythria.Enum.Consumable;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Enum.StatType;
 import me.Jonathon594.Mythria.Event.ChargeConsumableEvent;
 import me.Jonathon594.Mythria.Managers.StatManager;
@@ -24,7 +24,7 @@ public class MythriaListener {
             double fatigueAmount = eventAmount / (profile.getStat(StatType.MAX_STAMINA) * 10.0);
             profile.setConsumable(Consumable.FATIGUE,
                     profile.getConsumable(Consumable.FATIGUE) + fatigueAmount * (1 - fatigueMitigation));
-            profile.addSkillExperience(MythicSkills.AGILITY, eventAmount * EXPConst.STAMINA_USE_TICK, (ServerPlayerEntity) player, 0);
+            profile.addSkillExperience(Skill.AGILITY, eventAmount * EXPConst.STAMINA_USE_TICK, (ServerPlayerEntity) player, 0);
         }
     }
 }

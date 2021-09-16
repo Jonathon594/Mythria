@@ -1,0 +1,9 @@
+{
+  "type": "mythria:stone_carving",
+  "ingredient": {
+    "item": "mythria:rock"
+  },
+  "result": "mythria:stone_brick",
+  "count": 1,
+  "tier": 0
+}

@@ -30,7 +30,7 @@ public class PlayerRenderer extends CharacterRenderer {
 
     public void renderArm(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, AbstractClientPlayerEntity playerIn, HandSide side) {
         this.setModelVisibilities(playerIn);
-        super.renderArm(matrixStackIn, bufferIn, combinedLightIn, playerIn, side);
+        super.renderArm(matrixStackIn, bufferIn, combinedLightIn, playerIn, side, playerIn);
     }
 
     private void setModelVisibilities(LivingEntity entityIn) {

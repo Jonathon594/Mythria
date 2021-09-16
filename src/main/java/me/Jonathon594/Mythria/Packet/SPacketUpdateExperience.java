@@ -2,23 +2,23 @@ package me.Jonathon594.Mythria.Packet;
 
 import io.netty.buffer.ByteBuf;
 import me.Jonathon594.Mythria.Client.ClientUtil;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
 public class SPacketUpdateExperience {
-    private final MythicSkills skill;
+    private final Skill skill;
     private final double value;
 
-    public SPacketUpdateExperience(MythicSkills skill, double value) {
+    public SPacketUpdateExperience(Skill skill, double value) {
         this.skill = skill;
         this.value = value;
     }
 
     public SPacketUpdateExperience(PacketBuffer packetBuffer) {
-        skill = MythicSkills.values()[packetBuffer.readInt()];
+        skill = Skill.values()[packetBuffer.readInt()];
         value = packetBuffer.readDouble();
     }
 
@@ -27,7 +27,7 @@ public class SPacketUpdateExperience {
         buf.writeDouble(value);
     }
 
-    public MythicSkills getSkill() {
+    public Skill getSkill() {
         return skill;
     }
 

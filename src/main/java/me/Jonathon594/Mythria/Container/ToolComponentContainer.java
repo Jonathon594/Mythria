@@ -4,7 +4,7 @@ import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Const.EXPConst;
 import me.Jonathon594.Mythria.DataTypes.Perk;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Managers.MaterialManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -79,7 +79,7 @@ public abstract class ToolComponentContainer extends Container {
                     Profile profile = ProfileProvider.getProfile(player);
                     for (Perk perk : attributesForCrafting.get(item)) {
                         if (profile.hasPerk(perk)) {
-                            for (final Map.Entry<MythicSkills, Integer> s : perk.getRequiredSkills().entrySet())
+                            for (final Map.Entry<Skill, Integer> s : perk.getRequiredSkills().entrySet())
                                 profile.addSkillExperience(s.getKey(), EXPConst.ITEM_CRAFT * stack.getCount(), (ServerPlayerEntity) player, s.getValue());
                         }
                     }

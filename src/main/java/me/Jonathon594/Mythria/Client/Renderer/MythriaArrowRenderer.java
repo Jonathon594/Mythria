@@ -7,15 +7,15 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class MythriaArrorRenderer<T extends MythriaArrowEntity> extends ArrowRenderer<T> {
-    public MythriaArrorRenderer(EntityRendererManager renderManagerIn) {
+public class MythriaArrowRenderer<T extends MythriaArrowEntity> extends ArrowRenderer<T> {
+    public MythriaArrowRenderer(EntityRendererManager renderManagerIn) {
         super(renderManagerIn);
     }
 
     @Override
     public ResourceLocation getEntityTexture(T entity) {
         ItemStack stack = entity.getArrowStack();
-        if (stack.isEmpty()) return null;
+        if(stack.isEmpty()) System.out.println("EMPTY ARROW STACK");
         return new MythriaResourceLocation("textures/entity/arrows/" + stack.getItem().getRegistryName().getPath() + ".png");
     }
 }

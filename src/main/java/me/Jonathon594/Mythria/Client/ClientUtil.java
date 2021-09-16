@@ -46,20 +46,10 @@ public class ClientUtil {
         return ProfileProvider.getProfile(instance.player);
     }
 
-    public static void handleUpdateConsumables(SPacketUpdateConsumables msg) {
-        final Profile profile = ProfileProvider.getProfile(Minecraft.getInstance().player);
-        profile.setConsumable(msg.getConsumable(), msg.getValue());
-    }
-
     public static void handleUpdateExperience(SPacketUpdateExperience msg) {
         final Profile profile = ProfileProvider.getProfile(Minecraft.getInstance().player);
         profile.getSkillLevels().put(msg.getSkill(), msg.getValue());
         profile.calculateProgressTowardPlayerLevel();
-    }
-
-    public static void handleUpdateNutrition(SPacketUpdateNutrition msg) {
-        final Profile profile = ProfileProvider.getProfile(instance.player);
-        profile.setNutrition(msg.getNutrition(), msg.getValue());
     }
 
     public static void handleUpdateProfileCache(SPacketProfileCache msg) {

@@ -5,7 +5,7 @@ import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Const.EXPConst;
 import me.Jonathon594.Mythria.DataTypes.Perk;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Managers.MaterialManager;
 import me.Jonathon594.Mythria.Recipe.CrafterRecipe;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,6 +30,7 @@ import net.minecraft.world.World;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public abstract class CrafterContainer extends Container {
     protected final CraftResultInventory CraftResultInventory = new CraftResultInventory();
@@ -164,12 +165,11 @@ public abstract class CrafterContainer extends Container {
         this.selectedRecipe = -1;
         this.output.putStack(ItemStack.EMPTY);
         if (!stack.isEmpty()) {
-            List<? extends IRecipe> matching = this.world.getRecipeManager().getRecipes(getRecipeType(), craftingInventory, this.world);
-            for (IRecipe recipe : matching) {
+            Collection<? extends IRecipe> recipes = this.world.getRecipeManager().getRecipes(getRecipeType(), craftingInventory, world);
+            for (IRecipe recipe : recipes) {
                 if (!(recipe instanceof CrafterRecipe)) continue;
                 CrafterRecipe crafterRecipe = (CrafterRecipe) recipe;
-                if (crafterRecipe.getTier() > getCraftingTier()) continue;
-                recipes.add(crafterRecipe);
+                this.recipes.add(crafterRecipe);
             }
         }
     }
@@ -195,8 +195,6 @@ public abstract class CrafterContainer extends Container {
     protected abstract boolean isValidTool(ItemStack tool);
 
     protected abstract IRecipeType getRecipeType();
-
-    protected abstract int getCraftingTier();
 
     protected abstract Collection<Item> getValidItems();
 
@@ -255,7 +253,7 @@ public abstract class CrafterContainer extends Container {
             Profile profile = ProfileProvider.getProfile(player);
             for (Perk perk : attributesForCrafting.get(item)) {
                 if (profile.hasPerk(perk)) {
-                    for (final Map.Entry<MythicSkills, Integer> s : perk.getRequiredSkills().entrySet())
+                    for (final Map.Entry<Skill, Integer> s : perk.getRequiredSkills().entrySet())
                         profile.addSkillExperience(s.getKey(), EXPConst.ITEM_CRAFT * stack.getCount(), (ServerPlayerEntity) player, s.getValue());
                 }
             }

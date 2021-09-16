@@ -74,7 +74,6 @@ public class TimeManager {
         final World w = currentServer.getWorld(World.OVERWORLD);
         final long time = w.getDayTime() % 24000;
         if (time == 0) {
-            System.out.println(w.getDayTime());
             currentDate.IncDay();
             MythriaPacketHandler.sendToAll(new SPacketTimeManager(currentDate.getMGD()));
             final NewDayEvent nde = new NewDayEvent();

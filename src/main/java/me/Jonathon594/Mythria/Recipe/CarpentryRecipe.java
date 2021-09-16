@@ -21,8 +21,8 @@ public class CarpentryRecipe extends CrafterRecipe {
                 }
             });
 
-    public CarpentryRecipe(final ResourceLocation resourceLocation, final String group, final Ingredient ingredient, int cost, final ItemStack itemStack, int tier) {
-        super(CARPENTRY, MythriaRecipeSerializer.CARPENTRY, resourceLocation, group, ingredient, cost, itemStack, tier);
+    public CarpentryRecipe(final ResourceLocation resourceLocation, final String group, final Ingredient ingredient, int cost, final ItemStack itemStack) {
+        super(CARPENTRY, MythriaRecipeSerializer.CARPENTRY, resourceLocation, group, ingredient, cost, itemStack);
 
     }
 

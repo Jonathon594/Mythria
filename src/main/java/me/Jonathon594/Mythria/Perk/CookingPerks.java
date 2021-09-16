@@ -5,7 +5,7 @@ import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.RootPerk;
 import me.Jonathon594.Mythria.Enum.Attribute;
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Enum.PerkType;
 import me.Jonathon594.Mythria.Interface.IPerkRegistry;
 import me.Jonathon594.Mythria.Mythria;
@@ -22,9 +22,9 @@ public class CookingPerks implements IPerkRegistry {
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(
-                new RootPerk("cooking", type, Items.RABBIT, MythicSkills.COOKING, 0,
+                new RootPerk("cooking", type, Items.RABBIT, Skill.COOKING, 0,
                         new ResourceLocation("minecraft:textures/block/terracotta.png"))
-                        .addDescriptionLine("You want me to, heat my food?")
+                        .withDescription("You want me to, heat my food?")
                         .addAttributeFlag(AttributeFlag.BASIC_COOKING)
                         .addRequiredAttribute(Attribute.INTELLIGENCE, 3)
         );

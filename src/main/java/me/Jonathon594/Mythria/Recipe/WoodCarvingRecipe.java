@@ -21,8 +21,8 @@ public class WoodCarvingRecipe extends CrafterRecipe {
                 }
             });
 
-    public WoodCarvingRecipe(final ResourceLocation resourceLocation, final String group, final Ingredient ingredient, int cost, final ItemStack itemStack, int tier) {
-        super(WOOD_CARVING_RECIPE, MythriaRecipeSerializer.WOOD_CARVING, resourceLocation, group, ingredient, cost, itemStack, tier);
+    public WoodCarvingRecipe(final ResourceLocation resourceLocation, final String group, final Ingredient ingredient, int cost, final ItemStack itemStack) {
+        super(WOOD_CARVING_RECIPE, MythriaRecipeSerializer.WOOD_CARVING, resourceLocation, group, ingredient, cost, itemStack);
 
     }
 

@@ -39,6 +39,7 @@ public class SkinParts {
     public static final SkinPart FAE_WINGS_BLUE = null;
     public static final SkinPart FAE_WINGS_RED = null;
     public static final SkinPart FAE_WINGS_GREEN = null;
+    public static final SkinPart FAE_WINGS_PINK = null;
     public static final SkinPart DRYAD_VINES_OAK = null;
     private static final ArrayList<SkinPart> skinParts = new ArrayList<>();
 
@@ -125,6 +126,8 @@ public class SkinParts {
                 new SkinPart("Blue Wings", "fae_wings_blue", SkinPart.Type.WINGS),
                 new SkinPart("Red Wings", "fae_wings_red", SkinPart.Type.WINGS),
                 new SkinPart("Green Wings", "fae_wings_green", SkinPart.Type.WINGS),
+//                new SkinPart("Pink Wings", "fae_wings_pink", SkinPart.Type.WINGS)
+//                        .setAllowedGenders(ImmutableSet.of(Gender.FEMALE)),
 
                 new SkinPart("Vines", "dryad_vines_oak", SkinPart.Type.DRYAD_VINES)
         );

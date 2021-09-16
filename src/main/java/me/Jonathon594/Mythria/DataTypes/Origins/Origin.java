@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.DataTypes.Genetic.Genetic;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Enum.PerkType;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
@@ -38,7 +38,7 @@ public abstract class Origin extends ForgeRegistryEntry<Origin> {
         for (PerkType perkType : getPerkTypes()) {
             profile.unlockPerkType(perkType);
         }
-        for (Map.Entry<MythicSkills, Integer> entry : getSkillLevels().entrySet()) {
+        for (Map.Entry<Skill, Integer> entry : getSkillLevels().entrySet()) {
             profile.getSkillLevels().put(entry.getKey(), MythriaUtil.getExperienceForLevel(entry.getValue()));
         }
     }
@@ -67,7 +67,7 @@ public abstract class Origin extends ForgeRegistryEntry<Origin> {
         return ImmutableList.of();
     }
 
-    protected Map<MythicSkills, Integer> getSkillLevels() {
+    protected Map<Skill, Integer> getSkillLevels() {
         return Maps.newHashMap();
     }
 }

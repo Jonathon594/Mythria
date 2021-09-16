@@ -27,11 +27,6 @@ public class SimpleCraftingContainer extends ToolCrafterContainer {
     }
 
     @Override
-    protected int getCraftingTier() {
-        return 0;
-    }
-
-    @Override
     protected Collection<Item> getValidItems() {
         return ForgeRegistries.ITEMS.getValues();
     }

@@ -1,7 +1,7 @@
 package me.Jonathon594.Mythria.Interface;
 
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Managers.MeleeCombatManager;
 
 public interface IWeapon {
@@ -13,5 +13,5 @@ public interface IWeapon {
 
     AttributeFlag getFlagForParrying();
 
-    MythicSkills getUsageSkill();
+    Skill getUsageSkill();
 }

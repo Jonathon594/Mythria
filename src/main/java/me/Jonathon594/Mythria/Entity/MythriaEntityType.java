@@ -1,6 +1,6 @@
 package me.Jonathon594.Mythria.Entity;
 
-import me.Jonathon594.Mythria.Client.Renderer.MythriaArrorRenderer;
+import me.Jonathon594.Mythria.Client.Renderer.MythriaArrowRenderer;
 import me.Jonathon594.Mythria.Client.Renderer.NPCRenderer;
 import me.Jonathon594.Mythria.Client.Renderer.NetherChickenRenderer;
 import me.Jonathon594.Mythria.Client.Renderer.SpearRenderer;
@@ -44,7 +44,7 @@ public class MythriaEntityType {
     public static void registerRendersClient() {
         RenderingRegistry.registerEntityRenderingHandler(NPC, NPCRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(SPEAR, SpearRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(ARROW, MythriaArrorRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(ARROW, MythriaArrowRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(NETHER_CHICKEN, NetherChickenRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(STRIDER, StriderRenderer::new);
     }

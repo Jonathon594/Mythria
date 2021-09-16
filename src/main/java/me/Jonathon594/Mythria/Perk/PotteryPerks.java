@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.RootPerk;
 import me.Jonathon594.Mythria.Enum.Attribute;
-import me.Jonathon594.Mythria.Enum.MythicSkills;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Enum.PerkType;
 import me.Jonathon594.Mythria.Interface.IPerkRegistry;
 import me.Jonathon594.Mythria.Items.MythriaItems;
@@ -22,8 +22,8 @@ public class PotteryPerks implements IPerkRegistry {
     @Override
     public List<Perk> getPerks(PerkType type) {
         return ImmutableList.of(
-                new RootPerk("pottery", type, MythriaItems.CLAY_BRICK, MythicSkills.POTTERY, 0,
-                        new ResourceLocation("minecraft:textures/block/terracotta.png")).addDescriptionLine("Clay is easily formed into other shapes, perhaps applying heat can change that?")
+                new RootPerk("pottery", type, MythriaItems.CLAY_BRICK, Skill.POTTERY, 0,
+                        new ResourceLocation("minecraft:textures/block/terracotta.png")).withDescription("Clay is easily formed into other shapes, perhaps applying heat can change that?")
                         .addCraftableItemTag(new MythriaResourceLocation("clay"))
                         .addRequiredAttribute(Attribute.INTELLIGENCE, 3)
                         .addRequiredAttribute(Attribute.DEXTERITY, 2)
