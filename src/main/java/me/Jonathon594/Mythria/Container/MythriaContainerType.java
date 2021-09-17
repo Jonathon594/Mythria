@@ -18,6 +18,7 @@ public class MythriaContainerType {
     public static final ContainerType<CrucibleContainer> CRUCIBLE = null;
     public static final ContainerType<CrucibleContainerFull> CRUCIBLE_FULL = null;
     public static final ContainerType<BowstringContainer> BOWSTRING = null;
+    public static final ContainerType<MythriaFurnaceContainer> FURNACE = null;
 
     @SubscribeEvent
     public static void registerContainers(final RegistryEvent.Register<ContainerType<?>> event) {
@@ -29,5 +30,6 @@ public class MythriaContainerType {
         event.getRegistry().register(new ContainerType<>(CrucibleContainer::new).setRegistryName(Mythria.MODID, "crucible"));
         event.getRegistry().register(new ContainerType<>(CrucibleContainerFull::new).setRegistryName(Mythria.MODID, "crucible_full"));
         event.getRegistry().register(new ContainerType<>(BowstringContainer::new).setRegistryName(Mythria.MODID, "bowstring"));
+        event.getRegistry().register(new ContainerType<>(MythriaFurnaceContainer::new).setRegistryName(Mythria.MODID, "furnace"));
     }
 }

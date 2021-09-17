@@ -1,0 +1,9 @@
+{
+  "type": "mythria:stone_carving",
+  "ingredient": {
+    "item": "minecraft:stone"
+  },
+  "result": "mythria:stone_furnace",
+  "count": 1,
+  "tier": 0
+}

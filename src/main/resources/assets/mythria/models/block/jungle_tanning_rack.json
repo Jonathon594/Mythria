@@ -1,0 +1,7 @@
+{
+	"parent": "mythria:block/tanning_rack_base",
+	"textures": {
+		"0": "block/stripped_jungle_log",
+		"particle": "block/stripped_jungle_log"
+	}
+}

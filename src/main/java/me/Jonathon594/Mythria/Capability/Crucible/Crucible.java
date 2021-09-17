@@ -19,11 +19,11 @@ public class Crucible implements ICrucible {
     public void createMetal() {
         if (hasMeltingContents()) return;
         HashMap<MetallurgyRecipe, Double> devianceMap = new HashMap<>();
-        List<MetallurgyRecipe> r = SmeltingManager.getMetalRecipes().stream()
+        MetallurgyRecipe r = SmeltingManager.getMetalRecipes().stream()
                 .filter(metallurgyRecipe -> {
                     devianceMap.put(metallurgyRecipe, metallurgyRecipe.getDeviance(oreInventory));
                     return devianceMap.get(metallurgyRecipe) < 1.0;
-                }).sorted((o1, o2) -> (int) Math.signum(devianceMap.get(o1) - devianceMap.get(o2))).collect(Collectors.toList());
+                }).sorted((o1, o2) -> (int) Math.signum(devianceMap.get(o1) - devianceMap.get(o2))).findFirst().orElse(null);
         if (r == null) return;
 
         int ore = 0;
@@ -34,7 +34,7 @@ public class Crucible implements ICrucible {
         for (int i = 0; i < oreInventory.getSlots(); i++) {
             oreInventory.setStackInSlot(i, ItemStack.EMPTY);
         }
-        material = r.get(0).getMaterial();
+        material = r.getMaterial();
 
         amount = ore * 100;
     }

@@ -11,6 +11,8 @@ import me.Jonathon594.Mythria.Items.CrucibleItem;
 import me.Jonathon594.Mythria.Items.HeatableItem;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
@@ -31,17 +33,17 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public abstract class BasicFurnaceTileEntity extends TileEntity implements ILightable, ITickableTileEntity, IFurnaceBase, IHeatProvider {
+public abstract class AbstractBasicFurnaceTileEntity extends TileEntity implements IInventory, ILightable, ITickableTileEntity, IFurnaceBase, IHeatProvider {
     protected final NonNullList<ItemStack> inventory;
     protected final double criticalTemperature;
-    private final int maxTicks;
+    protected int maxTicks;
     protected float friction = 0;
     protected double temperature;
     protected double maxTemperature = 0;
     protected boolean lit = false;
     protected int ticksLeft = 0;
 
-    public BasicFurnaceTileEntity(TileEntityType<?> tileEntityTypeIn, int maxTicks, double criticalTemperature, int size) {
+    public AbstractBasicFurnaceTileEntity(TileEntityType<?> tileEntityTypeIn, int maxTicks, double criticalTemperature, int size) {
         super(tileEntityTypeIn);
         this.maxTicks = maxTicks;
         this.ticksLeft = maxTicks;
@@ -49,11 +51,12 @@ public abstract class BasicFurnaceTileEntity extends TileEntity implements ILigh
         inventory = NonNullList.withSize(size, ItemStack.EMPTY);
     }
 
+
     public boolean addItem(ItemStack itemStackIn) {
         for (int i = 0; i < this.inventory.size(); ++i) {
             ItemStack itemstack = this.inventory.get(i);
             if (itemstack.isEmpty() && itemStackIn.getItem() instanceof HeatableItem) {
-                this.inventory.set(i, itemStackIn.split(1));
+                setInventorySlotContents(i, itemStackIn.split(1));
                 this.inventoryChanged();
                 return true;
             }
@@ -121,9 +124,17 @@ public abstract class BasicFurnaceTileEntity extends TileEntity implements ILigh
         super.read(state, nbt);
         this.inventory.clear();
         ItemStackHelper.loadAllItems(nbt.getCompound("inventory"), this.inventory);
+        temperature= nbt.getDouble("temperature");
+        maxTemperature = nbt.getDouble("maxTemperature");
+        maxTicks = nbt.getInt("maxTicks");
+        ticksLeft = nbt.getInt("ticksLeft");
     }
 
     public CompoundNBT write(CompoundNBT compound) {
+        compound.putDouble("temperature", temperature);
+        compound.putDouble("maxTemperature", maxTemperature);
+        compound.putInt("maxTicks", maxTicks);
+        compound.putInt("ticksLeft", ticksLeft);
         writeItems(compound);
         return compound;
     }
@@ -226,38 +237,17 @@ public abstract class BasicFurnaceTileEntity extends TileEntity implements ILigh
     }
 
     protected void addParticles() {
-        if (!hasFlameParticles()) return;
         World world = this.getWorld();
         if (world != null) {
             BlockPos blockpos = this.getPos();
             Random random = world.rand;
-            if (random.nextFloat() < 0.11F) {
-                for (int i = 0; i < random.nextInt(2) + 2; ++i) {
-                    if (canSpawnSmokeParticles())
+
+            if (canSpawnSmokeParticles()) {
+                if (random.nextFloat() < 0.11F) {
+                    for (int i = 0; i < random.nextInt(2) + 2; ++i) {
                         MythriaUtil.spawnSmokeParticles(world, blockpos, shouldSpawnSignalSmoke(), false);
-                }
-            }
-
-            for (int j = 0; j < this.inventory.size(); ++j) {
-                if (!this.inventory.get(j).isEmpty() && random.nextFloat() < 0.2F) {
-                    Direction direction = Direction.byHorizontalIndex(Math.floorMod(j, 4));
-                    float f = 0.3125F;
-                    double d0 = (double) blockpos.getX() + 0.5D - (double) ((float) direction.getXOffset() * 0.3125F) + (double) ((float) direction.rotateY().getXOffset() * 0.3125F);
-                    double d1 = (double) blockpos.getY() + 1.0D;
-                    double d2 = (double) blockpos.getZ() + 0.5D - (double) ((float) direction.getZOffset() * 0.3125F) + (double) ((float) direction.rotateY().getZOffset() * 0.3125F);
-
-                    for (int k = 0; k < 4; ++k) {
-                        world.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 5.0E-4D, 0.0D);
                     }
                 }
-            }
-
-            final int a = 1;
-            for (int i = 0; i < a; i++) {
-                final double x = pos.getX() + Math.random();
-                final double y = pos.getY() + Math.random() * 0.2 + 1;
-                final double z = pos.getZ() + Math.random();
-                world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, Math.random() * 0.08D, 0.0D);
             }
         }
     }
@@ -274,7 +264,44 @@ public abstract class BasicFurnaceTileEntity extends TileEntity implements ILigh
         return MythriaUtil.thermalConduction(getHeatingEfficiency(), objectTemp, furnaceTemp);
     }
 
-    protected abstract boolean hasFlameParticles();
-
     protected abstract double getHeatingEfficiency();
+
+    @Override
+    public int getSizeInventory() {
+        return inventory.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return inventory.isEmpty();
+    }
+
+    @Override
+    public ItemStack getStackInSlot(int index) {
+        return index >= 0 && index < this.inventory.size() ? this.inventory.get(index) : ItemStack.EMPTY;
+    }
+
+    @Override
+    public ItemStack decrStackSize(int index, int count) {
+        return ItemStackHelper.getAndSplit(this.inventory, index, count);
+    }
+
+    public ItemStack removeStackFromSlot(int index) {
+        return ItemStackHelper.getAndRemove(this.inventory, index);
+    }
+
+    public void setInventorySlotContents(int index, ItemStack stack) {
+        if (index >= 0 && index < this.inventory.size()) {
+            this.inventory.set(index, stack);
+        }
+    }
+
+    public boolean isUsableByPlayer(PlayerEntity player) {
+        if (this.world.getTileEntity(this.pos) != this) {
+            return false;
+        } else {
+            return !(player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) > 64.0D);
+        }
+    }
+
 }

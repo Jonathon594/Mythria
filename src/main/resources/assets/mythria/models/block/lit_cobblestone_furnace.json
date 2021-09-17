@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "minecraft:block/cobblestone",
+    "front": "mythria:blocks/cobblestone_furnace_front_on",
+    "side": "minecraft:block/cobblestone"
+  }
+}

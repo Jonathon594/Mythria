@@ -16,23 +16,27 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.*;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class MythriaChiselItem extends ToolItem implements IModularTool {
-    private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.STONE);
     private final double weight;
     private final Supplier<Item> toolHead;
     private static final TranslationTextComponent CONTAINER_NAME = new TranslationTextComponent("container.chisel");
 
     public MythriaChiselItem(float damage, float speed, IItemTier tier, String name, double weight, Supplier<Item> toolHead) {
-        super(damage, speed, tier, EFFECTIVE_ON, new Item.Properties().group(ItemGroup.TOOLS)
+        super(damage, speed, tier, Collections.EMPTY_SET, new Item.Properties().group(ItemGroup.TOOLS)
                 .addToolType(MythriaToolType.CHISEL, tier.getHarvestLevel())
                 .setISTER(() -> ChiselItemRenderer::new));
         setRegistryName(Mythria.MODID, name);

@@ -1,0 +1,10 @@
+{
+  "type": "mythria:simple_crafting",
+  "ingredient": {
+    "item": "mythria:stone_brick"
+  },
+  "cost": 4,
+  "result": "minecraft:stone_brick_slab",
+  "count": 1,
+  "tier": 0
+}

@@ -1,5 +1,5 @@
 {
-  "parent": "mythria:item/tool_generated",
+  "parent": "mythria:item/tool_base",
   "textures": {
     "particle": "mythria:blocks/metal/tungsten"
   }

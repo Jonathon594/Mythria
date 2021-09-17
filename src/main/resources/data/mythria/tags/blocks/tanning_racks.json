@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mythria:oak_tanning_rack",
+    "mythria:spruce_tanning_rack",
+    "mythria:birch_tanning_rack",
+    "mythria:jungle_tanning_rack",
+    "mythria:acacia_tanning_rack",
+    "mythria:dark_oak_tanning_rack",
+    "mythria:crimson_tanning_rack",
+    "mythria:warped_tanning_rack"
+  ]
+}

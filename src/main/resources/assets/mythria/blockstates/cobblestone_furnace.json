@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "lit=false,facing=north": {
+      "model": "mythria:block/cobblestone_furnace"
+    },
+    "lit=false,facing=south": {
+      "model": "mythria:block/cobblestone_furnace",
+      "y": 180
+    },
+    "lit=false,facing=west": {
+      "model": "mythria:block/cobblestone_furnace",
+      "y": 270
+    },
+    "lit=false,facing=east": {
+      "model": "mythria:block/cobblestone_furnace",
+      "y": 90
+    },
+    "lit=true,facing=north": {
+      "model": "mythria:block/lit_cobblestone_furnace"
+    },
+    "lit=true,facing=south": {
+      "model": "mythria:block/lit_cobblestone_furnace",
+      "y": 180
+    },
+    "lit=true,facing=west": {
+      "model": "mythria:block/lit_cobblestone_furnace",
+      "y": 270
+    },
+    "lit=true,facing=east": {
+      "model": "mythria:block/lit_cobblestone_furnace",
+      "y": 90
+    }
+  }
+}

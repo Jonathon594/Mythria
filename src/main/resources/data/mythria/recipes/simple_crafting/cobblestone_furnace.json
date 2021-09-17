@@ -1,0 +1,10 @@
+{
+  "type": "mythria:simple_crafting",
+  "ingredient": {
+    "item": "mythria:rock"
+  },
+  "cost": 8,
+  "result": "mythria:cobblestone_furnace",
+  "count": 1,
+  "tier": 0
+}

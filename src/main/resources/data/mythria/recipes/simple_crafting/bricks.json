@@ -1,0 +1,10 @@
+{
+  "type": "mythria:simple_crafting",
+  "ingredient": {
+    "item": "minecraft:brick"
+  },
+  "cost": 8,
+  "result": "minecraft:bricks",
+  "count": 1,
+  "tier": 0
+}

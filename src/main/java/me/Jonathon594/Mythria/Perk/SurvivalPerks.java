@@ -6,8 +6,8 @@ import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.RootPerk;
 import me.Jonathon594.Mythria.Enum.Attribute;
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
-import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Enum.PerkType;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Interface.IPerkRegistry;
 import me.Jonathon594.Mythria.Items.MythriaItems;
 import me.Jonathon594.Mythria.Mythria;
@@ -31,12 +31,16 @@ public class SurvivalPerks implements IPerkRegistry {
         return ImmutableList.of(
                 new RootPerk("survival", type, Items.CAMPFIRE, null, 0,
                         new ResourceLocation("minecraft:textures/block/stone.png"))
-                        .withDescription("Basic survival skills needed to brave the world of Mythria."),
+                        .withDescription("Basic survival skills needed to brave the world of Mythria.")
+                        .addPerkTypeUnlock(PerkType.BLADED_WEAPONS)
+                        .addPerkTypeUnlock(PerkType.BLUNT_WEAPONS)
+                        .addPerkTypeUnlock(PerkType.MARTIAL_ARTS),
 
                 new Perk("primitive_crafting", type, MythriaItems.THATCH, Skill.CRAFTING, 0, () -> SURVIVAL)
                         .setDisplayName("Primitive Crafting")
                         .withDescription("Crafting is the ability to turn objects into more useful objects.")
                         .addCraftable(MythriaBlocks.THATCH_BLOCK, MythriaBlocks.THATCH_STAIR)
+                        .addPerkTypeUnlock(PerkType.MASONRY)
                         .addRequiredAttribute(Attribute.INTELLIGENCE, 1),
 
                 new Perk("primitive_storage", type, MythriaBlocks.THATCH_BASKET, Skill.CRAFTING, 5, () -> PRIMITIVE_CRAFTING)

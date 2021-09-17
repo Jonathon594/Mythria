@@ -1,0 +1,10 @@
+{
+  "type": "mythria:simple_crafting",
+  "ingredient": {
+    "item": "mythria:rock"
+  },
+  "cost": 8,
+  "result": "minecraft:cobblestone",
+  "count": 1,
+  "tier": 0
+}

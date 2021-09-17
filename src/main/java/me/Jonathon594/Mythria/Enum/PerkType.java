@@ -14,6 +14,7 @@ public enum PerkType {
     LUMBERING(new LumberingPerks()),
     CARPENTRY(new CarpentryPerks()),
     POTTERY(new PotteryPerks()),
+    MASONRY(new MasonryPerks()),
     METALLURGY(new MetallurgyPerks()),
     COOKING(new CookingPerks()),
     FLETCHING(new FletchingPerks()),

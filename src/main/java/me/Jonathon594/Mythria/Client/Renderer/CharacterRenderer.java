@@ -7,6 +7,7 @@ import me.Jonathon594.Mythria.Client.Model.CharacterModel;
 import me.Jonathon594.Mythria.Client.Renderer.Layer.CharacterLayerRenderer;
 import me.Jonathon594.Mythria.Client.Renderer.Layer.FaeWingLayer;
 import me.Jonathon594.Mythria.Skin.SkinPart;
+import me.Jonathon594.Mythria.Skin.SkinParts;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -54,7 +55,7 @@ public class CharacterRenderer extends LivingRenderer<LivingEntity, CharacterMod
     public static ResourceLocation getCharacterLayeredTexture(LivingEntity entity, SkinPart.Type skin) {
         MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(entity);
         SkinPart skinPart = mythriaPlayer.getSkinPart(skin);
-        if (skinPart == null) return null;
+        if (skinPart == null) return SkinParts.getSkinPartsFor(skin).get(0).getTextureLocation(mythriaPlayer.getGender());
         return skinPart.getTextureLocation(mythriaPlayer.getGender());
     }
 
@@ -78,9 +79,9 @@ public class CharacterRenderer extends LivingRenderer<LivingEntity, CharacterMod
         ModelRenderer rendererArmwearIn = side == HandSide.RIGHT ? model.bipedRightArmwear : model.bipedLeftArmwear;
 
         rendererArmIn.rotateAngleX = 0.0F;
-        for(SkinPart.Type type : SkinPart.Type.values()) {
+        for (SkinPart.Type type : SkinPart.Type.values()) {
             ResourceLocation characterLayeredTexture = getCharacterLayeredTexture(playerIn, type);
-            if(characterLayeredTexture == null) continue;
+            if (characterLayeredTexture == null) continue;
             rendererArmIn.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntityTranslucent(characterLayeredTexture)), combinedLightIn, OverlayTexture.NO_OVERLAY);
         }
 

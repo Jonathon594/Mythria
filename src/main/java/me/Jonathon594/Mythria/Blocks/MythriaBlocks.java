@@ -49,8 +49,9 @@ public class MythriaBlocks {
     public static final StairsBlock THATCH_STAIR = null;
     public static final PitFurnaceBlock PIT_FURNACE = null;
     public static final BlockSawhorse SAW_HORSE = null;
-    public static final MythriaFurnaceBlock FURNACE = null;
-    public static final MythriaFurnaceBlock NETHER_FURNACE = null;
+    public static final CobblestoneFurnaceBlock COBBLESTONE_FURNACE = null;
+    public static final StoneFurnaceBlock STONE_FURNACE = null;
+    public static final NetherFurnaceBlock NETHER_FURNACE = null;
     public static final BlockAnvil BRICK_ANVIL = null;
     public static final BlockAnvil BRONZE_ANVIL = null;
     public static final BlockAnvil IRON_ANVIL = null;
@@ -84,7 +85,14 @@ public class MythriaBlocks {
     public static final BlockGroundCover GROUND_FLINT = null;
     public static final BlockBookshelf BOOKSHELF = null;
     public static final CampfireBlock CAMPFIRE = null;
-    public static final TanningRackBlock TANNING_RACK = null;
+    public static final TanningRackBlock OAK_TANNING_RACK = null;
+    public static final TanningRackBlock SPRUCE_TANNING_RACK = null;
+    public static final TanningRackBlock BIRCH_TANNING_RACK = null;
+    public static final TanningRackBlock JUNGLE_TANNING_RACK = null;
+    public static final TanningRackBlock ACACIA_TANNING_RACK = null;
+    public static final TanningRackBlock DARK_OAK_TANNING_RACK = null;
+    public static final TanningRackBlock WARPED_TANNING_RACK = null;
+    public static final TanningRackBlock CRIMSON_TANNING_RACK = null;
     public static final Block THATCH_BASKET = null;
 
     @SubscribeEvent
@@ -147,7 +155,8 @@ public class MythriaBlocks {
                 new BlockGroundCover("ground_flint", SoundType.STONE, 4, Material.ROCK, () -> Items.FLINT),
                 new PitFurnaceBlock("pit_furnace"),
                 new BlockSawhorse("saw_horse", 50),
-                new MythriaFurnaceBlock(Material.ROCK, "furnace", 80, SoundType.STONE),
+                new CobblestoneFurnaceBlock(Material.ROCK, "cobblestone_furnace", 80, SoundType.STONE),
+                new StoneFurnaceBlock(Material.ROCK, "stone_furnace", 80, SoundType.STONE),
                 new NetherFurnaceBlock(Material.ROCK, "nether_furnace", 130, SoundType.STONE),
                 new BlockAnvil(Material.ROCK, "brick_anvil", SoundType.STONE, 50, 0),
                 new BlockAnvil(Material.IRON, "bronze_anvil", SoundType.METAL, 50, 1),
@@ -161,7 +170,14 @@ public class MythriaBlocks {
                 new BlockForge("forge"),
                 new BlockBookshelf("bookshelf", 50),
                 new CampfireBlock("campfire"),
-                new TanningRackBlock("tanning_rack", 20),
+                new TanningRackBlock("oak_tanning_rack", 20),
+                new TanningRackBlock("spruce_tanning_rack", 20),
+                new TanningRackBlock("birch_tanning_rack", 20),
+                new TanningRackBlock("acacia_tanning_rack", 20),
+                new TanningRackBlock("jungle_tanning_rack", 20),
+                new TanningRackBlock("dark_oak_tanning_rack", 20),
+                new TanningRackBlock("warped_tanning_rack", 20),
+                new TanningRackBlock("crimson_tanning_rack", 20),
                 new MythriaBarrelBlock("thatch_basket", 3)
         );
     }
@@ -196,7 +212,8 @@ public class MythriaBlocks {
                 new MythriaBlockItem(THATCH_BLOCK, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
                 new MythriaBlockItem(THATCH_STAIR, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
 
-                new MythriaBlockItem(FURNACE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
+                new MythriaBlockItem(COBBLESTONE_FURNACE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
+                new MythriaBlockItem(STONE_FURNACE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
                 new MythriaBlockItem(NETHER_FURNACE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
                 new MythriaBlockItem(SAW_HORSE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
 
@@ -211,7 +228,14 @@ public class MythriaBlocks {
                 new MythriaBlockItem(STONE_OVEN, new Item.Properties().group(ItemGroup.DECORATIONS)),
                 new MythriaBlockItem(CHARCOAL_KILN, new Item.Properties().group(ItemGroup.DECORATIONS)),
                 new MythriaBlockItem(BOOKSHELF, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
-                new MythriaBlockItem(TANNING_RACK, new Item.Properties().group(ItemGroup.DECORATIONS)),
+                new MythriaBlockItem(OAK_TANNING_RACK, new Item.Properties().group(ItemGroup.DECORATIONS)),
+                new MythriaBlockItem(BIRCH_TANNING_RACK, new Item.Properties().group(ItemGroup.DECORATIONS)),
+                new MythriaBlockItem(SPRUCE_TANNING_RACK, new Item.Properties().group(ItemGroup.DECORATIONS)),
+                new MythriaBlockItem(JUNGLE_TANNING_RACK, new Item.Properties().group(ItemGroup.DECORATIONS)),
+                new MythriaBlockItem(ACACIA_TANNING_RACK, new Item.Properties().group(ItemGroup.DECORATIONS)),
+                new MythriaBlockItem(DARK_OAK_TANNING_RACK, new Item.Properties().group(ItemGroup.DECORATIONS)),
+                new MythriaBlockItem(WARPED_TANNING_RACK, new Item.Properties().group(ItemGroup.DECORATIONS)),
+                new MythriaBlockItem(CRIMSON_TANNING_RACK, new Item.Properties().group(ItemGroup.DECORATIONS)),
                 new MythriaBlockItem(THATCH_BASKET, new Item.Properties().group(ItemGroup.DECORATIONS))
         );
     }

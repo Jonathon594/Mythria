@@ -69,6 +69,7 @@ public class ClientManager {
         ScreenManager.registerFactory(MythriaContainerType.CRUCIBLE, CrucibleScreen::new);
         ScreenManager.registerFactory(MythriaContainerType.CRUCIBLE_FULL, CrucibleFullScreen::new);
         ScreenManager.registerFactory(MythriaContainerType.BOWSTRING, BowstringScreen::new);
+        ScreenManager.registerFactory(MythriaContainerType.FURNACE, FurnaceScreen::new);
 
         RenderTypeLookup.setRenderLayer(MythriaBlocks.CAMPFIRE, RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(MythriaBlocks.PIT_FURNACE, RenderType.getCutout());

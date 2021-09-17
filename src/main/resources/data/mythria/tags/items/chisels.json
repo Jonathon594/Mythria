@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mythria:tin_chisel",
+    "mythria:copper_chisel",
+    "mythria:bronze_chisel",
+    "mythria:iron_chisel",
+    "mythria:golden_chisel",
+    "mythria:steel_chisel",
+    "mythria:titanium_chisel",
+    "mythria:tungsten_chisel"
+  ]
+}

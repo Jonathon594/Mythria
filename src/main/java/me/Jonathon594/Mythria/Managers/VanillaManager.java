@@ -60,6 +60,7 @@ public class VanillaManager {
         setStackSize(Blocks.REDSTONE_TORCH, 10);
         setStackSize(Blocks.TORCH, 10);
         setStackSize(Blocks.REDSTONE_TORCH, 10);
+        setStackSize(Items.BRICK, 8);
     }
 
     private static void setStackSize(final Item item, final int i) {

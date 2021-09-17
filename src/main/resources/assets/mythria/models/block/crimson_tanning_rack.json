@@ -1,0 +1,7 @@
+{
+	"parent": "mythria:block/tanning_rack_base",
+	"textures": {
+		"0": "block/stripped_crimson_stem",
+		"particle": "block/stripped_crimson_stem"
+	}
+}

@@ -1,5 +1,5 @@
 {
-  "parent": "block/furnace",
+  "parent": "mythria:block/furnace",
   "display": {
     "fixed": {
       "rotation": [

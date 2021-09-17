@@ -9,10 +9,16 @@ import net.minecraft.inventory.IClearable;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
-public class PitFurnaceTileEntity extends BasicFurnaceTileEntity implements IClearable {
+import java.util.Random;
+
+public class PitFurnaceTileEntity extends AbstractBasicFurnaceTileEntity implements IClearable {
     private final NonNullList<ItemStack> fuelInventory = NonNullList.withSize(8, ItemStack.EMPTY);
 
     public PitFurnaceTileEntity() {
@@ -53,6 +59,38 @@ public class PitFurnaceTileEntity extends BasicFurnaceTileEntity implements ICle
     }
 
     @Override
+    protected void addParticles() {
+        super.addParticles();
+
+        World world = this.getWorld();
+        if (world != null) {
+            BlockPos blockpos = this.getPos();
+            Random random = world.rand;
+            for (int j = 0; j < this.inventory.size(); ++j) {
+                if (!this.inventory.get(j).isEmpty() && random.nextFloat() < 0.2F) {
+                    Direction direction = Direction.byHorizontalIndex(Math.floorMod(j, 4));
+                    float f = 0.3125F;
+                    double d0 = (double) blockpos.getX() + 0.5D - (double) ((float) direction.getXOffset() * 0.3125F) + (double) ((float) direction.rotateY().getXOffset() * 0.3125F);
+                    double d1 = (double) blockpos.getY() + 1.0D;
+                    double d2 = (double) blockpos.getZ() + 0.5D - (double) ((float) direction.getZOffset() * 0.3125F) + (double) ((float) direction.rotateY().getZOffset() * 0.3125F);
+
+                    for (int k = 0; k < 4; ++k) {
+                        world.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 5.0E-4D, 0.0D);
+                    }
+                }
+            }
+
+            final int a = 1;
+            for (int i = 0; i < a; i++) {
+                final double x = pos.getX() + Math.random();
+                final double y = pos.getY() + Math.random() * 0.2 + 1;
+                final double z = pos.getZ() + Math.random();
+                world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, Math.random() * 0.08D, 0.0D);
+            }
+        }
+    }
+
+    @Override
     protected CompoundNBT writeItems(CompoundNBT compound) {
         CompoundNBT fuelInventory = new CompoundNBT();
         ItemStackHelper.saveAllItems(fuelInventory, this.fuelInventory);
@@ -75,11 +113,6 @@ public class PitFurnaceTileEntity extends BasicFurnaceTileEntity implements ICle
         if (world.isRemote) return;
         dropAllItems();
         world.setBlockState(pos, Blocks.AIR.getDefaultState());
-    }
-
-    @Override
-    protected boolean hasFlameParticles() {
-        return !isSoulfire();
     }
 
     @Override

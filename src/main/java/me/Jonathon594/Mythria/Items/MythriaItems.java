@@ -790,7 +790,7 @@ public class MythriaItems {
                 new ToolHandleItem("warped_saw_handle"),
                 new ToolHandleItem("crimson_saw_handle"),
 
-                new MythriaItemThrowable("rock", 4, ItemGroup.MATERIALS, 2),
+                new MythriaItemThrowable("rock", 8, ItemGroup.MATERIALS, 2),
 
                 new MythriaItem("stone_brick", new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(8)),
                 new LogItem("oak_log"),

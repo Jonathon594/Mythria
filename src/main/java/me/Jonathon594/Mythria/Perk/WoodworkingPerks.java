@@ -10,6 +10,7 @@ import me.Jonathon594.Mythria.Enum.PerkType;
 import me.Jonathon594.Mythria.Interface.IPerkRegistry;
 import me.Jonathon594.Mythria.Items.MythriaItems;
 import me.Jonathon594.Mythria.Mythria;
+import me.Jonathon594.Mythria.Tags.MythriaBlockTags;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ObjectHolder;
@@ -33,9 +34,9 @@ public class WoodworkingPerks implements IPerkRegistry {
                         .addCraftableItemTag(new MythriaResourceLocation("sticks"))
                         .addRequiredAttribute(Attribute.DEXTERITY, 2),
 
-                new Perk("advanced_woodcarving", type, MythriaBlocks.TANNING_RACK, Skill.CRAFTING, 5, () -> WOODCARVING)
+                new Perk("advanced_woodcarving", type, MythriaBlocks.OAK_TANNING_RACK, Skill.CRAFTING, 5, () -> WOODCARVING)
                         .setDisplayName("Advanced Woodcarving").withDescription("Combining different cut pieces of wood together can make larger structures")
-                        .addCraftable(MythriaBlocks.TANNING_RACK)
+                        .addCraftableBlockTag(new MythriaResourceLocation("tanning_racks"))
                         .addPerkTypeUnlock(PerkType.LEATHER_WORKING)
                         .addRequiredAttribute(Attribute.INTELLIGENCE, 3),
 

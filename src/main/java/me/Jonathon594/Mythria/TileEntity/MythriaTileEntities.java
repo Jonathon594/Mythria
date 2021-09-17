@@ -26,11 +26,14 @@ public class MythriaTileEntities {
     public static final RegistryObject<TileEntityType<PitFurnaceTileEntity>> PIT_FURNACE =
             TILE_ENTITY_TYPES.register("pit_furnace", () -> TileEntityType.Builder.create(PitFurnaceTileEntity::new, MythriaBlocks.PIT_FURNACE).build(null));
 
-    public static final RegistryObject<TileEntityType<PitFurnaceTileEntity>> STONE_FURNACE =
-            TILE_ENTITY_TYPES.register("stone_furnace", () -> TileEntityType.Builder.create(PitFurnaceTileEntity::new, MythriaBlocks.FURNACE).build(null));
+    public static final RegistryObject<TileEntityType<StoneFurnaceTileEntity>> STONE_FURNACE =
+            TILE_ENTITY_TYPES.register("stone_furnace", () -> TileEntityType.Builder.create(StoneFurnaceTileEntity::new, MythriaBlocks.STONE_FURNACE).build(null));
+
+    public static final RegistryObject<TileEntityType<CobblestoneFurnaceTileEntity>> COBBLESTONE_FURNACE =
+            TILE_ENTITY_TYPES.register("cobblestone_furnace", () -> TileEntityType.Builder.create(CobblestoneFurnaceTileEntity::new, MythriaBlocks.COBBLESTONE_FURNACE).build(null));
 
     public static final RegistryObject<TileEntityType<TanningRackTileEntity>> TANNING_RACK =
-            TILE_ENTITY_TYPES.register("tanning_rack", () -> TileEntityType.Builder.create(TanningRackTileEntity::new, MythriaBlocks.TANNING_RACK).build(null));
+            TILE_ENTITY_TYPES.register("tanning_rack", () -> TileEntityType.Builder.create(TanningRackTileEntity::new, MythriaBlocks.OAK_TANNING_RACK).build(null));
 
     public static final RegistryObject<TileEntityType<MythriaBarrelTileEntity>> THATCH_BASKET =
             TILE_ENTITY_TYPES.register("thatch_basket", () -> TileEntityType.Builder.create(MythriaBarrelTileEntity::new, MythriaBlocks.THATCH_BASKET).build(null));

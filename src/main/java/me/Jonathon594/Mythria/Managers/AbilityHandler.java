@@ -14,21 +14,11 @@ import java.util.HashSet;
 public class AbilityHandler {
     private final HashSet<AbilityInstance> abilityInstances = new HashSet<>();
 
-    //instance variables
-    private final HashMap<Fluid, Boolean> fluidWalkingMap = new HashMap<>();
-
     public AbilityHandler() {
-        for (Fluid fluid : ForgeRegistries.FLUIDS.getValues()) {
-            fluidWalkingMap.put(fluid, false);
-        }
     }
 
     public void addAbilityInstance(Ability ability, PlayerEntity player) {
         abilityInstances.add(new AbilityInstance(ability, player));
-    }
-
-    public boolean canWalkOnFluid(Fluid fluid) {
-        return false;
     }
 
     public AbilityInstance getAbilityInstance(Ability ability) {
@@ -54,10 +44,6 @@ public class AbilityHandler {
 
     public void onCastStart(int hand, EnumAttackType type) {
 
-    }
-
-    public void setFluidWalkingState(Fluid fluid, boolean state) {
-        fluidWalkingMap.put(fluid, state);
     }
 
     public void tick() {
