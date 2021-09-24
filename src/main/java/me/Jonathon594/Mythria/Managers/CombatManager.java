@@ -44,17 +44,22 @@ public class CombatManager {
         if (!ForgeHooks.onPlayerAttackTarget(player, targetEntity)) return;
         if (targetEntity.canBeAttackedWithItem()) {
             if (!targetEntity.hitByEntity(player)) {
+                final ItemStack itemStack = hand == Hand.MAIN_HAND ? player.getHeldItemMainhand()
+                        : player.getHeldItemOffhand();
+                final ItemStack itemStackOther = hand == Hand.MAIN_HAND ? player.getHeldItemOffhand()
+                        : player.getHeldItemMainhand();
+
+                //In case we still have lingering modifiers from other hand
+                player.getAttributeManager().removeModifiers(itemStackOther.getAttributeModifiers(EquipmentSlotType.MAINHAND));
+
+                player.getAttributeManager().reapplyModifiers(itemStack.getAttributeModifiers(EquipmentSlotType.MAINHAND)); // moved to calculate damage
+
                 float damage = (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE);
                 float f1;
 
-                //Mythria
-                final ItemStack itemStack = hand == Hand.MAIN_HAND ? player.getHeldItemMainhand()
-                        : player.getHeldItemOffhand();
                 final EntityDamageSource ds = hand.equals(Hand.MAIN_HAND)
                         ? new EntityDamageSource("player", player)
                         : new EntityDamageSource("playeroffhand", player);
-                final ItemStack itemStackOther = hand == Hand.MAIN_HAND ? player.getHeldItemOffhand()
-                        : player.getHeldItemMainhand();
 
                 if (player.fallDistance > 0.0F && !player.isOnGround() && !player.isOnLadder()
                         && !player.isInWater() && !player.isPotionActive(Effects.BLINDNESS) && player.getRidingEntity() == null
@@ -100,7 +105,6 @@ public class CombatManager {
                 float f2 = player.getCooledAttackStrength(0.5F);
                 damage = damage * (0.2F + f2 * f2 * 0.8F);
                 f1 = f1 * f2;
-                player.getAttributeManager().reapplyModifiers(itemStack.getAttributeModifiers(EquipmentSlotType.MAINHAND));
                 player.resetCooldown();
                 if (damage > 0.0F || f1 > 0.0F) {
                     boolean flag = f2 > 0.9F;
@@ -218,7 +222,7 @@ public class CombatManager {
                         }
 
                         EnchantmentHelper.applyArthropodEnchantments(player, targetEntity);
-                        ItemStack itemstack1 = player.getHeldItemMainhand();
+                        ItemStack itemstack1 = player.getHeldItem(hand);
                         Entity entity = targetEntity;
                         if (targetEntity instanceof PartEntity) {
                             entity = ((PartEntity<?>) targetEntity).getParent();

@@ -29,7 +29,8 @@ public abstract class MeleeCombatManager {
         ICombatAbility ability = getAbility(type, isDual, player.isActiveItemStackBlocking(), event.getAttackClass());
         if (phase.equals(CombatPhase.PRE)) {
             CombatEvent.Pre preEvent = (CombatEvent.Pre) event;
-
+            float bonusDamage = getBonusDamage(player, profile, target);
+            if (bonusDamage != 0) preEvent.setDamage(preEvent.getDamage() + bonusDamage);
 
             double staminaCost = WeightManager.getWeight(event.getWeapon());
             double currentStamina = profile.getConsumables().get(Consumable.STAMINA);
@@ -53,5 +54,9 @@ public abstract class MeleeCombatManager {
             double experience = postEvent.getDamage() * EXPConst.MELEE_DAMAGE;
             profile.addSkillExperience(skill, experience, (ServerPlayerEntity) player, 0);
         }
+    }
+
+    protected float getBonusDamage(PlayerEntity player, Profile profile, Entity target) {
+        return 0;
     }
 }

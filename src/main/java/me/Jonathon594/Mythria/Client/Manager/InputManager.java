@@ -187,17 +187,17 @@ public class InputManager {
 
     private static void attack(RayTraceResult result, Hand hand, AttackClass attackClass) {
         if (mc.player.getCooledAttackStrength(0) < 1) return;
+        final ItemStack itemStack = hand == Hand.MAIN_HAND ? mc.player.getHeldItemMainhand()
+                : mc.player.getHeldItemOffhand();
+        mc.player.getAttributeManager().removeModifiers(mc.player.getHeldItem(hand == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND).getAttributeModifiers(EquipmentSlotType.MAINHAND));
+        mc.player.getAttributeManager().reapplyModifiers(itemStack.getAttributeModifiers(EquipmentSlotType.MAINHAND));
         if (result.getType().equals(RayTraceResult.Type.ENTITY)) {
             ClientCombatManager.meleeAttack((EntityRayTraceResult) result, hand, attackClass);
         } else {
-            final ItemStack itemStack = hand == Hand.MAIN_HAND ? mc.player.getHeldItemMainhand()
-                    : mc.player.getHeldItemOffhand();
-            mc.player.getAttributeManager().reapplyModifiers(itemStack.getAttributeModifiers(EquipmentSlotType.MAINHAND));
             mc.player.swingArm(hand);
             net.minecraftforge.common.ForgeHooks.onEmptyLeftClick(mc.player); //delegate to forgehook.
-            mc.player.resetCooldown();
         }
-
+        mc.player.resetCooldown();
     }
 
     private static boolean canHeavyAttack(ClientPlayerEntity player, Hand hand) {
