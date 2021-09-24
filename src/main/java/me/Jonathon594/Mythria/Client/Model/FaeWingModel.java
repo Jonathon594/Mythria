@@ -38,9 +38,7 @@ public class FaeWingModel extends AgeableModel<LivingEntity> {
         boolean isElytraFlying = entityIn.getTicksElytraFlying() > 0;
         float elytraSpeedFactor = 1.0f;
         if (isElytraFlying) {
-            elytraSpeedFactor = (float) entityIn.getMotion().lengthSquared();
-            elytraSpeedFactor = elytraSpeedFactor / 0.2F;
-            elytraSpeedFactor = (float) Math.pow(elytraSpeedFactor, 3);
+            elytraSpeedFactor = (float) Math.pow(entityIn.getMotion().lengthSquared() * 5, 3);
         }
 
         float idleRate = 0.1f;
@@ -55,7 +53,7 @@ public class FaeWingModel extends AgeableModel<LivingEntity> {
             }
         }
         float idle = (float) (((Math.cos(ageInTicks * idleRate) / 2 + 0.5) * 45) * (Math.max(1 - limbSwingAmount, minIdle)));
-        float limbSwingElytraFactor = Math.min(limbSwingAmount / elytraSpeedFactor, 1);
+        float limbSwingElytraFactor = Math.min(limbSwingAmount / Math.max(elytraSpeedFactor, 1), 1);
         float limbDeflection = 40 * limbSwingAmount;
         if (isElytraFlying) {
             MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(entityIn);

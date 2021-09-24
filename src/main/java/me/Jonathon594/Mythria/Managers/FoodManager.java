@@ -85,7 +85,7 @@ public class FoodManager {
         FOOD_DATA.add(new MythriaFoodData(Items.BAKED_POTATO, 10, Consumable.Nutrition.STARCH, 0));
         FOOD_DATA.add(new MythriaFoodData(Items.BEETROOT, 14, Consumable.Nutrition.FRUIT, 0));
         FOOD_DATA.add(new MythriaFoodData(Items.BEETROOT_SOUP, 7, Consumable.Nutrition.FRUIT, 4));
-        FOOD_DATA.add(new MythriaFoodData(MythriaItems.WHEAT_DOUGH, 1, Consumable.Nutrition.STARCH, 0));
+        FOOD_DATA.add(new MythriaFoodData(MythriaItems.WHEAT_DOUGH, 3, Consumable.Nutrition.STARCH, 0));
         FOOD_DATA.add(new MythriaFoodData(Items.BREAD, 21, Consumable.Nutrition.STARCH, 0));
         FOOD_DATA.add(new MythriaFoodData(Items.CARROT, 14, Consumable.Nutrition.VEGETABLE, 0));
         FOOD_DATA.add(new MythriaFoodData(Items.CHORUS_FRUIT, 18, Consumable.Nutrition.FRUIT, 4));
@@ -119,6 +119,7 @@ public class FoodManager {
         FOOD_DATA.add(new MythriaFoodData(MythriaItems.CRIMSON_FUNGUS, 4, Consumable.Nutrition.VEGETABLE, 4));
         FOOD_DATA.add(new MythriaFoodData(MythriaItems.RED_MUSHROOM, 3, Consumable.Nutrition.VEGETABLE, 0));
         FOOD_DATA.add(new MythriaFoodData(MythriaItems.BROWN_MUSHROOM, 3, Consumable.Nutrition.VEGETABLE, 0));
+        //todo FOOD_DATA.add(new MythriaFoodData(Items.KELP, 7, Consumable.Nutrition.VEGETABLE, 2));
 
 //        RECIPES.add(new FoodRecipe(Items.COOKED_BEEF, Items.BEEF, CookType.ROAST, CookType.BAKE));
 //        RECIPES.add(new FoodRecipe(Items.COOKED_MUTTON, Items.MUTTON, CookType.ROAST, CookType.BAKE));

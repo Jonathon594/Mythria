@@ -26,6 +26,7 @@ import java.util.stream.Stream;
 public class SaerkiType extends GeneticType {
     private static final Map NUTRITION = Stream.of(
             new AbstractMap.SimpleEntry(Consumable.Nutrition.MEAT, 1000)
+            //new AbstractMap.SimpleEntry(Consumable.Nutrition.VEGETABLE, 300)
     ).collect(Collectors.toMap(simpleEntry -> simpleEntry.getKey(), simpleEntry -> simpleEntry.getValue()));
 
     private static final LifeSpanGene LIFESPAN = new LifeSpanGene(3, 11, 16, 40, 74, false);

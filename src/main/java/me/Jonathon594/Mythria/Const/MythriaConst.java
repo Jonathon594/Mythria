@@ -58,5 +58,5 @@ public class MythriaConst {
     public static final String CANT_PLACE = ColorConst.MAIN_COLOR + "You do not know how to place this.";
 
     public static final List<EntityType> LILASIA_ENTITIES = ImmutableList.of(EntityType.SPIDER, EntityType.SKELETON,
-            EntityType.WITCH, EntityType.CREEPER, EntityType.ZOMBIE, EntityType.ZOMBIE_VILLAGER, EntityType.ZOMBIE_HORSE);
+            EntityType.WITCH, EntityType.CREEPER, EntityType.ZOMBIE, EntityType.ZOMBIE_VILLAGER, EntityType.ZOMBIE_HORSE, EntityType.DROWNED);
 }

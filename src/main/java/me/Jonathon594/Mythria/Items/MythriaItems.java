@@ -916,6 +916,7 @@ public class MythriaItems {
                 new FoodItem("red_mushroom", 2, 0.5f),
                 new FoodItem("warped_fungus", 3, 0.5f),
                 new FoodItem("crimson_fungus", 3, 0.5f),
+                // todo new FoodItem("kelp", 2, 0.5f),
 
                 new SpearItem("oak_spear", MythriaItemTier.PRIMITIVE, 1, 0, 0.0),
                 new SpearItem("birch_spear", MythriaItemTier.PRIMITIVE, 0.8, 0.2, 0.0),

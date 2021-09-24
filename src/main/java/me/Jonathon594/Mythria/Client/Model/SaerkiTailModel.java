@@ -55,7 +55,7 @@ public class SaerkiTailModel<E extends LivingEntity> extends SegmentedModel<E> {
     public void setRotationAngles(E entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         if (entityIn.getTicksElytraFlying() > 0) {
             float elytraSpeedFactor = (float) Math.pow(entityIn.getMotion().lengthSquared()  / 0.2, 3);
-            limbSwingAmount = Math.min(limbSwingAmount / elytraSpeedFactor, 1);
+            limbSwingAmount = Math.min(limbSwingAmount / Math.max(elytraSpeedFactor, 1), 1);
         }
 
         this.tail_upper.rotateAngleX = -0.05F * MathHelper.cos(ageInTicks * 0.3F) * limbSwingAmount;
