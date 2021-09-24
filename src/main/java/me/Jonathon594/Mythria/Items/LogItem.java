@@ -43,7 +43,7 @@ public class LogItem extends MythriaItem {
 
             PlayerEntity player = context.getPlayer();
             Profile profile = ProfileProvider.getProfile(player);
-            if (!profile.hasFlag(AttributeFlag.FIREMAKING1)) {
+            if (!profile.hasFlag(AttributeFlag.FIREMAKING)) {
                 player.sendMessage(new StringTextComponent(MythriaConst.NO_PERK), Util.DUMMY_UUID);
                 return ActionResultType.PASS;
             }

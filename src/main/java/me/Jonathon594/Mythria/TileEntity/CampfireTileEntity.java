@@ -224,7 +224,7 @@ public class CampfireTileEntity extends TileEntity implements IClearable, ITicka
             if (random.nextFloat() < 0.11F) {
                 for (int i = 0; i < random.nextInt(2) + 2; ++i) {
                     if (!isSoulfire())
-                        MythriaUtil.spawnSmokeParticles(world, blockpos, isSignalFire(), false);
+                        MythriaUtil.spawnSmokeParticles(world, blockpos, isSignalFire(), false, 0.0);
                 }
             }
 

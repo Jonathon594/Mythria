@@ -1,0 +1,10 @@
+{
+  "type": "mythria:simple_crafting",
+  "ingredient": {
+    "item": "mythria:oak_plank"
+  },
+  "cost": 8,
+  "result": "minecraft:oak_planks",
+  "count": 1,
+  "tier": 0
+}

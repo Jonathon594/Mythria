@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "mythria:block/jungle_saw_horse"
+    },
+    "facing=south": {
+      "model": "mythria:block/jungle_saw_horse",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "mythria:block/jungle_saw_horse",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "mythria:block/jungle_saw_horse",
+      "y": 90
+    }
+  }
+}

@@ -33,7 +33,7 @@ public class SkaerenType extends GeneticType {
 
     public SkaerenType() {
         super("skaeren", "Skaeren", () -> new Genetic(GeneticTypes.SKAEREN, 0, 100, 0.01,
-                60, 1.0, 40, 20, 1, NUTRITION, LIFESPAN)
+                1.0, 60, 1.0, 40, 20, 1, NUTRITION, LIFESPAN)
                 .withExtraGene(new ImmunityGene(DamageSource.IN_FIRE, DamageSource.ON_FIRE, DamageSource.HOT_FLOOR,
                         DamageSource.LAVA))
                 .withExtraGene(new EntityAttitudeGene(EntityAttitudeGene.Attitude.TRUCE, EntityType.GHAST,

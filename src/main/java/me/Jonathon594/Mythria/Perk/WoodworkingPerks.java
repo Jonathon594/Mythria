@@ -37,13 +37,13 @@ public class WoodworkingPerks implements IPerkRegistry {
                 new Perk("advanced_woodcarving", type, MythriaBlocks.OAK_TANNING_RACK, Skill.CRAFTING, 5, () -> WOODCARVING)
                         .setDisplayName("Advanced Woodcarving").withDescription("Combining different cut pieces of wood together can make larger structures")
                         .addCraftableBlockTag(new MythriaResourceLocation("tanning_racks"))
+                        .addCraftableBlockTag(new MythriaResourceLocation("saw_horses"))
                         .addPerkTypeUnlock(PerkType.LEATHER_WORKING)
                         .addRequiredAttribute(Attribute.INTELLIGENCE, 3),
 
                 new Perk("wooden_weapons", type, MythriaItems.OAK_CLUB, Skill.CRAFTING, 0, () -> WOODCARVING)
                         .setDisplayName("Basic Wooden Weapons").withDescription("With a big enough piece of wood cut the right way, you could hurt somebody.")
                         .addCraftableItemTag(new MythriaResourceLocation("clubs"))
-                        //.addPerkTypeUnlock(PerkType.FLETCHING) todo combat
                         .addRequiredAttribute(Attribute.INTELLIGENCE, 3),
 
                 new Perk("advanced_wooden_weapons", type, MythriaItems.OAK_SPEAR, Skill.CRAFTING, 5, () -> WOODEN_WEAPONS)

@@ -22,6 +22,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class Perk extends ForgeRegistryEntry<Perk> {
     final HashMap<StatType, Double> statModifiers = new HashMap<>();
@@ -214,7 +215,7 @@ public class Perk extends ForgeRegistryEntry<Perk> {
             }
             lines.add("");
         }
-        if(!description.isEmpty()) lines.add(ColorConst.HIGH_COLOR + description);
+        if (!description.isEmpty()) lines.add(ColorConst.HIGH_COLOR + description);
         return lines;
     }
 
@@ -299,12 +300,11 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         return type;
     }
 
-    public boolean hasRequiredAttribute(final Profile p) {
+    public boolean hasRequiredPerks(final Profile p) {
         if (requiredPerk.get() == null) return true;
-        final Perk pa = requiredPerk.get();
-        if (pa == null)
-            return false;
-        return p.getPlayerSkills().contains(pa);
+        final Perk perk = requiredPerk.get();
+        if (perk == null) return false;
+        return p.hasPerk(perk);
     }
 
     public boolean hasRequiredFavor(Profile p) {

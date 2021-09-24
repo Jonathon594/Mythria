@@ -55,6 +55,7 @@ public class EntityListener {
             player.getDataManager().register(MythriaPlayer.WINGS, null);
             player.getDataManager().register(MythriaPlayer.VINES, null);
             player.getDataManager().register(MythriaPlayer.SCALES, null);
+            player.getDataManager().register(MythriaPlayer.SAERKI_TAIL, null);
             player.getDataManager().register(MythriaPlayer.GENDER, Gender.MALE);
             player.getDataManager().register(MythriaPlayer.CONTROL_MODE, ControlMode.NORMAL);
         }

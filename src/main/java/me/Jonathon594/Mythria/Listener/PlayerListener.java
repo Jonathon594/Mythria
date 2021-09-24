@@ -1,6 +1,5 @@
 package me.Jonathon594.Mythria.Listener;
 
-import com.google.common.collect.Lists;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
@@ -13,8 +12,10 @@ import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Managers.*;
 import me.Jonathon594.Mythria.Managers.Crafting.ConstructionManager;
+import me.Jonathon594.Mythria.Mythria;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.Packet.SPacketProfileCache;
+import me.Jonathon594.Mythria.Perk.Perks;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import me.Jonathon594.Mythria.Worlds.MythriaWorlds;
 import net.minecraft.block.Block;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber
 public class PlayerListener {
@@ -64,9 +66,9 @@ public class PlayerListener {
     public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         ItemStack itemStack = event.getItemStack();
         Item item = itemStack.getItem();
-        if(item instanceof ArmorItem) {
+        if (item instanceof ArmorItem) {
             ArmorItem armor = (ArmorItem) item;
-            if(!LimitedInventoryManager.isArmorSlotOpen(event.getPlayer(), armor.getEquipmentSlot().getIndex())) {
+            if (!LimitedInventoryManager.isArmorSlotOpen(event.getPlayer(), armor.getEquipmentSlot().getIndex())) {
                 event.setCanceled(true);
                 event.setCancellationResult(ActionResultType.FAIL);
             }
@@ -212,11 +214,21 @@ public class PlayerListener {
     @SubscribeEvent
     public static void playerLoggedIn(final PlayerEvent.PlayerLoggedInEvent event) {
         final ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
+        final Profile p = ProfileProvider.getProfile(player);
         player.func_242111_a(MythriaWorlds.SPAWN_KEY, new BlockPos(0, 64, 0), 0.0f, true, false);
         MythriaUtil.grantRecipeAdvancements(player);
-        player.resetRecipes(Lists.newArrayList(player.server.getRecipeManager().getRecipes()));
+        player.resetRecipes(player.server.getRecipeManager().getRecipes().stream().filter(iRecipe -> {
+            if (iRecipe.getId().getNamespace() != Mythria.MODID) return true;
+            ItemStack recipeOutput = iRecipe.getRecipeOutput();
+            Item item = recipeOutput.getItem();
+            if (!Perks.requiresPerk(item)) return false;
+            boolean flag = false;
+            for (Perk perk : MaterialManager.PERKS_FOR_CRAFTING.get(item)) {
+                if (p.hasPerk(perk)) flag = true;
+            }
+            return flag;
+        }).collect(Collectors.toList()));
         ChatManager.setChatChannel(player, ChatChannel.LOCAL);
-        final Profile p = ProfileProvider.getProfile(player);
         //MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(player);
         //mythriaPlayer.setPlayer(player);
         MythriaUtil.unlockDefaultRecipes(player);

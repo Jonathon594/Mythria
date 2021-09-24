@@ -17,6 +17,7 @@ public class GeneticTypes {
     public static final GeneticType DRYAD = null;
     public static final GeneticType SKAEREN = null;
     public static final GeneticType KATANA = null;
+    public static final GeneticType SAERKI = null;
 
     @SubscribeEvent
     public static void onRegisterGeneticBuilders(RegistryEvent.Register<GeneticType> event) {
@@ -27,7 +28,8 @@ public class GeneticTypes {
                 new FaeType(),
                 new DryadType(),
                 new SkaerenType(),
-                new KatanaType()
+                new KatanaType(),
+                new SaerkiType()
         );
     }
 }

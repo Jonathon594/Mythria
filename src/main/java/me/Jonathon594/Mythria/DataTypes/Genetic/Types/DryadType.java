@@ -32,7 +32,7 @@ public class DryadType extends GeneticType {
 
     public DryadType() {
         super("dryad", "Dryad", () -> new Genetic(GeneticTypes.DRYAD, 8, 120, 0.01,
-                40, 1.0, 200, 14, 0.0, NUTRITION, LIFESPAN)
+                1.0, 40, 1.0, 200, 14, 0.0, NUTRITION, LIFESPAN)
                 .setGenderBias(1.0)
                 .withExtraGene(new AbilityGene(Abilities.DRYAD_GROWTH))
                 .withExtraGene(new AbilityGene(Abilities.DRYAD_ABSORB))

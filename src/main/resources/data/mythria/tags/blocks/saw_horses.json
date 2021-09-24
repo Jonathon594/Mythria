@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "mythria:oak_saw_horse",
+    "mythria:spruce_saw_horse",
+    "mythria:birch_saw_horse",
+    "mythria:jungle_saw_horse",
+    "mythria:acacia_saw_horse",
+    "mythria:dark_oak_saw_horse",
+    "mythria:crimson_saw_horse",
+    "mythria:warped_saw_horse"
+  ]
+}

@@ -26,6 +26,7 @@ public class Genetic {
     private DoubleStatGene healthGene;
     private DoubleStatGene staminaGene;
     private DoubleStatGene speedGene;
+    private DoubleStatGene swimSpeedGene;
     private DoubleStatGene weightGene;
     private DoubleStatGene intelligenceGene;
     private DoubleStatGene manaGene;
@@ -39,12 +40,13 @@ public class Genetic {
     private SkinPartGene skin;
 
     public Genetic(GeneticType type, double health, double stamina, double speed,
-                   double weight, double intelligence, double mana, double temperature, double manaRegen,
+                   double swimSpeed, double weight, double intelligence, double mana, double temperature, double manaRegen,
                    Map<Consumable.Nutrition, Integer> requiredNutrition, LifeSpanGene lifeSpanGene) {
         this.type = type;
         this.healthGene = new DoubleStatGene(Gene.GeneType.HEALTH, health);
         this.staminaGene = new DoubleStatGene(Gene.GeneType.STAMINA, stamina);
         this.speedGene = new DoubleStatGene(Gene.GeneType.SPEED, speed);
+        this.swimSpeedGene = new DoubleStatGene(Gene.GeneType.SWIM_SPEED, swimSpeed);
         this.weightGene = new DoubleStatGene(Gene.GeneType.WEIGHT, weight);
         this.intelligenceGene = new DoubleStatGene(Gene.GeneType.INTELLIGENCE, intelligence);
         this.manaGene = new DoubleStatGene(Gene.GeneType.MANA, mana);
@@ -64,6 +66,7 @@ public class Genetic {
         healthGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Health"));
         staminaGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Stamina"));
         speedGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Speed"));
+        swimSpeedGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("SwimSpeed"));
         weightGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Weight"));
         intelligenceGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Intelligence"));
         manaGene = GeneSerializers.DOUBLE_STAT.deserialize(compound.getCompound("Mana"));
@@ -104,6 +107,10 @@ public class Genetic {
 
     public double getBaseStamina() {
         return staminaGene.getValue();
+    }
+
+    public double getBaseSwimSpeed() {
+        return swimSpeedGene.getValue();
     }
 
     public double getBaseWeight() {
@@ -232,6 +239,7 @@ public class Genetic {
         compoundNBT.put("Health", healthGene.toNBT(false));
         compoundNBT.put("Stamina", staminaGene.toNBT(false));
         compoundNBT.put("Speed", speedGene.toNBT(false));
+        compoundNBT.put("SwimSpeed", swimSpeedGene.toNBT(false));
         compoundNBT.put("Weight", weightGene.toNBT(false));
         compoundNBT.put("Intelligence", intelligenceGene.toNBT(false));
         compoundNBT.put("Mana", manaGene.toNBT(false));

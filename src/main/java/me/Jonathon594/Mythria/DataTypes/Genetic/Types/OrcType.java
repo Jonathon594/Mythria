@@ -31,7 +31,7 @@ public class OrcType extends GeneticType {
 
     public OrcType() {
         super("orc", "Orc", () -> new Genetic(GeneticTypes.ORC, 20, 140, -0.01,
-                100, 0.8, 5, 16, 0, NUTRITION, LIFESPAN));
+                1.0, 100, 0.8, 5, 16, 0, NUTRITION, LIFESPAN));
     }
 
     @Override

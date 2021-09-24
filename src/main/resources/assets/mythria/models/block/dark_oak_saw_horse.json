@@ -1,0 +1,7 @@
+{
+	"parent": "mythria:block/saw_horse_base",
+	"textures": {
+		"0": "block/stripped_dark_oak_log",
+		"particle": "block/stripped_dark_oak_log"
+	}
+}

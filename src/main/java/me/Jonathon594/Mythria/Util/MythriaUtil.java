@@ -139,15 +139,12 @@ public class MythriaUtil {
         player.unlockRecipes(craftableRecipes);
     }
 
-    public static void applyMythriaAttributeModifier(final PlayerEntity p, final String string, final double value,
-                                                     final Attribute movementSpeed) {
-        final ModifiableAttributeInstance atr = p.getAttribute(movementSpeed);
-        for (AttributeModifier modifier : atr.getModifierListCopy()) {
-            if (modifier.getName().equals(string)) {
-                atr.removeModifier(modifier);
-            }
-        }
-        atr.applyNonPersistentModifier(new AttributeModifier(string, value, AttributeModifier.Operation.ADDITION));
+    public static void applyMythriaAttributeModifier(final PlayerEntity p, final String string, UUID uuid, final double value,
+                                                     final Attribute attribute) {
+        final ModifiableAttributeInstance atr = p.getAttribute(attribute);
+        AttributeModifier modifier = new AttributeModifier(uuid, string, value, AttributeModifier.Operation.ADDITION);
+        atr.removeModifier(modifier);
+        atr.applyNonPersistentModifier(modifier);
     }
 
     /**
@@ -387,12 +384,12 @@ public class MythriaUtil {
         }
     }
 
-    public static void spawnSmokeParticles(World worldIn, BlockPos pos, boolean isSignalFire, boolean spawnExtraSmoke) {
+    public static void spawnSmokeParticles(World worldIn, BlockPos pos, boolean isSignalFire, boolean spawnExtraSmoke, double yOffset) {
         Random random = worldIn.getRandom();
         BasicParticleType basicparticletype = isSignalFire ? ParticleTypes.CAMPFIRE_SIGNAL_SMOKE : ParticleTypes.CAMPFIRE_COSY_SMOKE;
-        worldIn.addOptionalParticle(basicparticletype, true, (double) pos.getX() + 0.5D + random.nextDouble() / 3.0D * (double) (random.nextBoolean() ? 1 : -1), (double) pos.getY() + random.nextDouble() + random.nextDouble(), (double) pos.getZ() + 0.5D + random.nextDouble() / 3.0D * (double) (random.nextBoolean() ? 1 : -1), 0.0D, 0.07D, 0.0D);
+        worldIn.addOptionalParticle(basicparticletype, true, (double) pos.getX() + 0.5D + random.nextDouble() / 3.0D * (double) (random.nextBoolean() ? 1 : -1), (double) pos.getY() + random.nextDouble() + random.nextDouble() + yOffset, (double) pos.getZ() + 0.5D + random.nextDouble() / 3.0D * (double) (random.nextBoolean() ? 1 : -1), 0.0D, 0.07D, 0.0D);
         if (spawnExtraSmoke) {
-            worldIn.addParticle(ParticleTypes.SMOKE, (double) pos.getX() + 0.25D + random.nextDouble() / 2.0D * (double) (random.nextBoolean() ? 1 : -1), (double) pos.getY() + 0.4D, (double) pos.getZ() + 0.25D + random.nextDouble() / 2.0D * (double) (random.nextBoolean() ? 1 : -1), 0.0D, 0.005D, 0.0D);
+            worldIn.addParticle(ParticleTypes.SMOKE, (double) pos.getX() + 0.25D + random.nextDouble() / 2.0D * (double) (random.nextBoolean() ? 1 : -1), (double) pos.getY() + 0.4D + yOffset, (double) pos.getZ() + 0.25D + random.nextDouble() / 2.0D * (double) (random.nextBoolean() ? 1 : -1), 0.0D, 0.005D, 0.0D);
         }
     }
 
@@ -440,7 +437,7 @@ public class MythriaUtil {
 
     private static void collectRecipesForItem(PlayerEntity player, HashSet<IRecipe<?>> recipes, Item item) {
         for (IRecipe recipe : player.world.getServer().getRecipeManager().getRecipes()) {
-            if (recipe.getRecipeOutput().getItem().equals(item)) {
+            if (recipe.getRecipeOutput().getItem().equals(item) && recipe.getId().getNamespace() == Mythria.MODID) {
                 recipes.add(recipe);
             }
         }

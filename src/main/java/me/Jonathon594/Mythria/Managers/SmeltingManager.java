@@ -55,7 +55,7 @@ public class SmeltingManager {
         MythriaItemTags.LOGS.getAllElements().forEach(block -> fuelDataMap.put(block.asItem(), new FuelData(6000, 600)));
         fuelDataMap.put(Items.COAL, new FuelData(16000, 1250));
         fuelDataMap.put(Items.BLAZE_POWDER, new FuelData(16000, 1250));
-        fuelDataMap.put(Blocks.COAL_BLOCK.asItem(), new FuelData(64000, 1300));
+        fuelDataMap.put(Blocks.COAL_BLOCK.asItem(), new FuelData(128000, 1300));
         fuelDataMap.put(Items.MAGMA_CREAM, new FuelData(12000, 3500));
     }
 

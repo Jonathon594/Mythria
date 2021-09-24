@@ -1,6 +1,5 @@
 package me.Jonathon594.Mythria.Skin;
 
-import me.Jonathon594.Mythria.DataTypes.GenderedSkinPart;
 import me.Jonathon594.Mythria.Enum.Gender;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import net.minecraft.util.ResourceLocation;
@@ -14,6 +13,7 @@ public class SkinPart extends ForgeRegistryEntry<SkinPart> {
     private final Type type;
     protected Set<Gender> allowedGenders = new HashSet<>();
     private String displayName = "";
+    private String customTextureName;
 
     private boolean makesPiglinsNeutral = false;
 
@@ -33,7 +33,13 @@ public class SkinPart extends ForgeRegistryEntry<SkinPart> {
     }
 
     public ResourceLocation getTextureLocation(Gender gender) {
-        return new MythriaResourceLocation("textures/entity/player/" + getRegistryName().getPath() + ".png");
+        String path = customTextureName == null ? getRegistryName().getPath() : customTextureName;
+        return new MythriaResourceLocation("textures/entity/player/" + path + ".png");
+    }
+
+    public SkinPart withCustomTextureName(String textureName) {
+        customTextureName = textureName;
+        return this;
     }
 
     public Type getType() {
@@ -55,6 +61,22 @@ public class SkinPart extends ForgeRegistryEntry<SkinPart> {
     }
 
     public enum Type {
-        SKIN, EYES, HAIR, CLOTHING, WINGS, DRYAD_VINES
+        SKIN(true),
+        EYES(true),
+        DRYAD_VINES(true),
+        CLOTHING(true),
+        HAIR(true),
+        WINGS(false),
+        SAERKI_TAIL(false);
+
+        private boolean rendersOnHands;
+
+        Type(boolean rendersOnHands) {
+            this.rendersOnHands = rendersOnHands;
+        }
+
+        public boolean renderOnHands() {
+            return this.rendersOnHands;
+        }
     }
 }

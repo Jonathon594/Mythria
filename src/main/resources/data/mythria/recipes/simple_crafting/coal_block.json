@@ -1,0 +1,10 @@
+{
+  "type": "mythria:simple_crafting",
+  "ingredient": {
+    "item": "minecraft:coal"
+  },
+  "cost": 8,
+  "result": "minecraft:coal_block",
+  "count": 1,
+  "tier": 0
+}

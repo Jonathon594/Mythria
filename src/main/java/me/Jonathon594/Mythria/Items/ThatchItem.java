@@ -54,7 +54,7 @@ public class ThatchItem extends MythriaItem implements IPitFurnaceFilling {
             PitFurnaceBlock pitKiln = MythriaBlocks.PIT_FURNACE;
             if (player.canPlayerEdit(pos, face, itemstack) && pitKiln.isValidPosition(null, world, pos)) {
                 Profile profile = ProfileProvider.getProfile(player);
-                if (!profile.hasFlag(AttributeFlag.PRIMITIVE_FURNACES)) {
+                if (!profile.hasFlag(AttributeFlag.FIREMAKING)) {
                     player.sendMessage(new StringTextComponent(MythriaConst.NO_PERK), Util.DUMMY_UUID);
                     return ActionResultType.PASS;
                 }

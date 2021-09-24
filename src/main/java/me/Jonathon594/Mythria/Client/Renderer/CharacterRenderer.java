@@ -6,6 +6,8 @@ import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Client.Model.CharacterModel;
 import me.Jonathon594.Mythria.Client.Renderer.Layer.CharacterLayerRenderer;
 import me.Jonathon594.Mythria.Client.Renderer.Layer.FaeWingLayer;
+import me.Jonathon594.Mythria.Client.Renderer.Layer.SaerkiTailLayer;
+import me.Jonathon594.Mythria.Enum.Gender;
 import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Skin.SkinParts;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -30,6 +32,10 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.util.text.ITextComponent;
 
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 public class CharacterRenderer extends LivingRenderer<LivingEntity, CharacterModel<LivingEntity>> {
     public CharacterRenderer(EntityRendererManager renderManager) {
         this(renderManager, false);
@@ -38,10 +44,12 @@ public class CharacterRenderer extends LivingRenderer<LivingEntity, CharacterMod
     public CharacterRenderer(EntityRendererManager renderManager, boolean useSmallArms) {
         super(renderManager, new CharacterModel<>(0.0F, useSmallArms), 0.5F);
         this.addLayer(new CharacterLayerRenderer(this, SkinPart.Type.EYES));
+        this.addLayer(new CharacterLayerRenderer(this, SkinPart.Type.SAERKI_TAIL, "overlay")); //Skin Overlay for scales
         this.addLayer(new CharacterLayerRenderer(this, SkinPart.Type.DRYAD_VINES));
         this.addLayer(new CharacterLayerRenderer(this, SkinPart.Type.CLOTHING));
         this.addLayer(new CharacterLayerRenderer(this, SkinPart.Type.HAIR));
         this.addLayer(new FaeWingLayer(this));
+        this.addLayer(new SaerkiTailLayer(this));
         this.addLayer(new BipedArmorLayer<>(this, new BipedModel(0.5F), new BipedModel(1.0F)));
         this.addLayer(new HeldItemLayer<>(this));
         this.addLayer(new ArrowLayer<>(this));
@@ -52,16 +60,18 @@ public class CharacterRenderer extends LivingRenderer<LivingEntity, CharacterMod
         this.addLayer(new SpinAttackEffectLayer(this));
     }
 
-    public static ResourceLocation getCharacterLayeredTexture(LivingEntity entity, SkinPart.Type skin) {
+    public static Optional<ResourceLocation> getCharacterLayeredTexture(LivingEntity entity, SkinPart.Type skin) {
         MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(entity);
         SkinPart skinPart = mythriaPlayer.getSkinPart(skin);
-        if (skinPart == null) return SkinParts.getSkinPartsFor(skin).get(0).getTextureLocation(mythriaPlayer.getGender());
-        return skinPart.getTextureLocation(mythriaPlayer.getGender());
+        if (skinPart == null) return Optional.empty();
+        ResourceLocation textureLocation = skinPart.getTextureLocation(mythriaPlayer.getGender());
+        return Optional.of(textureLocation);
     }
 
     @Override
     public ResourceLocation getEntityTexture(LivingEntity entity) {
-        return getCharacterLayeredTexture(entity, SkinPart.Type.SKIN);
+        return getCharacterLayeredTexture(entity, SkinPart.Type.SKIN)
+                .orElse(SkinParts.getSkinPartsFor(SkinPart.Type.SKIN).get(0).getTextureLocation(Gender.MALE));
     }
 
     @Override
@@ -79,8 +89,9 @@ public class CharacterRenderer extends LivingRenderer<LivingEntity, CharacterMod
         ModelRenderer rendererArmwearIn = side == HandSide.RIGHT ? model.bipedRightArmwear : model.bipedLeftArmwear;
 
         rendererArmIn.rotateAngleX = 0.0F;
-        for (SkinPart.Type type : SkinPart.Type.values()) {
-            ResourceLocation characterLayeredTexture = getCharacterLayeredTexture(playerIn, type);
+        for (SkinPart.Type type : Arrays.stream(SkinPart.Type.values())
+                .filter(type -> type.renderOnHands()).collect(Collectors.toList())) {
+            ResourceLocation characterLayeredTexture = getCharacterLayeredTexture(playerIn, type).orElse(null);
             if (characterLayeredTexture == null) continue;
             rendererArmIn.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntityTranslucent(characterLayeredTexture)), combinedLightIn, OverlayTexture.NO_OVERLAY);
         }

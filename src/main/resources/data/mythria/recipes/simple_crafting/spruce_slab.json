@@ -1,0 +1,10 @@
+{
+  "type": "mythria:simple_crafting",
+  "ingredient": {
+    "item": "mythria:spruce_plank"
+  },
+  "cost": 4,
+  "result": "minecraft:spruce_slab",
+  "count": 1,
+  "tier": 0
+}

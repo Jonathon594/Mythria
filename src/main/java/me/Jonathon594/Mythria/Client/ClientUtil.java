@@ -1,5 +1,6 @@
 package me.Jonathon594.Mythria.Client;
 
+import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Client.Manager.ClientManager;
@@ -11,9 +12,8 @@ import me.Jonathon594.Mythria.Items.MythriaShieldItem;
 import me.Jonathon594.Mythria.Items.SpearItem;
 import me.Jonathon594.Mythria.Managers.LimitedInventoryManager;
 import me.Jonathon594.Mythria.Packet.SPacketProfileCache;
-import me.Jonathon594.Mythria.Packet.SPacketUpdateConsumables;
 import me.Jonathon594.Mythria.Packet.SPacketUpdateExperience;
-import me.Jonathon594.Mythria.Packet.SPacketUpdateNutrition;
+import me.Jonathon594.Mythria.Skin.SkinPart;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
@@ -28,6 +28,10 @@ import javax.annotation.Nullable;
 
 public class ClientUtil {
     private static final Minecraft instance = Minecraft.getInstance();
+
+    public static boolean hasSaerkiTail(MythriaPlayer mythriaPlayer) {
+        return mythriaPlayer.getSkinPart(SkinPart.Type.SAERKI_TAIL) != null;
+    }
 
     public static void drawLockedInventorySlots(final GuiScreenEvent.InitGuiEvent.Post event) {
         final Minecraft mc = Minecraft.getInstance();

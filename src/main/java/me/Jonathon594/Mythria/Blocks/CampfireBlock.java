@@ -228,7 +228,7 @@ public class CampfireBlock extends MythriaBlockContainer implements IWaterLoggab
                 if (worldIn.isRemote()) {
                     for (int i = 0; i < 20; ++i) {
                         if (!state.get(SOULFIRE))
-                            MythriaUtil.spawnSmokeParticles((World) worldIn, pos, state.get(SIGNAL_FIRE), true);
+                            MythriaUtil.spawnSmokeParticles((World) worldIn, pos, state.get(SIGNAL_FIRE), true, 0.0);
                     }
                 } else {
                     worldIn.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1.0F, 1.0F);

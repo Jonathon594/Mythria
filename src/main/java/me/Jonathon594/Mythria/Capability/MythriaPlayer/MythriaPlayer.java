@@ -1,16 +1,21 @@
 package me.Jonathon594.Mythria.Capability.MythriaPlayer;
 
+import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Enum.CombatMode;
 import me.Jonathon594.Mythria.Enum.ControlMode;
 import me.Jonathon594.Mythria.Enum.Gender;
 import me.Jonathon594.Mythria.Enum.InputIntent;
 import me.Jonathon594.Mythria.Network.MythriaSerializers;
 import me.Jonathon594.Mythria.Skin.SkinPart;
+import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Pose;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.util.Hand;
+
+import java.util.EnumMap;
 
 public class MythriaPlayer implements IMythriaPlayer {
     public static final DataParameter<Boolean> PARRYING = new DataParameter<>(254, DataSerializers.BOOLEAN);
@@ -21,8 +26,9 @@ public class MythriaPlayer implements IMythriaPlayer {
     public static final DataParameter<SkinPart> WINGS = new DataParameter<>(249, MythriaSerializers.SKIN);
     public static final DataParameter<SkinPart> VINES = new DataParameter<>(248, MythriaSerializers.SKIN);
     public static final DataParameter<SkinPart> SCALES = new DataParameter<>(247, MythriaSerializers.SKIN);
-    public static final DataParameter<Gender> GENDER = new DataParameter<>(246, MythriaSerializers.GENDER);
-    public static final DataParameter<ControlMode> CONTROL_MODE = new DataParameter<>(245, MythriaSerializers.CONTROL_MODE);
+    public static final DataParameter<SkinPart> SAERKI_TAIL = new DataParameter<>(246, MythriaSerializers.SKIN);
+    public static final DataParameter<Gender> GENDER = new DataParameter<>(245, MythriaSerializers.GENDER);
+    public static final DataParameter<ControlMode> CONTROL_MODE = new DataParameter<>(244, MythriaSerializers.CONTROL_MODE);
 
     private final LivingEntity entity;
     private int ticksParrying;
@@ -34,6 +40,8 @@ public class MythriaPlayer implements IMythriaPlayer {
     private int attackingOffhand;
 
     private boolean abilityBookOpen = false;
+
+    private EnumMap<Pose, EntitySize> customSize = new EnumMap<>(Pose.class);
 
     public MythriaPlayer(LivingEntity entity) {
         this.entity = entity;
@@ -48,9 +56,21 @@ public class MythriaPlayer implements IMythriaPlayer {
         abilityBookOpen = comp.getBoolean("AbilityBookOpen");
     }
 
+    public EntitySize getCustomSize(Pose poseIn) {
+        return customSize.get(poseIn);
+    }
+
+    public void setCustomSize(Pose poseIn, EntitySize size) {
+        customSize.put(poseIn, size);
+    }
+
     @Override
     public Gender getGender() {
         return entity.getDataManager().get(GENDER);
+    }
+
+    public boolean hasCustomSize(Pose poseIn) {
+        return customSize.containsKey(poseIn);
     }
 
     @Override
@@ -73,6 +93,8 @@ public class MythriaPlayer implements IMythriaPlayer {
                 return entity.getDataManager().get(WINGS);
             case DRYAD_VINES:
                 return entity.getDataManager().get(VINES);
+            case SAERKI_TAIL:
+                return entity.getDataManager().get(SAERKI_TAIL);
         }
         return null;
     }
@@ -118,6 +140,9 @@ public class MythriaPlayer implements IMythriaPlayer {
                 break;
             case DRYAD_VINES:
                 entity.getDataManager().set(VINES, part);
+                break;
+            case SAERKI_TAIL:
+                entity.getDataManager().set(SAERKI_TAIL, part);
                 break;
         }
     }

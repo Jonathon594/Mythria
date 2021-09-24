@@ -1,0 +1,10 @@
+{
+  "type": "mythria:simple_crafting",
+  "ingredient": {
+    "item": "mythria:jungle_plank"
+  },
+  "cost": 6,
+  "result": "minecraft:jungle_fence",
+  "count": 1,
+  "tier": 0
+}

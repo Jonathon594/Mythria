@@ -19,6 +19,8 @@ public class SkinParts {
     public static final SkinPart CLOTHES_PRIMITIVE = null;
     public static final SkinPart SKAEREN_CLOTHES_PRIMITIVE = null;
     public static final SkinPart CLOTHES_NUDE = null;
+    public static final SkinPart CLOTHES_SEASHELL_BRA = null;
+    public static final SkinPart CLOTHES_SAERKI_SHIRTLESS = null;
     public static final SkinPart HUMAN_EYES_BROWN = null;
     public static final SkinPart HUMAN_EYES_BLUE = null;
     public static final SkinPart HUMAN_EYES_GREEN = null;
@@ -41,6 +43,7 @@ public class SkinParts {
     public static final SkinPart FAE_WINGS_GREEN = null;
     public static final SkinPart FAE_WINGS_PINK = null;
     public static final SkinPart DRYAD_VINES_OAK = null;
+    public static final SkinPart SAERKI_TAIL_BLUE = null;
     private static final ArrayList<SkinPart> skinParts = new ArrayList<>();
 
     public static List<SkinPart> getSkinPartsFor(SkinPart.Type type) {
@@ -65,6 +68,12 @@ public class SkinParts {
                         .setMakesPiglinsNeutral(true),
 
                 new SkinPart("Nude", "clothes_nude", SkinPart.Type.CLOTHING),
+
+                new SkinPart("Blue Seashell Bra", "clothes_seashell_bra", SkinPart.Type.CLOTHING)
+                        .setAllowedGenders(ImmutableSet.of(Gender.FEMALE)),
+                new SkinPart("Shirtless", "clothes_saerki_shirtless", SkinPart.Type.CLOTHING)
+                        .withCustomTextureName("clothes_nude")
+                        .setAllowedGenders(ImmutableSet.of(Gender.MALE)),
 
 //                new SkinPart("Felixia", "deity_clothes_felixia", SkinPart.Type.CLOTHING, false, true),
 //                new SkinPart("Melinias", "deity_clothes_melinias", SkinPart.Type.CLOTHING, false, true),
@@ -129,7 +138,9 @@ public class SkinParts {
 //                new SkinPart("Pink Wings", "fae_wings_pink", SkinPart.Type.WINGS)
 //                        .setAllowedGenders(ImmutableSet.of(Gender.FEMALE)),
 
-                new SkinPart("Vines", "dryad_vines_oak", SkinPart.Type.DRYAD_VINES)
+                new SkinPart("Vines", "dryad_vines_oak", SkinPart.Type.DRYAD_VINES),
+
+                new SkinPart("Blue Scales", "saerki_tail_blue", SkinPart.Type.SAERKI_TAIL)
         );
     }
 }

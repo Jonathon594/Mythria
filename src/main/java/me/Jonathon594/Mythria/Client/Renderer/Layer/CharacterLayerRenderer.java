@@ -13,16 +13,23 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class CharacterLayerRenderer extends LayerRenderer<LivingEntity, CharacterModel<LivingEntity>> {
-
-    private final SkinPart.Type eyes;
+    private final SkinPart.Type type;
+    private String textureSuffix;
 
     public CharacterLayerRenderer(CharacterRenderer characterRenderer, SkinPart.Type skinPart) {
         super(characterRenderer);
-        this.eyes = skinPart;
+        this.type = skinPart;
+    }
+
+    public CharacterLayerRenderer(CharacterRenderer characterRenderer, SkinPart.Type skinPart, String textureSuffix) {
+        this(characterRenderer, skinPart);
+        this.textureSuffix = textureSuffix;
     }
 
     public ResourceLocation getTextureLocation(LivingEntity entity) {
-        return CharacterRenderer.getCharacterLayeredTexture(entity, eyes);
+        ResourceLocation location = CharacterRenderer.getCharacterLayeredTexture(entity, type).orElse(null);
+        if(textureSuffix == null || location == null) return location;
+        return new ResourceLocation(location.getNamespace(), location.getPath().replace(".png", "_" + textureSuffix + ".png"));
     }
 
     @Override

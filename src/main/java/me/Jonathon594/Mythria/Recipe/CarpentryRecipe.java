@@ -31,6 +31,6 @@ public class CarpentryRecipe extends CrafterRecipe {
     }
 
     public ItemStack getIcon() {
-        return new ItemStack(MythriaBlocks.SAW_HORSE);
+        return new ItemStack(MythriaBlocks.OAK_SAW_HORSE);
     }
 }

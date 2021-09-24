@@ -103,8 +103,7 @@ public class ScreenPerks extends AbstractTreeMenuScreen {
         boolean hidden = false;
         if (!minecraft.player.isCreative()) {
             if (perk.getRequiredPerk() != null) {
-                final Perk req = perk.getRequiredPerk();
-                if (req != null && !p.getPlayerSkills().contains(req)) {
+                if (!perk.hasRequiredPerks(p)) {
                     hidden = true;
                 }
                 if (perk.isExcluded(p)) {

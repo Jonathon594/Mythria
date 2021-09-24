@@ -723,6 +723,8 @@ public class Profile implements IProfile {
             case MANA_REGEN:
                 return modifier + g.getBaseManaRegen() + 0.03 * getStatModifier(statType)
                         * getAttributeLevel(Attribute.WILLPOWER);
+            case SWIM_SPEED:
+                return g.getBaseSwimSpeed() + 0.02 * getStatModifier(statType) * getAttributeLevel(Attribute.AGILITY);
         }
         return 1;
     }

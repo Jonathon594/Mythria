@@ -1,0 +1,10 @@
+{
+  "type": "mythria:simple_crafting",
+  "ingredient": {
+    "item": "mythria:acacia_plank"
+  },
+  "cost": 6,
+  "result": "minecraft:acacia_stairs",
+  "count": 1,
+  "tier": 0
+}

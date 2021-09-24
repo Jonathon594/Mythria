@@ -32,10 +32,17 @@ public class MasonryPerks implements IPerkRegistry {
                         .withDescription("Placing stones in a precise manner can build incredibly strong structures.")
                         .addPlaceableBlockTag(BlockTags.BASE_STONE_OVERWORLD.getName())
                         .addPlaceableBlockTag(BlockTags.BASE_STONE_NETHER.getName())
-                        .addCraftable(Items.COBBLESTONE, Items.COBBLESTONE_SLAB, Items.COBBLESTONE_STAIRS, Items.COBBLESTONE_WALL, MythriaBlocks.COBBLESTONE_FURNACE)
-                        .addPlaceable(Blocks.COBBLESTONE, Blocks.COBBLESTONE_SLAB, Blocks.COBBLESTONE_STAIRS, Blocks.COBBLESTONE_WALL, MythriaBlocks.COBBLESTONE_FURNACE)
+                        .addCraftable(Items.COBBLESTONE, Items.COBBLESTONE_SLAB, Items.COBBLESTONE_STAIRS, Items.COBBLESTONE_WALL)
+                        .addPlaceable(Blocks.COBBLESTONE, Blocks.COBBLESTONE_SLAB, Blocks.COBBLESTONE_STAIRS, Blocks.COBBLESTONE_WALL)
                         .addRequiredAttribute(Attribute.INTELLIGENCE, 2)
                         .addRequiredAttribute(Attribute.DEXTERITY, 1),
+
+                new Perk("dry_stack_furnaces", type, MythriaBlocks.COBBLESTONE_FURNACE, Skill.MASONRY, 5, () -> MASONRY)
+                        .setDisplayName("Dry-Stack Furnaces")
+                        .withDescription("A more permanent way to heat things.")
+                        .addCraftable(MythriaBlocks.COBBLESTONE_FURNACE)
+                        .addPlaceable(MythriaBlocks.COBBLESTONE_FURNACE)
+                        .addRequiredAttribute(Attribute.INTELLIGENCE, 3),
 
                 new Perk("stone_cutting", type, MythriaItems.STONE_BRICK, Skill.MASONRY, 5, () -> MASONRY)
                         .setDisplayName("Stone Cutting")

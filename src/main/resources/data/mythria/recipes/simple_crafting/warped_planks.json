@@ -1,0 +1,10 @@
+{
+  "type": "mythria:simple_crafting",
+  "ingredient": {
+    "item": "mythria:warped_plank"
+  },
+  "cost": 8,
+  "result": "minecraft:warped_planks",
+  "count": 1,
+  "tier": 0
+}

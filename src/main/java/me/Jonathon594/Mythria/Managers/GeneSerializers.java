@@ -15,7 +15,9 @@ public class GeneSerializers {
     public static final IntStatSerializer INT_STAT = null;
     public static final SkinPartSerializer SKIN_PART = null;
     public static final AbilitySerializer ABILITY = null;
+    public static final SpecialAbilitySerializer SPECIAL_ABILITY = null;
     public static final FaeWingsSerializer FAE_WINGS = null;
+    public static final SaerkiTailSerializer SAERKI_TAIL = null;
     public static final ImmunitySerializer IMMUNITY = null;
     public static final EntityRelationSerializer ENTITY_RELATION = null;
     public static final NutritionSerializer NUTRITION = null;
@@ -28,7 +30,9 @@ public class GeneSerializers {
                 new IntStatSerializer("int_stat"),
                 new SkinPartSerializer("skin_part"),
                 new AbilitySerializer("ability"),
+                new SpecialAbilitySerializer("special_ability"),
                 new FaeWingsSerializer("fae_wings"),
+                new SaerkiTailSerializer("saerki_tail"),
                 new ImmunitySerializer("immunity"),
                 new EntityRelationSerializer("entity_relation"),
                 new NutritionSerializer("nutrition"),

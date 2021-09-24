@@ -7,10 +7,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class FilledMoldItem extends HeatableItem {
@@ -29,5 +30,12 @@ public class FilledMoldItem extends HeatableItem {
             playerIn.dropItem(originalMoldStack.copy(), false);
         }
         return new ActionResult<>(ActionResultType.SUCCESS, result.copy());
+    }
+
+    @Override
+    public ITextComponent getDisplayName(ItemStack stack) {
+        Mold mold = MoldProvider.getMold(stack);
+        if (mold == null || mold.getResultStack().isEmpty()) return super.getDisplayName(stack);
+        return new StringTextComponent(super.getDisplayName(stack).getString() + " (" + mold.getResultStack().getDisplayName() + ")");
     }
 }

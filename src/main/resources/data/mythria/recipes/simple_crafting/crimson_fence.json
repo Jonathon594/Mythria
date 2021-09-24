@@ -1,0 +1,10 @@
+{
+  "type": "mythria:simple_crafting",
+  "ingredient": {
+    "item": "mythria:crimson_plank"
+  },
+  "cost": 6,
+  "result": "minecraft:crimson_fence",
+  "count": 1,
+  "tier": 0
+}

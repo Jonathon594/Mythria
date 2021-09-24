@@ -3,6 +3,7 @@ package me.Jonathon594.Mythria.Managers;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.DataTypes.Genetic.Genetic;
+import me.Jonathon594.Mythria.DataTypes.Genetic.SpecialAbility;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.Enum.Attribute;
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
@@ -26,19 +27,25 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class StatManager {
+    public static final UUID MAX_HEALTH_MODIFIER = UUID.randomUUID();
+    public static final UUID SPEED_MODIFIER = UUID.randomUUID();
+    public static final UUID SWIM_SPEED_MODIFIER = UUID.randomUUID();
+
 
     private HashMap<Consumable, Double> deltaStats;
 
     public static void UpdateMaxHealth(final Profile profile, final PlayerEntity p) {
-        MythriaUtil.applyMythriaAttributeModifier(p, "Mythria.ProfileHealth",
+        MythriaUtil.applyMythriaAttributeModifier(p, "Mythria.ProfileHealth", MAX_HEALTH_MODIFIER,
                 profile.getStat(StatType.MAX_HEALTH), Attributes.MAX_HEALTH);
     }
 
@@ -50,8 +57,8 @@ public class StatManager {
         double value = profile.getStat(StatType.MAX_SPEED);
         double maxWeight = profile.getStat(StatType.MAX_WEIGHT);
         Double currentWeight = profile.getConsumable(Consumable.WEIGHT);
-        net.minecraft.entity.ai.attributes.Attribute movementSpeed = Attributes.MOVEMENT_SPEED;
-        double baseSpeed = p.getAttribute(movementSpeed).getBaseValue();
+        net.minecraft.entity.ai.attributes.Attribute attribute = Attributes.MOVEMENT_SPEED;
+        double baseSpeed = p.getAttribute(attribute).getBaseValue();
         if (currentWeight >= maxWeight) {
             double encumberanceProp = Math.min((currentWeight - maxWeight) / (maxWeight * 4), 1);
             value += -(baseSpeed + profile.getStat(StatType.MAX_SPEED)) * encumberanceProp;
@@ -66,7 +73,11 @@ public class StatManager {
         double armorLoss = Math.pow(Math.max(armorWeight - 45 - getArmorMitigation(profile.getAttributeLevel(Attribute.VITALITY)), 0), 2) * 0.00002 - armorWeight > 45 ? 0.02 : 0;
         value -= armorLoss;
 
-        MythriaUtil.applyMythriaAttributeModifier(p, "Mythria.ProfileSpeed", value, movementSpeed);
+        MythriaUtil.applyMythriaAttributeModifier(p, "Mythria.Speed", SPEED_MODIFIER, value, attribute);
+
+        if (profile.getGenetic().getSpecialAbilities().contains(SpecialAbility.FORCE_SWIMMING)) {
+            MythriaUtil.applyMythriaAttributeModifier(p, "Mythria.SwimSpeed", SWIM_SPEED_MODIFIER, profile.getStat(StatType.SWIM_SPEED), ForgeMod.SWIM_SPEED.get());
+        }
     }
 
     //Used to set a profiles base stats after creation
@@ -279,9 +290,10 @@ public class StatManager {
         if (p.isInWater() && !p.isOnGround()) {
             staminaRegen = 0;
             double amount = -0.2;
-            if (p.isActualySwimming()) {
+            if (p.isSwimming()) {
                 amount = -0.4;
             }
+            if(profile.getGenetic().getSpecialAbilities().contains(SpecialAbility.FORCE_SWIMMING)) amount = 0;
             profile.addConsumable(Consumable.STAMINA, amount);
         }
 

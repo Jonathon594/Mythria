@@ -67,18 +67,13 @@ public class SurvivalPerks implements IPerkRegistry {
                         .addRequiredAttribute(Attribute.DEXTERITY, 2),
 
                 new Perk("fire_making", type, MythriaItems.OAK_STICK, Skill.FIREMAKING, 0, () -> SURVIVAL)
-                        .setDisplayName("Fire!")
+                        .setDisplayName("Fire")
                         .withDescription("Fire is a very useful thing for survival.")
                         .addPerkTypeUnlock(PerkType.COOKING)
-                        .addAttributeFlag(AttributeFlag.FIREMAKING1)
-                        .addRequiredAttribute(Attribute.INTELLIGENCE, 2),
-
-                new Perk("primitive_furnaces", type, MythriaItems.OAK_LOG, Skill.FIREMAKING, 5, () -> FIRE_MAKING)
-                        .setDisplayName("Primitive Furnaces")
-                        .withDescription("Placing thatch and logs in a hole can allow fire to burn hotter in a concentrated area.")
-                        .addAttributeFlag(AttributeFlag.PRIMITIVE_FURNACES)
+                        .addAttributeFlag(AttributeFlag.FIREMAKING)
                         .addPerkTypeUnlock(PerkType.POTTERY)
                         .addPerkTypeUnlock(PerkType.METALLURGY)
+                        .addRequiredAttribute(Attribute.INTELLIGENCE, 2)
         );
     }
 }

@@ -32,7 +32,7 @@ public class FaeType extends GeneticType {
 
     public FaeType() {
         super("fae", "Fae", () -> new Genetic(GeneticTypes.FAE, -10, 80, 0.02,
-                30, 1.0, 80, 11, 1, NUTRITION, LIFESPAN)
+                1.0, 30, 1.0, 80, 11, 1, NUTRITION, LIFESPAN)
                 .withExtraGene(new FaeWingsGene(SkinParts.FAE_WINGS_BLUE)));
         setSpecialSkinPartType(SkinPart.Type.WINGS);
     }

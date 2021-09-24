@@ -93,4 +93,9 @@ public abstract class AbstractMythriaFurnaceTileEntity extends AbstractFuelableF
     @Override
     protected void onFinishBurning() {
     }
+
+    @Override
+    protected double getSmokeParticleOffset() {
+        return 1.0;
+    }
 }

@@ -48,7 +48,14 @@ public class MythriaBlocks {
     public static final Block THATCH_BLOCK = null;
     public static final StairsBlock THATCH_STAIR = null;
     public static final PitFurnaceBlock PIT_FURNACE = null;
-    public static final BlockSawhorse SAW_HORSE = null;
+    public static final BlockSawhorse OAK_SAW_HORSE = null;
+    public static final BlockSawhorse SPRUCE_SAW_HORSE = null;
+    public static final BlockSawhorse BIRCH_SAW_HORSE = null;
+    public static final BlockSawhorse JUNGLE_SAW_HORSE = null;
+    public static final BlockSawhorse ACACIA_SAW_HORSE = null;
+    public static final BlockSawhorse DARK_OAK_SAW_HORSE = null;
+    public static final BlockSawhorse WARPED_SAW_HORSE = null;
+    public static final BlockSawhorse CRIMSON_SAW_HORSE = null;
     public static final CobblestoneFurnaceBlock COBBLESTONE_FURNACE = null;
     public static final StoneFurnaceBlock STONE_FURNACE = null;
     public static final NetherFurnaceBlock NETHER_FURNACE = null;
@@ -154,7 +161,14 @@ public class MythriaBlocks {
                 new BlockGroundCover("ground_violacium", SoundType.STONE, 4, Material.ROCK, () -> MythriaItems.VIOLACIUM_ORE_ITEM),
                 new BlockGroundCover("ground_flint", SoundType.STONE, 4, Material.ROCK, () -> Items.FLINT),
                 new PitFurnaceBlock("pit_furnace"),
-                new BlockSawhorse("saw_horse", 50),
+                new BlockSawhorse("oak_saw_horse", 50),
+                new BlockSawhorse("spruce_saw_horse", 50),
+                new BlockSawhorse("birch_saw_horse", 50),
+                new BlockSawhorse("jungle_saw_horse", 50),
+                new BlockSawhorse("dark_oak_saw_horse", 50),
+                new BlockSawhorse("acacia_saw_horse", 50),
+                new BlockSawhorse("warped_saw_horse", 50),
+                new BlockSawhorse("crimson_saw_horse", 50),
                 new CobblestoneFurnaceBlock(Material.ROCK, "cobblestone_furnace", 80, SoundType.STONE),
                 new StoneFurnaceBlock(Material.ROCK, "stone_furnace", 80, SoundType.STONE),
                 new NetherFurnaceBlock(Material.ROCK, "nether_furnace", 130, SoundType.STONE),
@@ -212,10 +226,17 @@ public class MythriaBlocks {
                 new MythriaBlockItem(THATCH_BLOCK, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
                 new MythriaBlockItem(THATCH_STAIR, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
 
-                new MythriaBlockItem(COBBLESTONE_FURNACE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
-                new MythriaBlockItem(STONE_FURNACE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
-                new MythriaBlockItem(NETHER_FURNACE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
-                new MythriaBlockItem(SAW_HORSE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
+                new MythriaBlockItem(COBBLESTONE_FURNACE, new Item.Properties().group(ItemGroup.DECORATIONS)),
+                new MythriaBlockItem(STONE_FURNACE, new Item.Properties().group(ItemGroup.DECORATIONS)),
+                new MythriaBlockItem(NETHER_FURNACE, new Item.Properties().group(ItemGroup.DECORATIONS)),
+                new MythriaBlockItem(OAK_SAW_HORSE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
+                new MythriaBlockItem(BIRCH_SAW_HORSE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
+                new MythriaBlockItem(SPRUCE_SAW_HORSE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
+                new MythriaBlockItem(ACACIA_SAW_HORSE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
+                new MythriaBlockItem(JUNGLE_SAW_HORSE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
+                new MythriaBlockItem(DARK_OAK_SAW_HORSE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
+                new MythriaBlockItem(WARPED_SAW_HORSE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
+                new MythriaBlockItem(CRIMSON_SAW_HORSE, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)),
 
                 new MythriaBlockItem(BRICK_ANVIL, new Item.Properties().group(ItemGroup.DECORATIONS)),
                 new MythriaBlockItem(BRONZE_ANVIL, new Item.Properties().group(ItemGroup.DECORATIONS)),

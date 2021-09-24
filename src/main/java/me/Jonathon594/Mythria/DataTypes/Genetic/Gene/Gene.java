@@ -24,6 +24,7 @@ public abstract class Gene {
         SKIN(false, true),
         STAMINA(false, true),
         SPEED(false, true),
+        SWIM_SPEED(false, true),
         WEIGHT(false, true),
         HEALTH(false, true),
         INTELLIGENCE(false, true),
@@ -38,7 +39,9 @@ public abstract class Gene {
         ENTITY_RELATION(true, false),
         ABILITY(true, false),
         WINGS(false, false),
-        VINES(false, false);
+        VINES(false, false),
+        SAERKI_TAIL(false, false),
+        SPECIAL_ABILITY(true, false);
 
         private final boolean stackable;
         private final boolean essential;

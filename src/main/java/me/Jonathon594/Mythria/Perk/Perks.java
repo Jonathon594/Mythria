@@ -36,7 +36,7 @@ public class Perks {
             player.sendMessage(new StringTextComponent(MythriaConst.ALREADY_PERK), Util.DUMMY_UUID);
             return; // Already Attribute;
         }
-        if (!pa.hasRequiredAttribute(p)) {
+        if (!pa.hasRequiredPerks(p)) {
             player.sendMessage(new StringTextComponent(MythriaConst.NOT_HAVE_REQUIRED_PERK), Util.DUMMY_UUID);
             return; // Not have required;
         }

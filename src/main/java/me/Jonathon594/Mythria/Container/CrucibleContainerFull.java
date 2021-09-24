@@ -111,7 +111,6 @@ public class CrucibleContainerFull extends Container {
         //Todo Result Modifications
         Profile profile = ProfileProvider.getProfile(player);
         MythriaUtil.addLoreToItemStack(resultStack, false, ColorConst.CONT_COLOR + "Cast by " + profile.getFullName());
-        closedMold.setDisplayName(new StringTextComponent(closedMold.getDisplayName().getString() + "(" + resultStack.getDisplayName() + ")"));
         resultStack.setDisplayName(new StringTextComponent("Cast " + result.getDisplayName(resultStack).getString()));
         resultStack.setDamage(resultStack.getMaxDamage() / 3);
         mold.setResultStack(resultStack);
