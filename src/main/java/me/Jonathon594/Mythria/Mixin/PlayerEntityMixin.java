@@ -21,8 +21,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin {
-    @Shadow public abstract void travel(Vector3d travelVector);
-
     @Inject(method = "Lnet/minecraft/entity/player/PlayerEntity;tryToStartFallFlying()Z", at = @At("HEAD"), cancellable = true)
     protected void onTryToStartFallFlying(CallbackInfoReturnable<Boolean> cir) {
         if ((Object) this instanceof PlayerEntity) {
@@ -36,16 +34,16 @@ public abstract class PlayerEntityMixin {
         }
     }
 
-    @Inject(method = "getSize", at = @At("HEAD"), cancellable = true)
-    protected void onGetSize(Pose poseIn, CallbackInfoReturnable<EntitySize> cir) {
-        if ((Object) this instanceof PlayerEntity) {
-            PlayerEntity playerEntity = (PlayerEntity) ((Object) this);
-            MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(playerEntity);
-            if (mythriaPlayer.hasCustomSize(poseIn)) {
-                cir.setReturnValue(mythriaPlayer.getCustomSize(poseIn));
-            }
-        }
-    }
+//    @Inject(method = "getSize", at = @At("HEAD"), cancellable = true)
+//    protected void onGetSize(Pose poseIn, CallbackInfoReturnable<EntitySize> cir) {
+//        if ((Object) this instanceof PlayerEntity) {
+//            PlayerEntity playerEntity = (PlayerEntity) ((Object) this);
+//            MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(playerEntity);
+//            if (mythriaPlayer.hasCustomSize(poseIn)) {
+//                cir.setReturnValue(mythriaPlayer.getCustomSize(poseIn));
+//            }
+//        }
+//    }
 
     @Inject(method = "updateSwimming", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;updateSwimming()V"), cancellable = true)
     protected void onUpdateSwimming(CallbackInfo ci) {

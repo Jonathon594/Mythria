@@ -2,6 +2,7 @@ package me.Jonathon594.Mythria;
 
 import me.Jonathon594.Mythria.Capability.CapabilityHandler;
 import me.Jonathon594.Mythria.Client.Manager.ClientManager;
+import me.Jonathon594.Mythria.Commands.Arguments.GeneticArgumentType;
 import me.Jonathon594.Mythria.Entity.MythriaEntityType;
 import me.Jonathon594.Mythria.Entity.NetherChickenEntity;
 import me.Jonathon594.Mythria.Listener.BiomeListener;
@@ -9,6 +10,8 @@ import me.Jonathon594.Mythria.Managers.Crafting.ConstructionManager;
 import me.Jonathon594.Mythria.Managers.*;
 import me.Jonathon594.Mythria.Network.MythriaSerializers;
 import me.Jonathon594.Mythria.TileEntity.MythriaTileEntities;
+import net.minecraft.command.arguments.ArgumentSerializer;
+import net.minecraft.command.arguments.ArgumentTypes;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.gen.Heightmap;
@@ -66,5 +69,7 @@ public class Mythria {
 
         WeightManager.init();
         SpawnManager.init();
+
+        ArgumentTypes.register("genetic", GeneticArgumentType.class, new ArgumentSerializer<>(GeneticArgumentType::new));
     }
 }

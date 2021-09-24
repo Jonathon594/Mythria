@@ -9,7 +9,7 @@ import me.Jonathon594.Mythria.MythriaRegistries;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 
-public class GeneticTypeArgument implements ArgumentType<GeneticType> {
+public class GeneticArgumentType implements ArgumentType<GeneticType> {
     public static final DynamicCommandExceptionType BAD_GENETIC_TYPE =
             new DynamicCommandExceptionType((string) ->
                     new TranslationTextComponent("argument.genetic.id.invalid", string));

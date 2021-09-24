@@ -411,5 +411,6 @@
   "gui.ability_book.search_hint": "Search...",
   "gui.ability_book.toggleAbilities.usable": "Show only usable abilities",
   "gui.ability_book.toggleAbilities.all": "Show all abilities",
-  "argument.genetic.id.invalid": "Unknown genetic type '%s'"
+  "argument.genetic.id.invalid": "Unknown genetic type '%s'",
+  "commands.setspawn.success": "Spawn set for genetic %s to %s successfully."
 }
