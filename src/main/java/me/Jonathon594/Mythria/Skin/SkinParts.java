@@ -19,7 +19,9 @@ public class SkinParts {
     public static final SkinPart CLOTHES_PRIMITIVE = null;
     public static final SkinPart SKAEREN_CLOTHES_PRIMITIVE = null;
     public static final SkinPart CLOTHES_NUDE = null;
-    public static final SkinPart CLOTHES_SEASHELL_BRA = null;
+    public static final SkinPart CLOTHES_SEASHELL_BRA_BLUE = null;
+    public static final SkinPart CLOTHES_SEASHELL_BRA_WHITE = null;
+    public static final SkinPart CLOTHES_SEASHELL_BRA_GREEN = null;
     public static final SkinPart CLOTHES_SAERKI_SHIRTLESS = null;
     public static final SkinPart HUMAN_EYES_BROWN = null;
     public static final SkinPart HUMAN_EYES_BLUE = null;
@@ -44,6 +46,9 @@ public class SkinParts {
     public static final SkinPart FAE_WINGS_PINK = null;
     public static final SkinPart DRYAD_VINES_OAK = null;
     public static final SkinPart SAERKI_TAIL_BLUE = null;
+    public static final SkinPart SAERKI_TAIL_RED = null;
+    public static final SkinPart SAERKI_TAIL_GREEN = null;
+    public static final SkinPart SAERKI_TAIL_PURPLE = null;
     private static final ArrayList<SkinPart> skinParts = new ArrayList<>();
 
     public static List<SkinPart> getSkinPartsFor(SkinPart.Type type) {
@@ -58,7 +63,7 @@ public class SkinParts {
     public static void onRegisterSkinParts(RegistryEvent.Register<SkinPart> event) {
         event.getRegistry().registerAll(
                 //Clothes
-                new SkinPart("Primitive", "clothes_primitive", SkinPart.Type.CLOTHING),
+                new GenderedSkinPart("Primitive", "clothes_primitive", SkinPart.Type.CLOTHING),
 //                new SkinPart("Simple Chain", "human_clothes_unis_0", SkinPart.Type.CLOTHING, true, true),
 //                new SkinPart("Peasant Dress", "human_clothes_female_0", SkinPart.Type.CLOTHING, false, true),
 //                new SkinPart("Blacksmith Robes", "human_clothes_unis_1", SkinPart.Type.CLOTHING, true, true),
@@ -69,7 +74,11 @@ public class SkinParts {
 
                 new SkinPart("Nude", "clothes_nude", SkinPart.Type.CLOTHING),
 
-                new SkinPart("Blue Seashell Bra", "clothes_seashell_bra", SkinPart.Type.CLOTHING)
+                new SkinPart("Blue Seashell Bra", "clothes_seashell_bra_blue", SkinPart.Type.CLOTHING)
+                        .setAllowedGenders(ImmutableSet.of(Gender.FEMALE)),
+                new SkinPart("White Seashell Bra", "clothes_seashell_bra_white", SkinPart.Type.CLOTHING)
+                        .setAllowedGenders(ImmutableSet.of(Gender.FEMALE)),
+                new SkinPart("Green Seashell Bra", "clothes_seashell_bra_green", SkinPart.Type.CLOTHING)
                         .setAllowedGenders(ImmutableSet.of(Gender.FEMALE)),
                 new SkinPart("Shirtless", "clothes_saerki_shirtless", SkinPart.Type.CLOTHING)
                         .withCustomTextureName("clothes_nude")
@@ -140,7 +149,10 @@ public class SkinParts {
 
                 new SkinPart("Vines", "dryad_vines_oak", SkinPart.Type.DRYAD_VINES),
 
-                new SkinPart("Blue Scales", "saerki_tail_blue", SkinPart.Type.SAERKI_TAIL)
+                new SkinPart("Blue Scales", "saerki_tail_blue", SkinPart.Type.SAERKI_TAIL),
+                new SkinPart("Green Scales", "saerki_tail_green", SkinPart.Type.SAERKI_TAIL),
+                //new SkinPart("Red Scales", "saerki_tail_red", SkinPart.Type.SAERKI_TAIL),
+                new SkinPart("Purple Scales", "saerki_tail_purple", SkinPart.Type.SAERKI_TAIL)
         );
     }
 }

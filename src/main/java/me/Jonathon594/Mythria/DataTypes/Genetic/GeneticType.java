@@ -30,7 +30,7 @@ public class GeneticType extends ForgeRegistryEntry<GeneticType> {
     }
 
     public List<SkinPart> getAllowedClothes() {
-        return SkinParts.getSkinPartsFor(SkinPart.Type.CLOTHING);
+        return ImmutableList.of(SkinParts.CLOTHES_PRIMITIVE);
     }
 
     public List<SkinPart> getAllowedEyes() {

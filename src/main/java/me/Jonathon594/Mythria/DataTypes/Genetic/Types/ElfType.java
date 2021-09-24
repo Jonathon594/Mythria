@@ -38,11 +38,6 @@ public class ElfType extends GeneticType {
     }
 
     @Override
-    public List<SkinPart> getAllowedClothes() {
-        return ImmutableList.of(SkinParts.CLOTHES_PRIMITIVE);
-    }
-
-    @Override
     public Collection<Origin> getAllowedOrigins() {
         return ImmutableList.of(Origins.SCAVENGER);
     }

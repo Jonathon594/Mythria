@@ -42,7 +42,8 @@ public class SaerkiType extends GeneticType {
 
     @Override
     public List<SkinPart> getAllowedClothes() {
-        return ImmutableList.of(SkinParts.CLOTHES_SEASHELL_BRA, SkinParts.CLOTHES_SAERKI_SHIRTLESS);
+        return ImmutableList.of(SkinParts.CLOTHES_SEASHELL_BRA_BLUE, SkinParts.CLOTHES_SEASHELL_BRA_GREEN,
+                SkinParts.CLOTHES_SEASHELL_BRA_WHITE, SkinParts.CLOTHES_SAERKI_SHIRTLESS);
     }
 
     @Override
@@ -58,10 +59,5 @@ public class SaerkiType extends GeneticType {
                 SkinParts.HUMAN_SKIN_MEDIUM,
                 SkinParts.HUMAN_SKIN_DARK,
                 SkinParts.HUMAN_SKIN_BLACK);
-    }
-
-    @Override
-    public List<SkinPart> getAllowedHairs() {
-        return SkinParts.getSkinPartsFor(SkinPart.Type.HAIR); //todo fix
     }
 }
