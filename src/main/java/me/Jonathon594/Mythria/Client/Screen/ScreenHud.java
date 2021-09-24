@@ -66,16 +66,12 @@ public class ScreenHud extends AbstractGui {
         PlayerEntity player = getRenderViewPlayer();
         final Profile profile = ProfileProvider.getProfile(player);
         if (profile == null) return;
-        if (player.isCreative() || player.isSpectator()) return;
         MythriaPlayer mythriaPlayer = MythriaPlayerProvider.getMythriaPlayer(player);
-
-        drawBar(matrixStack, width / 2 - barWidth / 2, height - 32 + 3, (int) (levelValue * (barWidth + 1)), barWidth, true); // LEVEL
-        drawStatRenderers(matrixStack);
-        renderAbilityWheel(matrixStack, width, height);
-
-        if (mythriaPlayer.getCombatMode().equals(CombatMode.DUAL)) {
-            //renderDualWieldingIndicator(matrixStack, width, height, player);
+        if (!player.isCreative() && !player.isSpectator()) {
+            drawBar(matrixStack, width / 2 - barWidth / 2, height - 32 + 3, (int) (levelValue * (barWidth + 1)), barWidth, true); // LEVEL
+            drawStatRenderers(matrixStack);
         }
+        renderControlModeIndicator(matrixStack, width, height);
     }
 
     public void renderAbilityHotbar(MatrixStack matrixStack, Object partialTicks) {
@@ -209,7 +205,7 @@ public class ScreenHud extends AbstractGui {
         }
     }
 
-    private void renderAbilityWheel(MatrixStack matrixStack, int width, int height) {
+    private void renderControlModeIndicator(MatrixStack matrixStack, int width, int height) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.enableBlend();
         RenderHelper.enableStandardItemLighting();
