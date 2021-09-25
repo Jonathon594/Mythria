@@ -93,6 +93,44 @@ public abstract class AbstractBasicFurnaceTileEntity extends TileEntity implemen
     }
 
     @Override
+    public int getSizeInventory() {
+        return inventory.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return inventory.isEmpty();
+    }
+
+    @Override
+    public ItemStack getStackInSlot(int index) {
+        return index >= 0 && index < this.inventory.size() ? this.inventory.get(index) : ItemStack.EMPTY;
+    }
+
+    @Override
+    public ItemStack decrStackSize(int index, int count) {
+        return ItemStackHelper.getAndSplit(this.inventory, index, count);
+    }
+
+    public ItemStack removeStackFromSlot(int index) {
+        return ItemStackHelper.getAndRemove(this.inventory, index);
+    }
+
+    public void setInventorySlotContents(int index, ItemStack stack) {
+        if (index >= 0 && index < this.inventory.size()) {
+            this.inventory.set(index, stack);
+        }
+    }
+
+    public boolean isUsableByPlayer(PlayerEntity player) {
+        if (this.world.getTileEntity(this.pos) != this) {
+            return false;
+        } else {
+            return !(player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) > 64.0D);
+        }
+    }
+
+    @Override
     public double getTemperatureForHeating() {
         return temperature;
     }
@@ -122,7 +160,7 @@ public abstract class AbstractBasicFurnaceTileEntity extends TileEntity implemen
         super.read(state, nbt);
         this.inventory.clear();
         ItemStackHelper.loadAllItems(nbt.getCompound("inventory"), this.inventory);
-        temperature= nbt.getDouble("temperature");
+        temperature = nbt.getDouble("temperature");
         maxTemperature = nbt.getDouble("maxTemperature");
         maxTicks = nbt.getInt("maxTicks");
         ticksLeft = nbt.getInt("ticksLeft");
@@ -267,43 +305,5 @@ public abstract class AbstractBasicFurnaceTileEntity extends TileEntity implemen
     }
 
     protected abstract double getHeatingEfficiency();
-
-    @Override
-    public int getSizeInventory() {
-        return inventory.size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return inventory.isEmpty();
-    }
-
-    @Override
-    public ItemStack getStackInSlot(int index) {
-        return index >= 0 && index < this.inventory.size() ? this.inventory.get(index) : ItemStack.EMPTY;
-    }
-
-    @Override
-    public ItemStack decrStackSize(int index, int count) {
-        return ItemStackHelper.getAndSplit(this.inventory, index, count);
-    }
-
-    public ItemStack removeStackFromSlot(int index) {
-        return ItemStackHelper.getAndRemove(this.inventory, index);
-    }
-
-    public void setInventorySlotContents(int index, ItemStack stack) {
-        if (index >= 0 && index < this.inventory.size()) {
-            this.inventory.set(index, stack);
-        }
-    }
-
-    public boolean isUsableByPlayer(PlayerEntity player) {
-        if (this.world.getTileEntity(this.pos) != this) {
-            return false;
-        } else {
-            return !(player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) > 64.0D);
-        }
-    }
 
 }

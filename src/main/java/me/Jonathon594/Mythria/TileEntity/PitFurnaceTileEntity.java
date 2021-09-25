@@ -59,6 +59,14 @@ public class PitFurnaceTileEntity extends AbstractBasicFurnaceTileEntity impleme
     }
 
     @Override
+    protected CompoundNBT writeItems(CompoundNBT compound) {
+        CompoundNBT fuelInventory = new CompoundNBT();
+        ItemStackHelper.saveAllItems(fuelInventory, this.fuelInventory);
+        compound.put("fuelInventory", fuelInventory);
+        return super.writeItems(compound);
+    }
+
+    @Override
     protected void addParticles() {
         super.addParticles();
 
@@ -88,14 +96,6 @@ public class PitFurnaceTileEntity extends AbstractBasicFurnaceTileEntity impleme
                 world.addParticle(ParticleTypes.FLAME, x, y, z, 0.0D, Math.random() * 0.08D, 0.0D);
             }
         }
-    }
-
-    @Override
-    protected CompoundNBT writeItems(CompoundNBT compound) {
-        CompoundNBT fuelInventory = new CompoundNBT();
-        ItemStackHelper.saveAllItems(fuelInventory, this.fuelInventory);
-        compound.put("fuelInventory", fuelInventory);
-        return super.writeItems(compound);
     }
 
     @Override

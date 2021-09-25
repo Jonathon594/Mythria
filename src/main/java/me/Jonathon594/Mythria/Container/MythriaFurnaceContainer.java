@@ -11,7 +11,6 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.IntArray;
-import net.minecraft.util.IntReferenceHolder;
 
 public class MythriaFurnaceContainer extends Container {
     private final IInventory inventory;
@@ -56,11 +55,6 @@ public class MythriaFurnaceContainer extends Container {
         this(id, playerInventory, new Inventory(5), new IntArray(3));
     }
 
-    @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
-        return true;
-    }
-
     public int getBurnLeftScaled() {
         int i = getMaxTicks();
         if (i == 0) return 0;
@@ -68,12 +62,12 @@ public class MythriaFurnaceContainer extends Container {
         return getTicksLeft() * 13 / i;
     }
 
-    public int getTemperature() {
-        return furnaceData.get(0);
-    }
-
     public int getMaxTicks() {
         return furnaceData.get(1);
+    }
+
+    public int getTemperature() {
+        return furnaceData.get(0);
     }
 
     public int getTicksLeft() {
@@ -129,5 +123,10 @@ public class MythriaFurnaceContainer extends Container {
             slot.onTake(playerIn, copy);
         }
         return original;
+    }
+
+    @Override
+    public boolean canInteractWith(PlayerEntity playerIn) {
+        return true;
     }
 }

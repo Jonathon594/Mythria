@@ -8,8 +8,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.items.ItemStackHandler;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Crucible implements ICrucible {
     private final ItemStackHandler oreInventory = new ItemStackHandler(10);

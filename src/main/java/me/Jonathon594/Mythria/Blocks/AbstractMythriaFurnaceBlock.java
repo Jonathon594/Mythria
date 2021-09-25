@@ -5,6 +5,7 @@ import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
@@ -15,6 +16,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import java.util.Random;
 
@@ -48,10 +50,6 @@ public abstract class AbstractMythriaFurnaceBlock extends MythriaBlockContainer 
         }
     }
 
-    public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
-    }
-
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
     }
@@ -60,13 +58,17 @@ public abstract class AbstractMythriaFurnaceBlock extends MythriaBlockContainer 
         builder.add(LIT, FACING);
     }
 
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
+    }
+
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!ProfileProvider.getProfile(player).hasFlag(AttributeFlag.BASIC_SMELTING)) {
             return ActionResultType.PASS;
         }
 
         if (!worldIn.isRemote) {
-            player.openContainer(state.getContainer(worldIn, pos));
+            NetworkHooks.openGui((ServerPlayerEntity) player, state.getContainer(worldIn, pos));
         }
         return ActionResultType.SUCCESS;
     }

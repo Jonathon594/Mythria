@@ -1,7 +1,6 @@
 package me.Jonathon594.Mythria.Client.Screen;
 
 import me.Jonathon594.Mythria.Container.StoneCarvingContainer;
-import me.Jonathon594.Mythria.Container.WoodCarvingContainer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;

@@ -12,6 +12,13 @@ public abstract class AbstractFuelableFurnaceTileEntity extends AbstractBasicFur
         super(tileEntityTypeIn, 0, criticalTemperature, size);
     }
 
+    @Override
+    public void light() {
+        BlockState state = world.getBlockState(pos);
+        world.setBlockState(pos, state.with(BlockStateProperties.LIT, Boolean.TRUE), 11);
+        consumeFuel();
+    }
+
     protected void consumeFuel() {
         ItemStack fuel = getFuelStack();
         FuelData fuelData = SmeltingManager.getFuelData(fuel.getItem());
@@ -44,13 +51,6 @@ public abstract class AbstractFuelableFurnaceTileEntity extends AbstractBasicFur
             return;
         }
 
-        consumeFuel();
-    }
-
-    @Override
-    public void light() {
-        BlockState state = world.getBlockState(pos);
-        world.setBlockState(pos, state.with(BlockStateProperties.LIT, Boolean.TRUE), 11);
         consumeFuel();
     }
 }

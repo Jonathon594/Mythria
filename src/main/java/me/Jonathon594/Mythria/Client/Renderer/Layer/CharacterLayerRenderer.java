@@ -28,7 +28,7 @@ public class CharacterLayerRenderer extends LayerRenderer<LivingEntity, Characte
 
     public ResourceLocation getTextureLocation(LivingEntity entity) {
         ResourceLocation location = CharacterRenderer.getCharacterLayeredTexture(entity, type).orElse(null);
-        if(textureSuffix == null || location == null) return location;
+        if (textureSuffix == null || location == null) return location;
         return new ResourceLocation(location.getNamespace(), location.getPath().replace(".png", "_" + textureSuffix + ".png"));
     }
 

@@ -52,18 +52,6 @@ public class MetallurgyRecipe {
         return this;
     }
 
-    public MythriaMaterial getMaterial() {
-        return material;
-    }
-
-    public double getMeltingPoint() {
-        return meltingPoint;
-    }
-
-    public HashMap<Item, Double> getRecipe() {
-        return recipe;
-    }
-
     public double getDeviance(IItemHandler items) {
         if (recipe.size() == 0) return 1.0;
         HashMap<Item, Integer> itemCounts = new HashMap<>();
@@ -95,6 +83,18 @@ public class MetallurgyRecipe {
         totalDeviance /= ingredientCount;
 
         return totalDeviance;
+    }
+
+    public MythriaMaterial getMaterial() {
+        return material;
+    }
+
+    public double getMeltingPoint() {
+        return meltingPoint;
+    }
+
+    public HashMap<Item, Double> getRecipe() {
+        return recipe;
     }
 
     public static class MetallurgyRecipePair {

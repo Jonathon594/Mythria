@@ -2,7 +2,6 @@ package me.Jonathon594.Mythria.Packet;
 
 import io.netty.buffer.ByteBuf;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
-import me.Jonathon594.Mythria.Client.ClientUtil;
 import me.Jonathon594.Mythria.Client.Manager.ClientManager;
 import me.Jonathon594.Mythria.Enum.Consumable;
 import net.minecraft.network.PacketBuffer;
@@ -12,10 +11,6 @@ import java.util.EnumMap;
 import java.util.function.Supplier;
 
 public class SPacketUpdateNutrition {
-    public EnumMap<Consumable.Nutrition, Double> getValues() {
-        return values;
-    }
-
     private final EnumMap<Consumable.Nutrition, Double> values;
 
     public SPacketUpdateNutrition(Profile profile) {
@@ -33,6 +28,10 @@ public class SPacketUpdateNutrition {
         for (Double value : values.values()) {
             buf.writeFloat(value.floatValue());
         }
+    }
+
+    public EnumMap<Consumable.Nutrition, Double> getValues() {
+        return values;
     }
 
     public static void handle(SPacketUpdateNutrition msg, Supplier<NetworkEvent.Context> contextSupplier) {

@@ -6,8 +6,6 @@ import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Managers.*;
 import me.Jonathon594.Mythria.Managers.Combat.ParryManager;
-import me.Jonathon594.Mythria.MythriaPacketHandler;
-import me.Jonathon594.Mythria.Packet.SPacketUpdateConsumables;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.event.TickEvent;

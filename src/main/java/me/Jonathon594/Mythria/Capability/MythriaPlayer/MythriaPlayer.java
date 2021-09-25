@@ -1,6 +1,5 @@
 package me.Jonathon594.Mythria.Capability.MythriaPlayer;
 
-import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Enum.CombatMode;
 import me.Jonathon594.Mythria.Enum.ControlMode;
 import me.Jonathon594.Mythria.Enum.Gender;
@@ -41,7 +40,7 @@ public class MythriaPlayer implements IMythriaPlayer {
 
     private boolean abilityBookOpen = false;
 
-    private EnumMap<Pose, EntitySize> customSize = new EnumMap<>(Pose.class);
+    private final EnumMap<Pose, EntitySize> customSize = new EnumMap<>(Pose.class);
 
     public MythriaPlayer(LivingEntity entity) {
         this.entity = entity;
@@ -56,21 +55,9 @@ public class MythriaPlayer implements IMythriaPlayer {
         abilityBookOpen = comp.getBoolean("AbilityBookOpen");
     }
 
-    public EntitySize getCustomSize(Pose poseIn) {
-        return customSize.get(poseIn);
-    }
-
-    public void setCustomSize(Pose poseIn, EntitySize size) {
-        customSize.put(poseIn, size);
-    }
-
     @Override
     public Gender getGender() {
         return entity.getDataManager().get(GENDER);
-    }
-
-    public boolean hasCustomSize(Pose poseIn) {
-        return customSize.containsKey(poseIn);
     }
 
     @Override
@@ -188,6 +175,10 @@ public class MythriaPlayer implements IMythriaPlayer {
         entity.getDataManager().set(CONTROL_MODE, controlMode);
     }
 
+    public EntitySize getCustomSize(Pose poseIn) {
+        return customSize.get(poseIn);
+    }
+
     public InputIntent getInputIntent(Hand hand) {
         return hand == Hand.MAIN_HAND ? mainhandIntent : offhandIntent;
     }
@@ -200,6 +191,10 @@ public class MythriaPlayer implements IMythriaPlayer {
         this.wingFlightFlapAngle = wingFlightFlapAngle;
     }
 
+    public boolean hasCustomSize(Pose poseIn) {
+        return customSize.containsKey(poseIn);
+    }
+
     public boolean isAbilityBookOpen() {
         return abilityBookOpen;
     }
@@ -210,6 +205,10 @@ public class MythriaPlayer implements IMythriaPlayer {
     }
 
     public void onTick() {
+    }
+
+    public void setCustomSize(Pose poseIn, EntitySize size) {
+        customSize.put(poseIn, size);
     }
 
     public MythriaPlayer setInputIntent(Hand hand, InputIntent inputIntent) {

@@ -29,10 +29,6 @@ import javax.annotation.Nullable;
 public class ClientUtil {
     private static final Minecraft instance = Minecraft.getInstance();
 
-    public static boolean hasSaerkiTail(MythriaPlayer mythriaPlayer) {
-        return mythriaPlayer.getSkinPart(SkinPart.Type.SAERKI_TAIL) != null;
-    }
-
     public static void drawLockedInventorySlots(final GuiScreenEvent.InitGuiEvent.Post event) {
         final Minecraft mc = Minecraft.getInstance();
         if (event.getGui() instanceof ContainerScreen) {
@@ -60,6 +56,10 @@ public class ClientUtil {
         final Profile p = ProfileProvider.getProfile(Minecraft.getInstance().player);
         p.fromNBT(msg.getNbt());
         updadeGuiScreens();
+    }
+
+    public static boolean hasSaerkiTail(MythriaPlayer mythriaPlayer) {
+        return mythriaPlayer.getSkinPart(SkinPart.Type.SAERKI_TAIL) != null;
     }
 
     public static void registerBowProperty(MythriaBowItem bowItem) {

@@ -8,11 +8,11 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
 public class SaerkiTailModel<E extends LivingEntity> extends SegmentedModel<E> {
-    private ModelRenderer tail_upper;
-    private ModelRenderer tail_middle;
-    private ModelRenderer tail_lower;
-    private ModelRenderer tail_end;
-    private ModelRenderer flipper;
+    private final ModelRenderer tail_upper;
+    private final ModelRenderer tail_middle;
+    private final ModelRenderer tail_lower;
+    private final ModelRenderer tail_end;
+    private final ModelRenderer flipper;
 
     public SaerkiTailModel() {
         super(RenderType::getEntityCutout);
@@ -54,7 +54,7 @@ public class SaerkiTailModel<E extends LivingEntity> extends SegmentedModel<E> {
     @Override
     public void setRotationAngles(E entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         if (entityIn.getTicksElytraFlying() > 0) {
-            float elytraSpeedFactor = (float) Math.pow(entityIn.getMotion().lengthSquared()  / 0.2, 3);
+            float elytraSpeedFactor = (float) Math.pow(entityIn.getMotion().lengthSquared() / 0.2, 3);
             limbSwingAmount = Math.min(limbSwingAmount / Math.max(elytraSpeedFactor, 1), 1);
         }
 

@@ -28,6 +28,11 @@ public class SkinPart extends ForgeRegistryEntry<SkinPart> {
         return allowedGenders;
     }
 
+    public SkinPart setAllowedGenders(Set<Gender> allowedGenders) {
+        this.allowedGenders = allowedGenders;
+        return this;
+    }
+
     public String getDisplayName() {
         return displayName;
     }
@@ -35,11 +40,6 @@ public class SkinPart extends ForgeRegistryEntry<SkinPart> {
     public ResourceLocation getTextureLocation(Gender gender) {
         String path = customTextureName == null ? getRegistryName().getPath() : customTextureName;
         return new MythriaResourceLocation("textures/entity/player/" + path + ".png");
-    }
-
-    public SkinPart withCustomTextureName(String textureName) {
-        customTextureName = textureName;
-        return this;
     }
 
     public Type getType() {
@@ -50,13 +50,13 @@ public class SkinPart extends ForgeRegistryEntry<SkinPart> {
         return makesPiglinsNeutral;
     }
 
-    public SkinPart setAllowedGenders(Set<Gender> allowedGenders) {
-        this.allowedGenders = allowedGenders;
+    public SkinPart setMakesPiglinsNeutral(boolean makesPiglinsNeutral) {
+        this.makesPiglinsNeutral = makesPiglinsNeutral;
         return this;
     }
 
-    public SkinPart setMakesPiglinsNeutral(boolean makesPiglinsNeutral) {
-        this.makesPiglinsNeutral = makesPiglinsNeutral;
+    public SkinPart withCustomTextureName(String textureName) {
+        customTextureName = textureName;
         return this;
     }
 
@@ -69,7 +69,7 @@ public class SkinPart extends ForgeRegistryEntry<SkinPart> {
         WINGS(false),
         SAERKI_TAIL(false);
 
-        private boolean rendersOnHands;
+        private final boolean rendersOnHands;
 
         Type(boolean rendersOnHands) {
             this.rendersOnHands = rendersOnHands;

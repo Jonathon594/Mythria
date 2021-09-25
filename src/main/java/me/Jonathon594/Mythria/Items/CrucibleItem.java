@@ -10,11 +10,11 @@ import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import me.Jonathon594.Mythria.Managers.SmeltingManager;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -22,6 +22,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -59,14 +60,17 @@ public class CrucibleItem extends HeatableItem {
             return ActionResult.resultPass(stack);
         }
 
-        if (crucible.hasMeltingContents()) {
-            playerIn.openContainer(new SimpleNamedContainerProvider((windowID, invPlayer, p_220283_4_) ->
-                    new CrucibleContainerFull(windowID, invPlayer), CONTAINER_NAME));
-            return new ActionResult<>(ActionResultType.SUCCESS, stack);
-        } else {
-            playerIn.openContainer(new SimpleNamedContainerProvider((windowID, invPlayer, p_220283_4_) ->
-                    new CrucibleContainer(windowID, invPlayer), CONTAINER_NAME));
-            return new ActionResult<>(ActionResultType.SUCCESS, stack);
+        if (!worldIn.isRemote) {
+            ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) playerIn;
+            if (crucible.hasMeltingContents()) {
+                NetworkHooks.openGui(serverPlayerEntity, new SimpleNamedContainerProvider((windowID, invPlayer, p_220283_4_) ->
+                        new CrucibleContainerFull(windowID, invPlayer), CONTAINER_NAME));
+            } else {
+                NetworkHooks.openGui(serverPlayerEntity, new SimpleNamedContainerProvider((windowID, invPlayer, p_220283_4_) ->
+                        new CrucibleContainer(windowID, invPlayer), CONTAINER_NAME));
+
+            }
         }
+        return new ActionResult<>(ActionResultType.SUCCESS, stack);
     }
 }

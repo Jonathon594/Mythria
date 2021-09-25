@@ -4,6 +4,7 @@ import me.Jonathon594.Mythria.Client.Manager.ClientManager;
 import me.Jonathon594.Mythria.Container.BowstringContainer;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -14,6 +15,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 public class BowstringItem extends MythriaItem {
     private static final TranslationTextComponent CONTAINER_NAME = new TranslationTextComponent("container.bowstring");
@@ -31,7 +33,8 @@ public class BowstringItem extends MythriaItem {
     @Override
     public ActionResult<ItemStack> onItemRightClick(final World worldIn, final PlayerEntity playerIn, final Hand handIn) {
         ItemStack stack = playerIn.getHeldItem(handIn);
-        playerIn.openContainer(new SimpleNamedContainerProvider((windowID, invPlayer, p_220283_4_) -> new BowstringContainer(windowID, invPlayer), CONTAINER_NAME));
+        if (!worldIn.isRemote)
+            NetworkHooks.openGui((ServerPlayerEntity) playerIn, new SimpleNamedContainerProvider((windowID, invPlayer, p_220283_4_) -> new BowstringContainer(windowID, invPlayer), CONTAINER_NAME));
         return new ActionResult<>(ActionResultType.SUCCESS, stack);
     }
 }

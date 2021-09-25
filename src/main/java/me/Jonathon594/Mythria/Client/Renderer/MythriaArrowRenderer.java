@@ -15,7 +15,7 @@ public class MythriaArrowRenderer<T extends MythriaArrowEntity> extends ArrowRen
     @Override
     public ResourceLocation getEntityTexture(T entity) {
         ItemStack stack = entity.getArrowStack();
-        if(stack.isEmpty()) System.out.println("EMPTY ARROW STACK");
+        if (stack.isEmpty()) System.out.println("EMPTY ARROW STACK");
         return new MythriaResourceLocation("textures/entity/arrows/" + stack.getItem().getRegistryName().getPath() + ".png");
     }
 }

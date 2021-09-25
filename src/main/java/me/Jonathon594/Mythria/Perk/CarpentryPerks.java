@@ -1,12 +1,11 @@
 package me.Jonathon594.Mythria.Perk;
 
 import com.google.common.collect.ImmutableList;
-import me.Jonathon594.Mythria.Blocks.MythriaBlocks;
 import me.Jonathon594.Mythria.DataTypes.Perk;
 import me.Jonathon594.Mythria.DataTypes.RootPerk;
 import me.Jonathon594.Mythria.Enum.Attribute;
-import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Enum.PerkType;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Interface.IPerkRegistry;
 import me.Jonathon594.Mythria.Items.MythriaItems;
 import me.Jonathon594.Mythria.Mythria;

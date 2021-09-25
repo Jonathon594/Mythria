@@ -1,6 +1,5 @@
 package me.Jonathon594.Mythria.DataTypes.Genetic.Serializers;
 
-import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.FaeWingsGene;
 import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.SaerkiTailGene;
 import me.Jonathon594.Mythria.MythriaRegistries;
 import me.Jonathon594.Mythria.Skin.SkinPart;

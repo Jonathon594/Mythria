@@ -38,6 +38,11 @@ public class FaeType extends GeneticType {
     }
 
     @Override
+    public List<SkinPart> getAllowedHairs() {
+        return SkinParts.getSkinPartsFor(SkinPart.Type.HAIR); //todo fix
+    }
+
+    @Override
     public Collection<Origin> getAllowedOrigins() {
         return ImmutableList.of(Origins.SCAVENGER);
     }
@@ -48,10 +53,5 @@ public class FaeType extends GeneticType {
                 SkinParts.HUMAN_SKIN_WHITE,
                 SkinParts.HUMAN_SKIN_TAN,
                 SkinParts.HUMAN_SKIN_MEDIUM);
-    }
-
-    @Override
-    public List<SkinPart> getAllowedHairs() {
-        return SkinParts.getSkinPartsFor(SkinPart.Type.HAIR); //todo fix
     }
 }

@@ -22,7 +22,6 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public class Perk extends ForgeRegistryEntry<Perk> {
     final HashMap<StatType, Double> statModifiers = new HashMap<>();
@@ -100,11 +99,6 @@ public class Perk extends ForgeRegistryEntry<Perk> {
 
     public Perk addCraftableItemTag(ResourceLocation resourceLocation) {
         craftableItemTags.add(resourceLocation);
-        return this;
-    }
-
-    public Perk withDescription(String description) {
-        this.description = description;
         return this;
     }
 
@@ -300,18 +294,18 @@ public class Perk extends ForgeRegistryEntry<Perk> {
         return type;
     }
 
-    public boolean hasRequiredPerks(final Profile p) {
-        if (requiredPerk.get() == null) return true;
-        final Perk perk = requiredPerk.get();
-        if (perk == null) return false;
-        return p.hasPerk(perk);
-    }
-
     public boolean hasRequiredFavor(Profile p) {
         for (Entry<Deity, Integer> e : requiredFavor.entrySet()) {
             if (p.getFavor(e.getKey()) < e.getValue()) return false;
         }
         return true;
+    }
+
+    public boolean hasRequiredPerks(final Profile p) {
+        if (requiredPerk.get() == null) return true;
+        final Perk perk = requiredPerk.get();
+        if (perk == null) return false;
+        return p.hasPerk(perk);
     }
 
     public boolean hasRequiredSkills(final Profile p) {
@@ -379,6 +373,11 @@ public class Perk extends ForgeRegistryEntry<Perk> {
     @Override
     public String toString() {
         return getRegistryName().toString();
+    }
+
+    public Perk withDescription(String description) {
+        this.description = description;
+        return this;
     }
 
     private String getDescription() {

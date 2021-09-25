@@ -293,7 +293,7 @@ public class StatManager {
             if (p.isSwimming()) {
                 amount = -0.4;
             }
-            if(profile.getGenetic().getSpecialAbilities().contains(SpecialAbility.FORCE_SWIMMING)) amount = 0;
+            if (profile.getGenetic().getSpecialAbilities().contains(SpecialAbility.FORCE_SWIMMING)) amount = 0;
             profile.addConsumable(Consumable.STAMINA, amount);
         }
 

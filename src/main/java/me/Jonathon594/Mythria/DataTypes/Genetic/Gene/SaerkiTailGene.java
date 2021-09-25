@@ -29,11 +29,6 @@ public class SaerkiTailGene extends Gene implements ISkinPartGene, ISlotLockingG
     }
 
     @Override
-    public List<SpecialAbility> getSpecialAbilities() {
-        return ImmutableList.of(SpecialAbility.FORCE_SWIMMING);
-    }
-
-    @Override
     public CompoundNBT toNBT(boolean writeSerializer) {
         return getSerializer().serialize(this, writeSerializer);
     }
@@ -46,5 +41,10 @@ public class SaerkiTailGene extends Gene implements ISkinPartGene, ISlotLockingG
     @Override
     public void setSkinPart(SkinPart skinPart) {
         this.skinPart = skinPart;
+    }
+
+    @Override
+    public List<SpecialAbility> getSpecialAbilities() {
+        return ImmutableList.of(SpecialAbility.FORCE_SWIMMING);
     }
 }

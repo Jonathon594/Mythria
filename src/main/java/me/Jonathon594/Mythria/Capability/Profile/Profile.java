@@ -87,8 +87,17 @@ public class Profile implements IProfile {
         }
     }
 
+    public void addConsumable(final Consumable consumable, final double value) {
+        if (value == 0) return;
+        setConsumable(consumable, consumables.get(consumable) + value);
+    }
+
     public void addFavor(Deity deity, int add, int max) {
         favorLevels.put(deity, Math.min(getFavor(deity) + add, max));
+    }
+
+    public void addNutrition(Consumable.Nutrition nutrition, double value) {
+        setNutrition(nutrition, this.nutrition.get(nutrition) + value);
     }
 
     public void addPerk(final Perk perk) {
@@ -320,22 +329,6 @@ public class Profile implements IProfile {
         }
     }
 
-    public EnumMap<Consumable.Nutrition, Double> getAllNutrition() {
-        return nutrition;
-    }
-
-    public void setAllNutrition(EnumMap<Consumable.Nutrition, Double> values) {
-        for (Map.Entry<Consumable.Nutrition, Double> entry : values.entrySet()) {
-            nutrition.put(entry.getKey(), entry.getValue());
-        }
-    }
-
-    public void setConsumables(EnumMap<Consumable, Double> consumables) {
-        for (Map.Entry<Consumable, Double> entry : consumables.entrySet()) {
-            this.consumables.put(entry.getKey(), entry.getValue());
-        }
-    }
-
     public CompoundNBT toNBT() {
         final CompoundNBT comp = new CompoundNBT();
         comp.putString("FirstName", getFirstName());
@@ -444,6 +437,16 @@ public class Profile implements IProfile {
         return this;
     }
 
+    public EnumMap<Consumable.Nutrition, Double> getAllNutrition() {
+        return nutrition;
+    }
+
+    public void setAllNutrition(EnumMap<Consumable.Nutrition, Double> values) {
+        for (Map.Entry<Consumable.Nutrition, Double> entry : values.entrySet()) {
+            nutrition.put(entry.getKey(), entry.getValue());
+        }
+    }
+
     public int getAttributeLevel(Attribute attribute) {
         return attributeValues.get(attribute);
     }
@@ -492,6 +495,12 @@ public class Profile implements IProfile {
 
     public EnumMap<Consumable, Double> getConsumables() {
         return consumables;
+    }
+
+    public void setConsumables(EnumMap<Consumable, Double> consumables) {
+        for (Map.Entry<Consumable, Double> entry : consumables.entrySet()) {
+            this.consumables.put(entry.getKey(), entry.getValue());
+        }
     }
 
     public boolean getCreated() {
@@ -834,11 +843,6 @@ public class Profile implements IProfile {
         }
     }
 
-    public void addConsumable(final Consumable consumable, final double value) {
-        if (value == 0) return;
-        setConsumable(consumable, consumables.get(consumable) + value);
-    }
-
     public void setConsumable(final Consumable consumable, double value) {
         if (!created)
             return;
@@ -899,10 +903,6 @@ public class Profile implements IProfile {
 
     public void setNutrition(Consumable.Nutrition nutrition, double value) {
         this.nutrition.put(nutrition, MathHelper.clamp(value, 0, 20));
-    }
-
-    public void addNutrition(Consumable.Nutrition nutrition, double value) {
-        setNutrition(nutrition, this.nutrition.get(nutrition) + value);
     }
 
     public void setPregConceptionData(int pregConceptionData) {

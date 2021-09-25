@@ -7,6 +7,7 @@ public class AbilityInstance {
     private final PlayerEntity owner;
     private int cooldown = 0;
     private int lastCooldown = 0;
+
     public AbilityInstance(Ability ability, PlayerEntity owner) {
         this.ability = ability;
         this.owner = owner;

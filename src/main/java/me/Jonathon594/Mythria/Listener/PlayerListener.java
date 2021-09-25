@@ -63,19 +63,6 @@ public class PlayerListener {
     }
 
     @SubscribeEvent
-    public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
-        ItemStack itemStack = event.getItemStack();
-        Item item = itemStack.getItem();
-        if (item instanceof ArmorItem) {
-            ArmorItem armor = (ArmorItem) item;
-            if (!LimitedInventoryManager.isArmorSlotOpen(event.getPlayer(), armor.getEquipmentSlot().getIndex())) {
-                event.setCanceled(true);
-                event.setCancellationResult(ActionResultType.FAIL);
-            }
-        }
-    }
-
-    @SubscribeEvent
     public static void onBlockPlace(final BlockEvent.EntityPlaceEvent event) {
         Entity entity = event.getEntity();
         if (!(entity instanceof PlayerEntity)) return;
@@ -208,6 +195,19 @@ public class PlayerListener {
             event.setCanceled(true);
             if (!player.world.isRemote)
                 player.sendMessage(new StringTextComponent(MythriaConst.CANT_PLACE), Util.DUMMY_UUID);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
+        ItemStack itemStack = event.getItemStack();
+        Item item = itemStack.getItem();
+        if (item instanceof ArmorItem) {
+            ArmorItem armor = (ArmorItem) item;
+            if (!LimitedInventoryManager.isArmorSlotOpen(event.getPlayer(), armor.getEquipmentSlot().getIndex())) {
+                event.setCanceled(true);
+                event.setCancellationResult(ActionResultType.FAIL);
+            }
         }
     }
 

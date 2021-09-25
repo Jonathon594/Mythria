@@ -1,8 +1,6 @@
 package me.Jonathon594.Mythria.DataTypes.Genetic.Types;
 
 import com.google.common.collect.ImmutableList;
-import me.Jonathon594.Mythria.Ability.PassiveFaeFlightAbility;
-import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.FaeWingsGene;
 import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.LifeSpanGene;
 import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.SaerkiTailGene;
 import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.SpecialAbilityGene;

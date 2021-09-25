@@ -1,7 +1,5 @@
 package me.Jonathon594.Mythria.DataTypes;
 
-import net.minecraft.item.Item;
-
 public class FuelData {
     private final int burnTime;
     private final double temperature;

@@ -4,7 +4,6 @@ import me.Jonathon594.Mythria.DataTypes.FuelData;
 import me.Jonathon594.Mythria.DataTypes.MetallurgyRecipe;
 import me.Jonathon594.Mythria.Enum.MythriaMaterial;
 import me.Jonathon594.Mythria.Items.MythriaItems;
-import me.Jonathon594.Mythria.Tags.MythriaBlockTags;
 import me.Jonathon594.Mythria.Tags.MythriaItemTags;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
@@ -24,6 +23,11 @@ public class SmeltingManager {
         metalRecipes.add(metallurgyRecipe);
     }
 
+    public static FuelData getFuelData(Item item) {
+        if (hasFuelData(item)) return fuelDataMap.get(item);
+        return null;
+    }
+
     public static MetallurgyRecipe getMetalRecipe(MythriaMaterial material) {
         for (MetallurgyRecipe recipe : metalRecipes) {
             if (recipe.getMaterial().equals(material)) return recipe;
@@ -33,6 +37,10 @@ public class SmeltingManager {
 
     public static ArrayList<MetallurgyRecipe> getMetalRecipes() {
         return metalRecipes;
+    }
+
+    public static boolean hasFuelData(Item item) {
+        return fuelDataMap.containsKey(item);
     }
 
     public static void init() {
@@ -57,15 +65,6 @@ public class SmeltingManager {
         fuelDataMap.put(Items.BLAZE_POWDER, new FuelData(16000, 1250));
         fuelDataMap.put(Blocks.COAL_BLOCK.asItem(), new FuelData(128000, 1300));
         fuelDataMap.put(Items.MAGMA_CREAM, new FuelData(12000, 3500));
-    }
-
-    public static FuelData getFuelData(Item item) {
-        if(hasFuelData(item)) return fuelDataMap.get(item);
-        return null;
-    }
-
-    public static boolean hasFuelData(Item item) {
-        return fuelDataMap.containsKey(item);
     }
 
     public enum Temperature {

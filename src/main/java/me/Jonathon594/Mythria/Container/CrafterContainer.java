@@ -30,7 +30,6 @@ import net.minecraft.world.World;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public abstract class CrafterContainer extends Container {
     protected final CraftResultInventory CraftResultInventory = new CraftResultInventory();

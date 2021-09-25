@@ -9,7 +9,6 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
@@ -19,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 public abstract class AbstractMythriaFurnaceTileEntity extends AbstractFuelableFurnaceTileEntity implements IClearable, INamedContainerProvider {
     public static final TranslationTextComponent CONTAINER_NAME = new TranslationTextComponent("container.stone_furnace.name");
 
-    private IIntArray furnaceData = new IIntArray() {
+    private final IIntArray furnaceData = new IIntArray() {
         @Override
         public int get(int index) {
             switch (index) {
@@ -37,9 +36,12 @@ public abstract class AbstractMythriaFurnaceTileEntity extends AbstractFuelableF
         @Override
         public void set(int index, int value) {
             switch (index) {
-                case 0: temperature = value;
-                case 1: maxTicks = value;
-                case 2: ticksLeft = value;
+                case 0:
+                    temperature = value;
+                case 1:
+                    maxTicks = value;
+                case 2:
+                    ticksLeft = value;
             }
         }
 
@@ -76,6 +78,11 @@ public abstract class AbstractMythriaFurnaceTileEntity extends AbstractFuelableF
     }
 
     @Override
+    protected double getSmokeParticleOffset() {
+        return 1.0;
+    }
+
+    @Override
     protected double getHeatingEfficiency() {
         return 0.023;
     }
@@ -92,10 +99,5 @@ public abstract class AbstractMythriaFurnaceTileEntity extends AbstractFuelableF
 
     @Override
     protected void onFinishBurning() {
-    }
-
-    @Override
-    protected double getSmokeParticleOffset() {
-        return 1.0;
     }
 }

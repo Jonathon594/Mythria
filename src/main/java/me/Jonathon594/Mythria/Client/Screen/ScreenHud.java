@@ -10,7 +10,6 @@ import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayerProvider;
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Client.Renderer.StatRenderer;
-import me.Jonathon594.Mythria.Enum.CombatMode;
 import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Enum.StatType;
 import me.Jonathon594.Mythria.Util.MythriaResourceLocation;

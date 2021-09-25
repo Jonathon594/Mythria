@@ -7,7 +7,7 @@ import net.minecraft.nbt.CompoundNBT;
 
 import java.util.List;
 
-public class SpecialAbilityGene extends Gene implements ISpecialAbilitiesGene{
+public class SpecialAbilityGene extends Gene implements ISpecialAbilitiesGene {
     private final List<SpecialAbility> specialAbilities;
 
     public SpecialAbilityGene(List<SpecialAbility> specialAbilities) {
@@ -21,12 +21,12 @@ public class SpecialAbilityGene extends Gene implements ISpecialAbilitiesGene{
     }
 
     @Override
-    public List<SpecialAbility> getSpecialAbilities() {
-        return specialAbilities;
+    public CompoundNBT toNBT(boolean writeSerializer) {
+        return getSerializer().serialize(this, writeSerializer);
     }
 
     @Override
-    public CompoundNBT toNBT(boolean writeSerializer) {
-        return getSerializer().serialize(this, writeSerializer);
+    public List<SpecialAbility> getSpecialAbilities() {
+        return specialAbilities;
     }
 }

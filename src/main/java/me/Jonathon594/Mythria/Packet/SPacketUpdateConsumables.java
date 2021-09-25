@@ -11,10 +11,6 @@ import java.util.EnumMap;
 import java.util.function.Supplier;
 
 public class SPacketUpdateConsumables {
-    public EnumMap<Consumable, Double> getValues() {
-        return values;
-    }
-
     private final EnumMap<Consumable, Double> values;
 
     public SPacketUpdateConsumables(Profile profile) {
@@ -32,6 +28,10 @@ public class SPacketUpdateConsumables {
         for (Double value : values.values()) {
             buf.writeFloat(value.floatValue());
         }
+    }
+
+    public EnumMap<Consumable, Double> getValues() {
+        return values;
     }
 
     public static void handle(SPacketUpdateConsumables msg, Supplier<NetworkEvent.Context> contextSupplier) {

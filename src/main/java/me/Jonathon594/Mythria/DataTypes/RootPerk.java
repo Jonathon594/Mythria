@@ -1,7 +1,7 @@
 package me.Jonathon594.Mythria.DataTypes;
 
-import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Enum.PerkType;
+import me.Jonathon594.Mythria.Enum.Skill;
 import me.Jonathon594.Mythria.Util.MythriaUtil;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
@@ -20,13 +20,13 @@ public class RootPerk extends Perk {
     }
 
     @Override
-    public Perk setDisplayName(String displayName) {
-        System.out.println("Setting display name on RootPerk will have no effect.");
-        return this;
+    public String getDisplayName() {
+        return MythriaUtil.capitalizeWords(getType().name().replace("_", " "));
     }
 
     @Override
-    public String getDisplayName() {
-        return MythriaUtil.capitalizeWords(getType().name().replace("_", " "));
+    public Perk setDisplayName(String displayName) {
+        System.out.println("Setting display name on RootPerk will have no effect.");
+        return this;
     }
 }

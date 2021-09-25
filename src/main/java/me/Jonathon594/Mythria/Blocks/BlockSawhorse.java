@@ -6,6 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.util.ActionResultType;
@@ -17,6 +18,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
@@ -33,7 +35,7 @@ public class BlockSawhorse extends MythriaBlockHorizontal {
 
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!worldIn.isRemote) {
-            player.openContainer(state.getContainer(worldIn, pos));
+            NetworkHooks.openGui((ServerPlayerEntity) player, state.getContainer(worldIn, pos));
         }
         return ActionResultType.SUCCESS;
     }
