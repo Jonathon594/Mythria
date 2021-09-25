@@ -9,6 +9,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.IntArray;
 
@@ -51,7 +52,7 @@ public class MythriaFurnaceContainer extends Container {
         this.trackIntArray(furnaceData);
     }
 
-    public MythriaFurnaceContainer(int id, PlayerInventory playerInventory) {
+    public MythriaFurnaceContainer(int id, PlayerInventory playerInventory, PacketBuffer data) {
         this(id, playerInventory, new Inventory(5), new IntArray(3));
     }
 

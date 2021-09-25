@@ -5,6 +5,7 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.network.IContainerFactory;
 import net.minecraftforge.registries.ObjectHolder;
 
 @ObjectHolder(Mythria.MODID)
@@ -22,7 +23,7 @@ public class MythriaContainerType {
 
     @SubscribeEvent
     public static void registerContainers(final RegistryEvent.Register<ContainerType<?>> event) {
-        event.getRegistry().register(new ContainerType<CrafterContainer>(SawhorseContainer::new).setRegistryName(Mythria.MODID, "sawhorse"));
+        event.getRegistry().register(new ContainerType<CrafterContainer>((IContainerFactory) SawhorseContainer::new).setRegistryName(Mythria.MODID, "sawhorse"));
         event.getRegistry().register(new ContainerType<CrafterContainer>(WoodCarvingContainer::new).setRegistryName(Mythria.MODID, "wood_carving"));
         event.getRegistry().register(new ContainerType<CrafterContainer>(StoneCarvingContainer::new).setRegistryName(Mythria.MODID, "stone_carving"));
         event.getRegistry().register(new ContainerType<>(ToolHandleContainer::new).setRegistryName(Mythria.MODID, "tool_handle"));
@@ -30,6 +31,6 @@ public class MythriaContainerType {
         event.getRegistry().register(new ContainerType<>(CrucibleContainer::new).setRegistryName(Mythria.MODID, "crucible"));
         event.getRegistry().register(new ContainerType<>(CrucibleContainerFull::new).setRegistryName(Mythria.MODID, "crucible_full"));
         event.getRegistry().register(new ContainerType<>(BowstringContainer::new).setRegistryName(Mythria.MODID, "bowstring"));
-        event.getRegistry().register(new ContainerType<>(MythriaFurnaceContainer::new).setRegistryName(Mythria.MODID, "furnace"));
+        event.getRegistry().register(new ContainerType<MythriaFurnaceContainer>((IContainerFactory) MythriaFurnaceContainer::new).setRegistryName(Mythria.MODID, "furnace"));
     }
 }

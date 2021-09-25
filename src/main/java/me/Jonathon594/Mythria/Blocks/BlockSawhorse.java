@@ -35,7 +35,7 @@ public class BlockSawhorse extends MythriaBlockHorizontal {
 
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!worldIn.isRemote) {
-            NetworkHooks.openGui((ServerPlayerEntity) player, state.getContainer(worldIn, pos));
+            NetworkHooks.openGui((ServerPlayerEntity) player, state.getContainer(worldIn, pos), pos);
         }
         return ActionResultType.SUCCESS;
     }

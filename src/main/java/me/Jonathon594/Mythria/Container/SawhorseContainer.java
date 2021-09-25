@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -15,8 +16,12 @@ import net.minecraft.util.SoundEvents;
 import java.util.Collection;
 
 public class SawhorseContainer extends BlockCrafterContainer {
-    public SawhorseContainer(int windowID, PlayerInventory playerInventory) {
+    public SawhorseContainer(int windowID, PlayerInventory playerInventory, PacketBuffer data) {
         super(MythriaContainerType.SAWHORSE, windowID, playerInventory);
+    }
+
+    public SawhorseContainer(int windowID, PlayerInventory invPlayer) {
+        this(windowID, invPlayer, null);
     }
 
     @Override

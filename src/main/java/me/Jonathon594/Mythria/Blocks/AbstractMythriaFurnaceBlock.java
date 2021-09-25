@@ -68,7 +68,7 @@ public abstract class AbstractMythriaFurnaceBlock extends MythriaBlockContainer 
         }
 
         if (!worldIn.isRemote) {
-            NetworkHooks.openGui((ServerPlayerEntity) player, state.getContainer(worldIn, pos));
+            NetworkHooks.openGui((ServerPlayerEntity) player, state.getContainer(worldIn, pos), pos);
         }
         return ActionResultType.SUCCESS;
     }
