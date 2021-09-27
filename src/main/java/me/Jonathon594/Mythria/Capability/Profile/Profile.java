@@ -2,6 +2,7 @@ package me.Jonathon594.Mythria.Capability.Profile;
 
 import me.Jonathon594.Mythria.Ability.Ability;
 import me.Jonathon594.Mythria.Capability.MythriaPlayer.MythriaPlayer;
+import me.Jonathon594.Mythria.Const.EXPConst;
 import me.Jonathon594.Mythria.Const.MythriaConst;
 import me.Jonathon594.Mythria.DataTypes.Date;
 import me.Jonathon594.Mythria.DataTypes.Genetic.Gene.ISkinPartGene;
@@ -87,9 +88,15 @@ public class Profile implements IProfile {
         }
     }
 
-    public void addConsumable(final Consumable consumable, final double value) {
+    public void addConsumable(final Consumable consumable, double value) {
         if (value == 0) return;
-        setConsumable(consumable, consumables.get(consumable) + value);
+
+        double oldValue = getConsumable(consumable);
+        setConsumable(consumable, getConsumable(consumable) + value);
+
+        if (consumable == Consumable.STAMINA && value < 0) {
+            addFatigue(getConsumable(Consumable.STAMINA) - oldValue);
+        }
     }
 
     public void addFavor(Deity deity, int add, int max) {
@@ -895,6 +902,16 @@ public class Profile implements IProfile {
         }
         if (player == null)
             return;
+    }
+
+    private void addFatigue(double staminaChange) {
+        if (player.world.isRemote) return;
+        if (staminaChange >= 0) return;
+        final double fatigueMitigation = StatManager.getTotalFatigueMitigation(this);
+        double ds = -staminaChange;
+        double amount = ds / (getStat(StatType.MAX_STAMINA) * 10.0);
+        addConsumable(Consumable.FATIGUE, amount * (1 - fatigueMitigation));
+        addSkillExperience(Skill.AGILITY, ds * EXPConst.STAMINA_USE_TICK, (ServerPlayerEntity) player, 0);
     }
 
     public void setFavor(Deity d, int favor) {

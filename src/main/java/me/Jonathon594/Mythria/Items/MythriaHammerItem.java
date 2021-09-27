@@ -86,7 +86,7 @@ public class MythriaHammerItem extends ToolItem implements IModularTool, IWeapon
                             worldIn.destroyBlock(pos, true);
                             itemStack.damageItem(1, player, (playerEntity) ->
                                     playerEntity.sendBreakAnimation(new ItemUseContext(player, Hand.MAIN_HAND, null).getHand()));
-                            StatManager.chargeConsumable(player, cost, Consumable.STAMINA);
+                            profile.addConsumable(Consumable.STAMINA, -cost);
                         } else {
                             //MessageUtils.sendMessage(player, MythriaConst.CANT_DECONSTRUC);
                             return ActionResultType.PASS;

@@ -51,7 +51,7 @@ public class PlayerListener {
         final Profile profile = ProfileProvider.getProfile(p);
         Block block = event.getState().getBlock();
         double cost = MaterialManager.getStaminaCostForBreaking(event.getState(), p.world, event.getPos());
-        StatManager.chargeConsumable(event.getPlayer(), cost, Consumable.STAMINA);
+        profile.addConsumable(Consumable.STAMINA, -cost);
         ArrayList<Block> treeBlocks = TreeFellingManager.HandleTreeChop(p, event.getPos());
         if (treeBlocks.size() > 0) {
             for (Block b : treeBlocks) {
@@ -79,7 +79,7 @@ public class PlayerListener {
                 }
             }
         }
-        StatManager.chargeConsumable(p, cost, Consumable.STAMINA);
+        profile.addConsumable(Consumable.STAMINA, -cost);
         if (ConstructionManager.isReinforced(event.getPlacedBlock().getBlock()))
             ConstructionManager.addRecentlyPlacedBlock(p, event.getPlacedBlock().getBlock(), event.getPos());
     }

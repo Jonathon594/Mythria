@@ -46,7 +46,7 @@ public abstract class MeleeCombatManager {
 
             //MythriaPlayerProvider.getMythriaPlayer(player).addComboHistory(ability.getClass());
 
-            StatManager.chargeConsumable(player, staminaCost, Consumable.STAMINA);
+            profile.addConsumable(Consumable.STAMINA, -staminaCost);
         } else if (phase.equals(CombatPhase.POST)) {
             CombatEvent.Post postEvent = (CombatEvent.Post) event;
             ability.onCombatPost(player, profile, target, postEvent);

@@ -2,6 +2,7 @@ package me.Jonathon594.Mythria.Managers;
 
 import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
+import me.Jonathon594.Mythria.Const.ConsumableConst;
 import me.Jonathon594.Mythria.DataTypes.Genetic.Genetic;
 import me.Jonathon594.Mythria.DataTypes.Genetic.SpecialAbility;
 import me.Jonathon594.Mythria.DataTypes.Perk;
@@ -9,7 +10,6 @@ import me.Jonathon594.Mythria.Enum.Attribute;
 import me.Jonathon594.Mythria.Enum.AttributeFlag;
 import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Enum.StatType;
-import me.Jonathon594.Mythria.Event.ChargeConsumableEvent;
 import me.Jonathon594.Mythria.Interface.IHeatProvider;
 import me.Jonathon594.Mythria.MythriaPacketHandler;
 import me.Jonathon594.Mythria.Packet.SPacketUpdateConsumables;
@@ -28,7 +28,6 @@ import net.minecraft.util.FoodStats;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
@@ -115,20 +114,6 @@ public class StatManager {
         }
     }
 
-    public static boolean chargeConsumable(final PlayerEntity player, double amount, final Consumable consumable) {
-        if (amount <= 0) return false;
-        final Profile p = ProfileProvider.getProfile(player);
-        if (p.getConsumables().get(consumable) >= amount) {
-            ChargeConsumableEvent event = new ChargeConsumableEvent(player, p, amount, consumable);
-            MinecraftForge.EVENT_BUS.post(event);
-            amount = event.getAmount();
-            p.setConsumable(consumable, p.getConsumables().get(consumable) - amount);
-            return true;
-        }
-        p.setConsumable(consumable, 0);
-        return false;
-    }
-
     public static double getActualTemperature(ServerPlayerEntity p) {
         double eTemp = p.getEntityWorld().getBiome(p.getPosition()).getTemperature(p.getPosition()) * 5 + 10;
 
@@ -165,8 +150,8 @@ public class StatManager {
     }
 
     //Called when the player jumps to consume stamina
-    public static void onJump(final PlayerEntity player, final Profile p) {
-        chargeConsumable(player, 5, Consumable.STAMINA); //todo cost const
+    public static void onJump(final Profile p) {
+        p.addConsumable(Consumable.STAMINA, ConsumableConst.STAMINA_JUMP); //todo cost const
     }
 
     public static void onTick(final TickEvent.ServerTickEvent event) {

@@ -1,5 +1,6 @@
 package me.Jonathon594.Mythria.Ability;
 
+import me.Jonathon594.Mythria.Capability.Profile.Profile;
 import me.Jonathon594.Mythria.Capability.Profile.ProfileProvider;
 import me.Jonathon594.Mythria.Enum.Consumable;
 import me.Jonathon594.Mythria.Managers.StatManager;
@@ -30,14 +31,15 @@ public class PassiveHealingAbility extends PassiveAbility {
             float currentHealth = player.getHealth();
             float healing = MathHelper.clamp(maxHealth - currentHealth, 0, maxHealing);
             if (healing == 0) return;
-            double mana = ProfileProvider.getProfile(player).getConsumable(consumable);
+            Profile profile = ProfileProvider.getProfile(player);
+            double mana = profile.getConsumable(consumable);
             double manaCost = healing * cost;
             if (mana < manaCost) {
                 double percent = mana / manaCost;
                 healing *= percent;
                 manaCost = mana;
             }
-            StatManager.chargeConsumable(player, manaCost, consumable);
+            profile.addConsumable(consumable, -manaCost);
             player.setHealth(currentHealth + healing);
         }
     }

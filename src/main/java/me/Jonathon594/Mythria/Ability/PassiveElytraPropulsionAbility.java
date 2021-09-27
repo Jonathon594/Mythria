@@ -28,7 +28,7 @@ public abstract class PassiveElytraPropulsionAbility extends PassiveAbility {
                     propulsion.mul(getSpeed(player, profile));
                     player.addVelocity(propulsion.getX(), propulsion.getY(), propulsion.getZ());
                 } else {
-                    StatManager.chargeConsumable(player, getCost(), getConsumable());
+                    profile.addConsumable(getConsumable(), getCost());
                 }
             } else {
                 player.setSprinting(false);

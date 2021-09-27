@@ -22,7 +22,7 @@ public class PassiveFaeFlightAbility extends PassiveElytraPropulsionAbility {
 
     @Override
     protected double getCost() {
-        return 1;
+        return -1;
     }
 
     @Override

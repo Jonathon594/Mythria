@@ -26,7 +26,7 @@ public class PassiveFlightAbility extends PassiveAbility {
         if (player.abilities.isFlying) {
             if (!player.world.isRemote) {
                 if (costInterval > 0 && player.world.getGameTime() % costInterval == 0)
-                    StatManager.chargeConsumable(player, cost, consumable);
+                    profile.addConsumable(consumable, -cost);
             }
         }
 

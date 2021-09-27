@@ -120,7 +120,7 @@ public class EntityListener {
                 final PlayerEntity player = (PlayerEntity) event.getEntity();
                 BlessingManager.onJumpServer(player);
                 final Profile p = ProfileProvider.getProfile(player);
-                StatManager.onJump(player, p);
+                StatManager.onJump(p);
             }
         }
     }
