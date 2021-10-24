@@ -911,7 +911,6 @@ public class MythriaItems {
                 new MythriaItem("topaz", new Item.Properties().group(ItemGroup.MATERIALS).maxStackSize(16)),
 
                 //Overrides
-                //new HeatableItem("brick", new Item.Properties().group(ItemGroup.MATERIALS), true),
                 new FoodItem("brown_mushroom", 2, 0.5f),
                 new FoodItem("red_mushroom", 2, 0.5f),
                 new FoodItem("warped_fungus", 3, 0.5f),
